@@ -1,0 +1,18 @@
+{
+	"extends": "next/core-web-vitals",
+	"rules": {
+		"no-unreachable": "error",
+		"no-undef": "error",
+		"no-unsafe-negation": "error",
+		"no-unused-vars": [
+			"error",
+			{ "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+		],
+		"no-console": "warn",
+		"comma-dangle": "warn",
+		"comma-spacing": "warn",
+		"jsx-quotes": "warn",
+		"no-trailing-spaces": "warn",
+		"quotes": "warn"
+	}
+}
