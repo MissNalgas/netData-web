@@ -16,7 +16,7 @@ const createNoopStorage = () => {
 		},
 		removeItem(_key: any) {
 			return Promise.resolve();
-		}
+		},
 	};
 };
 
@@ -31,7 +31,7 @@ const persistConfig = {
 	key: "root",
 	storage: storage,
 	whitelist: ["user"],
-	blacklist: ["app"]
+	blacklist: ["app"],
 };
 
 // persistedReducer is the combined reducers with the persistConfig
@@ -41,7 +41,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store: AppStore = configureStore({
 	reducer: persistedReducer,
 	devTools: process.env.NODE_ENV !== "production",
-	middleware: [thunkMiddleware]
+	middleware: [thunkMiddleware],
 });
 
 // RootState is the type of the store

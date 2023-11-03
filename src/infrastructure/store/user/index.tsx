@@ -13,5 +13,5 @@ export const { actions, reducer } = createSlice({
 		builder.addCase(resetState.fulfilled, (state, action) => {
 			state.user = action.payload;
 		});
-	}
+	},
 });

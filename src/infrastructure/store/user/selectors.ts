@@ -25,7 +25,7 @@ const selectLoggedData = createSelector(
 		email,
 		name,
 		document,
-		isLogged
+		isLogged,
 	})
 );
 

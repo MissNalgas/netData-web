@@ -17,9 +17,9 @@ const Login: NextPage = () => {
 		router.push("/Home");
 	};
 	return (
-		<div>
-			<h1>Welcome to my Next.js app!</h1>
-			<button onClick={() => loginTesting()}>Inicio</button>
+		<div className="flex flex-col justify-center items-center min-h-screen h-full">
+			<h1>Welcome to Sentria!</h1>
+			<button className="underline" onClick={() => loginTesting()}>Inicio</button>
 		</div>
 	);
 };
