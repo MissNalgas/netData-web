@@ -9,7 +9,7 @@ const colors = {
 	alert: "#976400",
 	error: "#B01212",
 	white: "#FFFFFF",
-	greenActive: "#2bac76"
+	greenActive: "#2bac76",
 };
 
 export default colors;

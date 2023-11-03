@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 
 export default function Profile({
-	params
+	params,
 }: {
 	params: { profileId: string };
 }): ReactElement | null {

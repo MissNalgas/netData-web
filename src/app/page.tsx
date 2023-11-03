@@ -1,10 +1,10 @@
 "use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useTypedSelector } from "hooks";
-import { RootState } from "infrastructure/store/reducers";
+import { useEffect }from "react";
+import { useRouter }from "next/navigation";
+import { useTypedSelector }from "hooks";
+import { RootState }from "infrastructure/store/reducers";
 
-import { selectLoggedData } from "infrastructure/store/user/selectors";
+import { selectLoggedData }from "infrastructure/store/user/selectors";
 
 export default function App() {
 	const router = useRouter();
@@ -12,7 +12,7 @@ export default function App() {
 		selectLoggedData(state)
 	);
 
-	const { isLogged } = dataUser;
+	const { isLogged }= dataUser;
 	useEffect(() => {
 		if (isLogged) {
 			const redirectTimeout = setTimeout(() => {
@@ -23,7 +23,7 @@ export default function App() {
 		} else {
 			router.push("/Login");
 		}
-	}, []);
+	}, [isLogged, router]);
 
 	return <h1>Cargando ...</h1>;
 }

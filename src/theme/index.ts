@@ -60,7 +60,7 @@ const fontSize = {
 	caption1: "18px",
 	overline: "16px",
 	body2: "14px",
-	caption2: "12px"
+	caption2: "12px",
 };
 
 const lineSpacing = {
@@ -73,7 +73,7 @@ const lineSpacing = {
 	caption1: "27px",
 	overline: "24px",
 	body2: "21px",
-	caption2: "18px"
+	caption2: "18px",
 };
 
 const fontWeight = {
@@ -81,14 +81,14 @@ const fontWeight = {
 	regular: 400,
 	semiBold: 600,
 	bold: 700,
-	extraBold: 800
+	extraBold: 800,
 };
 
 const theme: DefaultTheme = {
 	colors,
 	fontSize,
 	lineSpacing,
-	fontWeight
+	fontWeight,
 };
 
 export * from "./media";

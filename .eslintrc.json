@@ -9,7 +9,7 @@
 			{ "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
 		],
 		"no-console": "warn",
-		"comma-dangle": "warn",
+		"comma-dangle": ["warn", "always-multiline"],
 		"comma-spacing": "warn",
 		"jsx-quotes": "warn",
 		"no-trailing-spaces": "warn",
