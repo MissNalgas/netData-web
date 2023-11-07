@@ -1,11 +1,11 @@
-import colors from '@theme/colors';
-import styled, { keyframes } from 'styled-components';
+import colors from "@theme/colors";
+import styled, { keyframes } from "styled-components";
 
 export const LoaderContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
 `;
 
 const spin = keyframes`
@@ -14,10 +14,10 @@ const spin = keyframes`
 `;
 
 export const Loader = styled.div`
-  border: 6px solid #f3f3f3;
-  border-top: 4px solid ${colors.orange};
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: ${spin} 2s linear infinite;
+	border: 6px solid #f3f3f3;
+	border-top: 4px solid ${colors.orange};
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	animation: ${spin} 2s linear infinite;
 `;
