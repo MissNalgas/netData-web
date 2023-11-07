@@ -10,6 +10,8 @@ const colors = {
 	error: "#B01212",
 	white: "#FFFFFF",
 	greenActive: "#2bac76",
+    orange: "#F99E17",
+    orangeLight: "#FAE4C3"
 };
 
 export default colors;

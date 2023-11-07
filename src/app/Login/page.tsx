@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { getDataUser } from "infrastructure/store/user/actions";
 import { useAppDispatch } from "hooks";
+import { Button } from "@shared/components/buttons";
 
 const Login: NextPage = () => {
 	const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ const Login: NextPage = () => {
 	return (
 		<div className="flex flex-col justify-center items-center min-h-screen h-full">
 			<h1>Welcome to Sentria!</h1>
-			<button className="underline" onClick={() => loginTesting()}>Inicio</button>
+            <Button width={40} onClick={() => loginTesting()}>Inicio</Button>
 		</div>
 	);
 };
