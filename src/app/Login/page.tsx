@@ -2,7 +2,6 @@
 
 import { NextPage } from "next";
 import { useRouter } from "next/navigation";
-
 import { getDataUser } from "infrastructure/store/user/actions";
 import { useAppDispatch } from "hooks";
 import { Button } from "@shared/components/buttons/styled";
