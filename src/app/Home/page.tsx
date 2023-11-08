@@ -7,6 +7,7 @@ import { selectLoggedData } from "infrastructure/store/user/selectors";
 import { useRouter } from "next/navigation";
 import Tabs from "@shared/components/tabs";
 import { useState } from "react";
+import TicketCard from "@shared/components/ticketCard";
 
 const TABS = ["Incidentes de hoy", "Incidentes de ayer"] as const;
 
@@ -38,6 +39,7 @@ export default function Home() {
 					tabs={TABS}
 				/>
 				{tab}
+				<TicketCard/>
 			</div>
 			<button className="underline" onClick={handleActionLogout}>log out</button>
 		</div>
