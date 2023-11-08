@@ -5,6 +5,11 @@ import { RootState } from "infrastructure/store/reducers";
 
 import { selectLoggedData } from "infrastructure/store/user/selectors";
 import { useRouter } from "next/navigation";
+import Tabs from "@shared/components/tabs";
+import { useState } from "react";
+import TicketCard from "@shared/components/ticketCard";
+
+const TABS = ["Incidentes de hoy", "Incidentes de ayer"] as const;
 
 export default function Home() {
 	const dispatch = useAppDispatch();
@@ -20,11 +25,22 @@ export default function Home() {
 		router.push("/Login");
 	};
 
+	const [tab, setTab] = useState<typeof TABS[number]>(TABS[0]);
+
 	return (
 		<div className="flex flex-col items-center justify-center h-full min-h-screen">
 			<h1>
 				Home <span className="text-red-600 font-bold">{dataUser.name}</span>
 			</h1>
+			<div >
+				<Tabs
+					selectedTab={tab}
+					onChange={setTab}
+					tabs={TABS}
+				/>
+				{tab}
+				<TicketCard/>
+			</div>
 			<button className="underline" onClick={handleActionLogout}>log out</button>
 		</div>
 	);
