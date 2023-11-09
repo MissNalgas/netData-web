@@ -12,7 +12,7 @@ type ButtonProps = {
 };
 
 export const Button = styled.button<ButtonProps>`
-	background: ${({ background }) => (background ?? colors.orange)};
+	background: ${({ background }) => (background ?? colors.orange50)};
 	border-width: ${({ borderWidth }) => borderWidth || 0};
 	border-color: ${({ borderColor }) => (borderColor ?? colors.white)};
 	border-radius: 4px;
@@ -26,7 +26,7 @@ export const Button = styled.button<ButtonProps>`
     margin: 0px 5px;
     pointer-events: ${(props)=> props.disabled ? "none" : null};
 	&:hover {
-		background: ${colors.orangeLight};
-        color: ${colors.grayDark}
+		background: ${colors.orange20};
+        color: ${colors.shadow50}
 	}
 `;
