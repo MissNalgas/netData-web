@@ -14,7 +14,7 @@ export const userRepository = {
 			name: data.name.first,
 			document: 12345,
 			email: data.email,
-			isLogged: true
+			isLogged: true,
 		};
-	}
+	},
 };

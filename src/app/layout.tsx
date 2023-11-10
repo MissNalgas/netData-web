@@ -8,6 +8,7 @@ import { ThemeProvider } from "styled-components";
 
 import theme from "theme";
 import { store, persisted } from "infrastructure/store";
+import { AuthProvider } from "@infrastructure/containers/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={inter.className}>
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persisted}>
-						<ThemeProvider theme={theme}>{children}</ThemeProvider>
+						<ThemeProvider theme={theme}>
+							<AuthProvider>
+								{children}
+							</AuthProvider>
+						</ThemeProvider>
 					</PersistGate>
 				</Provider>
 			</body>

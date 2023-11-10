@@ -1,13 +1,7 @@
-export type CustomerData = {
-	id: number;
-	email: string;
-	name: string;
-	document: number;
-	isLogged?: boolean;
-};
+import { IUser } from "@domain/models";
 
 export type AppState = {
-	user: CustomerData;
+	user: IUser;
 	pending: boolean;
 	error: boolean;
 };
