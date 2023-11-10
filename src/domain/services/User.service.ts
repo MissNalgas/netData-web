@@ -3,5 +3,5 @@ import { userRepository } from "infrastructure/api/repositories/user/user.reposi
 
 export const UserDataService = {
 	getUserDataService: (id: number): Promise<IUser> =>
-		userRepository.getDataUserRepository(id),
+		userRepository.getDataUserRepository(id)
 };
