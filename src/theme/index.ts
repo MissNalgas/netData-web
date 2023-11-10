@@ -4,20 +4,56 @@ import colors from "./colors";
 declare module "styled-components" {
 	export interface DefaultTheme {
 		colors: {
+			// TRADEMARK COLORS
+			yellow: string;
 			orange: string;
-			orangeLight: string;
-			cianLight: string;
-			purple: string;
-			gray: string;
-			grayDark: string;
-			grayBright: string;
-			success: string;
-			info: string;
-			alert: string;
-			error: string;
+
+			// PRIMARY COLOR
+			red: string;
 			white: string;
-			greenActive: string;
-			greenLight: string;
+
+			// SHADOW COLORS
+			shadow50: string;
+			shadow40: string;
+			shadow30: string;
+			shadow20: string;
+			shadow10: string;
+
+			blue50: string;
+			blue40: string;
+			blue30: string;
+			blue20: string;
+			blue10: string;
+
+			orange50: string;
+			orange40: string;
+			orange30: string;
+			orange20: string;
+			orange10: string;
+
+			purple50: string;
+			purple40: string;
+			purple30: string;
+			purple20: string;
+			purple10: string;
+			// TEXT COLORS
+			gray50: string;
+			gray40: string;
+			gray30: string;
+			gray20: string;
+			gray10: string;
+			// SUCCESS COLORS:
+			green60: string;
+			green50: string;
+			green40: string;
+			green30: string;
+			green20: string;
+			green10: string;
+			// ERROR COLORS
+			red40: string;
+			red30: string;
+			red20: string;
+			red10: string;
 		};
 		fontSize: {
 			h1: string;
@@ -63,7 +99,7 @@ const fontSize = {
 	caption1: "18px",
 	overline: "16px",
 	body2: "14px",
-	caption2: "12px",
+	caption2: "12px"
 };
 
 const lineSpacing = {
@@ -76,7 +112,7 @@ const lineSpacing = {
 	caption1: "27px",
 	overline: "24px",
 	body2: "21px",
-	caption2: "18px",
+	caption2: "18px"
 };
 
 const fontWeight = {
@@ -84,14 +120,14 @@ const fontWeight = {
 	regular: 400,
 	semiBold: 600,
 	bold: 700,
-	extraBold: 800,
+	extraBold: 800
 };
 
 const theme: DefaultTheme = {
 	colors,
 	fontSize,
 	lineSpacing,
-	fontWeight,
+	fontWeight
 };
 
 export * from "./media";

@@ -2,6 +2,7 @@
 
 import { NextPage } from "next";
 import { useAuth } from "@infrastructure/containers/auth";
+import { PrimaryButton, SecondaryButton } from "@shared/components/buttons/styled";
 
 const Login: NextPage = () => {
 
@@ -10,7 +11,8 @@ const Login: NextPage = () => {
 	return (
 		<div className="flex flex-col justify-center items-center min-h-screen h-full">
 			<h1>Welcome to Sentria!</h1>
-			<button className="underline" onClick={() => login()}>Inicio</button>
+			<PrimaryButton width={40} onClick={() => login()}>Inicio</PrimaryButton>
+            <SecondaryButton width={40}>Seon</SecondaryButton>
 		</div>
 	);
 };
