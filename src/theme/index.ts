@@ -4,8 +4,10 @@ import colors from "./colors";
 declare module "styled-components" {
 	export interface DefaultTheme {
 		colors: {
-			yellow: string;
-			yellowDark: string;
+			orange: string;
+			orangeLight: string;
+			cianLight: string;
+			purple: string;
 			gray: string;
 			grayDark: string;
 			grayBright: string;
@@ -15,6 +17,7 @@ declare module "styled-components" {
 			error: string;
 			white: string;
 			greenActive: string;
+			greenLight: string;
 		};
 		fontSize: {
 			h1: string;
