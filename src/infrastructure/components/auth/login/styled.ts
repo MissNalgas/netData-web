@@ -36,7 +36,7 @@ const ContentHeaderLogo = styled.div`
 			justifyContent: ["center", "center"],
 			alignItems: ["center", "center"],
 			alignSelf: ["center", "center"],
-			background: [`center center no-repeat ${theme.colors.orange}`]
+			background: [`center center no-repeat ${theme.colors.orange50}`]
 		})}
 `;
 

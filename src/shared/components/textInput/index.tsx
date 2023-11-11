@@ -13,7 +13,7 @@ export default function TextInput(props: TextInputProps) {
 		helperText,
 		error,
 		success,
-		onIconClick,
+		onIconClick
 	} = props;
 	const theme = useTheme();
 	const helper = error || success || helperText;
@@ -54,7 +54,7 @@ export default function TextInput(props: TextInputProps) {
 						<Icon
 							icon={icon}
 							size={20}
-							color={iconColor || theme.colors.orange}
+							color={iconColor || theme.colors.orange50}
 						/>
 					</div>
 				)}
@@ -66,7 +66,7 @@ export default function TextInput(props: TextInputProps) {
 						<Icon
 							icon={iconright}
 							size={20}
-							color={iconColorRight || theme.colors.gray}
+							color={iconColorRight || theme.colors.gray10}
 						/>
 					</button>
 				)}

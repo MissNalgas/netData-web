@@ -2,6 +2,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import schema from "./validation-schema";
 import TextInput from "@shared/components/textInput";
+import {
+	PrimaryButton,
+	SecondaryButton
+} from "@shared/components/buttons/styled";
 interface ILogin {
 	email: string;
 	password: string;
@@ -9,7 +13,7 @@ interface ILogin {
 
 export default function LoginForm({ onSubmit }: LoginFormProps) {
 	const { handleSubmit } = useForm<ILogin>({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(schema)
 	});
 
 	return (
@@ -32,6 +36,12 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 				icon="account"
 				iconright="eye"
 			/>
+			<PrimaryButton type="submit" className="w-full">
+				Iniciar sesión
+			</PrimaryButton>
+			<SecondaryButton type="button" className="w-full">
+				¡Quiero registrarme!
+			</SecondaryButton>
 		</form>
 	);
 }
