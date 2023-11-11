@@ -7,7 +7,7 @@ type StyledTextProps = {
 };
 
 export const TitleOne = styled.h1<StyledTextProps>`
-	color: ${({ theme, color }) => (color ? color : theme.colors.gray10)};
+	color: ${({ theme, color }) => (color ? color : theme.colors.gray50)};
 	font-size: ${({ theme }) => theme.fontSize.h3};
 	line-height: ${({ theme }) => theme.lineSpacing.h3};
 	${({ center }) => (center ? "text-align: center;" : "")}
@@ -15,7 +15,7 @@ export const TitleOne = styled.h1<StyledTextProps>`
 `;
 
 export const TitleSecond = styled.h1<StyledTextProps>`
-	color: ${({ theme, color }) => (color ? color : theme.colors.gray10)};
+	color: ${({ theme, color }) => (color ? color : theme.colors.gray50)};
 	font-size: ${({ theme }) => theme.fontSize.subtitleLink};
 	line-height: ${({ theme }) => theme.lineSpacing.subtitleLink};
 	${({ center }) => (center ? "text-align: center;" : "")}
