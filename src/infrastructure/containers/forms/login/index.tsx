@@ -4,7 +4,7 @@ import schema from "./validation-schema";
 import TextInput from "@shared/components/textInput";
 import {
 	PrimaryButton,
-	SecondaryButton
+	SecondaryButton,
 } from "@shared/components/buttons/styled";
 interface ILogin {
 	email: string;
@@ -13,7 +13,7 @@ interface ILogin {
 
 export default function LoginForm({ onSubmit }: LoginFormProps) {
 	const { handleSubmit } = useForm<ILogin>({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
 	});
 
 	return (
