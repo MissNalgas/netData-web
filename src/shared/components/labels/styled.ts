@@ -7,19 +7,17 @@ type StyledTextProps = {
 };
 
 export const TitleOne = styled.h1<StyledTextProps>`
-	color: ${({ theme, color }) => (color ? color : theme.colors.white)};
-	font-family: ${({ theme }) => theme.fontFamily.bold};
-	font-size: ${({ theme }) => theme.fontSize.overline};
-	line-height: ${({ theme }) => theme.lineSpacing.overline};
+	color: ${({ theme, color }) => (color ? color : theme.colors.gray)};
+	font-size: ${({ theme }) => theme.fontSize.h3};
+	line-height: ${({ theme }) => theme.lineSpacing.h3};
 	${({ center }) => (center ? "text-align: center;" : "")}
-	font-weight: bold;
+	font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const TitleSecond = styled.h1<StyledTextProps>`
-	color: ${({ theme, color }) => (color ? color : theme.colors.white)};
-	font-family: ${({ theme }) => theme.fontFamily.bold};
-	font-size: ${({ theme }) => theme.fontSize.subtitle};
-	line-height: ${({ theme }) => theme.lineSpacing.h1};
+	color: ${({ theme, color }) => (color ? color : theme.colors.gray)};
+	font-size: ${({ theme }) => theme.fontSize.subtitleLink};
+	line-height: ${({ theme }) => theme.lineSpacing.subtitleLink};
 	${({ center }) => (center ? "text-align: center;" : "")}
-	font-weight: 400;
+	font-weight:  ${({ theme }) => theme.fontWeight.regular};
 `;
