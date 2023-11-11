@@ -11,7 +11,7 @@ import {
 	ContentForm,
 	SecondTitleCustom,
 	TitleCustom,
-	ContentHeaderLogo
+	ContentHeaderLogo,
 } from "./styled";
 
 const LoginComponent: React.FC = () => (

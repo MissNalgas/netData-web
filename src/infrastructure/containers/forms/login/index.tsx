@@ -9,7 +9,7 @@ interface ILogin {
 
 export default function LoginForm({ onSubmit }: LoginFormProps) {
 	const { handleSubmit } = useForm<ILogin>({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
 	});
 
 	return (
