@@ -10,7 +10,7 @@ interface ILoginComponentProps {
 }
 
 const LoginComponent: React.FC<ILoginComponentProps> = ({
-	login
+	login,
 }: ILoginComponentProps) => (
 	<LayoutComponent>
 		<ContentForm>

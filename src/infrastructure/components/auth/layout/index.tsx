@@ -7,7 +7,7 @@ import {
 	LayoutContainer,
 	LayoutContainerLeft,
 	LayoutContainerRight,
-	ContentHeaderLogo
+	ContentHeaderLogo,
 } from "./styled";
 
 interface ILayoutComponentProps {
@@ -15,7 +15,7 @@ interface ILayoutComponentProps {
 }
 
 const LayoutComponent: FC<ILayoutComponentProps> = ({
-	children
+	children,
 }: ILayoutComponentProps) => (
 	<LayoutContainer>
 		<ContentHeaderLogo>
