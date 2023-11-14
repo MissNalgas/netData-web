@@ -1,10 +1,13 @@
 import React from "react";
+import Icon from "../icons";
+import { useTheme } from "styled-components";
 
-export default function TextInput(props : TextInputProps) {
-
+export default function TextInput(props: TextInputProps) {
 	const {
 		icon,
-		iconRight,
+		iconright,
+		iconColor,
+		iconColorRight,
 		label,
 		name,
 		helperText,
@@ -12,13 +15,15 @@ export default function TextInput(props : TextInputProps) {
 		success,
 		onIconClick,
 	} = props;
-
+	const theme = useTheme();
 	const helper = error || success || helperText;
 
 	return (
 		<div>
 			{label && (
-				<label className="text-sm" htmlFor={name}>{label}</label>
+				<label className="text-sm" htmlFor={name}>
+					{label}
+				</label>
 			)}
 			<div className="relative">
 				<input
@@ -33,24 +38,36 @@ export default function TextInput(props : TextInputProps) {
 						px-2
 						w-full
 						${icon ? "pl-12" : ""}
-						${iconRight ? "pr-12" : ""}
-						${error ? "outline outline-1 outline-red-500 focus:outline-red-500" : success ? "outline outline-1 outline-green-500 focus:outline-green-500" : ""}
+						${iconright ? "pr-12" : ""}
+						${
+							error
+								? "outline outline-1 outline-red-500 focus:outline-red-500"
+								: success
+								? "outline outline-1 outline-green-500 focus:outline-green-500"
+								: ""
+						}
 					`}
 					{...props}
 				/>
 				{icon && (
-					<div
-						className="h-full absolute left-0 top-0 w-10 grid place-content-center"
-					>
-						{icon()}
+					<div className="h-full absolute left-0 top-0 w-10 grid place-content-center">
+						<Icon
+							icon={icon}
+							size={20}
+							color={iconColor || theme.colors.orange50}
+						/>
 					</div>
 				)}
-				{iconRight && (
+				{iconright && (
 					<button
 						onClick={onIconClick}
 						className="h-full absolute right-0 top-0 w-10 grid place-content-center"
 					>
-						{iconRight()}
+						<Icon
+							icon={iconright}
+							size={20}
+							color={iconColorRight || theme.colors.gray10}
+						/>
 					</button>
 				)}
 			</div>
@@ -68,9 +85,11 @@ export default function TextInput(props : TextInputProps) {
 	);
 }
 
-interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement>{
-	icon?: () => React.ReactElement;
-	iconRight?: () => React.ReactElement;
+interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	icon?: string;
+	iconColor?: string;
+	iconright?: string;
+	iconColorRight?: string;
 	label?: string;
 	name: string;
 	helperText?: string;
