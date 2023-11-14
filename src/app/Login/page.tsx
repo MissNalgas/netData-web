@@ -3,14 +3,15 @@
 import { NextPage } from "next";
 import { useAuth } from "@infrastructure/containers/auth";
 import LoginComponent from "@infrastructure/components/auth/login";
+import LayoutComponent from "@infrastructure/components/auth/layout";
 
 const Login: NextPage = () => {
 	const { login } = useAuth();
 
 	return (
-		<main className="flex flex-col justify-center items-center min-h-screen h-full">
+		<LayoutComponent>
 			<LoginComponent login={() => login()} />
-		</main>
+		</LayoutComponent>
 	);
 };
 

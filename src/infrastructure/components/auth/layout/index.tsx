@@ -7,7 +7,7 @@ import {
 	LayoutContainer,
 	LayoutContainerLeft,
 	LayoutContainerRight,
-	ContentHeaderLogo,
+	ContentHeaderLogo
 } from "./styled";
 
 interface ILayoutComponentProps {
@@ -15,17 +15,19 @@ interface ILayoutComponentProps {
 }
 
 const LayoutComponent: FC<ILayoutComponentProps> = ({
-	children,
+	children
 }: ILayoutComponentProps) => (
-	<LayoutContainer>
-		<ContentHeaderLogo>
-			<Image src={LogoImage} width={150} height={80} alt="Logo" priority />
-		</ContentHeaderLogo>
-		<LayoutContainerLeft>{children}</LayoutContainerLeft>
-		<LayoutContainerRight>
-			<Image src={LogoImage} width={272} height={159} alt="Logo" priority />
-		</LayoutContainerRight>
-	</LayoutContainer>
+	<main className="flex flex-col justify-center items-center min-h-screen h-full">
+		<LayoutContainer>
+			<ContentHeaderLogo>
+				<Image src={LogoImage} width={150} height={80} alt="Logo" priority />
+			</ContentHeaderLogo>
+			<LayoutContainerLeft>{children}</LayoutContainerLeft>
+			<LayoutContainerRight>
+				<Image src={LogoImage} width={272} height={159} alt="Logo" priority />
+			</LayoutContainerRight>
+		</LayoutContainer>
+	</main>
 );
 
 export default LayoutComponent;
