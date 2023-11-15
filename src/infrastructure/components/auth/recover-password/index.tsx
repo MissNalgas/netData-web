@@ -16,7 +16,7 @@ interface IRecoverPasswordComponentProps {
 const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	actionButton = () => {},
 	changeStateAction,
-	setChangeAction = () => {}
+	setChangeAction = () => {},
 }: IRecoverPasswordComponentProps) => {
 	const router = useRouter();
 	return (

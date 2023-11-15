@@ -9,7 +9,7 @@ interface ILoginComponentProps {
 }
 
 const LoginComponent: FC<ILoginComponentProps> = ({
-	login
+	login,
 }: ILoginComponentProps) => (
 	<ContentForm>
 		<TitleCustom center>¡Bienvenido a Sentria!</TitleCustom>

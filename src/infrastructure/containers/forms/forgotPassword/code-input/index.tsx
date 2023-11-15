@@ -12,12 +12,12 @@ interface ICodeInput {
 }
 
 const schema = yup.object({
-	email: emailValidation()
+	email: emailValidation(),
 });
 
 export default function CodeInputForm({ onSubmit }: CodeInputFormProps) {
 	const { handleSubmit } = useForm<ICodeInput>({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
 
