@@ -13,15 +13,15 @@ interface ICodeInput {
 }
 
 const schema = yup.object({
-	email: emailValidation()
+	email: emailValidation(),
 });
 
 export default function CodeInputForm({
 	onSubmit,
-	getCode = () => ""
+	getCode = () => "",
 }: CodeInputFormProps) {
 	const { handleSubmit } = useForm<ICodeInput>({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
 	const [codePartOne, setCodePartOne] = useState(["", "", ""]);
@@ -78,7 +78,7 @@ export default function CodeInputForm({
 			<div
 				className="flex flex-row items-center	"
 				style={{
-					width: "30vw"
+					width: "30vw",
 				}}
 			>
 				{codePartOne.map((value, index) => (
@@ -89,7 +89,7 @@ export default function CodeInputForm({
 						style={{
 							width: "15%",
 							margin: "3%",
-							alignContent: "center"
+							alignContent: "center",
 						}}
 						maxLength={1}
 						inputMode="numeric"
@@ -115,7 +115,7 @@ export default function CodeInputForm({
 							width: "10%",
 
 							margin: "3%",
-							alignContent: "center"
+							alignContent: "center",
 						}}
 						maxLength={1}
 						inputMode="numeric"

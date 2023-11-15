@@ -10,14 +10,14 @@ interface IForgotPassword {
 }
 
 const schema = yup.object({
-	email: emailValidation()
+	email: emailValidation(),
 });
 
 export default function ChangePasswordForm({
-	onSubmit
+	onSubmit,
 }: ChangePasswordFormProps) {
 	const { handleSubmit } = useForm<IForgotPassword>({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
 	});
 
 	return (
