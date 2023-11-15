@@ -1,14 +1,25 @@
 "use client";
 
 import { NextPage } from "next";
-import LoginComponent from "@infrastructure/components/auth/login";
+import LayoutComponent from "@infrastructure/components/auth/layout";
+import RecoverPasswordComponent from "@infrastructure/components/auth/recover-password";
+import { useState } from "react";
 
-const Login: NextPage = () => {
+const RecoverPassword: NextPage = ({}) => {
+	const [changeAction, setChangeAction] = useState<1 | 2 | 3>(1);
+
+	const handleActionButtonClick = (numberComponent: 1 | 2 | 3) => {
+		setChangeAction(numberComponent);
+	};
+
 	return (
-		<main className="flex flex-col justify-center items-center min-h-screen h-full">
-			<LoginComponent login={() => {}} />
-		</main>
+		<LayoutComponent>
+			<RecoverPasswordComponent
+				changeStateAction={changeAction}
+				setChangeAction={handleActionButtonClick}
+			/>
+		</LayoutComponent>
 	);
 };
 
-export default Login;
+export default RecoverPassword;

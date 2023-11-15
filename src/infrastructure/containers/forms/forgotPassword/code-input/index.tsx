@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 
 import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
-interface IForgotPassword {
+
+interface ICodeInput {
 	email: string;
 }
 
@@ -14,10 +15,8 @@ const schema = yup.object({
 	email: emailValidation()
 });
 
-export default function ForgotPasswordForm({
-	onSubmit
-}: ForgotPasswordFormProps) {
-	const { handleSubmit } = useForm<IForgotPassword>({
+export default function CodeInputForm({ onSubmit }: CodeInputFormProps) {
+	const { handleSubmit } = useForm<ICodeInput>({
 		resolver: yupResolver(schema)
 	});
 	const router = useRouter();
@@ -31,7 +30,7 @@ export default function ForgotPasswordForm({
 				icon="account"
 			/>
 			<PrimaryButton type="submit" className="w-full">
-				Enviar código
+				codigo
 			</PrimaryButton>
 			<div className="flex justify-between my-2">
 				<label
@@ -45,6 +44,6 @@ export default function ForgotPasswordForm({
 	);
 }
 
-interface ForgotPasswordFormProps {
-	onSubmit: (_data: IForgotPassword) => void;
+interface CodeInputFormProps {
+	onSubmit: (_data: ICodeInput) => void;
 }

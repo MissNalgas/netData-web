@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { LoginForm } from "@infrastructure/containers";
 
@@ -8,7 +8,7 @@ interface ILoginComponentProps {
 	login: () => void;
 }
 
-const LoginComponent: React.FC<ILoginComponentProps> = ({
+const LoginComponent: FC<ILoginComponentProps> = ({
 	login
 }: ILoginComponentProps) => (
 	<ContentForm>

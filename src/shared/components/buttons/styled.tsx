@@ -8,53 +8,55 @@ type ButtonProps = {
 	borderWidth?: string;
 	borderColor?: string;
 	boxShadow?: string;
-    width?: number;
+	width?: number;
 };
 
 export const PrimaryButton = styled.button<ButtonProps>`
-	background: ${({ background }) => (background ?? colors.orange50)};
+	background: ${({ background }) => background ?? colors.orange50};
 	border-width: ${({ borderWidth }) => borderWidth || 0};
-	border-color: ${({ borderColor }) => (borderColor ?? colors.white)};
+	border-color: ${({ borderColor }) => borderColor ?? colors.white};
 	border-radius: 4px;
 	padding: 8px 12px;
-	color: ${({ color }) => (color ?? colors.white)};
+	color: ${({ color }) => color ?? colors.white};
 	font-size: ${({ theme }) => theme.fontSize.overline};
 	width: ${({ width }) => width || 100}%;
 	align-items: center;
 	justify-content: center;
-    margin: 5px;
-    pointer-events: ${(props)=> props.disabled ? "none" : null};
+	margin: 5px 0 5px;
+	pointer-events: ${(props) => (props.disabled ? "none" : null)};
 	&:hover {
 		background: ${colors.orange};
 	}
-    &:focus {
-		box-shadow: ${({ boxShadow }) => boxShadow || `0px 4px 15px ${colors.orange50}`};
+	&:focus {
+		box-shadow: ${({ boxShadow }) =>
+			boxShadow || `0px 4px 15px ${colors.orange50}`};
 	}
-    &:disabled {
+	&:disabled {
 		background-color: ${colors.orange30};
-        color: ${colors.shadow10}
+		color: ${colors.shadow10};
 	}
 `;
 
 export const SecondaryButton = styled.button<ButtonProps>`
-    border-color: ${({ borderColor }) => (borderColor ?? colors.orange50)};
-    border-width: ${({ borderWidth }) => (borderWidth || "thin")};
-    color: ${({ color }) => (color ?? colors.orange)};
-    padding: 8px 12px;
-    border-radius: 4px;
-    align-items: center;
+	border-color: ${({ borderColor }) => borderColor ?? colors.orange50};
+	border-width: ${({ borderWidth }) => borderWidth || "thin"};
+	color: ${({ color }) => color ?? colors.orange};
+	padding: 8px 12px;
+	border-radius: 4px;
+	align-items: center;
 	justify-content: center;
-    width: ${({ width }) => width || 100}%;
-    margin: 5px;
-    pointer-events: ${(props)=> props.disabled ? "none" : null};
-    &:hover {
+	width: ${({ width }) => width || 100}%;
+	margin: 5px 0 5px;
+	pointer-events: ${(props) => (props.disabled ? "none" : null)};
+	&:hover {
 		border-color: ${colors.orange};
 	}
-    &:focus {
-		box-shadow: ${({ boxShadow }) => boxShadow || `0px 4px 15px ${colors.orange50}`};
+	&:focus {
+		box-shadow: ${({ boxShadow }) =>
+			boxShadow || `0px 4px 15px ${colors.orange50}`};
 	}
-    &:disabled {
-        border-color: ${colors.orange30};
-        color: ${colors.orange30}
+	&:disabled {
+		border-color: ${colors.orange30};
+		color: ${colors.orange30};
 	}
 `;
