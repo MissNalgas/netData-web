@@ -2,16 +2,15 @@
 
 import { NextPage } from "next";
 import { useAuth } from "@infrastructure/containers/auth";
+import LoginComponent from "@infrastructure/components/auth/login";
 
 const Login: NextPage = () => {
-
 	const { login } = useAuth();
 
 	return (
-		<div className="flex flex-col justify-center items-center min-h-screen h-full">
-			<h1>Welcome to Sentria!</h1>
-			<button className="underline" onClick={() => login()}>Inicio</button>
-		</div>
+		<main className="flex flex-col justify-center items-center min-h-screen h-full">
+			<LoginComponent login={() => login()} />
+		</main>
 	);
 };
 

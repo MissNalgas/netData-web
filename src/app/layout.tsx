@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode } from "react";
-import { Inter } from "next/font/google";
+import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
@@ -10,7 +10,7 @@ import theme from "theme";
 import { store, persisted } from "infrastructure/store";
 import { AuthProvider } from "@infrastructure/containers/auth";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Open_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	return (
@@ -19,9 +19,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persisted}>
 						<ThemeProvider theme={theme}>
-							<AuthProvider>
-								{children}
-							</AuthProvider>
+							<AuthProvider>{children}</AuthProvider>
 						</ThemeProvider>
 					</PersistGate>
 				</Provider>
