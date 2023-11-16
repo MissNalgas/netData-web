@@ -13,15 +13,15 @@ interface ICodeInput {
 }
 
 const schema = yup.object({
-	email: emailValidation(),
+	email: emailValidation()
 });
 
 export default function CodeInputForm({
 	onSubmit,
-	getCode = () => "",
+	getCode = () => ""
 }: CodeInputFormProps) {
 	const { handleSubmit } = useForm<ICodeInput>({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(schema)
 	});
 	const router = useRouter();
 	const [codePartOne, setCodePartOne] = useState(["", "", ""]);
@@ -75,21 +75,20 @@ export default function CodeInputForm({
 	};
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<div
-				className="flex flex-row items-center	"
-				style={{
-					width: "30vw",
-				}}
-			>
+			<div className="flex flex-row items-center	justify-center	">
 				{codePartOne.map((value, index) => (
 					<input
 						key={index}
 						type="text"
 						value={value}
 						style={{
-							width: "15%",
+							width: "52.88px",
+							height: "68px",
 							margin: "3%",
-							alignContent: "center",
+							border: "1px solid #999999",
+							backgroundColor: "#FBFBFB",
+							textAlign: "center",
+							borderRadius: "4px"
 						}}
 						maxLength={1}
 						inputMode="numeric"
@@ -112,10 +111,13 @@ export default function CodeInputForm({
 						type="text"
 						value={value}
 						style={{
-							width: "10%",
-
+							width: "52.88px",
+							height: "68px",
 							margin: "3%",
-							alignContent: "center",
+							border: "1px solid #999999",
+							backgroundColor: "#FBFBFB",
+							textAlign: "center",
+							borderRadius: "4px"
 						}}
 						maxLength={1}
 						inputMode="numeric"
@@ -134,14 +136,14 @@ export default function CodeInputForm({
 				))}
 			</div>
 			<PrimaryButton type="submit" className="w-full">
-				codigo
+				Siguiente
 			</PrimaryButton>
-			<div className="flex justify-between my-2">
-				<label
-					className="text-sm text-primary"
-					onClick={() => router.push("login")}
-				>
-					Volver al inicio de sesión
+			<div className="flex justify-center gap-1 my-2">
+				<label className="text-sm" onClick={() => router.push("login")}>
+					¿No has recibido el código aún?
+				</label>
+				<label className="text-sm text-primary" onClick={() => {}}>
+					Reenviar código
 				</label>
 			</div>
 		</form>

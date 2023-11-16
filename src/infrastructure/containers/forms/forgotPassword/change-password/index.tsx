@@ -1,24 +1,29 @@
-import { emailValidation } from "@shared/utils";
+import { valdiationPassword } from "@shared/utils";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
+import Icon from "@shared/components/icons";
+import { useTheme } from "styled-components";
 interface IForgotPassword {
-	email: string;
+	password: string;
+	repeatPassword: string;
 }
 
-const schema = yup.object({
-	email: emailValidation(),
-});
-
 export default function ChangePasswordForm({
-	onSubmit,
+	onSubmit
 }: ChangePasswordFormProps) {
-	const { handleSubmit } = useForm<IForgotPassword>({
-		resolver: yupResolver(schema),
+	const {
+		handleSubmit,
+		formState: { errors, isValid }
+	} = useForm<IForgotPassword>({
+		resolver: yupResolver(valdiationPassword)
 	});
+	console.log("errors, isValid ", errors, isValid);
+	const theme = useTheme();
+	const isError = false;
+	const showValidationInputs = !isValid;
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -28,22 +33,59 @@ export default function ChangePasswordForm({
 				placeholder="Nueva contraseña"
 				icon="lock-key"
 				iconright="eye"
+				type="password"
 			/>
 			<TextInput
-				name="passwordNew"
+				name="repeatPassword"
 				label="Confirma tu contraseña"
 				placeholder="Confirma tu contraseña"
 				icon="lock-key"
 				iconright="eye"
+				type="password"
 			/>
-			<div className="flex flex-col justify-between ">
-				<label className="text-sm">Asegúrate que tu contraseña contenga:</label>
-				<label className="text-sm">Mínimo 8 carácteres</label>
-				<label className="text-sm">Mínimo una mayúscula y minúscula</label>
-				<label className="text-sm">Mínimo un carácter especial (!”?@#).</label>
-				<label className="text-sm">Mínimo un número </label>
-			</div>
-			<PrimaryButton type="submit" className="w-full">
+			{showValidationInputs && (
+				<div className="flex flex-col justify-between py-3">
+					<label className="text-sm flex flex-row items-center gap-2">
+						Asegúrate que tu contraseña contenga:
+					</label>
+					<div className="px-3">
+						<label className="text-sm flex flex-row items-center gap-2">
+							<Icon
+								icon="ellipse"
+								size={10}
+								color={!isError ? theme.colors.yellow : theme.colors.red}
+							/>
+							Mínimo 8 carácteres
+						</label>
+						<label className="text-sm flex flex-row items-center gap-2">
+							<Icon
+								icon="ellipse"
+								size={10}
+								color={!isError ? theme.colors.yellow : theme.colors.red}
+							/>
+							Mínimo una mayúscula y minúscula
+						</label>
+						<label className="text-sm flex flex-row items-center gap-2">
+							<Icon
+								icon="ellipse"
+								size={10}
+								color={!isError ? theme.colors.yellow : theme.colors.red}
+							/>
+							Mínimo un carácter especial (!”?@#).
+						</label>
+						<label className="text-sm flex flex-row items-center gap-2">
+							<Icon
+								icon="ellipse"
+								size={10}
+								color={!isError ? theme.colors.yellow : theme.colors.red}
+							/>
+							Mínimo un número
+						</label>
+					</div>
+				</div>
+			)}
+
+			<PrimaryButton type="submit" className="w-full my-2">
 				Reestablecer contraseña
 			</PrimaryButton>
 		</form>

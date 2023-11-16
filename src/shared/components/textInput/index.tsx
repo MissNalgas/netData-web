@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
@@ -13,11 +13,19 @@ export default function TextInput(props: TextInputProps) {
 		helperText,
 		error,
 		success,
-		onIconClick,
+		type
 	} = props;
 	const theme = useTheme();
 	const helper = error || success || helperText;
+	const [showPassword, setShowPassword] = useState(false);
 
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
+	const inputType = () => {
+		if (type === "password") {
+			return showPassword ? "text" : "password";
+		}
+		return type;
+	};
 	return (
 		<div>
 			{label && (
@@ -27,6 +35,7 @@ export default function TextInput(props: TextInputProps) {
 			)}
 			<div className="relative">
 				<input
+					type={inputType()}
 					id={name}
 					className={`
 						disabled:text-gray-400
@@ -58,17 +67,30 @@ export default function TextInput(props: TextInputProps) {
 						/>
 					</div>
 				)}
-				{iconright && (
-					<button
-						onClick={onIconClick}
-						className="h-full absolute right-0 top-0 w-10 grid place-content-center"
-					>
-						<Icon
-							icon={iconright}
-							size={20}
-							color={iconColorRight || theme.colors.gray10}
-						/>
-					</button>
+				{(iconright || error) && (
+					<>
+						{error && (
+							<div className="h-full absolute right-6 top-0 w-10 grid place-content-center">
+								<Icon
+									icon="Exclamation-Mark"
+									size={20}
+									color={theme.colors.red}
+								/>
+							</div>
+						)}
+						{iconright && (
+							<button
+								onClick={handleClickShowPassword}
+								className="h-full absolute right-0 top-0 w-10 grid place-content-center"
+							>
+								<Icon
+									icon={iconright}
+									size={20}
+									color={iconColorRight || theme.colors.gray10}
+								/>
+							</button>
+						)}
+					</>
 				)}
 			</div>
 			<span
@@ -93,7 +115,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	name: string;
 	helperText?: string;
-	error?: string;
+	error?: any;
 	success?: string;
-	onIconClick?: React.MouseEventHandler<HTMLButtonElement>;
+	type?: "text" | "password" | "number";
 }

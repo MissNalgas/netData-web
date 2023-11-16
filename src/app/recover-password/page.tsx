@@ -6,9 +6,9 @@ import RecoverPasswordComponent from "@infrastructure/components/auth/recover-pa
 import { useState } from "react";
 
 const RecoverPassword: NextPage = ({}) => {
-	const [changeAction, setChangeAction] = useState<1 | 2 | 3>(1);
+	const [changeAction, setChangeAction] = useState<1 | 2 | 3 	|4>(1);
 
-	const handleActionButtonClick = (numberComponent: 1 | 2 | 3) => {
+	const handleActionButtonClick = (numberComponent: 1 | 2 | 3	|4) => {
 		setChangeAction(numberComponent);
 	};
 
