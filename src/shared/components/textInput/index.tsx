@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
@@ -18,6 +18,10 @@ export default function TextInput(props: TextInputProps) {
 	const theme = useTheme();
 	const helper = error || success || helperText;
 	const [showPassword, setShowPassword] = useState(false);
+	const inputProps = useMemo(() => ({
+		...props,
+		icon: undefined,
+	}), [props]);
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
 	const inputType = () => {
@@ -56,7 +60,7 @@ export default function TextInput(props: TextInputProps) {
 								: ""
 						}
 					`}
-					{...props}
+					{...inputProps}
 				/>
 				{icon && (
 					<div className="h-full absolute left-0 top-0 w-10 grid place-content-center">
