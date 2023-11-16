@@ -86,7 +86,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 							className="
 					text-sm
 					block
-					text-center	
+					text-center
 				"
 						>
 							No ha sido posible reestablecer tu contraseña por favor vuelve a

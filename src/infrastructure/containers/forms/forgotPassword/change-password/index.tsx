@@ -16,11 +16,10 @@ export default function ChangePasswordForm({
 }: ChangePasswordFormProps) {
 	const {
 		handleSubmit,
-		formState: { errors, isValid }
+		formState: { isValid }
 	} = useForm<IForgotPassword>({
 		resolver: yupResolver(valdiationPassword)
 	});
-	console.log("errors, isValid ", errors, isValid);
 	const theme = useTheme();
 	const isError = false;
 	const showValidationInputs = !isValid;

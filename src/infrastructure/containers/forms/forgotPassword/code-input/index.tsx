@@ -13,15 +13,15 @@ interface ICodeInput {
 }
 
 const schema = yup.object({
-	email: emailValidation()
+	email: emailValidation(),
 });
 
 export default function CodeInputForm({
 	onSubmit,
-	getCode = () => ""
+	getCode = () => "",
 }: CodeInputFormProps) {
 	const { handleSubmit } = useForm<ICodeInput>({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
 	const [codePartOne, setCodePartOne] = useState(["", "", ""]);
@@ -88,7 +88,7 @@ export default function CodeInputForm({
 							border: "1px solid #999999",
 							backgroundColor: "#FBFBFB",
 							textAlign: "center",
-							borderRadius: "4px"
+							borderRadius: "4px",
 						}}
 						maxLength={1}
 						inputMode="numeric"
@@ -117,7 +117,7 @@ export default function CodeInputForm({
 							border: "1px solid #999999",
 							backgroundColor: "#FBFBFB",
 							textAlign: "center",
-							borderRadius: "4px"
+							borderRadius: "4px",
 						}}
 						maxLength={1}
 						inputMode="numeric"
