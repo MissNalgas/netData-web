@@ -6,7 +6,7 @@ import {
 	ContentForm,
 	SecondTitleCustom,
 	TitleCustom,
-	TextInfoCustom
+	TextInfoCustom,
 } from "./styled";
 import CodeInputForm from "@infrastructure/containers/forms/forgotPassword/code-input";
 import ChangePasswordForm from "@infrastructure/containers/forms/forgotPassword/change-password";
@@ -25,7 +25,7 @@ interface IRecoverPasswordComponentProps {
 const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	actionButton = () => {},
 	changeStateAction,
-	setChangeAction = () => {}
+	setChangeAction = () => {},
 }: IRecoverPasswordComponentProps) => {
 	const router = useRouter();
 	const isSucces = false;
@@ -35,7 +35,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 		3: "Reestablece tu contraseña",
 		4: isSucces
 			? "¡Has Reestablecido tu Contraseña de forma exitosa!"
-			: "Upss... ha ocurrido un error"
+			: "Upss... ha ocurrido un error",
 	};
 
 	const message =

@@ -12,13 +12,13 @@ interface IForgotPassword {
 }
 
 export default function ChangePasswordForm({
-	onSubmit
+	onSubmit,
 }: ChangePasswordFormProps) {
 	const {
 		handleSubmit,
-		formState: { isValid }
+		formState: { isValid },
 	} = useForm<IForgotPassword>({
-		resolver: yupResolver(valdiationPassword)
+		resolver: yupResolver(valdiationPassword),
 	});
 	const theme = useTheme();
 	const isError = false;
