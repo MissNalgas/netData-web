@@ -1,5 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
 import schema from "./validation-schema";
 import TextInput from "@shared/components/textInput";
 import {
@@ -15,6 +17,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 	const { handleSubmit } = useForm<ILogin>({
 		resolver: yupResolver(schema),
 	});
+	const router = useRouter();
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -26,7 +29,10 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 			/>
 			<div className="flex justify-between my-2">
 				<label className="text-sm">Contraseña</label>
-				<label className="text-sm text-primary">
+				<label
+					className="text-sm text-primary"
+					onClick={() => router.push("recover-password")}
+				>
 					¿Olvidaste tu contraseña?
 				</label>
 			</div>
@@ -35,6 +41,7 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 				placeholder="Ingresa tu contraseña"
 				icon="account"
 				iconright="eye"
+				type="password"
 			/>
 			<PrimaryButton type="submit" className="w-full">
 				Iniciar sesión
