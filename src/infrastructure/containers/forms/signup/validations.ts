@@ -6,5 +6,5 @@ export default yup.object({
 	lastname: textValidation(true),
 	company: textValidation(true),
 	password: passwordValidation(),
-	repeatPassword: passwordValidation().oneOf([yup.ref("password")]),
+	repeatPassword: passwordValidation().oneOf([yup.ref("password")])
 });
