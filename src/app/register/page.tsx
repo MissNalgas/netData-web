@@ -4,9 +4,9 @@ import { NextPage } from "next";
 
 const Register: NextPage = () => {
 	return (
-		<div>
-			<h1>Welcome to my Next.js app Register!</h1>
-		</div>
+		<main className="flex flex-col justify-center items-center min-h-screen h-full">
+			<Register />
+		</main>
 	);
 };
 
