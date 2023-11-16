@@ -21,3 +21,11 @@ export const TitleSecond = styled.h1<StyledTextProps>`
 	${({ center }) => (center ? "text-align: center;" : "")}
 	font-weight:  ${({ theme }) => theme.fontWeight.regular};
 `;
+
+export const TitleTree = styled.span<StyledTextProps>`
+	color: ${({ theme, color }) => (color ? color : theme.colors.gray50)};
+	font-size: ${({ theme }) => theme.fontSize.overline};
+	line-height: ${({ theme }) => theme.lineSpacing.overline};
+	${({ center }) => (center ? "text-align: center;" : "")}
+	font-weight:  ${({ theme }) => theme.fontWeight.regular};
+`;

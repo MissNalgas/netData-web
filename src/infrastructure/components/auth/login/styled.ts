@@ -5,7 +5,7 @@ import { mq } from "theme";
 const ContentForm = styled.div`
 	${() =>
 		mq({
-			width: ["76%", "76%", "auto", "auto", "auto"],
+			width: ["76%", "76%", "auto", "auto", "auto"]
 		})}
 `;
 
@@ -17,7 +17,7 @@ const SecondTitleCustom = styled(TitleSecond)`
 	margin: 2% 0;
 	${() =>
 		mq({
-			width: ["13em", "13em", "17em", "17em", "17em"],
+			width: ["13em", "13em", "17em", "17em", "17em"]
 		})}
 `;
 
