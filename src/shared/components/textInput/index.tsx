@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 export default function TextInput(props : TextInputProps) {
 
@@ -14,6 +14,10 @@ export default function TextInput(props : TextInputProps) {
 	} = props;
 
 	const helper = error || success || helperText;
+	const inputProps = useMemo(() => ({
+		...props,
+		icon: undefined,
+	}), [props]);
 
 	return (
 		<div>
@@ -36,7 +40,7 @@ export default function TextInput(props : TextInputProps) {
 						${iconRight ? "pr-12" : ""}
 						${error ? "outline outline-1 outline-red-500 focus:outline-red-500" : success ? "outline outline-1 outline-green-500 focus:outline-green-500" : ""}
 					`}
-					{...props}
+					{...inputProps}
 				/>
 				{icon && (
 					<div

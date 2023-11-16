@@ -1,10 +1,4 @@
 "use client";
-import { resetState } from "infrastructure/store/user/actions";
-import { useTypedSelector, useAppDispatch } from "hooks";
-import { RootState } from "infrastructure/store/reducers";
-
-import { selectLoggedData } from "infrastructure/store/user/selectors";
-import { useRouter } from "next/navigation";
 import Tabs from "@shared/components/tabs";
 import { useState } from "react";
 import TicketCard from "@shared/components/ticketCard";
@@ -14,18 +8,6 @@ import Topbar from "@shared/components/topbar";
 const TABS = ["Incidentes de hoy", "Incidentes de ayer"] as const;
 
 export default function Home() {
-	const dispatch = useAppDispatch();
-	const router = useRouter();
-
-	const cleanData = () => dispatch(resetState());
-	const dataUser = useTypedSelector((state: RootState) =>
-		selectLoggedData(state)
-	);
-
-	const handleActionLogout = () => {
-		cleanData();
-		router.push("/Login");
-	};
 
 	const [tab, setTab] = useState<typeof TABS[number]>(TABS[0]);
 
@@ -33,9 +15,6 @@ export default function Home() {
 		<>
 			<Topbar/>
 			<div className="flex flex-col items-center justify-center h-full min-h-screen">
-				<h1>
-					Home <span className="text-red-600 font-bold">{dataUser.name}</span>
-				</h1>
 				<div >
 					<Tabs
 						selectedTab={tab}
@@ -44,6 +23,10 @@ export default function Home() {
 					/>
 					{tab}
 					<TicketCard/>
+					<iframe
+						className="w-[600px] max-w-lg h-[540px]"
+						src="/chart/example?height=540"
+					/>
 					<TextInput
 						name="email"
 						label="Email"
@@ -55,7 +38,6 @@ export default function Home() {
 						)}
 					/>
 				</div>
-				<button className="underline" onClick={handleActionLogout}>log out</button>
 			</div>
 		</>
 	);
