@@ -17,7 +17,7 @@ interface IRecoverPasswordComponentProps {
 
 const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	changeStateAction,
-	setChangeAction = () => {}
+	setChangeAction = () => {},
 }: IRecoverPasswordComponentProps) => {
 	const router = useRouter();
 	const isSucces = true;
@@ -27,7 +27,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 		3: "Reestablece tu contraseña",
 		4: isSucces
 			? "¡Has Reestablecido tu Contraseña de forma exitosa!"
-			: "Upss... ha ocurrido un error"
+			: "Upss... ha ocurrido un error",
 	};
 
 	const message =
