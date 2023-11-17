@@ -13,23 +13,22 @@ export default function TextInput(props: TextInputProps) {
 		helperText,
 		error,
 		success,
-		type,
+		type
 	} = props;
 	const theme = useTheme();
-	const helper = error || success || helperText;
-	const [showPassword, setShowPassword] = useState(false);
-	const inputProps = useMemo(() => ({
-		...props,
-		icon: undefined,
-	}), [props]);
+	const [inputType, setInputType] = useState(type);
 
-	const handleClickShowPassword = () => setShowPassword((show) => !show);
-	const inputType = () => {
-		if (type === "password") {
-			return showPassword ? "text" : "password";
-		}
-		return type;
+	const inputProps = useMemo(
+		() => ({
+			...props,
+			icon: undefined
+		}),
+		[props]
+	);
+	const toggleShowPassword = () => {
+		setInputType((prevType) => (prevType === "password" ? "text" : "password"));
 	};
+
 	return (
 		<div>
 			{label && (
@@ -39,7 +38,7 @@ export default function TextInput(props: TextInputProps) {
 			)}
 			<div className="relative">
 				<input
-					type={inputType()}
+					type={inputType}
 					id={name}
 					className={`
 						disabled:text-gray-400
@@ -83,8 +82,8 @@ export default function TextInput(props: TextInputProps) {
 							</div>
 						)}
 						{iconright && (
-							<button
-								onClick={handleClickShowPassword}
+							<div
+								onClick={toggleShowPassword}
 								className="h-full absolute right-0 top-0 w-10 grid place-content-center"
 							>
 								<Icon
@@ -92,7 +91,7 @@ export default function TextInput(props: TextInputProps) {
 									size={20}
 									color={iconColorRight || theme.colors.gray10}
 								/>
-							</button>
+							</div>
 						)}
 					</>
 				)}
@@ -102,10 +101,10 @@ export default function TextInput(props: TextInputProps) {
 					text-sm
 					block
 					${error ? "text-red-600" : success ? "text-green-600" : ""}
-					${helper ? "opacity-100" : "opacity-0"}
+					${helperText ? "opacity-100" : "opacity-0"}
 				`}
 			>
-				{helper}&nbsp;
+				{helperText}&nbsp;
 			</span>
 		</div>
 	);

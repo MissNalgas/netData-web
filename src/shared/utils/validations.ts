@@ -23,7 +23,7 @@ export const textValidation = <T extends boolean>(
 export const emailValidation = () => textValidation(true).email();
 export const passwordValidation = () =>
 	textValidation(true).min(6).matches(passwordRegex);
-const valdiationPassword = yup.object().shape({
+const validationPassword = yup.object().shape({
 	password: yup
 		.string()
 		.min(8, "Mínimo 8 caracteres")
@@ -42,4 +42,4 @@ const valdiationPassword = yup.object().shape({
 		.required("La contraseña es requerida")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma")
 });
-export { charactersOnlyEmail, numbersOnly, valdiationPassword };
+export { charactersOnlyEmail, numbersOnly, validationPassword };

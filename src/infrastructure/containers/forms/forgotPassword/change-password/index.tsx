@@ -1,4 +1,4 @@
-import { valdiationPassword } from "@shared/utils";
+import { validationPassword } from "@shared/utils";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -12,16 +12,17 @@ interface IForgotPassword {
 }
 
 export default function ChangePasswordForm({
-	onSubmit,
+	onSubmit
 }: ChangePasswordFormProps) {
 	const {
 		handleSubmit,
-		formState: { isValid },
+		formState: { errors, isValid }
 	} = useForm<IForgotPassword>({
-		resolver: yupResolver(valdiationPassword),
+		resolver: yupResolver(validationPassword),
+		mode: "all"
 	});
 	const theme = useTheme();
-	const isError = false;
+	const isError = !!errors.password || !!errors.repeatPassword;
 	const showValidationInputs = !isValid;
 
 	return (
@@ -33,6 +34,8 @@ export default function ChangePasswordForm({
 				icon="lock-key"
 				iconright="eye"
 				type="password"
+				error={errors.password?.message}
+				helperText={errors.password?.message}
 			/>
 			<TextInput
 				name="repeatPassword"
@@ -41,6 +44,8 @@ export default function ChangePasswordForm({
 				icon="lock-key"
 				iconright="eye"
 				type="password"
+				error={errors.repeatPassword?.message}
+				helperText={errors.repeatPassword?.message}
 			/>
 			{showValidationInputs && (
 				<div className="flex flex-col justify-between py-3">
