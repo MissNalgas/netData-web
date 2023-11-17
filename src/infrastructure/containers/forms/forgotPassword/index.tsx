@@ -26,9 +26,10 @@ export default function ForgotPasswordForm({
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
 				name="email"
-				label="Correo corporativo *"
+				label="Correo corporativo"
 				placeholder="Correo corporativo"
 				icon="message"
+				require
 			/>
 			<PrimaryButton type="submit" className="w-full">
 				Siguiente

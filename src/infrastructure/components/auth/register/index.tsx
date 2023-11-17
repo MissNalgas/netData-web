@@ -1,4 +1,3 @@
-
 import React, { FC, useMemo } from "react";
 import CodeInputForm from "@infrastructure/containers/forms/forgotPassword/code-input";
 import { ContentForm } from "../login/styled";
@@ -22,61 +21,73 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	changeStateAction,
 	setChangeAction = () => {},
 }: IRegisterComponentProps) => {
-    const router = useRouter();
+	const router = useRouter();
 
-    const title = useMemo(() => {
-        switch (changeStateAction) {
-            case 4:
-                return "Upss... ha ocurrido un error"
-            case 5:
-                return "¡Has creado tu cuenta de forma exitosa!"
-            default:
-                return "Crea una cuenta nueva"
-        }
-    }, [changeStateAction]);
+	const title = useMemo(() => {
+		switch (changeStateAction) {
+			case 4:
+				return "Upss... ha ocurrido un error";
+			case 5:
+				return "¡Has creado tu cuenta de forma exitosa!";
+			default:
+				return "Crea una cuenta nueva";
+		}
+	}, [changeStateAction]);
 
-    return (
-        <ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
-            <div className="m-auto">
-                <TitleOne center>{title}</TitleOne>
-                {changeStateAction === 1 && (
-                    <>
-                        <Steps disable={true}/>
-                        <RegisterEmailForm onSubmit={() => {actionButton(), setChangeAction(2);}} />
-                    </>
-                )}
-                {changeStateAction === 2 && (
-                    <>
-                        <label className="text-sm mb-5">
-                            Introduce el código que fue enviado a tu correo eletrónico
-                        </label>
-                        <CodeInputForm onSubmit={() => {actionButton(), setChangeAction(3);}}/>
-                    </>
-                )}
-                {changeStateAction === 3 && (
-                    <div>
-                        <Steps/>
-                        <RegisterAccountForm onSubmit={() => {actionButton(), setChangeAction(4);}}/>
-                    </div>
-                )}
-                {changeStateAction === 4 && (
-                    <ErrorImage
-                        image={ErrorClose}
-                        textButton="Intentar de nuevo"
-                        onClickButton={() => setChangeAction(5)}
-                        description="No ha sido posible crear tu cuenta por favor vuelve a intentarlo o ¡ponte en contacto con nosotros!"
-                    />
-                )}
-                {changeStateAction === 5 && (
-                    <ErrorImage
-                        image={Computer}
-                        textButton="Iniciar sesión"
-                        onClickButton={() => router.push("login")}
-                    />
-                )}
-            </div>
-        </ContentForm>
-    )
-}
+	return (
+		<ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
+			<div className="m-auto">
+				<TitleOne center>{title}</TitleOne>
+				{changeStateAction === 1 && (
+					<>
+						<Steps disable={true} />
+						<RegisterEmailForm
+							onSubmit={() => {
+								actionButton(), setChangeAction(2);
+							}}
+						/>
+					</>
+				)}
+				{changeStateAction === 2 && (
+					<>
+						<label className="text-sm mb-5">
+							Introduce el código que fue enviado a tu correo eletrónico
+						</label>
+						<CodeInputForm
+							onSubmit={() => {
+								actionButton(), setChangeAction(3);
+							}}
+						/>
+					</>
+				)}
+				{changeStateAction === 3 && (
+					<div>
+						<Steps />
+						<RegisterAccountForm
+							onSubmit={() => {
+								actionButton(), setChangeAction(4);
+							}}
+						/>
+					</div>
+				)}
+				{changeStateAction === 4 && (
+					<ErrorImage
+						image={ErrorClose}
+						textButton="Intentar de nuevo"
+						onClickButton={() => setChangeAction(5)}
+						description="No ha sido posible crear tu cuenta por favor vuelve a intentarlo o ¡ponte en contacto con nosotros!"
+					/>
+				)}
+				{changeStateAction === 5 && (
+					<ErrorImage
+						image={Computer}
+						textButton="Iniciar sesión"
+						onClickButton={() => router.push("login")}
+					/>
+				)}
+			</div>
+		</ContentForm>
+	);
+};
 
 export default RegisterComponent;

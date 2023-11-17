@@ -1,8 +1,4 @@
-import {
-	TitleOne,
-	TitleSecond,
-	TitleTree,
-} from "@shared/components/labels/styled";
+import { TitleOne, TitleSecond } from "@shared/components/labels/styled";
 import styled from "styled-components";
 import { mq } from "theme";
 
@@ -22,6 +18,4 @@ const SecondTitleCustom = styled(TitleSecond)`
 	font-size: ${({ theme }) => theme.fontSize.overline};
 `;
 
-const TextInfoCustom = styled(TitleTree)``;
-
-export { ContentForm, TitleCustom, SecondTitleCustom, TextInfoCustom };
+export { ContentForm, TitleCustom, SecondTitleCustom };
