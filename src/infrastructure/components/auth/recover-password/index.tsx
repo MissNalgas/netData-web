@@ -20,7 +20,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	setChangeAction = () => {}
 }: IRecoverPasswordComponentProps) => {
 	const router = useRouter();
-	const isSucces = false;
+	const isSucces = true;
 	const messages = {
 		1: "Reestablece tu contraseña",
 		2: "Reestablece tu contraseña",
@@ -71,7 +71,11 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					onClickButton={() =>
 						isSucces ? router.push("login") : setChangeAction(1)
 					}
-					description="No ha sido posible crear tu cuenta por favor vuelve a intentarlo o ¡ponte en contacto con nosotros!"
+					description={
+						!isSucces
+							? "No ha sido posible crear tu cuenta por favor vuelve a intentarlo o ¡ponte en contacto con nosotros!"
+							: ""
+					}
 				/>
 			)}
 		</ContentForm>

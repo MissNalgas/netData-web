@@ -19,7 +19,7 @@ interface IRegisterComponentProps {
 const RegisterComponent: FC<IRegisterComponentProps> = ({
 	actionButton = () => {},
 	changeStateAction,
-	setChangeAction = () => {}
+	setChangeAction = () => {},
 }: IRegisterComponentProps) => {
 	const router = useRouter();
 
