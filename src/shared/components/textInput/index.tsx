@@ -14,7 +14,7 @@ export default function TextInput(props: TextInputProps) {
 		error,
 		success,
 		type,
-        require
+        require,
 	} = props;
 	const theme = useTheme();
 	const helper = error || success || helperText;
