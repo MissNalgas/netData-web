@@ -13,7 +13,7 @@ export default function TextInput(props: TextInputProps) {
 		helperText,
 		error,
 		success,
-		type
+		type,
 	} = props;
 	const theme = useTheme();
 	const [inputType, setInputType] = useState(type);
@@ -21,7 +21,7 @@ export default function TextInput(props: TextInputProps) {
 	const inputProps = useMemo(
 		() => ({
 			...props,
-			icon: undefined
+			icon: undefined,
 		}),
 		[props]
 	);
