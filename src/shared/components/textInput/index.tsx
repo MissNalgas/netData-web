@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
@@ -14,18 +14,12 @@ export default function TextInput(props: TextInputProps) {
 		error,
 		success,
 		type,
-        require,
+		require,
+		...inputProps
 	} = props;
 	const theme = useTheme();
 	const [inputType, setInputType] = useState(type);
 
-	const inputProps = useMemo(
-		() => ({
-			...props,
-			icon: undefined,
-		}),
-		[props]
-	);
 	const toggleShowPassword = () => {
 		setInputType((prevType) => (prevType === "password" ? "text" : "password"));
 	};
@@ -34,7 +28,8 @@ export default function TextInput(props: TextInputProps) {
 		<div>
 			{label && (
 				<label className="text-sm text-gray50" htmlFor={name}>
-					{label}{require && (<span className="text-orange50">*</span>)}
+					{label}
+					{require && <span className="text-orange50">*</span>}
 				</label>
 			)}
 			<div className="relative">
@@ -123,5 +118,5 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: any;
 	success?: string;
 	type?: "text" | "password" | "number";
-    require?: boolean;
+	require?: boolean;
 }

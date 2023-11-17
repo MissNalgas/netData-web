@@ -6,22 +6,22 @@ import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import RequirePassword from "@shared/components/requirePassword";
 interface IForgotPassword {
-	password: string;
-	repeatPassword: string;
+	password?: string;
+	repeatPassword?: string;
 }
 
 export default function ChangePasswordForm({
-	onSubmit,
+	onSubmit
 }: ChangePasswordFormProps) {
 	const {
 		handleSubmit,
-		formState: { errors, isValid },
+		formState: { errors, isValid }
 	} = useForm<IForgotPassword>({
 		resolver: yupResolver(validationPassword),
-		mode: "all",
+		mode: "all"
 	});
 	const isError = !!errors.password || !!errors.repeatPassword;
-	const showValidationInputs = !isValid;
+	const showValidationInputs = isValid;
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -45,9 +45,7 @@ export default function ChangePasswordForm({
 				error={errors.repeatPassword?.message}
 				helperText={errors.repeatPassword?.message}
 			/>
-			{showValidationInputs && (
-				<RequirePassword isError={isError} />
-			)}
+			{showValidationInputs && <RequirePassword isError={isError} />}
 
 			<PrimaryButton type="submit" className="w-full my-2">
 				Reestablecer contraseña

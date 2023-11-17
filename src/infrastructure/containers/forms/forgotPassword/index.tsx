@@ -11,14 +11,14 @@ interface IForgotPassword {
 }
 
 const schema = yup.object({
-	email: emailValidation(),
+	email: emailValidation()
 });
 
 export default function ForgotPasswordForm({
-	onSubmit,
+	onSubmit
 }: ForgotPasswordFormProps) {
 	const { handleSubmit } = useForm<IForgotPassword>({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(schema)
 	});
 	const router = useRouter();
 
@@ -26,9 +26,10 @@ export default function ForgotPasswordForm({
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
 				name="email"
-				label="Correo corporativo *"
+				label="Correo corporativo"
 				placeholder="Correo corporativo"
 				icon="message"
+				require
 			/>
 			<PrimaryButton type="submit" className="w-full">
 				Siguiente
