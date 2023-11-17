@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
@@ -14,33 +14,27 @@ export default function TextInput(props: TextInputProps) {
 		error,
 		success,
 		type,
-        require,
+		require,
+		...inputProps
 	} = props;
 	const theme = useTheme();
-	const helper = error || success || helperText;
-	const [showPassword, setShowPassword] = useState(false);
-	const inputProps = useMemo(() => ({
-		...props,
-		icon: undefined,
-	}), [props]);
+	const [inputType, setInputType] = useState(type);
 
-	const handleClickShowPassword = () => setShowPassword((show) => !show);
-	const inputType = () => {
-		if (type === "password") {
-			return showPassword ? "text" : "password";
-		}
-		return type;
+	const toggleShowPassword = () => {
+		setInputType((prevType) => (prevType === "password" ? "text" : "password"));
 	};
+
 	return (
 		<div>
 			{label && (
 				<label className="text-sm text-gray50" htmlFor={name}>
-					{label}{require && (<span className="text-orange50">*</span>)}
+					{label}
+					{require && <span className="text-orange50">*</span>}
 				</label>
 			)}
 			<div className="relative">
 				<input
-					type={inputType()}
+					type={inputType}
 					id={name}
 					className={`
 						disabled:text-gray-400
@@ -85,8 +79,8 @@ export default function TextInput(props: TextInputProps) {
 							</div>
 						)}
 						{iconright && (
-							<button
-								onClick={handleClickShowPassword}
+							<div
+								onClick={toggleShowPassword}
 								className="h-full absolute right-0 top-0 w-10 grid place-content-center"
 							>
 								<Icon
@@ -94,7 +88,7 @@ export default function TextInput(props: TextInputProps) {
 									size={20}
 									color={iconColorRight || theme.colors.gray30}
 								/>
-							</button>
+							</div>
 						)}
 					</>
 				)}
@@ -104,10 +98,10 @@ export default function TextInput(props: TextInputProps) {
 					text-sm
 					block
 					${error ? "text-red-600" : success ? "text-green-600" : ""}
-					${helper ? "opacity-100" : "opacity-0"}
+					${helperText ? "opacity-100" : "opacity-0"}
 				`}
 			>
-				{helper}&nbsp;
+				{helperText}&nbsp;
 			</span>
 		</div>
 	);
@@ -124,5 +118,5 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: any;
 	success?: string;
 	type?: "text" | "password" | "number";
-    require?: boolean;
+	require?: boolean;
 }
