@@ -26,7 +26,7 @@ export default function RegisterEmailForm({ onSubmit }: RegisterEmailFormProps) 
 			/>
 			<TextInput
 				name="repeatEmail"
-				label="Correo corporativo"
+				label="Confirma tu correo corporativo"
 				placeholder="correo@example.com"
 				icon="message"
                 require={true}
