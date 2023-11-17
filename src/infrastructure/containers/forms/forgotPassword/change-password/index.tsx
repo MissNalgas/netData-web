@@ -4,8 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
-import Icon from "@shared/components/icons";
-import { useTheme } from "styled-components";
+import RequirePassword from "@shared/components/requirePassword";
 interface IForgotPassword {
 	password: string;
 	repeatPassword: string;
@@ -21,7 +20,6 @@ export default function ChangePasswordForm({
 		resolver: yupResolver(validationPassword),
 		mode: "all",
 	});
-	const theme = useTheme();
 	const isError = !!errors.password || !!errors.repeatPassword;
 	const showValidationInputs = !isValid;
 
@@ -48,45 +46,7 @@ export default function ChangePasswordForm({
 				helperText={errors.repeatPassword?.message}
 			/>
 			{showValidationInputs && (
-				<div className="flex flex-col justify-between py-3">
-					<label className="text-sm flex flex-row items-center gap-2">
-						Asegúrate que tu contraseña contenga:
-					</label>
-					<div className="px-3">
-						<label className="text-sm flex flex-row items-center gap-2">
-							<Icon
-								icon="ellipse"
-								size={10}
-								color={!isError ? theme.colors.yellow : theme.colors.red}
-							/>
-							Mínimo 8 carácteres
-						</label>
-						<label className="text-sm flex flex-row items-center gap-2">
-							<Icon
-								icon="ellipse"
-								size={10}
-								color={!isError ? theme.colors.yellow : theme.colors.red}
-							/>
-							Mínimo una mayúscula y minúscula
-						</label>
-						<label className="text-sm flex flex-row items-center gap-2">
-							<Icon
-								icon="ellipse"
-								size={10}
-								color={!isError ? theme.colors.yellow : theme.colors.red}
-							/>
-							Mínimo un carácter especial (!”?@#).
-						</label>
-						<label className="text-sm flex flex-row items-center gap-2">
-							<Icon
-								icon="ellipse"
-								size={10}
-								color={!isError ? theme.colors.yellow : theme.colors.red}
-							/>
-							Mínimo un número
-						</label>
-					</div>
-				</div>
+				<RequirePassword isError={isError} />
 			)}
 
 			<PrimaryButton type="submit" className="w-full my-2">

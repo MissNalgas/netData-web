@@ -38,7 +38,7 @@ export function AuthProvider({children}: AuthProviderProps) {
 
 	useEffect(() => {
 		if (PUBLIC_ROUTES.some(route => new RegExp(route).test(pathname))) {
-			if (user.isLogged) {
+            if (user.isLogged) {
 				router.replace("/");
 			}
 		} else {
@@ -47,7 +47,6 @@ export function AuthProvider({children}: AuthProviderProps) {
 				router.replace("/login");
 			}
 		}
-
 		setTimeout(() => {
 			setIsLoading(false);
 		}, 100);
