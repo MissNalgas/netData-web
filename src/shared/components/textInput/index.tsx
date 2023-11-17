@@ -14,6 +14,7 @@ export default function TextInput(props: TextInputProps) {
 		error,
 		success,
 		type,
+        require,
 	} = props;
 	const theme = useTheme();
 	const helper = error || success || helperText;
@@ -33,8 +34,8 @@ export default function TextInput(props: TextInputProps) {
 	return (
 		<div>
 			{label && (
-				<label className="text-sm" htmlFor={name}>
-					{label}
+				<label className="text-sm text-gray50" htmlFor={name}>
+					{label}{require && (<span className="text-orange50">*</span>)}
 				</label>
 			)}
 			<div className="relative">
@@ -46,10 +47,11 @@ export default function TextInput(props: TextInputProps) {
 						border borde-gray-100
 						rounded-lg
 						h-10
-						focus:outline-gray-500
+						focus:outline-gray20
 						z-10
 						px-2
 						w-full
+                        mt-1
 						${icon ? "pl-12" : ""}
 						${iconright ? "pr-12" : ""}
 						${
@@ -90,7 +92,7 @@ export default function TextInput(props: TextInputProps) {
 								<Icon
 									icon={iconright}
 									size={20}
-									color={iconColorRight || theme.colors.gray10}
+									color={iconColorRight || theme.colors.gray30}
 								/>
 							</button>
 						)}
@@ -122,4 +124,5 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	error?: any;
 	success?: string;
 	type?: "text" | "password" | "number";
+    require?: boolean;
 }
