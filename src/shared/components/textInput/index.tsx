@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
@@ -13,35 +13,46 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 		helperText,
 		error,
 		success,
-		onIconClick,
+		type,
+        require,
 	} = props;
 	const theme = useTheme();
 	const helper = error || success || helperText;
+	const [showPassword, setShowPassword] = useState(false);
 	const inputProps = useMemo(() => ({
 		...props,
 		icon: undefined,
 	}), [props]);
 
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
+	const inputType = () => {
+		if (type === "password") {
+			return showPassword ? "text" : "password";
+		}
+		return type;
+	};
 	return (
 		<div>
 			{label && (
-				<label className="text-sm" htmlFor={name}>
-					{label}
+				<label className="text-sm text-gray50" htmlFor={name}>
+					{label}{require && (<span className="text-orange50">*</span>)}
 				</label>
 			)}
 			<div className="relative">
 				<input
 					ref={ref}
+					type={inputType()}
 					id={name}
 					className={`
 						disabled:text-gray-400
 						border borde-gray-100
 						rounded-lg
 						h-10
-						focus:outline-gray-500
+						focus:outline-gray20
 						z-10
 						px-2
 						w-full
+                        mt-1
 						${icon ? "pl-12" : ""}
 						${iconright ? "pr-12" : ""}
 						${
@@ -63,18 +74,30 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 						/>
 					</div>
 				)}
-				{iconright && (
-					<button
-						type="button"
-						onClick={onIconClick}
-						className="h-full absolute right-0 top-0 w-10 grid place-content-center"
-					>
-						<Icon
-							icon={iconright}
-							size={20}
-							color={iconColorRight || theme.colors.gray10}
-						/>
-					</button>
+				{(iconright || error) && (
+					<>
+						{error && (
+							<div className="h-full absolute right-6 top-0 w-10 grid place-content-center">
+								<Icon
+									icon="Exclamation-Mark"
+									size={20}
+									color={theme.colors.red}
+								/>
+							</div>
+						)}
+						{iconright && (
+							<button
+								onClick={handleClickShowPassword}
+								className="h-full absolute right-0 top-0 w-10 grid place-content-center"
+							>
+								<Icon
+									icon={iconright}
+									size={20}
+									color={iconColorRight || theme.colors.gray30}
+								/>
+							</button>
+						)}
+					</>
 				)}
 			</div>
 			<span
@@ -99,7 +122,8 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	name: string;
 	helperText?: string;
-	error?: string;
+	error?: any;
 	success?: string;
-	onIconClick?: React.MouseEventHandler<HTMLButtonElement>;
+	type?: "text" | "password" | "number";
+    require?: boolean;
 }

@@ -1,12 +1,24 @@
 "use client";
 
+import LayoutComponent from "@infrastructure/components/auth/layout";
+import RegisterComponent from "@infrastructure/components/auth/register";
 import { NextPage } from "next";
+import { useState } from "react";
 
 const Register: NextPage = () => {
+    const [changeAction, setChangeAction] = useState<1 | 2 | 3 	| 4 | 5>(1);
+
+	const handleActionButtonClick = (numberComponent: 1 | 2 | 3	| 4 | 5) => {
+		setChangeAction(numberComponent);
+	};
+
 	return (
-		<div>
-			<h1>Welcome to my Next.js app Register!</h1>
-		</div>
+		<LayoutComponent>
+			<RegisterComponent
+                setChangeAction={handleActionButtonClick}
+                changeStateAction={changeAction}
+            />
+		</LayoutComponent>
 	);
 };
 

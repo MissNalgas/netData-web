@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { LoginForm } from "@infrastructure/containers";
-import LayoutComponent from "@infrastructure/components/auth/layout";
 
 import { ContentForm, SecondTitleCustom, TitleCustom } from "./styled";
 import { useAuth } from "@infrastructure/containers/auth";
@@ -20,15 +19,13 @@ const LoginComponent: React.FC = () => {
 
 
 	return (
-		<LayoutComponent>
-			<ContentForm>
-				<TitleCustom center>¡Bienvenido a Sentria!</TitleCustom>
-				<SecondTitleCustom center>
-					Inicia sesión para mantenerte al tanto de tus reportes
-				</SecondTitleCustom>
-				<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
-			</ContentForm>
-		</LayoutComponent>
+		<ContentForm>
+			<TitleCustom center>¡Bienvenido a Sentria!</TitleCustom>
+			<SecondTitleCustom center>
+				Inicia sesión para mantenerte al tanto de tus reportes
+			</SecondTitleCustom>
+			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
+		</ContentForm>
 	);
 };
 

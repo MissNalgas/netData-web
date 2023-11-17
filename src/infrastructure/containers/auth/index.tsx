@@ -51,7 +51,6 @@ export function AuthProvider({children}: AuthProviderProps) {
 				router.replace("/login");
 			}
 		}
-
 		setTimeout(() => {
 			setIsLoading(false);
 		}, 100);
