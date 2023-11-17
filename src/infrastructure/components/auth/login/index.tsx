@@ -1,26 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { LoginForm } from "@infrastructure/containers";
 import LayoutComponent from "@infrastructure/components/auth/layout";
 
 import { ContentForm, SecondTitleCustom, TitleCustom } from "./styled";
+import { useAuth } from "@infrastructure/containers/auth";
+import { ILogin } from "@infrastructure/containers/forms/login";
 
-interface ILoginComponentProps {
-	login: () => void;
-}
+const LoginComponent: React.FC = () => {
+	const {login} = useAuth();
+	const [isLoading, setIsLoading] = useState(false);
 
-const LoginComponent: React.FC<ILoginComponentProps> = ({
-	login,
-}: ILoginComponentProps) => (
-	<LayoutComponent>
-		<ContentForm>
-			<TitleCustom center>¡Bienvenido a Sentria!</TitleCustom>
-			<SecondTitleCustom center>
-				Inicia sesión para mantenerte al tanto de tus reportes
-			</SecondTitleCustom>
-			<LoginForm onSubmit={() => login()} />
-		</ContentForm>
-	</LayoutComponent>
-);
+	const handleSubmit = (data : ILogin) => {
+		setIsLoading(true);
+		login(data.email, data.password).finally(() => {
+			setIsLoading(false);
+		})
+	}
+
+
+	return (
+		<LayoutComponent>
+			<ContentForm>
+				<TitleCustom center>¡Bienvenido a Sentria!</TitleCustom>
+				<SecondTitleCustom center>
+					Inicia sesión para mantenerte al tanto de tus reportes
+				</SecondTitleCustom>
+				<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
+			</ContentForm>
+		</LayoutComponent>
+	);
+};
 
 export default LoginComponent;

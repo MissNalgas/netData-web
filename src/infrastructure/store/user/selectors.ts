@@ -1,6 +1,6 @@
-import { RootState } from "infrastructure/store/reducers";
+// import { RootState } from "infrastructure/store/reducers";
 // import { CustomerData } from "infrastructure/store/user/types";
-import { createSelector } from "reselect";
+// import { createSelector } from "reselect";
 
 /**
  *
@@ -14,21 +14,21 @@ import { createSelector } from "reselect";
 // 	return { id, email, name, document, isLogged };
 // }
 
-const selectLoggedData = createSelector(
-	(state: RootState) => state.user.user.id,
-	(state: RootState) => state.user.user.email,
-	(state: RootState) => state.user.user.name,
-	(state: RootState) => state.user.user.document,
-	(state: RootState) => state.user.user.isLogged,
-	(id, email, name, document, isLogged) => ({
-		id,
-		email,
-		name,
-		document,
-		isLogged,
-	})
-);
+// const selectLoggedData = createSelector(
+// 	(state: RootState) => state.user.user.id,
+// 	(state: RootState) => state.user.user.email,
+// 	(state: RootState) => state.user.user.name,
+// 	(state: RootState) => state.user.user.document,
+// 	(state: RootState) => state.user.user.isLogged,
+// 	(id, email, name, document, isLogged) => ({
+// 		id,
+// 		email,
+// 		name,
+// 		document,
+// 		isLogged,
+// 	})
+// );
 
-const selectUser = (state: { user: { user: any } }) => state.user.user;
+// const selectUser = (state: { user: { user: any } }) => state.user.user;
 
-export { selectLoggedData, selectUser };
+// export { selectLoggedData, selectUser };

@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import React, { forwardRef, useMemo } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
-export default function TextInput(props: TextInputProps) {
+export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(props, ref) {
 	const {
 		icon,
 		iconright,
@@ -31,6 +31,7 @@ export default function TextInput(props: TextInputProps) {
 			)}
 			<div className="relative">
 				<input
+					ref={ref}
 					id={name}
 					className={`
 						disabled:text-gray-400
@@ -64,6 +65,7 @@ export default function TextInput(props: TextInputProps) {
 				)}
 				{iconright && (
 					<button
+						type="button"
 						onClick={onIconClick}
 						className="h-full absolute right-0 top-0 w-10 grid place-content-center"
 					>
@@ -87,7 +89,7 @@ export default function TextInput(props: TextInputProps) {
 			</span>
 		</div>
 	);
-}
+});
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	icon?: string;

@@ -9,7 +9,7 @@ export default function Topbar() {
 			<div className="flex gap-2 items-center">
 				<div className="w-12 h-12 rounded-full bg-gray-100"/>
 				<span>
-					Hola, <span className="text-primary font-semibold">{auth.user?.name}</span>
+					Hola, <span className="text-primary font-semibold">{auth.user?.firstname}</span>
 				</span>
 			</div>
 			<span>
