@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
-export default function TextInput(props: TextInputProps) {
+export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(props, ref) {
 	const {
 		icon,
 		iconright,
@@ -15,14 +15,22 @@ export default function TextInput(props: TextInputProps) {
 		success,
 		type,
 		require,
-		...inputProps
 	} = props;
 	const theme = useTheme();
 	const [inputType, setInputType] = useState(type);
 
 	const toggleShowPassword = () => {
-		setInputType((prevType) => (prevType === "password" ? "text" : "password"));
+		setInputType((prevType) => (prevType === "password" ? type : "password"));
 	};
+
+	const inputProps = useMemo(() => {
+		const copy = {...props};
+		const nonInputProps = ["icon", "iconRight", "iconColor", "iconColorRight", "label", "helperText", "error", "success"] as Array<keyof typeof props>;
+		for (const prop of nonInputProps) {
+			delete copy[prop];
+		}
+		return copy;
+	}, [props]);
 
 	return (
 		<div>
@@ -34,6 +42,7 @@ export default function TextInput(props: TextInputProps) {
 			)}
 			<div className="relative">
 				<input
+					ref={ref}
 					type={inputType}
 					id={name}
 					className={`
@@ -105,7 +114,7 @@ export default function TextInput(props: TextInputProps) {
 			</span>
 		</div>
 	);
-}
+});
 
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	icon?: string;

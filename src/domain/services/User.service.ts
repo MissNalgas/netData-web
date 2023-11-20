@@ -1,7 +1,5 @@
-import { IUser } from "domain/models/User";
-import { userRepository } from "infrastructure/api/repositories/user/user.repository";
+import { IUser } from "@domain/models";
 
-export const UserDataService = {
-	getUserDataService: (id: number): Promise<IUser> =>
-		userRepository.getDataUserRepository(id),
-};
+export interface IUserService {
+	getUser(_email: string, _password: string): Promise<IUser>;
+}

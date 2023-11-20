@@ -9,13 +9,14 @@ import {
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
 import { useSideModal } from "@shared/components/sideModal";
-interface ILogin {
+
+export interface ILogin {
 	email: string;
 	password: string;
 }
 
-export default function LoginForm({ onSubmit }: LoginFormProps) {
-	const { handleSubmit } = useForm<ILogin>({
+export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
+	const { handleSubmit, register } = useForm<ILogin>({
 		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
@@ -39,10 +40,10 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
-				name="email"
 				label="Correo corporativo"
 				placeholder="correo@example.com"
 				icon="account"
+				{...register("email")}
 			/>
 			<div className="flex justify-between my-2">
 				<label className="text-sm">Contraseña</label>
@@ -54,13 +55,13 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 				</label>
 			</div>
 			<TextInput
-				name="password"
 				placeholder="Ingresa tu contraseña"
-				icon="account"
+				icon="lock-key"
 				iconright="eye"
 				type="password"
+				{...register("password")}
 			/>
-			<PrimaryButton type="submit" className="w-full">
+			<PrimaryButton disabled={disableSubmit} type="submit" className="w-full">
 				Iniciar sesión
 			</PrimaryButton>
 			<SecondaryButton onClick={show} type="button" className="w-full">
@@ -72,4 +73,5 @@ export default function LoginForm({ onSubmit }: LoginFormProps) {
 
 interface LoginFormProps {
 	onSubmit: (_data: ILogin) => void;
+	disableSubmit?: boolean;
 }
