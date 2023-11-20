@@ -8,6 +8,7 @@ import {
 	PrimaryButton,
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
+
 export interface ILogin {
 	email: string;
 	password: string;

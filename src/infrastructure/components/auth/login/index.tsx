@@ -20,8 +20,8 @@ const LoginComponent: React.FC = () => {
 
 	return (
 		<ContentForm>
-			<TitleCustom center>¡Bienvenido a Sentria!</TitleCustom>
-			<SecondTitleCustom center>
+			<TitleCustom $center>¡Bienvenido a Sentria!</TitleCustom>
+			<SecondTitleCustom $center>
 				Inicia sesión para mantenerte al tanto de tus reportes
 			</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />

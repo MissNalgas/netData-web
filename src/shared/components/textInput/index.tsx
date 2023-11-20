@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useMemo, useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
 
@@ -15,14 +15,22 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 		success,
 		type,
 		require,
-		...inputProps
 	} = props;
 	const theme = useTheme();
 	const [inputType, setInputType] = useState(type);
 
 	const toggleShowPassword = () => {
-		setInputType((prevType) => (prevType === "password" ? "text" : "password"));
+		setInputType((prevType) => (prevType === "password" ? type : "password"));
 	};
+
+	const inputProps = useMemo(() => {
+		const copy = {...props};
+		const nonInputProps = ["icon", "iconRight", "iconColor", "iconColorRight", "label", "helperText", "error", "success"] as Array<keyof typeof props>;
+		for (const prop of nonInputProps) {
+			delete copy[prop];
+		}
+		return copy;
+	}, [props]);
 
 	return (
 		<div>
