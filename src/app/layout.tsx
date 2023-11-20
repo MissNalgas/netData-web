@@ -9,6 +9,7 @@ import { ThemeProvider } from "styled-components";
 import theme from "theme";
 import { store, persisted } from "infrastructure/store";
 import { AuthProvider } from "@infrastructure/containers/auth";
+import { SideModalProvider } from "@shared/components/sideModal";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
@@ -19,7 +20,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persisted}>
 						<ThemeProvider theme={theme}>
-							<AuthProvider>{children}</AuthProvider>
+							<AuthProvider>
+								<SideModalProvider>
+									{children}
+								</SideModalProvider>
+							</AuthProvider>
 						</ThemeProvider>
 					</PersistGate>
 				</Provider>

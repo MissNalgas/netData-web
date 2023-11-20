@@ -6,10 +6,10 @@ const initialState: AppState = {
 		name: "",
 		document: 0,
 		email: "",
-		isLogged: false
+		isLogged: false,
 	},
 	pending: false,
-	error: false
+	error: false,
 };
 
 export default initialState;
