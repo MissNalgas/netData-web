@@ -20,7 +20,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 	const [inputType, setInputType] = useState(type);
 
 	const toggleShowPassword = () => {
-		setInputType((prevType) => (prevType === "password" ? type : "password"));
+		setInputType((prevType) => (prevType === "password" ? "text" : "password"));
 	};
 
 	const inputProps = useMemo(() => {

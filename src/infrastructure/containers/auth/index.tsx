@@ -6,6 +6,7 @@ import { getDataUser, resetState } from "@infrastructure/store/user/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { PUBLIC_ROUTES } from "./consts";
 import { isValidToken } from "@shared/utils";
+import "shared/utils/firebase";
 
 const AuthContext = createContext<IUserContext>({
 	user: undefined,
