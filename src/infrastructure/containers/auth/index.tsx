@@ -5,10 +5,11 @@ import { useAppDispatch } from "@hooks/use-dispatch";
 import { getDataUser, resetState } from "@infrastructure/store/user/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { PUBLIC_ROUTES } from "./consts";
+import { isValidToken } from "@shared/utils";
 
 const AuthContext = createContext<IUserContext>({
 	user: undefined,
-	login() {},
+	async login(_email: string, _password: string) {},
 	logOut() {},
 });
 
@@ -22,8 +23,11 @@ export function AuthProvider({children}: AuthProviderProps) {
 	const dispatch = useAppDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 
-	const login = useCallback(() => {
-		dispatch(getDataUser(0));
+	const login = useCallback(async (email: string, password: string) => {
+		await dispatch(getDataUser({
+			email,
+			password,
+		})).unwrap();
 	}, [dispatch]);
 
 	const logOut = useCallback(() => {
@@ -38,11 +42,11 @@ export function AuthProvider({children}: AuthProviderProps) {
 
 	useEffect(() => {
 		if (PUBLIC_ROUTES.some(route => new RegExp(route).test(pathname))) {
-            if (user.isLogged) {
+			if (isValidToken(user.token)) {
 				router.replace("/");
 			}
 		} else {
-			if (user.isLogged) {
+			if (isValidToken(user.token)) {
 			} else {
 				router.replace("/login");
 			}

@@ -34,8 +34,8 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 		messages[changeStateAction ?? 1] || "Upss... ha ocurrido un error";
 	return (
 		<ContentForm>
-			<TitleCustom center>{message}</TitleCustom>
-			<SecondTitleCustom center>
+			<TitleCustom $center>{message}</TitleCustom>
+			<SecondTitleCustom $center>
 				{(changeStateAction === 1 &&
 					"Ingresa tu e-mail y te enviaremos un código de verificación para realizar la recuperación de la contraseña.") ||
 					(changeStateAction === 2 &&

@@ -2,14 +2,13 @@ import { AppState } from "infrastructure/store/user/types";
 
 const initialState: AppState = {
 	user: {
-		id: 0,
-		name: "",
-		document: 0,
+		token: "",
+		firstname: "",
 		email: "",
-		isLogged: false
+		lastname: "",
 	},
 	pending: false,
-	error: false
+	error: false,
 };
 
 export default initialState;

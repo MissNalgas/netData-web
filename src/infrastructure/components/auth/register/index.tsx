@@ -37,7 +37,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	return (
 		<ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
 			<div className="m-auto">
-				<TitleOne center>{title}</TitleOne>
+				<TitleOne $center>{title}</TitleOne>
 				{changeStateAction === 1 && (
 					<>
 						<Steps disable={true} />

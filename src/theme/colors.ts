@@ -48,7 +48,7 @@ const colors = {
 	red40: "#B01212",
 	red30: "#D83232",
 	red20: "#FC9595",
-	red10: "#FFEBEB"
+	red10: "#FFEBEB",
 };
 
 export default colors;
