@@ -8,11 +8,14 @@ interface GetDataUserPayload {
 	password: string;
 }
 
-const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>("user/getData", async (payload: GetDataUserPayload) => {
-	const {email, password} = payload;
-	const user = await userRepository.getUser(email, password);
-	return user;
-});
+const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
+	"user/getData",
+	async (payload: GetDataUserPayload) => {
+		const { email, password } = payload;
+		const user = await userRepository.getUser(email, password);
+		return user;
+	}
+);
 
 const resetState = createAsyncThunk("user/cleanData", async (_, {}) => {
 	localStorage.clear();
