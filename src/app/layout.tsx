@@ -11,6 +11,7 @@ import { store, persisted } from "infrastructure/store";
 import { AuthProvider } from "@infrastructure/containers/auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { SideModalProvider } from "@shared/components/sideModal";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
@@ -33,7 +34,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                                 pauseOnHover
                                 theme="light"
                             />
-							<AuthProvider>{children}</AuthProvider>
+							<AuthProvider>
+								<SideModalProvider>
+									{children}
+								</SideModalProvider>
+							</AuthProvider>
 						</ThemeProvider>
 					</PersistGate>
 				</Provider>
