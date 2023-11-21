@@ -8,6 +8,7 @@ import {
 	PrimaryButton,
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
+import { useSideModal } from "@shared/components/sideModal";
 
 export interface ILogin {
 	email: string;
@@ -19,6 +20,22 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
+	const sideModal = useSideModal();
+
+	const show = () => {
+		sideModal.toggle({
+			content: () => (
+				<div>
+					<button onClick={() => sideModal.toggle({})}>close</button>
+					<h1 className="text-xl font-bold text-center">This is an example</h1>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ea.
+					</p>
+
+				</div>
+			),
+		});
+	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -47,7 +64,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 			<PrimaryButton disabled={disableSubmit} type="submit" className="w-full">
 				Iniciar sesión
 			</PrimaryButton>
-			<SecondaryButton type="button" className="w-full">
+			<SecondaryButton onClick={show} type="button" className="w-full">
 				¡Quiero registrarme!
 			</SecondaryButton>
 		</form>
