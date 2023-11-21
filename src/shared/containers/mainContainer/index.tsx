@@ -1,5 +1,7 @@
 import Sidebar from "@shared/components/sidebar";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function MainContainer({children} : MainContainerProps) {
 	return (
@@ -9,6 +11,7 @@ export default function MainContainer({children} : MainContainerProps) {
 			</div>
 			<div className="flex-1 max-h-full overflow-auto">
 				{children}
+                <ToastContainer/>
 			</div>
 		</div>
 	);
