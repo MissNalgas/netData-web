@@ -15,7 +15,7 @@ export default function Home() {
 		<>
 			<Topbar />
 			<div className="flex flex-col items-center justify-center h-full min-h-screen">
-				<div >
+				<div className="flex flex-col gap-2" >
 					<Tabs
 						selectedTab={tab}
 						onChange={setTab}
@@ -23,10 +23,13 @@ export default function Home() {
 					/>
 					{tab}
 					<TicketCard/>
-					<iframe
-						className="w-[600px] max-w-lg h-[540px]"
-						src="/chart/example?height=540"
-					/>
+					<div className="card flex flex-col gap-2 pt-4 px-2 text-2xl font-bold">
+						<h1 className="title">Title</h1>
+						<iframe
+							className="w-[600px] max-w-lg h-[540px]"
+							src="/chart/example?height=540"
+						/>
+					</div>
 					<TextInput
 						name="email"
 						label="Email"
