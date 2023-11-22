@@ -1,5 +1,6 @@
 import { useAuth } from "@infrastructure/containers/auth";
 import Image from "next/image";
+import alarm from "/public/img/alarm_icon.png"
 
 export default function Topbar() {
 	const auth = useAuth();
@@ -16,7 +17,7 @@ export default function Topbar() {
 				Última actualización: <b>10:00 am</b>
 			</span>
 			<div className="w-12 h-12 bg-[#d4c0dd] rounded-full grid place-content-center">
-				<Image src="/alarm_icon.png" alt="Alarm" width={32} height={0}/>
+				<Image src={alarm} alt="Alarm" width={32} height={0}/>
 			</div>
 		</div>
 	);
