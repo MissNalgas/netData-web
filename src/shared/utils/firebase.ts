@@ -1,5 +1,5 @@
 import { VAPID_KEY } from "@shared/constants";
-import { initializeApp } from "firebase/app";
+import { FirebaseApp, initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
@@ -11,16 +11,22 @@ const firebaseConfig = {
 	appId: "1:975597926589:web:4850079f55371b375adfd4",
 };
 
-const app = initializeApp(firebaseConfig);
+let app : FirebaseApp | undefined;
+
+if (typeof window !== "undefined") {
+	app = initializeApp(firebaseConfig);
+
+	const messaging = getMessaging(app);
+
+	onMessage(messaging, (payload) => {
+		/* eslint-disable no-console -- Console.log for testing API keys */
+		console.log("foreground message", { payload });
+	});
+
+	getToken(messaging, { vapidKey: VAPID_KEY }).then((token) =>
+		console.log({ token })
+	);
+
+}
+
 export default app;
-
-const messaging = getMessaging(app);
-
-onMessage(messaging, (payload) => {
-	/* eslint-disable no-console -- Console.log for testing API keys */
-	console.log("foreground message", { payload });
-});
-
-getToken(messaging, { vapidKey: VAPID_KEY }).then((token) =>
-	console.log({ token })
-);
