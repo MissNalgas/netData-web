@@ -32,6 +32,7 @@ export default function Chart({options, loadComponents} : ChartProps) {
 	}, [searchParams]);
 
 	useEffect(() => {
+		if (typeof window === "undefined") return;
 
 		function resize() {
 			chartRef.current?.resize();
