@@ -1,7 +1,7 @@
 export function currentUnix() {
 	return Math.floor(Date.now() / 1000);
 }
-export function isValidToken(token: string) : boolean {
+export function isValidToken(token: string): boolean {
 	if (!token) return false;
 
 	const [, bodyB64] = token.split(".");
@@ -12,7 +12,6 @@ export function isValidToken(token: string) : boolean {
 	} catch (_err) {
 		return false;
 	}
-
 
 	return !!body.exp;
 	// return body.exp <= currentUnix();
