@@ -5,19 +5,22 @@
 	"scripts": {
 		"prepare": "husky install",
 		"dev": "next dev",
-		"build": "next build",
+		"build": "npm run sw && next build",
 		"start": "next start",
 		"lint": "next lint --fix",
 		"commit": "git cz",
 		"pretty": "prettier --write \"src/**/*.{ts,js,scss,css,html,json}\"",
-		"test": "jest --watch"
+		"test": "jest --watch",
+		"sw": "browserify -t [ babelify --presets [ @babel/preset-env ] --global ] sw/index.js -o public/firebase-messaging-sw.js"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.2",
 		"@reduxjs/toolkit": "^1.9.7",
 		"axios": "^1.6.0",
+		"browserify": "^17.0.0",
 		"echarts": "^5.4.3",
 		"facepaint": "^1.2.1",
+		"firebase": "^10.6.0",
 		"icomoon-react": "^3.0.0",
 		"next": "14.0.0",
 		"react": "^18",
@@ -32,6 +35,8 @@
 		"yup": "^1.3.2"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.23.3",
+		"@babel/preset-env": "^7.23.3",
 		"@testing-library/jest-dom": "^6.1.4",
 		"@testing-library/react": "^14.0.0",
 		"@types/facepaint": "^1.2.4",
@@ -39,6 +44,8 @@
 		"@types/react": "^18",
 		"@types/react-dom": "^18",
 		"autoprefixer": "^10.4.16",
+		"babel-preset-es2015": "^6.24.1",
+		"babelify": "^10.0.0",
 		"commitizen": "^4.3.0",
 		"cz-customizable": "^7.0.0",
 		"eslint": "^8",
