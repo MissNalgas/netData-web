@@ -6,7 +6,7 @@ export default function Topbar() {
 	const auth = useAuth();
 
 	return (
-		<div className="w-full h-20 flex justify-between items-center px-2">
+		<div className="w-full h-20 flex justify-between items-center px-2 bg-white">
 			<div className="flex gap-2 items-center">
 				<div className="w-12 h-12 rounded-full bg-gray-100"/>
 				<span>
