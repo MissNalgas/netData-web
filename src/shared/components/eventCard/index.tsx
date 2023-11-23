@@ -19,7 +19,9 @@ export default function EventCard(props: IEventCardProps) {
                     <Photo src={image} alt="event" />
                 </ImageContainer>
                 <BadgeContainer>
-                    {number}
+                    <div className="bg-blue20 rounded-full p-2 px-3">
+                        {number}
+                    </div>
                 </BadgeContainer>
             </Container>
             <TitleCard $weight={theme.fontWeight.bold}>{title}</TitleCard>

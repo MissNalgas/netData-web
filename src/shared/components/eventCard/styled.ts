@@ -24,14 +24,12 @@ export const ImageContainer = styled.div`
 `;
 
 export const BadgeContainer = styled.div.attrs({
-	className: "bg-blue20",
 })`
 	position: absolute;
 	top: 0;
 	right: 0;
 	transform: translate(20%, -40%);
 	border-radius: 50%;
-	padding: 3px;
 `;
 
 export const Photo = styled(Image)``;

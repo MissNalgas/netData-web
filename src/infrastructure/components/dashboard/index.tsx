@@ -1,17 +1,16 @@
 import EventCard from "@shared/components/eventCard";
 import SimpleSlider from "@shared/components/slider";
-import Image from "next/image";
-import Risk from "/public/img/card_risk.png";
 import ContainerBackground from "@shared/components/containerBackground";
-import Icon from "@shared/components/icons";
-import { BodyTwo, CaptionTwo, Overline, SubtitleLink, TitleOne } from "@shared/components/labels/styled";
-import colors from "@theme/colors";
-import { ContainerFlex } from "./styled";
+import { SubtitleLink } from "@shared/components/labels/styled";
 import theme from "@theme/index";
 import on from "/public/img/on_1.png";
 import bomb from "/public/img/bomb_1.png";
 import targetShooting from "/public/img/target_shooting_1.png";
 import binoculars from "/public/img/binoculars_1.png";
+import CardChart from "./cardChart";
+import EventsWeekCard from "./eventsWeekCard";
+import IncidentsCard from "./incidentsCard";
+import SavingMonthCard from "./savingMonthCard";
 
 export default function Dashboard() {
     const allEvents = [{
@@ -54,71 +53,20 @@ export default function Dashboard() {
 	return (
         <>
             <div className="m-8 flex justify-between">
-                <ContainerBackground className="grow">
-                    Gráfica
-                </ContainerBackground>
-                <div className="ml-5">
-                    <ContainerBackground className="flex mb-4 items-center">
-                        <div className="bg-shadow20 rounded-2xl">
-                            <Image
-                                src={Risk}
-                                alt="risk"
-                            />
-                        </div>
-                        <CaptionTwo className="wrap mx-2" $weight={theme.fontWeight.bold}>¡Tienes incidentes potenciales de alto riesgo!</CaptionTwo>
-                        <TitleOne $color={colors.orange50}>3</TitleOne>
-                        <div className="bg-shadow20 rounded-full ml-1">
-                            <Icon
-                                icon="right-arrow"
-                                size={25}
-                            />
-                        </div>
-                    </ContainerBackground>
-                    <ContainerBackground className="my-4">
-                        <ContainerFlex>
-                            <CaptionTwo $weight={theme.fontWeight.bold}>Eventos de ciberseguridad de la semana</CaptionTwo>
-                            <div className="bg-shadow20 rounded-full">
-                                <Icon
-                                    icon="right-arrow"
-                                    size={25}
-                                />
-                            </div>
-                        </ContainerFlex>
-                        <ContainerFlex>
-                            <ContainerFlex>
-                                <div className="w-12 bg-red40 rounded-2xl mr-2"/>
-                                <Overline $weight={theme.fontWeight.bold}>15</Overline>
-                            </ContainerFlex>
-                            <ContainerFlex className="items-center">
-                                <div className="bg-red20 w-4 h-4 rounded-full flex items-center justify-center mr-2"><div className="bg-red rounded-full w-2 h-2"/></div>
-                                <BodyTwo>Abiertos</BodyTwo>
-                            </ContainerFlex>
-                        </ContainerFlex>
-                        <ContainerFlex className="mt-2">
-                            <ContainerFlex>
-                                <div className="w-20 bg-green40 rounded-2xl mr-2"/>
-                                <Overline $weight={theme.fontWeight.bold}>35</Overline>
-                            </ContainerFlex>
-                            <ContainerFlex className="items-center">
-                                <div className="bg-green20 w-4 h-4 rounded-full flex items-center justify-center mr-2"><div className="bg-green40 rounded-full w-2 h-2"/></div>
-                                <BodyTwo>Abiertos</BodyTwo>
-                            </ContainerFlex>
-                        </ContainerFlex>
-                    </ContainerBackground>
-                    <ContainerBackground className="mt-4">
-                        <ContainerFlex>
-                            <CaptionTwo $weight={theme.fontWeight.bold}>Te estás ahorrando en el mes</CaptionTwo>
-                            <div className="bg-shadow20 rounded-full">
-                                <Icon
-                                    icon="right-arrow"
-                                    size={25}
-                                />
-                            </div>
-                        </ContainerFlex>
-                        <SubtitleLink $color={colors.orange50} $weight={theme.fontWeight.bold}>$8.000 USD</SubtitleLink>
-                    </ContainerBackground>
+                {/* Chart card */}
+                <div className="grow basis-2/3">
+                    <CardChart/>
+                </div>
+                <div className="flex ml-5 basis-1/3 flex-col justify-between">
+                    {/* Incidents card */}
+                    <IncidentsCard/>
+                    {/* Events week card*/}
+                    <EventsWeekCard/>
+                    {/* Saving month card*/}
+                    <SavingMonthCard/>
                 </div>
             </div>
+            {/* Category events */}
             <ContainerBackground className="mx-5">
                 <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">Eventos de ciber seguridad por categoría</SubtitleLink>
                 <SimpleSlider slides={SlideInfo}/>
