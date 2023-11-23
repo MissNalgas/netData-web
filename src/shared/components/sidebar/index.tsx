@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useMemo } from "react";
 import SideButton, { ISideButton } from "./sideButton";
 import { useAuth } from "@infrastructure/containers/auth";
+import Icon from "../icons";
 
 export default function Sidebar() {
 
@@ -11,22 +12,22 @@ export default function Sidebar() {
 	const buttons = useMemo(() => ([
 		{
 			label: "Dashboard",
-			icon: () => <i>i</i>,
+			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
 			onClick: () => alert("dashboard"),
 		},
 		{
 			label: "Heatmap",
-			icon: () => <i>i</i>,
+			icon: () => <Icon icon="temperature" size={24} color="white"/>,
 			onClick: () => alert("Heatmap"),
 		},
 		{
 			label: "Eventos",
-			icon: () => <i>i</i>,
+			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
 			onClick: () => alert("eventos"),
 		},
 		{
 			label: "Notificaciones",
-			icon: () => <i>i</i>,
+			icon: () => <Icon icon="Bell" size={24} color="white"/>,
 			onClick: () => alert("Notificaciones"),
 		},
 	] as ISideButton[]), []);
@@ -34,12 +35,12 @@ export default function Sidebar() {
 	const bottomButtons = useMemo(() => ([
 		{
 			label: "Guía de ayuda",
-			icon: () => <i>i</i>,
+			icon: () => <Icon icon="info-circle" size={24} color="white"/>,
 			onClick: () => alert("ayuda"),
 		},
 		{
 			label: "Mensaje de Sentria",
-			icon: () => <i>i</i>,
+			icon: () => <Icon icon="Paper-Plane" size={24} color="white"/>,
 			onClick: () => alert("mensaje"),
 		},
 	]), []);
@@ -60,7 +61,7 @@ export default function Sidebar() {
 			<hr className="my-4 mx-6"/>
 			<SideButton
 				label="Cerrar sesión"
-				icon={() => <i>i</i>}
+				icon={() => <Icon icon="Logout" size={24} color="white"/>}
 				onClick={() => logOut()}
 			/>
 		</div>

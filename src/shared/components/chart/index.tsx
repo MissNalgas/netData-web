@@ -27,7 +27,7 @@ export default function Chart({options, loadComponents} : ChartProps) {
 	}, [height, loadComponents, options]);
 
 	useEffect(() => {
-		const heightParam = Number(searchParams.get("height")) || 400;
+		const heightParam = Number(searchParams.get("height")) || 300;
 		setHeight(heightParam);
 	}, [searchParams]);
 
