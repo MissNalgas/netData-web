@@ -27,7 +27,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 		const copy = {...props};
 		const nonInputProps = ["icon", "iconRight", "iconColor", "iconColorRight", "label", "helperText", "error", "success"] as Array<keyof typeof props>;
 
-		//If the type is password we use the state instead
+		//If the type is password we use the local state instead
 		if (type === "password") {
 			nonInputProps.push("type");
 		}

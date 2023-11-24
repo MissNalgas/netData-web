@@ -23,8 +23,7 @@ export const ImageContainer = styled.div`
 	overflow: hidden;
 `;
 
-export const BadgeContainer = styled.div.attrs({
-})`
+export const BadgeContainer = styled.div.attrs({})`
 	position: absolute;
 	top: 0;
 	right: 0;

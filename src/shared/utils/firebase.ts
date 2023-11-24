@@ -11,22 +11,24 @@ const firebaseConfig = {
 	appId: "1:975597926589:web:4850079f55371b375adfd4",
 };
 
-let app : FirebaseApp | undefined;
+let app: FirebaseApp | undefined;
 
 if (typeof window !== "undefined") {
-	app = initializeApp(firebaseConfig);
+	try {
+		app = initializeApp(firebaseConfig);
 
-	const messaging = getMessaging(app);
+		const messaging = getMessaging(app);
 
-	onMessage(messaging, (payload) => {
-		/* eslint-disable no-console -- Console.log for testing API keys */
-		console.log("foreground message", { payload });
-	});
+		onMessage(messaging, (payload) => {
+			/* eslint-disable no-console -- Console.log for testing API keys */
+			console.log("foreground message", { payload });
+		});
 
-	getToken(messaging, { vapidKey: VAPID_KEY }).then((token) =>
-		console.log({ token })
-	);
-
+		getToken(messaging, { vapidKey: VAPID_KEY }).then((token) =>
+			console.log({ token })
+		);
+	} catch(err) {
+	}
 }
 
 export default app;
