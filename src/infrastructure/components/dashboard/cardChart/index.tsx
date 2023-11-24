@@ -14,25 +14,25 @@ export default function CardChart() {
         internalColor: "bg-green40",
         externalColor: "bg-green20",
         border: "border-green40",
-        color: colors.green40
+        color: colors.green40,
     }, {
         state: "Medio",
         internalColor: "bg-purple50",
         externalColor: "bg-purple20",
         border: "border-purple50",
-        color: colors.purple50
+        color: colors.purple50,
     }, {
         state: "Alto",
         internalColor: "bg-orange50",
         externalColor: "bg-orange20",
         border: "border-orange50",
-        color: colors.orange50
+        color: colors.orange50,
     }, {
         state: "Urgente",
         internalColor: "bg-red40",
         externalColor: "bg-red20",
         border: "border-red40",
-        color: colors.red40
+        color: colors.red40,
     }];
 
     return (

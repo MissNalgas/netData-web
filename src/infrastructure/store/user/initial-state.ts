@@ -5,10 +5,10 @@ const initialState: AppState = {
 		token: "",
 		firstname: "",
 		email: "",
-		lastname: "",
+		lastname: ""
 	},
 	pending: false,
-	error: false,
+	error: false
 };
 
 export default initialState;

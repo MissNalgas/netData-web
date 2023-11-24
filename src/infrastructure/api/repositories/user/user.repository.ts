@@ -18,7 +18,7 @@ class UserRepository implements IUserService {
 		const registerTokenResponse = await axios.post<IXelcoInscriptionDTO>(
 			"/api/xelco/inscription",
 			{
-				token: messagingToken,
+				token: messagingToken
 			}
 		);
 		const xelcoToken = registerTokenResponse.data.response;
@@ -28,7 +28,7 @@ class UserRepository implements IUserService {
 		const loginResponse = await axios.post<IXelcoLoginDTO>("/api/auth/login", {
 			token: xelcoToken,
 			mail: email,
-			password,
+			password
 		});
 
 		return LoginAdapter.userFromDTO(loginResponse.data);

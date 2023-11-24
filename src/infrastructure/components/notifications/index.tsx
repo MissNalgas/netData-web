@@ -37,7 +37,7 @@ export default function NotificationsComponent() {
                     textLeft="¡Alerta! manejas un nivel de riesgo de urgente revisión"
                 />
             </ContainerBackground>
-          
+
             <ContainerBackground className="flex items-center flex-col">
             <Tabs
 					selectedTab={tab}

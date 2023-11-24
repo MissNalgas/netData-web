@@ -7,7 +7,7 @@ export class LoginAdapter {
 			email: xelcoLogin.idToken?.payload?.email || "",
 			firstname: xelcoLogin.idToken?.payload?.["custom:name"] || "",
 			lastname: xelcoLogin.idToken?.payload?.["custom:last_name"] || "",
-			token: xelcoLogin.idToken?.jwtToken || "",
+			token: xelcoLogin.idToken?.jwtToken || ""
 		};
 	}
 }

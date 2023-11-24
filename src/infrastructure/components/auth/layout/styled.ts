@@ -8,7 +8,7 @@ const LayoutContainer = styled.div`
 	justify-content: center;
 	${() =>
 		mq({
-			flexDirection: ["column", "column", "row", "row", "row"],
+			flexDirection: ["column", "column", "row", "row", "row"]
 		})}
 `;
 
@@ -29,7 +29,7 @@ const ContentHeaderLogo = styled.div`
 			justifyContent: ["center", "center"],
 			alignItems: ["center", "center"],
 			alignSelf: ["center", "center"],
-			background: [`center center no-repeat ${theme.colors.orange50}`],
+			background: [`center center no-repeat ${theme.colors.orange50}`]
 		})}
 `;
 
@@ -40,7 +40,7 @@ const LayoutContainerRight = styled.div`
 	background: ${({ theme }) => theme.colors.orange} center center no-repeat;
 	${() =>
 		mq({
-			display: ["none", "none", "flex", "flex", "flex"],
+			display: ["none", "none", "flex", "flex", "flex"]
 		})}
 `;
 
@@ -48,5 +48,5 @@ export {
 	LayoutContainer,
 	LayoutContainerLeft,
 	LayoutContainerRight,
-	ContentHeaderLogo,
+	ContentHeaderLogo
 };
