@@ -15,7 +15,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 		success,
 		type,
 		require,
-	} = props;
+		} = props;
 	const theme = useTheme();
 	const [inputType, setInputType] = useState(type);
 
@@ -26,11 +26,17 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 	const inputProps = useMemo(() => {
 		const copy = {...props};
 		const nonInputProps = ["icon", "iconRight", "iconColor", "iconColorRight", "label", "helperText", "error", "success"] as Array<keyof typeof props>;
+
+		//If the type is password we use the state instead
+		if (type === "password") {
+			nonInputProps.push("type");
+		}
+
 		for (const prop of nonInputProps) {
 			delete copy[prop];
 		}
 		return copy;
-	}, [props]);
+	}, [props, type]);
 
 	return (
 		<div>
@@ -54,15 +60,15 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 						z-10
 						px-2
 						w-full
-                        mt-1
+						mt-1
 						${icon ? "pl-12" : ""}
 						${iconright ? "pr-12" : ""}
 						${
-							error
-								? "outline outline-1 outline-red-500 focus:outline-red-500"
-								: success
-								? "outline outline-1 outline-green-500 focus:outline-green-500"
-								: ""
+						error
+						? "outline outline-1 outline-red-500 focus:outline-red-500"
+						: success
+						? "outline outline-1 outline-green-500 focus:outline-green-500"
+						: ""
 						}
 					`}
 					{...inputProps}
@@ -90,8 +96,8 @@ export default forwardRef<HTMLInputElement, TextInputProps>(function TextInput(p
 						{iconright && (
 							<div
 								onClick={toggleShowPassword}
-								className="h-full absolute right-0 top-0 w-10 grid place-content-center"
-							>
+								className="h-full absolute right-0 top-0 w-10 grid place-content-center cursor-pointer"
+								>
 								<Icon
 									icon={iconright}
 									size={20}

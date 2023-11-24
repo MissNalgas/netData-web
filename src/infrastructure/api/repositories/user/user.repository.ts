@@ -5,15 +5,23 @@ import { createAxios } from "@infrastructure/api/http/axios";
 import { IXelcoInscriptionDTO, IXelcoLoginDTO } from "@infrastructure/model";
 import { VAPID_KEY } from "@shared/constants";
 import firebaseApp from "@shared/utils/firebase";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, isSupported } from "firebase/messaging";
 
 class UserRepository implements IUserService {
 	async getUser(email: string, password: string): Promise<IUser> {
 		const axios = await createAxios();
 
-		const messaging = getMessaging(firebaseApp);
+		const isMessagingSupported = await isSupported();
 
-		const messagingToken = await getToken(messaging, { vapidKey: VAPID_KEY });
+		/* If the browser does not support push notifications we send a garbage token
+		 * This because the token is required in the current login implementation
+		 */
+		let messagingToken = "placeholder";
+
+		if (isMessagingSupported) {
+			const messaging = getMessaging(firebaseApp);
+			messagingToken = await getToken(messaging, { vapidKey: VAPID_KEY });
+		}
 
 		const registerTokenResponse = await axios.post<IXelcoInscriptionDTO>(
 			"/api/xelco/inscription",
