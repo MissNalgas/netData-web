@@ -3,9 +3,11 @@ import Image from "next/image";
 import { useMemo } from "react";
 import SideButton, { ISideButton } from "./sideButton";
 import { useAuth } from "@infrastructure/containers/auth";
+import { useRouter } from "next/navigation";
 import Icon from "../icons";
 
 export default function Sidebar() {
+    const router = useRouter();
 
 	const {logOut} = useAuth();
 
@@ -13,7 +15,7 @@ export default function Sidebar() {
 		{
 			label: "Dashboard",
 			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
-			onClick: () => alert("dashboard"),
+			onClick: () => router.push("/"),
 		},
 		{
 			label: "Heatmap",
@@ -28,9 +30,9 @@ export default function Sidebar() {
 		{
 			label: "Notificaciones",
 			icon: () => <Icon icon="Bell" size={24} color="white"/>,
-			onClick: () => alert("Notificaciones"),
+			onClick: () => router.push("notifications"),
 		},
-	] as ISideButton[]), []);
+	] as ISideButton[]), [router]);
 
 	const bottomButtons = useMemo(() => ([
 		{
