@@ -33,11 +33,14 @@ class UserRepository implements IUserService {
 		if (!xelcoToken)
 			throw new Error("Xelco inscription did not return a valid token");
 
-		const loginResponse = await axios.post<IXelcoLoginDTO>("/api/auth/login", {
-			token: xelcoToken,
-			mail: email,
-			password,
-		});
+		const loginResponse = await axios.post<IXelcoLoginDTO>(
+			"/api/auth/login",
+			{
+				token: xelcoToken,
+				mail: email,
+				password,
+			}
+		);
 
 		return LoginAdapter.userFromDTO(loginResponse.data);
 	}
