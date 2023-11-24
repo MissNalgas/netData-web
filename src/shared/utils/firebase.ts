@@ -11,7 +11,7 @@ const firebaseConfig = {
 	appId: "1:975597926589:web:4850079f55371b375adfd4",
 };
 
-let app : FirebaseApp | undefined;
+let app: FirebaseApp | undefined;
 
 if (typeof window !== "undefined") {
 	app = initializeApp(firebaseConfig);
@@ -26,7 +26,6 @@ if (typeof window !== "undefined") {
 	getToken(messaging, { vapidKey: VAPID_KEY }).then((token) =>
 		console.log({ token })
 	);
-
 }
 
 export default app;
