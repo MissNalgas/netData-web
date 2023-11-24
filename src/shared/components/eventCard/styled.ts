@@ -12,7 +12,7 @@ export const DescriptionCard = styled(BodyTwo)`
 `;
 
 export const Container = styled.div.attrs({
-	className: "bg-shadow20 rounded-xl flex justify-center mt-4 py-3"
+	className: "bg-shadow20 rounded-xl flex justify-center mt-4 py-3",
 })`
 	position: relative;
 	min-height: 50%;

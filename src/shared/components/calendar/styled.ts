@@ -2,7 +2,7 @@ import colors from "@theme/colors";
 import styled from "styled-components";
 
 export const CalendarContainer = styled.div.attrs({
-	className: "bg-shadow20 rounded-lg"
+	className: "bg-shadow20 rounded-lg",
 })`
 	/* ~~~ container styles ~~~ */
 	margin: auto;

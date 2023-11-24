@@ -38,6 +38,6 @@ const validationPassword = yup.object().shape({
 		.matches(/[a-z]/, "Al menos una minúscula")
 		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
 		.matches(/[0-9]/, "Al menos un número")
-		.oneOf([yup.ref("password")], "Contraseña no es la misma")
+		.oneOf([yup.ref("password")], "Contraseña no es la misma"),
 });
 export { charactersOnlyEmail, numbersOnly, validationPassword };

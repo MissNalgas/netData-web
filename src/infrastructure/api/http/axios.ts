@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function createAxios() {
 	const instance = axios.create({
-		baseURL: API_URL
+		baseURL: API_URL,
 	});
 
 	return instance;

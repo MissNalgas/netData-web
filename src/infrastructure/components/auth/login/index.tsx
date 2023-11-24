@@ -5,6 +5,7 @@ import { LoginForm } from "@infrastructure/containers";
 import { ContentForm, SecondTitleCustom, TitleCustom } from "./styled";
 import { useAuth } from "@infrastructure/containers/auth";
 import { ILogin } from "@infrastructure/containers/forms/login";
+import LoaderComponent from "@shared/components/loader";
 
 const LoginComponent: React.FC = () => {
 	const {login} = useAuth();
@@ -25,6 +26,11 @@ const LoginComponent: React.FC = () => {
 				Inicia sesión para mantenerte al tanto de tus reportes
 			</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
+			{isLoading && (
+				<div className="fixed top-0 left-0 w-full bg-white">
+					<LoaderComponent/>
+				</div>
+			)}
 		</ContentForm>
 	);
 };

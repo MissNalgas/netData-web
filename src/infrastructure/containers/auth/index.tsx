@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { PUBLIC_ROUTES } from "./consts";
 import { isValidToken } from "@shared/utils";
 import "shared/utils/firebase";
+import LoaderComponent from "@shared/components/loader";
 
 const AuthContext = createContext<IUserContext>({
 	user: undefined,
@@ -57,7 +58,7 @@ export function AuthProvider({children}: AuthProviderProps) {
 		}, 100);
 	}, [pathname, user, router]);
 
-	if (isLoading) return <div className="h-screen w-full grid place-content-center">loading...</div>
+	if (isLoading) return <div className="fixed top-0 left-0 w-full h-full bg-white"><LoaderComponent/></div>
 
 	return (
 		<AuthContext.Provider value={contextValue}>
