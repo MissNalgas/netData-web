@@ -4,8 +4,14 @@ import { CaptionTwo, Overline } from "@shared/components/labels/styled";
 import theme from "@theme/index";
 import Fire from "/public/img/fire_1.png";
 import Alarm from "/public/img/alarm_icon.png";
+import Tabs from "@shared/components/tabs";
+import { useState } from "react";
+
+const TABS = ["Incidentes de hoy", "Incidentes de ayer"] as const;
 
 export default function NotificationsComponent() {
+    const [tab, setTab] = useState<typeof TABS[number]>(TABS[0]);
+
     return (
         <div className="flex space-between mx-5 py-8 h-screen mb-32">
             <ContainerBackground className="grow justify-center mr-8">
@@ -31,7 +37,14 @@ export default function NotificationsComponent() {
                     textLeft="¡Alerta! manejas un nivel de riesgo de urgente revisión"
                 />
             </ContainerBackground>
-            <ContainerBackground className="flex items-center">
+          
+            <ContainerBackground className="flex items-center flex-col">
+            <Tabs
+					selectedTab={tab}
+					onChange={setTab}
+					tabs={TABS}
+				/>
+				{tab}
                 <Overline $weight={theme.fontWeight.bold}>¡No hay ningún ticket seleccionado!</Overline>
             </ContainerBackground>
         </div>
