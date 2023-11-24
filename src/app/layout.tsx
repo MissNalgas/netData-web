@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";

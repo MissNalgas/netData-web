@@ -32,7 +32,7 @@ export default function Sidebar() {
 			icon: () => <Icon icon="Bell" size={24} color="white"/>,
 			onClick: () => router.push("notifications"),
 		},
-	] as ISideButton[]), []);
+	] as ISideButton[]), [router]);
 
 	const bottomButtons = useMemo(() => ([
 		{
