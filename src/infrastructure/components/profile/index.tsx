@@ -52,11 +52,7 @@ export default function ProfileComponent() {
 						</div>
 						<div>
 							<span className="text-primary font-semibold">
-								<Icon
-									icon="office-building"
-									size={24}
-									color={theme.colors.orange50}
-								/>
+								<Icon icon="office-building1" size={24} />
 							</span>
 							<CaptionOne className="text-primary" $weight={600}>
 								Redeban
