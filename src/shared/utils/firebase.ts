@@ -27,8 +27,7 @@ if (typeof window !== "undefined") {
 		getToken(messaging, { vapidKey: VAPID_KEY }).then((token) =>
 			console.log({ token })
 		);
-	} catch(err) {
-	}
+	} catch (err) {}
 }
 
 export default app;
