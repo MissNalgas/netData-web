@@ -14,6 +14,7 @@
 		"sw": "browserify -t [ babelify --presets [ @babel/preset-env ] --global ] sw/index.js -o public/firebase-messaging-sw.js"
 	},
 	"dependencies": {
+		"@floating-ui/react": "^0.26.3",
 		"@hookform/resolvers": "^3.3.2",
 		"@reduxjs/toolkit": "^1.9.7",
 		"axios": "^1.6.0",
