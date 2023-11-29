@@ -71,7 +71,6 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							id={name}
 							style={{ resize: "none" }}
 							className={`
-						
 					border borde-gray-100
 					rounded-lg
 					${height ? ` ${height}` : "h-10"}

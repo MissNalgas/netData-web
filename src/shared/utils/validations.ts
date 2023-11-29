@@ -40,4 +40,14 @@ const validationPassword = yup.object().shape({
 		.matches(/[0-9]/, "Al menos un número")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma"),
 });
-export { charactersOnlyEmail, numbersOnly, validationPassword };
+
+const affair = yup.string().max(100).required();
+const message = yup.string().max(500).required();
+
+export {
+	charactersOnlyEmail,
+	numbersOnly,
+	validationPassword,
+	affair,
+	message,
+};
