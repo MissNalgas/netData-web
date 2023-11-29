@@ -36,13 +36,16 @@ export default function ProfileComponent() {
 						className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center"
 						onClick={() => sideModal.toggle({})}
 					>
-						<Icon icon="Setting" size={22} />
+						<Icon icon="Cancel" size={22} />
 					</button>
-					<CaptionOne>
-						¿Tienes algún problema con el funcionamiento de la app?
-						envíanos un mensaje y pronto nos pondremos en contacto
-						contigo.
-					</CaptionOne>
+					<div className="my-5">
+						<CaptionOne>
+							¿Tienes algún problema con el funcionamiento de la
+							app? envíanos un mensaje y pronto nos pondremos en
+							contacto contigo.
+						</CaptionOne>
+					</div>
+
 					<ChatForm onSubmit={() => console.log()} />
 				</section>
 			),
