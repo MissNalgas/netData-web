@@ -11,11 +11,12 @@ import {
 import { CaptionOne, SubtitleLink } from "@shared/components/labels/styled";
 
 import { useSideModal } from "@shared/components/sideModal";
-
+import Modal from "@shared/components/modal";
 import Logo from "/public/img/logo-sentria.png";
 
 import {
 	ContentBody,
+	ContentCardModalItem,
 	ContentHeader,
 	ContentImage,
 	ContentLogo,
@@ -65,6 +66,66 @@ export default function ProfileComponent() {
 						<div className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center">
 							<Icon icon="Setting" size={22} />
 						</div>
+						<Modal isOpen={true}>
+							<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
+								<div className="flex flex-row items-center justify-start gap-3 ">
+									<Icon
+										icon="Bell"
+										size={24}
+										color={theme.colors.orange50}
+									/>
+									<SubtitleLink $weight={600}>
+										Notificaciones
+									</SubtitleLink>
+								</div>
+
+								<div className="toggle-switch">
+									<input
+										type="checkbox"
+										id="toggle"
+										className="toggle-input"
+									/>
+									<label
+										htmlFor="toggle"
+										className="toggle-label"
+									>
+										<span className="toggle-text-left">
+											On
+										</span>
+										<span className="toggle-thumb"></span>
+										<span className="toggle-text-right">
+											Off
+										</span>
+									</label>
+								</div>
+							</ContentCardModalItem>
+							<ContentCardModalItem className="h-28">
+								<div className="flex flex-row items-center justify-start gap-3 ">
+									<Icon
+										icon="account"
+										size={24}
+										color={theme.colors.orange50}
+									/>
+									<SubtitleLink $weight={600}>
+										Idioma
+									</SubtitleLink>
+								</div>
+								<div className="flex flex-row items-center justify-between gap-2">
+									<PrimaryButton
+										disabled={false}
+										onClick={show}
+									>
+										Español
+									</PrimaryButton>
+									<SecondaryButton
+										disabled={false}
+										onClick={show}
+									>
+										Ingles
+									</SecondaryButton>
+								</div>
+							</ContentCardModalItem>
+						</Modal>
 					</ContentHeader>
 
 					<div className="flex flex-col justify-center items-center gap-y-2 p-10">

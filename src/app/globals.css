@@ -12,3 +12,60 @@
 		@apply text-2xl font-bold text-gray50;
 	}
 }
+/* Estilos básicos del toggle switch */
+.toggle-switch {
+	display: inline-block;
+	position: relative;
+	width: 60px;
+	height: 30px;
+}
+
+.toggle-input {
+	display: none;
+}
+
+.toggle-label {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	cursor: pointer;
+	width: 100%;
+	height: 100%;
+	border: 1px solid #ccc;
+	border-radius: 15px;
+	position: relative;
+	transition: background-color 0.3s;
+}
+
+.toggle-thumb {
+	content: "";
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background-color: white;
+	transition: transform 0.3s;
+}
+
+.toggle-input:checked + .toggle-label .toggle-thumb {
+	transform: translateX(30px);
+}
+
+/* Estilos para el texto */
+.toggle-text-left,
+.toggle-text-right {
+	padding: 0 8px;
+}
+
+/* Opcional: Colores para el switch */
+.toggle-label {
+	background-color: #e4e4e4;
+}
+
+.toggle-input:checked + .toggle-label {
+	background-color: orange;
+	border-color: orange;
+	color: white;
+}
