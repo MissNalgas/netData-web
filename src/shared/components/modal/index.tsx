@@ -9,6 +9,7 @@ interface ModalProps {
 	tooltipStyles?: React.CSSProperties;
 	showPolygon?: boolean;
 	polygonStyle?: React.CSSProperties;
+	typeModal?: "config" | "newPosition";
 }
 
 type position = {
@@ -26,8 +27,8 @@ export default function Modal(props: ModalProps) {
 		tooltipStyles,
 		showPolygon,
 		polygonStyle,
+		typeModal = "config",
 	} = props;
-	console.log("isOpen", isOpen);
 	const modalStyles = isOpen
 		? "fixed inset-0 flex items-center justify-center bg-opacity-50 bg-gray-700 overflow-hidden z-50"
 		: "hidden";
@@ -37,8 +38,6 @@ export default function Modal(props: ModalProps) {
 		right: "0",
 		bottom: "0",
 	});
-
-	const typeModal2 = "config";
 
 	useEffect(() => {
 		const changePosition = (typeModal: string) => {
@@ -51,7 +50,7 @@ export default function Modal(props: ModalProps) {
 					};
 					setModalPosition(buttonPosition);
 					break;
-				case "step1":
+				case "newPosition":
 					buttonPosition = {
 						top: "2%",
 						left: "7%",
@@ -62,9 +61,8 @@ export default function Modal(props: ModalProps) {
 					break;
 			}
 		};
-		changePosition(typeModal2);
-	}, []);
-	console.log("polygonStyle", polygonStyle);
+		changePosition(typeModal);
+	}, [typeModal]);
 	return (
 		<div
 			onClick={onActionModal}
@@ -81,7 +79,6 @@ export default function Modal(props: ModalProps) {
 						position: "absolute",
 						borderRadius: "38px",
 						translate: "transform(50%, 50%)",
-
 						...tooltipStyles,
 					}) || {
 						zIndex: 99999,

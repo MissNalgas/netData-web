@@ -1,6 +1,8 @@
 import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
+import { Overline } from "@shared/components/labels/styled";
+import Icon from "@shared/components/icons";
 
 interface props {
 	visible: boolean;
@@ -10,23 +12,13 @@ const ElevenTooltip = ({ visible }: props) => {
 	const styles = {
 		tooltip: {
 			width: "357px",
-			height: "313px",
+			height: "213px",
 			top: "30ch",
 			left: "32ch",
 		},
 		polygonStyles: {
 			left: "1ch",
 			transform: "rotateY(183deg)",
-		},
-		tooltipText: {
-			fontSize: 12,
-			color: "red",
-			marginTop: 17,
-		},
-		alignSelf: { alignSelf: "center" },
-		closeText: {
-			color: "red",
-			fontSize: 12,
 		},
 	};
 	return (
@@ -35,15 +27,14 @@ const ElevenTooltip = ({ visible }: props) => {
 			visible={visible}
 			polygonStyle={styles.polygonStyles}
 		>
-			<>
-				imagen
-				<div>
-					<h1 style={styles.tooltipText}>
-						<h1 style={styles.closeText}>X</h1>
-						hola 8
-					</h1>
-				</div>
-			</>
+			<div className="m-1 w-5/6">
+				<Overline>
+					Presionando el icono de la campana{" "}
+					<Icon icon="Bell" size={20} color="#F99E17" /> accederás a
+					tus notificaciones, función que te notificará cuando un
+					ticket sea realizado.
+				</Overline>
+			</div>
 		</Tooltip>
 	);
 };

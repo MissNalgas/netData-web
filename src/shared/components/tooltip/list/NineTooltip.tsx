@@ -1,6 +1,8 @@
 import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
+import { Overline } from "@shared/components/labels/styled";
+import Icon from "@shared/components/icons";
 
 interface props {
 	visible: boolean;
@@ -10,23 +12,13 @@ const NineTooltip = ({ visible }: props) => {
 	const styles = {
 		tooltip: {
 			width: "357px",
-			height: "313px",
+			height: "270px",
 			top: "18ch",
 			left: "32ch",
 		},
 		polygonStyles: {
 			left: "1ch",
 			transform: "rotateY(183deg)",
-		},
-		tooltipText: {
-			fontSize: 12,
-			color: "red",
-			marginTop: 17,
-		},
-		alignSelf: { alignSelf: "center" },
-		closeText: {
-			color: "red",
-			fontSize: 12,
 		},
 	};
 	return (
@@ -35,15 +27,15 @@ const NineTooltip = ({ visible }: props) => {
 			visible={visible}
 			polygonStyle={styles.polygonStyles}
 		>
-			<>
-				imagen
-				<div>
-					<h1 style={styles.tooltipText}>
-						<h1 style={styles.closeText}>X</h1>
-						hola 8
-					</h1>
-				</div>
-			</>
+			<div className="m-1 w-5/6">
+				<Overline>
+					Presionando el icono del termómetro{" "}
+					<Icon icon="temperature" size={20} color="#F99E17" />{" "}
+					accederás a tu heatmap, función con la cual podrás acceder a
+					cualquier ticket que se haya realizado para tu compañia,
+					podrás encontrar del más reciente al más antiguo.
+				</Overline>
+			</div>
 		</Tooltip>
 	);
 };

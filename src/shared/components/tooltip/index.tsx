@@ -6,6 +6,9 @@ import { hideTooltipModal, setCurrentTooltip } from "./slice";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import { RootState } from "@infrastructure/store";
 import Modal from "@shared/components/modal";
+import Icon from "@shared/components/icons";
+import { Overline } from "@shared/components/labels/styled";
+import { ContentButtonMain } from "./styled";
 
 interface props {
 	visible: boolean;
@@ -22,7 +25,7 @@ const Tooltip = ({
 }: props) => {
 	const styles = {
 		background: {
-			flex: 1,
+			width: "100%",
 		},
 		tooltip: {
 			backgroundColor: "white",
@@ -76,8 +79,8 @@ const Tooltip = ({
 	const renderActions = (): JSX.Element => {
 		if (isLastTooltip) {
 			return (
-				<div style={styles.actionContainer}>
-					<PrimaryButton onClick={() => closeModal()}>
+				<div className="flex flex-row justify-center items-center w-90">
+					<PrimaryButton onClick={() => closeModal()} width={50}>
 						Finalizar guia
 					</PrimaryButton>
 				</div>
@@ -85,12 +88,13 @@ const Tooltip = ({
 		}
 
 		return (
-			<div>
-				<div style={styles.actionContainer}>
+			<>
+				<ContentButtonMain>
 					{!isFirstTooltip && (
 						<>
 							{currentTooltip > 1 ? (
 								<button
+									className="w-9 h-9 bg-shadow20 rounded-full grid place-content-center"
 									onClick={() =>
 										dispatch(
 											setCurrentTooltip(
@@ -98,36 +102,46 @@ const Tooltip = ({
 											)
 										)
 									}
-									style={styles.actionButton}
 								>
-									x
+									<Icon icon="left-arrow" size={30} />
 								</button>
 							) : (
 								<div style={{ width: 35 }} />
 							)}
-							<h4 style={styles.countText}>
+							<Overline $color="#F99E17" $weight={700}>
 								{currentTooltip}/{totalTooltip}
-							</h4>
+							</Overline>
 						</>
 					)}
 					{currentTooltip !== 0 && (
 						<button
+							className="w-9 h-9 bg-shadow20 rounded-full grid place-content-center"
 							onClick={() =>
 								dispatch(setCurrentTooltip(currentTooltip + 1))
 							}
-							style={styles.actionButton}
 						>
-							xsss
+							<Icon icon="right-arrow" size={30} />
 						</button>
+						// <button
+						// 	onClick={() =>
+						// 		dispatch(setCurrentTooltip(currentTooltip + 1))
+						// 	}
+						// 	style={styles.actionButton}
+						// >
+						// 	xsss
+						// </button>
 					)}
-				</div>
-				<button
-					onClick={() => closeModal()}
-					style={styles.actionButton}
-				>
-					Cerrar guia
-				</button>
-			</div>
+				</ContentButtonMain>
+				{currentTooltip !== 0 && (
+					<div className="flex flex-row justify-center py-2">
+						<button onClick={() => closeModal()}>
+							<Overline $color="#F99E17" $weight={600}>
+								Cerrar guía
+							</Overline>
+						</button>
+					</div>
+				)}
+			</>
 		);
 	};
 
@@ -146,7 +160,7 @@ const Tooltip = ({
 			<div style={styles.background}>
 				<div style={(styles.tooltip, tooltipStyles)}>
 					<div>{children}</div>
-					{renderActions()}
+					{currentTooltip !== 0 && renderActions()}
 				</div>
 			</div>
 		</Modal>

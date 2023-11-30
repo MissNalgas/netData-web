@@ -52,7 +52,7 @@ export default function ProfileComponent(): JSX.Element {
 						</CaptionOne>
 					</div>
 
-					<ChatForm onSubmit={() => console.log()} />
+					<ChatForm onSubmit={() => {}} />
 				</section>
 			),
 		});
@@ -75,6 +75,7 @@ export default function ProfileComponent(): JSX.Element {
 							<Icon icon="Setting" size={22} />
 						</button>
 						<Modal
+							typeModal="config"
 							isOpen={isOpen}
 							onActionModal={() => setIsOpen(!isOpen)}
 						>
@@ -107,13 +108,13 @@ export default function ProfileComponent(): JSX.Element {
 								<div className="flex flex-row items-center justify-between gap-2">
 									<PrimaryButton
 										disabled={false}
-										// onClick={() => setIsOpen(false)}
+										onClick={() => setIsOpen(false)}
 									>
 										Español
 									</PrimaryButton>
 									<SecondaryButton
 										disabled={false}
-										// onClick={() => setIsOpen(false)}
+										onClick={() => setIsOpen(false)}
 									>
 										Ingles
 									</SecondaryButton>
