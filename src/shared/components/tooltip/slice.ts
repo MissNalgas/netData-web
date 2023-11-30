@@ -9,7 +9,7 @@ interface TooltipState {
 const tooltipSlice = createSlice({
 	name: "tooltips",
 	initialState: {
-		showTooltip: true,
+		showTooltip: false,
 		currentTooltip: 0,
 		totalTooltip: 12,
 	} as TooltipState,

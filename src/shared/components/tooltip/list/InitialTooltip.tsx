@@ -12,9 +12,10 @@ import {
 	TitleOne,
 	TitleSecond,
 } from "./styled";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { setCurrentTooltip, hideTooltipModal } from "../slice";
 import { RootState } from "@infrastructure/store/reducers";
+import { useAppDispatch } from "@hooks/index";
 
 interface props {
 	visible: boolean;
@@ -27,7 +28,7 @@ const InitialTooltip = ({ visible }: props) => {
 			height: "342px",
 		},
 	};
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 
 	const { currentTooltip } = useSelector(
 		(state: RootState) => state.tooltips

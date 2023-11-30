@@ -26,6 +26,8 @@ import {
 import ChatForm from "@infrastructure/containers/forms/chat";
 import { useState } from "react";
 import Toggle from "@shared/components/toggle";
+import { useAppDispatch } from "@hooks/index";
+import { showTooltipModal } from "@shared/components/tooltip/slice";
 
 export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
@@ -33,6 +35,7 @@ export default function ProfileComponent(): JSX.Element {
 	const router = useRouter();
 	const sideModal = useSideModal();
 	const [isOpen, setIsOpen] = useState(false);
+	const dispatch = useAppDispatch();
 
 	const show = () => {
 		sideModal.toggle({
@@ -145,7 +148,10 @@ export default function ProfileComponent(): JSX.Element {
 					<ContentBody>
 						<PrimaryButton
 							width={30}
-							onClick={() => router.push("/")}
+							onClick={() => {
+								router.push("/");
+								dispatch(showTooltipModal());
+							}}
 						>
 							<div className="flex flex-row gap-5">
 								<Icon

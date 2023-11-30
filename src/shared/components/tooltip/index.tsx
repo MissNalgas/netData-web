@@ -122,14 +122,6 @@ const Tooltip = ({
 						>
 							<Icon icon="right-arrow" size={30} />
 						</button>
-						// <button
-						// 	onClick={() =>
-						// 		dispatch(setCurrentTooltip(currentTooltip + 1))
-						// 	}
-						// 	style={styles.actionButton}
-						// >
-						// 	xsss
-						// </button>
 					)}
 				</ContentButtonMain>
 				{currentTooltip !== 0 && (
