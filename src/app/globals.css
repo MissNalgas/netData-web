@@ -16,8 +16,8 @@
 .toggle-switch {
 	display: inline-block;
 	position: relative;
-	width: 60px;
-	height: 30px;
+	width: 68px;
+	height: 24px;
 }
 
 .toggle-input {
@@ -31,8 +31,8 @@
 	cursor: pointer;
 	width: 100%;
 	height: 100%;
-	border: 1px solid #ccc;
-	border-radius: 15px;
+	border: 1px solid #fdd8a2;
+	border-radius: 16px;
 	position: relative;
 	transition: background-color 0.3s;
 }
@@ -40,12 +40,10 @@
 .toggle-thumb {
 	content: "";
 	position: absolute;
-	top: 2px;
-	left: 2px;
-	width: 26px;
-	height: 26px;
-	border-radius: 50%;
-	background-color: white;
+	width: 34px;
+	height: 24px;
+	border-radius: 16px;
+	background-color: #f99e17;
 	transition: transform 0.3s;
 }
 
@@ -56,16 +54,19 @@
 /* Estilos para el texto */
 .toggle-text-left,
 .toggle-text-right {
-	padding: 0 8px;
+	padding: 0 5px;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 21px;
 }
 
 /* Opcional: Colores para el switch */
 .toggle-label {
-	background-color: #e4e4e4;
+	background-color: #fdd8a2;
 }
 
 .toggle-input:checked + .toggle-label {
-	background-color: orange;
-	border-color: orange;
+	background-color: #f99e17;
+	border-color: #f99e17;
 	color: white;
 }

@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useTheme } from "styled-components";
+import { JSX } from "react";
 
 import { useAuth } from "@infrastructure/containers/auth";
 import Icon from "@shared/components/icons";
@@ -23,12 +24,16 @@ import {
 	ImageProfile,
 } from "./styled";
 import ChatForm from "@infrastructure/containers/forms/chat";
+import { useState } from "react";
+import Toggle from "@shared/components/toggle";
 
-export default function ProfileComponent() {
+export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
 	const theme = useTheme();
 	const router = useRouter();
 	const sideModal = useSideModal();
+	const [isOpen, setIsOpen] = useState(false);
+
 	const show = () => {
 		sideModal.toggle({
 			content: () => (
@@ -63,10 +68,16 @@ export default function ProfileComponent() {
 							</ContentImage>
 						</ContentLogo>
 
-						<div className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center">
+						<button
+							className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center"
+							onClick={() => setIsOpen(!isOpen)}
+						>
 							<Icon icon="Setting" size={22} />
-						</div>
-						<Modal isOpen={true}>
+						</button>
+						<Modal
+							isOpen={isOpen}
+							onActionModal={() => setIsOpen(!isOpen)}
+						>
 							<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
 								<div className="flex flex-row items-center justify-start gap-3 ">
 									<Icon
@@ -77,26 +88,9 @@ export default function ProfileComponent() {
 									<SubtitleLink $weight={600}>
 										Notificaciones
 									</SubtitleLink>
-								</div>
-
-								<div className="toggle-switch">
-									<input
-										type="checkbox"
-										id="toggle"
-										className="toggle-input"
+									<Toggle
+										actionToggle={() => setIsOpen(false)}
 									/>
-									<label
-										htmlFor="toggle"
-										className="toggle-label"
-									>
-										<span className="toggle-text-left">
-											On
-										</span>
-										<span className="toggle-thumb"></span>
-										<span className="toggle-text-right">
-											Off
-										</span>
-									</label>
 								</div>
 							</ContentCardModalItem>
 							<ContentCardModalItem className="h-28">
@@ -113,13 +107,13 @@ export default function ProfileComponent() {
 								<div className="flex flex-row items-center justify-between gap-2">
 									<PrimaryButton
 										disabled={false}
-										onClick={show}
+										// onClick={() => setIsOpen(false)}
 									>
 										Español
 									</PrimaryButton>
 									<SecondaryButton
 										disabled={false}
-										onClick={show}
+										// onClick={() => setIsOpen(false)}
 									>
 										Ingles
 									</SecondaryButton>
