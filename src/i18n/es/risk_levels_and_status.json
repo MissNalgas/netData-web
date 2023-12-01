@@ -1,0 +1,10 @@
+{
+	"low": "Bajo",
+	"medium": "Medio",
+	"high": "Alto",
+	"urgent": "Urgente",
+	"pending": "Pendiente",
+	"in_review": "En revisión",
+	"closed": "Cerrado",
+	"open": "Abierto"
+}

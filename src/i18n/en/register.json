@@ -1,0 +1,10 @@
+{
+	"title_create": "Create a new account",
+	"type_code": "Enter the code sent to your email",
+	"has_code_sent": "Haven't received the code yet?",
+	"send_again_code": "Resend code",
+	"title_success": "You've successfully created your account!",
+	"title_error": "Oops... an error occurred",
+	"description_error_create_account": "It was not possible to create your account. Please try again or contact us!",
+	"description_error_company": "The corporate address entered is not found in Xelco. Please try again and make sure to enter it correctly or contact the service administrator."
+}

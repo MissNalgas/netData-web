@@ -1,0 +1,20 @@
+{
+	"english": "Inglés",
+	"next": "Siguiente",
+	"no_by_them_self": "No, sigo por mi cuenta",
+	"register": "¡Quiero registrarme!",
+	"reset_password": "Reestablecer contraseña",
+	"retry": "Intentar de nuevo",
+	"sign_in": "Iniciar sesión",
+	"spanish": "Español",
+	"start_guide": "Si, iniciar guía",
+	"help_guide": "Guía de ayuda",
+	"notifications": "Notificaciones",
+	"report_problems": "Reportar problemas de la app",
+	"delete_account": "Eliminar cuenta",
+	"send": "Enviar",
+	"end_guide": "Finalizar guía",
+	"no_log_out": "No, cerrar sesión",
+	"yes_still_here": "Sí, aún continuo acá",
+	"apply_filters": "Aplicar filtros"
+}

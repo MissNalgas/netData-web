@@ -1,0 +1,11 @@
+{
+	"company_name": "Company",
+	"confirm_email": "Confirm your corporate email",
+	"confirm_password": "Confirm your password",
+	"first_name": "First name",
+	"names": "Last name",
+	"new_password": "New password",
+	"type_email": "Enter your corporate email",
+	"type_password": "Enter your password",
+	"write_here": "Write here"
+}

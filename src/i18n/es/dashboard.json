@@ -1,0 +1,18 @@
+{
+	"daily_watering_level": "Nivel de riesgo diario",
+	"risk_high_urgent": "¡Tienes incidentes potenciales de alto riesgo!",
+	"no_incidents": "No hay incidentes reportados",
+	"events_of_the_week": "Eventos de ciberseguridad de la semana",
+	"saving_our_services": "Te estás ahorrando en el mes",
+	"event_categories": "Eventos de ciber seguridad por categoría",
+	"execution_event": "Ejecución",
+	"description_execution": "Se está intentando correr código malicioso",
+	"initial_access": "Acceso inicial",
+	"description_initial_access": "Se está intentando entrar a tu network",
+	"exploits_event": "Exploits",
+	"descriptionexploits": "Riesgo de desarrollo de exploits",
+	"restriction_event": "Restricción",
+	"description_restriction": "Acciones preventivas a tomar",
+	"discovery_event": "Descubrimiento",
+	"description_discovery": "Intenta entender tu entorno"
+}
