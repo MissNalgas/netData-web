@@ -9,6 +9,7 @@ type ButtonProps = {
 	borderColor?: string;
 	boxShadow?: string;
 	width?: number;
+	height?: number;
 };
 
 export const PrimaryButton = styled.button<ButtonProps>`
@@ -20,6 +21,7 @@ export const PrimaryButton = styled.button<ButtonProps>`
 	color: ${({ color }) => color ?? colors.white};
 	font-size: ${({ theme }) => theme.fontSize.overline};
 	width: ${({ width }) => width || 100}%;
+	height: ${({ height }) => height || 100}%;
 	align-items: center;
 	justify-content: center;
 	margin: 5px 0 5px;
@@ -46,6 +48,7 @@ export const SecondaryButton = styled.button<ButtonProps>`
 	align-items: center;
 	justify-content: center;
 	width: ${({ width }) => width || 100}%;
+	height: ${({ height }) => height || 100}%;
 	margin: 5px 0 5px;
 	pointer-events: ${(props) => (props.disabled ? "none" : null)};
 	&:hover {
