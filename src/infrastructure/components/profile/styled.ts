@@ -34,4 +34,19 @@ const ContentImage = styled.div`
 
 const ImageProfile = styled(Image)``;
 
-export { ContentHeader, ContentBody, ContentLogo, ImageProfile, ContentImage };
+const ContentCardModalItem = styled.div`
+	width: 312px;
+	background-color: ${({ theme }) => theme.colors.shadow20};
+	margin: 5% 0;
+	padding: 5%;
+	border-radius: 12px;
+`;
+
+export {
+	ContentHeader,
+	ContentBody,
+	ContentLogo,
+	ImageProfile,
+	ContentImage,
+	ContentCardModalItem,
+};

@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useTheme } from "styled-components";
+import { JSX } from "react";
 
 import { useAuth } from "@infrastructure/containers/auth";
 import Icon from "@shared/components/icons";
@@ -11,23 +12,31 @@ import {
 import { CaptionOne, SubtitleLink } from "@shared/components/labels/styled";
 
 import { useSideModal } from "@shared/components/sideModal";
-
+import Modal from "@shared/components/modal";
 import Logo from "/public/img/logo-sentria.png";
 
 import {
 	ContentBody,
+	ContentCardModalItem,
 	ContentHeader,
 	ContentImage,
 	ContentLogo,
 	ImageProfile,
 } from "./styled";
 import ChatForm from "@infrastructure/containers/forms/chat";
+import { useState } from "react";
+import Toggle from "@shared/components/toggle";
+import { useAppDispatch } from "@hooks/index";
+import { showTooltipModal } from "@shared/components/tooltip/slice";
 
-export default function ProfileComponent() {
+export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
 	const theme = useTheme();
 	const router = useRouter();
 	const sideModal = useSideModal();
+	const [isOpen, setIsOpen] = useState(false);
+	const dispatch = useAppDispatch();
+
 	const show = () => {
 		sideModal.toggle({
 			content: () => (
@@ -46,7 +55,7 @@ export default function ProfileComponent() {
 						</CaptionOne>
 					</div>
 
-					<ChatForm onSubmit={() => console.log()} />
+					<ChatForm onSubmit={() => {}} />
 				</section>
 			),
 		});
@@ -62,9 +71,59 @@ export default function ProfileComponent() {
 							</ContentImage>
 						</ContentLogo>
 
-						<div className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center">
+						<button
+							className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center"
+							onClick={() => setIsOpen(!isOpen)}
+						>
 							<Icon icon="Setting" size={22} />
-						</div>
+						</button>
+						<Modal
+							typeModal="config"
+							isOpen={isOpen}
+							onActionModal={() => setIsOpen(!isOpen)}
+						>
+							<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
+								<div className="flex flex-row items-center justify-start gap-3 ">
+									<Icon
+										icon="Bell"
+										size={24}
+										color={theme.colors.orange50}
+									/>
+									<SubtitleLink $weight={600}>
+										Notificaciones
+									</SubtitleLink>
+									<Toggle
+										actionToggle={() => setIsOpen(false)}
+									/>
+								</div>
+							</ContentCardModalItem>
+							<ContentCardModalItem className="h-28">
+								<div className="flex flex-row items-center justify-start gap-3 ">
+									<Icon
+										icon="account"
+										size={24}
+										color={theme.colors.orange50}
+									/>
+									<SubtitleLink $weight={600}>
+										Idioma
+									</SubtitleLink>
+								</div>
+								<div className="flex flex-row items-center justify-between gap-2">
+									<PrimaryButton
+										disabled={false}
+										onClick={() => setIsOpen(false)}
+									>
+										Español
+									</PrimaryButton>
+									<SecondaryButton
+										disabled={false}
+										onClick={() => setIsOpen(false)}
+									>
+										Ingles
+									</SecondaryButton>
+								</div>
+							</ContentCardModalItem>
+						</Modal>
 					</ContentHeader>
 
 					<div className="flex flex-col justify-center items-center gap-y-2 p-10">
@@ -89,7 +148,10 @@ export default function ProfileComponent() {
 					<ContentBody>
 						<PrimaryButton
 							width={30}
-							onClick={() => router.push("/")}
+							onClick={() => {
+								router.push("/");
+								dispatch(showTooltipModal());
+							}}
 						>
 							<div className="flex flex-row gap-5">
 								<Icon
