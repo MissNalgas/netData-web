@@ -29,43 +29,8 @@ const Tooltip = ({
 		},
 		tooltip: {
 			backgroundColor: "white",
-			padding: "20px 25px", // Utilizando la forma abreviada de padding
-			borderRadius: "40px", // Usa cadenas para valores de borde
-		},
-		actionButton: {
-			width: "35px", // Asegúrate de especificar las unidades para valores numéricos
-			height: "35px", // También puedes usar cadenas para valores de tamaño
-			borderRadius: "20px",
-			backgroundColor: "red",
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-		},
-		closeButton: {
-			width: "20px",
-			borderRadius: "15px",
-			justifyContent: "center",
-			alignItems: "center",
-			backgroundColor: "white",
-			position: "absolute",
-			left: "20px",
-		},
-		actionContainer: {
-			marginTop: "20px", // Asegúrate de especificar las unidades para valores numéricos
-			marginBottom: "5px",
-			display: "flex",
-			flexDirection: "row",
-			justifyContent: "space-between",
-			alignItems: "center",
-		},
-		countText: {
-			color: "red",
-			fontSize: "14px", // Especifica las unidades para tamaños de fuente
-			lineHeight: "17px",
-		},
-		buttonFinish: {
-			width: "100%",
-			height: "35px",
+			padding: "20px 25px",
+			borderRadius: "40px",
 		},
 	};
 
