@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 // import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ICodeInput {
 	email: string;
@@ -24,6 +25,7 @@ export default function CodeInputForm({
 		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
+    const { t } = useTranslation("register");
 	const [codePartOne, setCodePartOne] = useState(["", "", ""]);
 	const [codePartTwo, setCodePartTwo] = useState(["", "", ""]);
 
@@ -136,14 +138,14 @@ export default function CodeInputForm({
 				))}
 			</div>
 			<PrimaryButton type="submit" className="w-full">
-				Siguiente
+				{t("next")}
 			</PrimaryButton>
 			<div className="flex justify-center gap-1 my-2">
 				<label className="text-sm" onClick={() => router.push("login")}>
-					¿No has recibido el código aún?
+					{t("has_code_sent")}
 				</label>
 				<label className="text-sm text-primary" onClick={() => {}}>
-					Reenviar código
+					{t("send_again_code")}
 				</label>
 			</div>
 		</form>
