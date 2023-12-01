@@ -6,9 +6,11 @@ import { ContentForm, SecondTitleCustom, TitleCustom } from "./styled";
 import { useAuth } from "@infrastructure/containers/auth";
 import { ILogin } from "@infrastructure/containers/forms/login";
 import LoaderComponent from "@shared/components/loader";
+import { useTranslation } from "react-i18next";
 
 const LoginComponent: React.FC = () => {
 	const {login} = useAuth();
+    const { t } = useTranslation("login");
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleSubmit = (data : ILogin) => {
@@ -21,9 +23,9 @@ const LoginComponent: React.FC = () => {
 
 	return (
 		<ContentForm>
-			<TitleCustom $center>¡Bienvenido a Sentria!</TitleCustom>
+			<TitleCustom $center>{t("welcome_title")}</TitleCustom>
 			<SecondTitleCustom $center>
-				Inicia sesión para mantenerte al tanto de tus reportes
+				{t("subTitle")}
 			</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
 			{isLoading && (

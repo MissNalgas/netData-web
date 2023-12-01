@@ -22,12 +22,14 @@ import {
 	ImageProfile,
 } from "./styled";
 import ChatForm from "@infrastructure/containers/forms/chat";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileComponent() {
 	const auth = useAuth();
 	const theme = useTheme();
 	const router = useRouter();
 	const sideModal = useSideModal();
+    const { t } = useTranslation("profile");
 	const show = () => {
 		sideModal.toggle({
 			content: () => (
@@ -70,7 +72,7 @@ export default function ProfileComponent() {
 					<div className="flex flex-col justify-center items-center gap-y-2 p-10">
 						<div>
 							<SubtitleLink $weight={600}>
-								Hola,
+								{t("greeting")}
 								<span className="text-primary font-semibold">
 									{auth.user?.firstname}
 								</span>
@@ -97,7 +99,7 @@ export default function ProfileComponent() {
 									size={24}
 									color="white"
 								/>
-								Guía de ayuda
+								{t("help_guide")}
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
@@ -106,7 +108,7 @@ export default function ProfileComponent() {
 						>
 							<div className="flex flex-row gap-5">
 								<Icon icon="Bell" size={24} color="white" />
-								Notificaciones
+								{t("notifications")}
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
@@ -120,7 +122,7 @@ export default function ProfileComponent() {
 									size={24}
 									color="white"
 								/>
-								Reportar problemas de la app
+								{t("report")}
 							</div>
 						</PrimaryButton>
 					</ContentBody>
@@ -132,7 +134,7 @@ export default function ProfileComponent() {
 									size={24}
 									color={theme.colors.orange50}
 								/>
-								Eliminar cuenta
+								{t("delete_account")}
 							</div>
 						</SecondaryButton>
 					</div>

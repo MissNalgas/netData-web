@@ -8,7 +8,7 @@ const resources = {
 		login: require("./es/login.json"),
 		buttons: require("./es/buttons.json"),
 		label: require("./es/label.json"),
-		sidebar: require("./es/label.json"),
+		sidebar: require("./es/sidebar.json"),
 		placeholder: require("./es/placeholder.json"),
 		register: require("./es/register.json"),
 		recover_password: require("./es/recover_password.json"),
@@ -20,6 +20,7 @@ const resources = {
 		risk_levels_and_status: require("./es/risk_levels_and_status.json"),
 		events_week: require("./es/events_week.json"),
 		tickets_week: require("./es/tickets_week.json"),
+		profile: require("./es/profile.json"),
 	},
 	en: {
 		welcome: require("./en/welcome.json"),
@@ -27,7 +28,7 @@ const resources = {
 		buttons: require("./en/buttons.json"),
 		label: require("./en/label.json"),
 		placeholder: require("./en/placeholder.json"),
-		sidebar: require("./en/label.json"),
+		sidebar: require("./en/sidebar.json"),
 		register: require("./en/register.json"),
 		recover_password: require("./en/recover_password.json"),
 		guide: require("./en/guide.json"),
@@ -38,6 +39,7 @@ const resources = {
 		risk_levels_and_status: require("./en/risk_levels_and_status.json"),
 		events_week: require("./en/events_week.json"),
 		tickets_week: require("./en/tickets_week.json"),
+		profile: require("./en/profile.json"),
 	},
 };
 
@@ -58,6 +60,7 @@ const namespace: string[] = [
 	"risk_levels_and_status",
 	"events_week",
 	"tickets_week",
+	"profile",
 ];
 
 export const supportedLocales: any = {

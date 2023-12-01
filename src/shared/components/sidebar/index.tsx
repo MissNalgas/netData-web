@@ -5,47 +5,49 @@ import SideButton, { ISideButton } from "./sideButton";
 import { useAuth } from "@infrastructure/containers/auth";
 import { useRouter } from "next/navigation";
 import Icon from "../icons";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
+    const { t } = useTranslation("sidebar");
     const router = useRouter();
 
 	const {logOut} = useAuth();
 
 	const buttons = useMemo(() => ([
 		{
-			label: "Dashboard",
+			label: `${t("dashboard")}`,
 			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
 			onClick: () => router.push("/"),
 		},
 		{
-			label: "Heatmap",
+			label: `${t("heatmap")}`,
 			icon: () => <Icon icon="temperature" size={24} color="white"/>,
 			onClick: () => alert("Heatmap"),
 		},
 		{
-			label: "Eventos",
+			label: `${t("events")}`,
 			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
 			onClick: () => alert("eventos"),
 		},
 		{
-			label: "Notificaciones",
+			label: `${t("notifications")}`,
 			icon: () => <Icon icon="Bell" size={24} color="white"/>,
 			onClick: () => router.push("notifications"),
 		},
-	] as ISideButton[]), [router]);
+	] as ISideButton[]), [router, t]);
 
 	const bottomButtons = useMemo(() => ([
 		{
-			label: "Guía de ayuda",
+			label: `${t("guide")}`,
 			icon: () => <Icon icon="info-circle" size={24} color="white"/>,
 			onClick: () => alert("ayuda"),
 		},
 		{
-			label: "Mensaje de Sentria",
+			label: `${t("message_sentria")}`,
 			icon: () => <Icon icon="Paper-Plane" size={24} color="white"/>,
 			onClick: () => alert("mensaje"),
 		},
-	]), []);
+	]), [t]);
 
 	return (
 		<div className="bg-gray-400 h-full max-h-full flex flex-col pb-6">
@@ -62,7 +64,7 @@ export default function Sidebar() {
 			</div>
 			<hr className="my-4 mx-6"/>
 			<SideButton
-				label="Cerrar sesión"
+				label={t("close_sesion")}
 				icon={() => <Icon icon="Logout" size={24} color="white"/>}
 				onClick={() => logOut()}
 			/>
