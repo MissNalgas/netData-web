@@ -94,8 +94,8 @@ const translationLoader: any = {
 i18n.use(initReactI18next)
 	.use(translationLoader)
 	.init({
-		lng: "es",
-		fallbackLng: "es",
+		lng: "en",
+		fallbackLng: "en",
 		ns: namespace,
 		defaultNS: "welcome",
 		fallbackNS: "welcome",

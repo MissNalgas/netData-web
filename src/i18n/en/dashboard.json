@@ -1,6 +1,6 @@
 {
 	"daily_watering_level": "Daily risk level",
-	"risk_high_urgent": "You have potential high-risk incidents!",
+	"risk_high_urgent": "¡You have potential high-risk incidents!",
 	"no_incidents": "No incidents reported",
 	"events_of_the_week": "Cybersecurity events of the week",
 	"saving_our_services": "You are saving in the month",
@@ -10,9 +10,17 @@
 	"initial_access": "Initial Access",
 	"description_initial_access": "Attempt to access your network",
 	"exploits_event": "Exploits",
-	"descriptionexploits": "Risk of exploits development",
+	"description_exploits": "Risk of exploits development",
 	"restriction_event": "Restriction",
 	"description_restriction": "Preventive actions to take",
 	"discovery_event": "Discovery",
-	"description_discovery": "Attempts to understand your environment"
+	"description_discovery": "Attempts to understand your environment",
+	"low": "Low",
+	"medium": "Medium",
+	"high": "High",
+	"urgent": "Urgent",
+	"pending": "Pending",
+	"in_review": "In review",
+	"closed": "Closed",
+	"open": "Open"
 }

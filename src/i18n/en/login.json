@@ -1,4 +1,11 @@
 {
 	"subTitle": "Log in to stay updated on your reports",
-	"welcome_title": "Welcome to Sentria!"
+	"welcome_title": "Welcome to Sentria!",
+	"email": "Corporate email",
+	"type_email": "Enter your corporate email",
+	"password": "Password",
+	"type_password": "Enter your password",
+	"sign_in": "Sign In",
+	"register": "¡Register Now!",
+	"forgot": "¿Forgot your password?"
 }

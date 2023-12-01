@@ -11,31 +11,34 @@ import CardChart from "./cardChart";
 import EventsWeekCard from "./eventsWeekCard";
 import IncidentsCard from "./incidentsCard";
 import SavingMonthCard from "./savingMonthCard";
+import { useTranslation } from "next-i18next";
 
 export default function Dashboard() {
+    const { t } = useTranslation("dashboard");
+
     const allEvents = [{
-        event: "Ejecución",
-        description: "Se está intentando correr código malicioso",
+        event: `${t("execution_event")}`,
+        description: `${t("description_execution")}`,
         number: 3,
         image: on,
     }, {
-        event: "Acceso inicial",
-        description: "Se está intentando entrar a tu network",
+        event: `${t("initial_access")}`,
+        description: `${t("description_initial_access")}`,
         number: 3,
         image: targetShooting,
     }, {
-        event: "Exploits",
-        description: "Riesgo de desarrollo de exploits",
+        event: `${t("exploits_event")}`,
+        description: `${t("description_exploits")}`,
         number: 3,
         image: bomb,
     }, {
-        event: "Restricción",
-        description: "Acciones preventivas a tomar",
+        event: `${t("restriction_event")}`,
+        description: `${t("description_restriction")}`,
         number: 3,
         image: targetShooting,
     }, {
-        event: "Descubrimiento",
-        description: "Intenta entender tu entorno",
+        event: `${t("discovery_event")}`,
+        description: `${t("description_discovery")}`,
         number: 3,
         image: binoculars,
     }];
@@ -59,7 +62,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex ml-5 basis-1/3 flex-col justify-between">
                     {/* Incidents card */}
-                    <IncidentsCard/>
+                    <IncidentsCard textDescription={t("risk_high_urgent")}/>
                     {/* Events week card*/}
                     <EventsWeekCard/>
                     {/* Saving month card*/}
@@ -68,7 +71,7 @@ export default function Dashboard() {
             </div>
             {/* Category events */}
             <ContainerBackground className="mx-5">
-                <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">Eventos de ciber seguridad por categoría</SubtitleLink>
+                <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">{t("event_categories")}</SubtitleLink>
                 <SimpleSlider slides={SlideInfo}/>
             </ContainerBackground>
         </>

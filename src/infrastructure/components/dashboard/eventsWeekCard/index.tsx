@@ -4,12 +4,15 @@ import { BodyTwo, CaptionTwo, Overline } from "@shared/components/labels/styled"
 import { ContainerFlex } from "../styled";
 import theme from "@theme/index";
 import CircleStatus from "@shared/components/circleStatus";
+import { useTranslation } from "react-i18next";
 
 export default function EventsWeekCard() {
+    const { t } = useTranslation("dashboard");
+
     return (
         <ContainerBackground className="my-4">
             <ContainerFlex>
-                <CaptionTwo $weight={theme.fontWeight.bold}>Eventos de ciberseguridad de la semana</CaptionTwo>
+                <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
                 <Arrow action={() => {}} nameIcon="right-arrow"/>
             </ContainerFlex>
             <ContainerFlex>
@@ -19,7 +22,7 @@ export default function EventsWeekCard() {
                 </ContainerFlex>
                 <ContainerFlex className="items-center">
                     <CircleStatus internalColor="red40" externalColor="red20"/>
-                    <BodyTwo $color={theme.colors.red40} $weight={theme.fontWeight.bold}>Abiertos</BodyTwo>
+                    <BodyTwo $color={theme.colors.red40} $weight={theme.fontWeight.bold}>{t("open")}</BodyTwo>
                 </ContainerFlex>
             </ContainerFlex>
             <ContainerFlex className="mt-2">
@@ -29,7 +32,7 @@ export default function EventsWeekCard() {
                 </ContainerFlex>
                 <ContainerFlex className="items-center">
                     <CircleStatus internalColor="green40" externalColor="green20"/>
-                    <BodyTwo $color={theme.colors.green40} $weight={theme.fontWeight.bold}>Abiertos</BodyTwo>
+                    <BodyTwo $color={theme.colors.green40} $weight={theme.fontWeight.bold}>{t("closed")}</BodyTwo>
                 </ContainerFlex>
             </ContainerFlex>
         </ContainerBackground>
