@@ -8,9 +8,11 @@ import Icon from "@shared/components/icons";
 
 import { showTooltipModal } from "@shared/components/tooltip/slice";
 import { useAppDispatch } from "@hooks/index";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
 	const router = useRouter();
+    const { t } = useTranslation("sidebar");
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 
@@ -18,37 +20,37 @@ export default function Sidebar() {
 		() =>
 			[
 				{
-					label: "Dashboard",
+					label: `${t("dashboard")}`,
 					icon: () => <Icon icon="Sentria" size={24} color="white" />,
 					onClick: () => router.push("/"),
 				},
 				{
-					label: "Heatmap",
+					label: `${t("heatmap")}`,
 					icon: () => (
 						<Icon icon="temperature" size={24} color="white" />
 					),
 					onClick: () => alert("Heatmap"),
 				},
 				{
-					label: "Eventos",
+					label: `${t("events")}`,
 					icon: () => (
 						<Icon icon="bar-graph" size={24} color="white" />
 					),
 					onClick: () => alert("eventos"),
 				},
 				{
-					label: "Notificaciones",
+					label: `${t("notifications")}`,
 					icon: () => <Icon icon="Bell" size={24} color="white" />,
 					onClick: () => router.push("notifications"),
 				},
 			] as ISideButton[],
-		[router]
+		[router, t]
 	);
 
 	const bottomButtons = useMemo(
 		() => [
 			{
-				label: "Guía de ayuda",
+				label: `${t("guide")}`,
 				icon: () => <Icon icon="info-circle" size={24} color="white" />,
 				onClick: () => {
 					router.push("/");
@@ -56,12 +58,12 @@ export default function Sidebar() {
 				},
 			},
 			{
-				label: "Mensaje de Sentria",
+				label: `${t("message_sentria")}`,
 				icon: () => <Icon icon="Paper-Plane" size={24} color="white" />,
 				onClick: () => alert("mensaje"),
 			},
 		],
-		[dispatch, router]
+		[dispatch, router, t]
 	);
 
 	return (
@@ -85,8 +87,8 @@ export default function Sidebar() {
 			</div>
 			<hr className="my-4 mx-6" />
 			<SideButton
-				label="Cerrar sesión"
-				icon={() => <Icon icon="Logout" size={24} color="white" />}
+				label={t("close_sesion")}
+				icon={() => <Icon icon="Logout" size={24} color="white"/>}
 				onClick={() => logOut()}
 			/>
 		</div>

@@ -1,5 +1,6 @@
 import { useTheme } from "styled-components";
 import Icon from "../icons";
+import { useTranslation } from "react-i18next";
 
 interface IRequirePasswordProps {
     isError: boolean;
@@ -7,24 +8,25 @@ interface IRequirePasswordProps {
 
 export default function RequirePassword(props: IRequirePasswordProps) {
     const { isError } = props;
+    const { t } = useTranslation("register");
     const theme = useTheme();
 
     const useCases = [
         {
-            case: "Mínimo 8 carácteres",
+            case: `${t("min_8_charcters")}`,
         }, {
-            case: "Mínimo una mayúscula y minúscula",
+            case: `${t("min_uppercase")}`,
         }, {
-            case: "Mínimo un carácter especial (!”?@#).",
+            case: `${t("min_especial_character")}`,
         }, {
-            case: "Mínimo un número",
+            case: `${t("min_number")}`,
         },
     ];
 
     return(
         <div className="flex flex-col justify-between py-3">
             <label className="text-sm flex flex-row items-center gap-2 text-gray50">
-                Asegúrate que tu contraseña contenga:
+                {t("password_contain")}
             </label>
             <div className="px-3 mt-2">
                 {useCases.map((item, index) => (

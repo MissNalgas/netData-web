@@ -5,12 +5,14 @@ import TextInput from "@shared/components/textInput";
 import {
 	PrimaryButton,
 } from "@shared/components/buttons/styled";
+import { useTranslation } from "react-i18next";
 interface IRegisterEmail {
 	email: string;
     repeatEmail: string;
 }
 
 export default function RegisterEmailForm({ onSubmit }: RegisterEmailFormProps) {
+    const { t } = useTranslation("register");
 	const { handleSubmit } = useForm<IRegisterEmail>({
 		resolver: yupResolver(schema),
 	});
@@ -19,20 +21,20 @@ export default function RegisterEmailForm({ onSubmit }: RegisterEmailFormProps) 
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
 				name="email"
-				label="Correo corporativo"
-				placeholder="correo@example.com"
+				label={`${t("email")}`}
+				placeholder={`${t("email")}`}
 				icon="message"
                 require={true}
 			/>
 			<TextInput
 				name="repeatEmail"
-				label="Confirma tu correo corporativo"
-				placeholder="correo@example.com"
+				label={`${t("confirm_email")}`}
+				placeholder={`${t("confirm_email")}`}
 				icon="message"
                 require={true}
 			/>
 			<PrimaryButton type="submit" className="w-full" >
-				Siguiente
+                {t("next")}
 			</PrimaryButton>
 		</form>
 	);

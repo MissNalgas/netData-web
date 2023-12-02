@@ -9,6 +9,7 @@ import {
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
 import { useSideModal } from "@shared/components/sideModal";
+import { useTranslation } from "react-i18next";
 
 export interface ILogin {
 	email: string;
@@ -21,6 +22,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 	});
 	const router = useRouter();
 	const sideModal = useSideModal();
+    const { t } = useTranslation("login");
 
 	const show = () => {
 		sideModal.toggle({
@@ -40,32 +42,32 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
-				label="Correo corporativo"
-				placeholder="correo@example.com"
+				label={`${t("email")}`}
+				placeholder={`${t("type_email")}`}
 				icon="account"
 				{...register("email")}
 			/>
 			<div className="flex justify-between my-2">
-				<label className="text-sm">Contraseña</label>
+				<label className="text-sm">{t("password")}</label>
 				<label
 					className="text-sm text-primary"
 					onClick={() => router.push("recover-password")}
 				>
-					¿Olvidaste tu contraseña?
+					{t("forgot")}
 				</label>
 			</div>
 			<TextInput
-				placeholder="Ingresa tu contraseña"
+				placeholder={`${t("type_password")}`}
 				icon="lock-key"
 				iconright="eye"
 				type="password"
 				{...register("password")}
 			/>
 			<PrimaryButton disabled={disableSubmit} type="submit" className="w-full">
-				Iniciar sesión
+				{t("sign_in")}
 			</PrimaryButton>
 			<SecondaryButton onClick={show} type="button" className="w-full">
-				¡Quiero registrarme!
+				{t("register")}
 			</SecondaryButton>
 		</form>
 	);

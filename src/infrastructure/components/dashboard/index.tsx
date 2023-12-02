@@ -28,40 +28,37 @@ import TenTooltip from "@shared/components/tooltip/list/TenTooltip";
 import ElevenTooltip from "@shared/components/tooltip/list/ElevenTooltip";
 import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
+import { useTranslation } from "react-i18next";
 
 export default function Dashboard() {
-	const allEvents = [
-		{
-			event: "Ejecución",
-			description: "Se está intentando correr código malicioso",
-			number: 3,
-			image: on,
-		},
-		{
-			event: "Acceso inicial",
-			description: "Se está intentando entrar a tu network",
-			number: 3,
-			image: targetShooting,
-		},
-		{
-			event: "Exploits",
-			description: "Riesgo de desarrollo de exploits",
-			number: 3,
-			image: bomb,
-		},
-		{
-			event: "Restricción",
-			description: "Acciones preventivas a tomar",
-			number: 3,
-			image: targetShooting,
-		},
-		{
-			event: "Descubrimiento",
-			description: "Intenta entender tu entorno",
-			number: 3,
-			image: binoculars,
-		},
-	];
+	const { t } = useTranslation("dashboard");
+
+    const allEvents = [{
+        event: `${t("execution_event")}`,
+        description: `${t("description_execution")}`,
+        number: 3,
+        image: on,
+    }, {
+        event: `${t("initial_access")}`,
+        description: `${t("description_initial_access")}`,
+        number: 3,
+        image: targetShooting,
+    }, {
+        event: `${t("exploits_event")}`,
+        description: `${t("description_exploits")}`,
+        number: 3,
+        image: bomb,
+    }, {
+        event: `${t("restriction_event")}`,
+        description: `${t("description_restriction")}`,
+        number: 3,
+        image: targetShooting,
+    }, {
+        event: `${t("discovery_event")}`,
+        description: `${t("description_discovery")}`,
+        number: 3,
+        image: binoculars,
+    }];
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard
@@ -112,7 +109,7 @@ export default function Dashboard() {
 				</div>
 				<div className="flex ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
-					<IncidentsCard />
+					<IncidentsCard textDescription={t("risk_high_urgent")}/>
 					{/* Events week card*/}
 					<EventsWeekCard />
 					{/* Saving month card*/}
