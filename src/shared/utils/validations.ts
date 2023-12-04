@@ -29,14 +29,14 @@ const validationPassword = yup.object().shape({
 		.min(8, "Mínimo 8 caracteres")
 		.matches(/[A-Z]/, "Al menos una mayúscula")
 		.matches(/[a-z]/, "Al menos una minúscula")
-		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
+		.matches(/[!?"@#]/, "Al menos un carácter especial (!\"?@#)")
 		.matches(/[0-9]/, "Al menos un número"),
 	repeatPassword: yup
 		.string()
 		.min(8, "Mínimo 8 caracteres")
 		.matches(/[A-Z]/, "Al menos una mayúscula")
 		.matches(/[a-z]/, "Al menos una minúscula")
-		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
+		.matches(/[!?"@#]/, "Al menos un carácter especial (!\"?@#)")
 		.matches(/[0-9]/, "Al menos un número")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma"),
 });
