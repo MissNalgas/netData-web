@@ -9,6 +9,7 @@ import Computer from "/public/img/computer.png";
 import Steps from "@shared/components/steps";
 import { useRouter } from "next/navigation";
 import { TitleOne } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface IRegisterComponentProps {
 	actionButton?: () => void;
@@ -22,17 +23,18 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	setChangeAction = () => {},
 }: IRegisterComponentProps) => {
 	const router = useRouter();
+    const { t } = useTranslation("register");
 
 	const title = useMemo(() => {
 		switch (changeStateAction) {
 			case 4:
-				return "Upss... ha ocurrido un error";
+				return `${t("title_error")}`;
 			case 5:
-				return "¡Has creado tu cuenta de forma exitosa!";
+				return `${t("title_success")}`;
 			default:
-				return "Crea una cuenta nueva";
+				return `${t("title_create")}`;
 		}
-	}, [changeStateAction]);
+	}, [changeStateAction, t]);
 
 	return (
 		<ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
@@ -51,7 +53,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 				{changeStateAction === 2 && (
 					<>
 						<label className="text-sm mb-5">
-							Introduce el código que fue enviado a tu correo eletrónico
+							{t("type_code")}
 						</label>
 						<CodeInputForm
 							onSubmit={() => {
@@ -73,15 +75,15 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 				{changeStateAction === 4 && (
 					<ErrorImage
 						image={ErrorClose}
-						textButton="Intentar de nuevo"
+						textButton={`${("retry")}`}
 						onClickButton={() => setChangeAction(5)}
-						description="No ha sido posible crear tu cuenta por favor vuelve a intentarlo o ¡ponte en contacto con nosotros!"
+						description={`${t("description_error_create_account")}`}
 					/>
 				)}
 				{changeStateAction === 5 && (
 					<ErrorImage
 						image={Computer}
-						textButton="Iniciar sesión"
+						textButton={`${t("sing_in")}`}
 						onClickButton={() => router.push("login")}
 					/>
 				)}

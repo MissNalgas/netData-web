@@ -1,0 +1,14 @@
+{
+	"you_still_there": "¿Sigues ahí",
+	"security_close_sesion": "Por seguridad tu sesión se cerrará. En caso contrario confirma que aún estas usando Sentria",
+	"five_minutes_close": "Tu sesión se cerrará en 5 minutos",
+	"you_have_doubts": "¿Tienes dudas? manda una comentario a Xelco",
+	"compromised_user_accounts": "Cuentas de usuario comprometidas",
+	"systems_involved": "Sistemas involucrados",
+	"techniques": "Tácticas, técnicas y procedimientos",
+	"persistence_mechanisms": "Persistencia de mecanismos usados",
+	"objetives": "Objetivos",
+	"actions_for_solutions": "¿Qué acción debes tomar para solucionarlo?",
+	"actions_sentria": "¿Qué acción está tomando Sentria para solucionarlo?",
+	"description_chat": "¿Tienes algún problema con el funcionamiento de la app? envíanos un mensaje y pronto nos pondremos en contacto contigo."
+}
