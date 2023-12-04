@@ -46,7 +46,7 @@ export default function ProfileComponent() {
 						</CaptionOne>
 					</div>
 
-					<ChatForm onSubmit={() => console.log()} />
+					<ChatForm onSubmit={() => {}} />
 				</section>
 			),
 		});

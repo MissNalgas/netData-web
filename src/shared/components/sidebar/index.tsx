@@ -20,7 +20,7 @@ export default function Sidebar() {
 		{
 			label: "Heatmap",
 			icon: () => <Icon icon="temperature" size={24} color="white"/>,
-			onClick: () => alert("Heatmap"),
+			onClick: () => router.push("/heatmap"),
 		},
 		{
 			label: "Eventos",

@@ -20,6 +20,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 			istextarea,
 			cols = 30,
 			rows = 10,
+			onRightIconClick,
 		} = props;
 		const theme = useTheme();
 		const [inputType, setInputType] = useState(type);
@@ -41,6 +42,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 				"helperText",
 				"error",
 				"success",
+				"onRightIconClick",
 			] as Array<keyof typeof props>;
 
 			//If the type is password we use the local state instead
@@ -71,20 +73,20 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							id={name}
 							style={{ resize: "none" }}
 							className={`
-					border borde-gray-100
-					rounded-lg
-					${height ? ` ${height}` : "h-10"}
-					focus:outline-gray20
-					p-2
-					w-full
-					${
-						error
-							? "outline outline-1 outline-red-500 focus:outline-red-500"
-							: success
-							? "outline outline-1 outline-green-500 focus:outline-green-500"
-							: ""
-					}
-				`}
+								border borde-gray-100
+								rounded-lg
+								${height ? ` ${height}` : "h-10"}
+								focus:outline-gray20
+								p-2
+								w-full
+								${
+									error
+										? "outline outline-1 outline-red-500 focus:outline-red-500"
+										: success
+										? "outline outline-1 outline-green-500 focus:outline-green-500"
+										: ""
+								}
+							`}
 							{...inputProps}
 						/>
 					) : (
@@ -93,25 +95,25 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							type={inputType}
 							id={name}
 							className={`
-					disabled:text-gray-400
-					border borde-gray-100
-					rounded-lg
-					h-10
-					focus:outline-gray20
-					z-10
-					px-2
-					w-full
-					mt-1
-					${icon ? "pl-12" : ""}
-					${iconright ? "pr-12" : ""}
-					${
-						error
-							? "outline outline-1 outline-red-500 focus:outline-red-500"
-							: success
-							? "outline outline-1 outline-green-500 focus:outline-green-500"
-							: ""
-					}
-				`}
+								disabled:text-gray-400
+								border borde-gray-100
+								rounded-lg
+								h-10
+								focus:outline-gray20
+								z-10
+								px-2
+								w-full
+								mt-1
+								${icon ? "pl-12" : ""}
+								${iconright ? "pr-12" : ""}
+								${
+									error
+										? "outline outline-1 outline-red-500 focus:outline-red-500"
+										: success
+										? "outline outline-1 outline-green-500 focus:outline-green-500"
+										: ""
+								}
+							`}
 							{...inputProps}
 						/>
 					)}
@@ -138,7 +140,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							)}
 							{iconright && (
 								<div
-									onClick={toggleShowPassword}
+									onClick={onRightIconClick || toggleShowPassword}
 									className="h-full absolute right-0 top-0 w-10 grid place-content-center cursor-pointer"
 								>
 									<Icon
@@ -174,6 +176,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	iconColor?: string;
 	iconright?: string;
 	iconColorRight?: string;
+	onRightIconClick?: () => void;
 	label?: string;
 	name: string;
 	helperText?: string;
