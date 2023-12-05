@@ -11,7 +11,6 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 			iconColorRight,
 			label,
 			name,
-			helperText,
 			error,
 			success,
 			type,
@@ -38,7 +37,6 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 				"iconColor",
 				"iconColorRight",
 				"label",
-				"helperText",
 				"error",
 				"success",
 			] as Array<keyof typeof props>;
@@ -55,7 +53,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 		}, [props, type]);
 
 		return (
-			<div>
+			<div className="my-2">
 				{label && (
 					<label className="text-sm text-gray50" htmlFor={name}>
 						{label}
@@ -71,20 +69,20 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							id={name}
 							style={{ resize: "none" }}
 							className={`
-					border borde-gray-100
-					rounded-lg
-					${height ? ` ${height}` : "h-10"}
-					focus:outline-gray20
-					p-2
-					w-full
-					${
-						error
-							? "outline outline-1 outline-red-500 focus:outline-red-500"
-							: success
-							? "outline outline-1 outline-green-500 focus:outline-green-500"
-							: ""
-					}
-				`}
+                                border borde-gray-100
+                                rounded-lg
+                                ${height ? ` ${height}` : "h-10"}
+                                focus:outline-gray20
+                                p-2
+                                w-full
+                                ${
+                                    error
+                                        ? "outline outline-1 outline-red30 focus:outline-red30"
+                                        : success
+                                        ? "outline outline-1 outline-green-500 focus:outline-green-500"
+                                        : ""
+                                }
+                            `}
 							{...inputProps}
 						/>
 					) : (
@@ -93,25 +91,25 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							type={inputType}
 							id={name}
 							className={`
-					disabled:text-gray-400
-					border borde-gray-100
-					rounded-lg
-					h-10
-					focus:outline-gray20
-					z-10
-					px-2
-					w-full
-					mt-1
-					${icon ? "pl-12" : ""}
-					${iconright ? "pr-12" : ""}
-					${
-						error
-							? "outline outline-1 outline-red-500 focus:outline-red-500"
-							: success
-							? "outline outline-1 outline-green-500 focus:outline-green-500"
-							: ""
-					}
-				`}
+                                disabled:text-gray-400
+                                border borde-gray-100
+                                rounded-lg
+                                h-10
+                                focus:outline-gray20
+                                z-10
+                                px-2
+                                w-full
+                                mt-1
+                                ${icon ? "pl-12" : ""}
+                                ${iconright ? "pr-12" : ""}
+                                ${
+                                    error
+                                        ? "outline outline-1 outline-red30 focus:outline-red30"
+                                        : success
+                                        ? "outline outline-1 outline-green-500 focus:outline-green-500"
+                                        : ""
+                                }
+                            `}
 							{...inputProps}
 						/>
 					)}
@@ -154,16 +152,9 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 						</>
 					)}
 				</div>
-				<span
-					className={`
-					text-sm
-					block
-					${error ? "text-red-600" : success ? "text-green-600" : ""}
-					${helperText ? "opacity-100" : "opacity-0"}
-				`}
-				>
-					{helperText}&nbsp;
-				</span>
+                <span className={`text-sm block ${error ? "text-red30" : success ? "text-green-600" : ""}`}>
+                    {error}
+                </span>
 			</div>
 		);
 	}
@@ -176,7 +167,6 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	iconColorRight?: string;
 	label?: string;
 	name: string;
-	helperText?: string;
 	error?: any;
 	success?: string;
 	type?: "text" | "password" | "number";

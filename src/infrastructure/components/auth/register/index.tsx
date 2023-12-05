@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import CodeInputForm from "@infrastructure/containers/forms/forgotPassword/code-input";
 import { ContentForm } from "../login/styled";
 import RegisterEmailForm from "@infrastructure/containers/forms/register/registerEmail";
@@ -10,7 +10,15 @@ import Steps from "@shared/components/steps";
 import { useRouter } from "next/navigation";
 import { TitleOne } from "@shared/components/labels/styled";
 import { useTranslation } from "react-i18next";
+import { validateEmail } from "@infrastructure/store/auth/actions";
+import LoaderComponent from "@shared/components/loader";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
+interface IRegisterEmail {
+	email: string;
+    repeatEmail: string;
+}
 interface IRegisterComponentProps {
 	actionButton?: () => void;
 	changeStateAction?: 1 | 2 | 3 | 4 | 5;
@@ -22,8 +30,14 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	changeStateAction,
 	setChangeAction = () => {},
 }: IRegisterComponentProps) => {
+    const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
     const { t } = useTranslation("register");
+    const dispatch = useDispatch();
+
+    const validateIfExistEmail = useCallback(async (email: string) => {
+        return await dispatch(validateEmail({ email })).unwrap();
+    }, [dispatch]);
 
 	const title = useMemo(() => {
 		switch (changeStateAction) {
@@ -36,6 +50,23 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 		}
 	}, [changeStateAction, t]);
 
+    const handleSubmitValidateEmail = async(data : IRegisterEmail) => {
+        const { email } = data;
+		setIsLoading(true);
+        try {
+            const exists = await validateIfExistEmail(email);
+            if(!exists){
+                setChangeAction(2);
+            }else {
+                toast.error(t("email_already_registered"));
+            }
+        } catch (error) {
+            toast.error(t("an_error_ocurred"));
+        } finally {
+            setIsLoading(false)
+        }
+	};
+
 	return (
 		<ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
 			<div className="m-auto">
@@ -44,9 +75,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 					<>
 						<Steps disable={true} />
 						<RegisterEmailForm
-							onSubmit={() => {
-								actionButton(), setChangeAction(2);
-							}}
+							onSubmit={handleSubmitValidateEmail}
 						/>
 					</>
 				)}
@@ -87,6 +116,11 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 						onClickButton={() => router.push("login")}
 					/>
 				)}
+                {isLoading && (
+                    <div className="fixed top-0 left-0 w-full bg-white">
+                        <LoaderComponent/>
+                    </div>
+                )}
 			</div>
 		</ContentForm>
 	);
