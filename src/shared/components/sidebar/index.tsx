@@ -67,7 +67,7 @@ export default function Sidebar() {
 	);
 
 	return (
-		<div className="bg-gray-400 h-full max-h-full flex flex-col pb-6">
+		<div className="bg-shadow40 h-full max-h-full flex flex-col pb-6">
 			<Image
 				className="mx-4 my-8"
 				alt="Sentria logo"
