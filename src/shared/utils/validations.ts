@@ -26,18 +26,18 @@ export const passwordValidation = () =>
 const validationPassword = yup.object().shape({
 	password: yup
 		.string()
-		.min(8, "Mínimo 8 caracteres")
-		.matches(/[A-Z]/, "Al menos una mayúscula")
-		.matches(/[a-z]/, "Al menos una minúscula")
-		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
-		.matches(/[0-9]/, "Al menos un número"),
+		.min(8, "min_8_charcters")
+		.matches(/[A-Z]/, "min_uppercase")
+		.matches(/[a-z]/, "min_lowercase")
+		.matches(/[!?"@#]/, "min_especial_character")
+		.matches(/[0-9]/, "min_number"),
 	repeatPassword: yup
 		.string()
-		.min(8, "Mínimo 8 caracteres")
-		.matches(/[A-Z]/, "Al menos una mayúscula")
-		.matches(/[a-z]/, "Al menos una minúscula")
-		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
-		.matches(/[0-9]/, "Al menos un número")
+		.min(8, "min_8_charcters")
+		.matches(/[A-Z]/, "min_uppercase")
+		.matches(/[a-z]/, "min_lowercase")
+		.matches(/[!?"@#]/, "min_especial_character")
+		.matches(/[0-9]/, "min_number")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma"),
 });
 
