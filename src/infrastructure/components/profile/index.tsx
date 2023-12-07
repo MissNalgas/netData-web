@@ -72,27 +72,22 @@ export default function ProfileComponent(): JSX.Element {
 	};
 
 	const handleSubmit = (data: IChatForm) => {
-		console.log("data", data);
-
 		dispatch(
 			contact({
 				body: data.affair,
 				subject: data.message,
 			})
 		)
-			.then((res) => {
-				console.log("res", res);
+			.then(() => {
 				sideModal.toggle({});
 				toast.success(t("message_sent"));
 			})
-			.catch((err) => {
-				console.log("err", err);
+			.catch(() => {
 				sideModal.toggle({});
-				toast.error("Error al enviar el mensaje");
+				toast.error(t("message_error"));
 			})
 			.finally(() => {
 				sideModal.toggle({});
-				console.log("finaliza");
 			});
 	};
 	const show = () => {

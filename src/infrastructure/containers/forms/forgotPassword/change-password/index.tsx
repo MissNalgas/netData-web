@@ -29,8 +29,8 @@ export default function ChangePasswordForm({
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
-				label="Contraseña"
-				placeholder="Nueva contraseña"
+				label={t("password")}
+				placeholder={t("new_password")}
 				icon="lock-key"
 				iconright="eye"
 				type="password"
@@ -39,8 +39,8 @@ export default function ChangePasswordForm({
 				{...register("password")}
 			/>
 			<TextInput
-				label="Confirma tu contraseña"
-				placeholder="Confirma tu contraseña"
+				label={t("confirm_password")}
+				placeholder={t("confirm_password")}
 				icon="lock-key"
 				iconright="eye"
 				type="password"
@@ -51,7 +51,7 @@ export default function ChangePasswordForm({
 			{showValidationInputs && <RequirePassword isError={isError} />}
 
 			<PrimaryButton type="submit" className="w-full my-2">
-				{t("reset_password")}
+				{t("recover_password")}
 			</PrimaryButton>
 		</form>
 	);

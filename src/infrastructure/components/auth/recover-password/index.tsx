@@ -59,7 +59,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 				}
 			})
 			.catch(() => {
-				toast.error("Error al enviar el mensaje");
+				toast.error(t("title_error"));
 			});
 		setSaveEmailTemporary(email);
 	};
@@ -71,13 +71,13 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					res.payload.status === 201 &&
 					res.payload.message === "Mail not found in requesters"
 				) {
-					toast.error(t("message_sent"));
+					toast.error(t("message_not_sent"));
 				} else {
 					handleSendCode(email);
 				}
 			})
 			.catch(() => {
-				toast.error("Error al enviar el mensaje");
+				toast.error(t("title_error"));
 			});
 	};
 
@@ -108,7 +108,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					}
 				})
 				.catch(() => {
-					toast.error("Error al enviar el mensaje");
+					toast.error(t("title_error"));
 				});
 		}
 	};
