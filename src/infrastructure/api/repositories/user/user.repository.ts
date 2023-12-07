@@ -50,6 +50,7 @@ class UserRepository implements IUserService {
 				password,
 			}
 		);
+
 		localStorage.setItem(
 			"tokenApp",
 			loginResponse?.data?.idToken?.jwtToken ?? ""

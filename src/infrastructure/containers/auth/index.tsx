@@ -1,5 +1,12 @@
 import { useTypedSelector } from "@hooks/use-typed-selector";
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+	createContext,
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { IUserContext } from "./models";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import { getDataUser, resetState } from "@infrastructure/store/user/actions";
@@ -17,35 +24,42 @@ const AuthContext = createContext<IUserContext>({
 
 export const useAuth = () => useContext(AuthContext);
 
-export function AuthProvider({children}: AuthProviderProps) {
-
+export function AuthProvider({ children }: AuthProviderProps) {
 	const pathname = usePathname();
 	const router = useRouter();
-	const user = useTypedSelector(state => state.user.user);
+	const user = useTypedSelector((state) => state.user.user);
 	const dispatch = useAppDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 
-	const login = useCallback(async (email: string, password: string) => {
-		return await dispatch(getDataUser({
-			email,
-			password,
-		})).unwrap();
-	}, [dispatch]);
+	const login = useCallback(
+		async (email: string, password: string) => {
+			return await dispatch(
+				getDataUser({
+					email,
+					password,
+				})
+			).unwrap();
+		},
+		[dispatch]
+	);
 
 	const logOut = useCallback(() => {
 		dispatch(resetState());
 	}, [dispatch]);
 
-	const contextValue = useMemo(() => ({
-		user,
-		login,
-		logOut,
-	}), [user, login, logOut]);
+	const contextValue = useMemo(
+		() => ({
+			user,
+			login,
+			logOut,
+		}),
+		[user, login, logOut]
+	);
 
 	useEffect(() => {
-		if (PUBLIC_ROUTES.some(route => new RegExp(route).test(pathname))) {
+		if (PUBLIC_ROUTES.some((route) => new RegExp(route).test(pathname))) {
 			if (isValidToken(user.token)) {
-				router.replace("/");
+				router.replace("/profile");
 			}
 		} else {
 			if (isValidToken(user.token)) {
@@ -58,7 +72,12 @@ export function AuthProvider({children}: AuthProviderProps) {
 		}, 100);
 	}, [pathname, user, router]);
 
-	if (isLoading) return <div className="fixed top-0 left-0 w-full h-full bg-white"><LoaderComponent/></div>
+	if (isLoading)
+		return (
+			<div className="fixed top-0 left-0 w-full h-full bg-white">
+				<LoaderComponent />
+			</div>
+		);
 
 	return (
 		<AuthContext.Provider value={contextValue}>
