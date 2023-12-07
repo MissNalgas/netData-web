@@ -9,7 +9,12 @@ import {
 	PrimaryButton,
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
-import { CaptionOne, SubtitleLink } from "@shared/components/labels/styled";
+import {
+	BodyTwo,
+	CaptionOne,
+	Overline,
+	SubtitleLink,
+} from "@shared/components/labels/styled";
 
 import { useSideModal } from "@shared/components/sideModal";
 import Modal from "@shared/components/modal";
@@ -120,6 +125,65 @@ export default function ProfileComponent(): JSX.Element {
 			),
 		});
 	};
+	const renderModal = () => {
+		return (
+			<Modal
+				typeModal="config"
+				isOpen={isOpen}
+				onActionModal={() => setIsOpen(!isOpen)}
+			>
+				<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
+					<div className="flex flex-row items-center justify-between  w-full">
+						<div className="flex flex-row items-center justify-start gap-3">
+							<Icon
+								icon="Bell"
+								size={24}
+								color={theme.colors.orange50}
+							/>
+							<Overline $weight={600} $size="16px">
+								{t("notifications")}
+							</Overline>
+						</div>
+						<div>
+							<Toggle
+								actionToggle={(checked) => {
+									toggleNotifications(checked);
+								}}
+							/>
+						</div>
+					</div>
+				</ContentCardModalItem>
+				<ContentCardModalItem className="h-28">
+					<div className="flex flex-row items-center justify-start gap-3 ">
+						<Icon
+							icon="account"
+							size={24}
+							color={theme.colors.orange50}
+						/>
+						<Overline $weight={600}>{t("language")}</Overline>
+					</div>
+					<div className="flex flex-row items-center justify-between gap-2 my-2">
+						<PrimaryButton
+							disabled={false}
+							onClick={() => _setLang("es")}
+						>
+							<BodyTwo $color="#FFFF" $weight={600}>
+								{t("es")}
+							</BodyTwo>
+						</PrimaryButton>
+						<SecondaryButton
+							disabled={false}
+							onClick={() => _setLang("en")}
+						>
+							<BodyTwo $color="#F37335" $weight={600}>
+								{t("en")}
+							</BodyTwo>
+						</SecondaryButton>
+					</div>
+				</ContentCardModalItem>
+			</Modal>
+		);
+	};
 	return (
 		<main className="flex space-between mx-5 py-8 h-screen mb-32">
 			<ToastContainer
@@ -150,55 +214,7 @@ export default function ProfileComponent(): JSX.Element {
 						>
 							<Icon icon="Setting" size={22} />
 						</button>
-						<Modal
-							typeModal="config"
-							isOpen={isOpen}
-							onActionModal={() => setIsOpen(!isOpen)}
-						>
-							<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
-								<div className="flex flex-row items-center justify-start gap-3 ">
-									<Icon
-										icon="Bell"
-										size={24}
-										color={theme.colors.orange50}
-									/>
-									<SubtitleLink $weight={600}>
-										{t("notifications")}
-									</SubtitleLink>
-									<Toggle
-										actionToggle={(checked) => {
-											toggleNotifications(checked);
-										}}
-									/>
-								</div>
-							</ContentCardModalItem>
-							<ContentCardModalItem className="h-28">
-								<div className="flex flex-row items-center justify-start gap-3 ">
-									<Icon
-										icon="account"
-										size={24}
-										color={theme.colors.orange50}
-									/>
-									<SubtitleLink $weight={600}>
-										{t("language")}
-									</SubtitleLink>
-								</div>
-								<div className="flex flex-row items-center justify-between gap-2">
-									<PrimaryButton
-										disabled={false}
-										onClick={() => _setLang("es")}
-									>
-										{t("es")}
-									</PrimaryButton>
-									<SecondaryButton
-										disabled={false}
-										onClick={() => _setLang("en")}
-									>
-										{t("en")}
-									</SecondaryButton>
-								</div>
-							</ContentCardModalItem>
-						</Modal>
+						{renderModal()}
 					</ContentHeader>
 
 					<div className="flex flex-col justify-center items-center gap-y-2 p-10">
@@ -223,58 +239,66 @@ export default function ProfileComponent(): JSX.Element {
 
 					<ContentBody>
 						<PrimaryButton
-							width={30}
+							width={21}
 							onClick={() => {
 								router.push("/");
 								dispatch(showTooltipModal());
 							}}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon
 									icon="info-circle"
 									size={24}
 									color="white"
 								/>
-								{t("help_guide")}
+								<BodyTwo $color="#Ffff" $weight={600}>
+									{t("help_guide")}
+								</BodyTwo>
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
-							width={30}
+							width={21}
 							onClick={() => router.push("/notifications")}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon icon="Bell" size={24} color="white" />
-								{t("notifications")}
+								<BodyTwo $color="#Ffff" $weight={600}>
+									{t("notifications")}
+								</BodyTwo>
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
 							disabled={false}
-							width={30}
+							width={21}
 							onClick={show}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon
 									icon="Paper-Plane"
 									size={24}
 									color="white"
 								/>
-								{t("report")}
+								<BodyTwo $color="#Ffff" $weight={600}>
+									{t("report")}
+								</BodyTwo>
 							</div>
 						</PrimaryButton>
 					</ContentBody>
 					<div className="flex justify-center my-8">
 						<SecondaryButton
 							disabled={false}
-							width={30}
+							width={21}
 							onClick={handleDelete}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon
 									icon="account"
 									size={24}
 									color={theme.colors.orange50}
 								/>
-								{t("delete_account")}
+								<BodyTwo $color="#F37335" $weight={600}>
+									{t("delete_account")}
+								</BodyTwo>
 							</div>
 						</SecondaryButton>
 					</div>

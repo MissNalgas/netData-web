@@ -9,6 +9,7 @@ import Modal from "@shared/components/modal";
 import Icon from "@shared/components/icons";
 import { Overline } from "@shared/components/labels/styled";
 import { ContentButtonMain } from "./styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -23,6 +24,7 @@ const Tooltip = ({
 	styles: tooltipStyles,
 	polygonStyle,
 }: props) => {
+	const { t } = useTranslation("guide");
 	const styles = {
 		background: {
 			width: "100%",
@@ -46,7 +48,7 @@ const Tooltip = ({
 			return (
 				<div className="flex flex-row justify-center items-center w-90">
 					<PrimaryButton onClick={() => closeModal()} width={50}>
-						Finalizar guia
+						{t("finished_guide")}
 					</PrimaryButton>
 				</div>
 			);
@@ -90,10 +92,10 @@ const Tooltip = ({
 					)}
 				</ContentButtonMain>
 				{currentTooltip !== 0 && (
-					<div className="flex flex-row justify-center py-2">
+					<div className="flex flex-row justify-center py-2 w-11/12">
 						<button onClick={() => closeModal()}>
 							<Overline $color="#F99E17" $weight={600}>
-								Cerrar guía
+								{t("close_guide")}
 							</Overline>
 						</button>
 					</div>

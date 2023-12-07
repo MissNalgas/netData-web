@@ -1,7 +1,10 @@
 {
 	"welcome_title": "¡Bienvenido a sentria!",
-	"description_guide": "En esta guia de ayuda entenderás cómo funciona el dashboard de Sentria y sus funcionalidades. Como primer paso, te invitamos a seguir la guía de ayuda para que logres aprovechar al máximo cada una de las funcionalidades. Si quieres abandonar la guía oprime la X en la parte superior de la pantalla.",
+	"description_guide": "En esta guia de ayuda entenderás cómo funciona el dashboard de Sentria y sus funcionalidades. Como primer paso, te invitamos a seguir la guía de ayuda para que logres aprovechar al máximo cada una de las funcionalidades. Si quieres abandonar la guía oprime",
+	"continue_description_guide": "en la parte inferior de la pantalla.",
 	"has_init_guide": "¿Quieres iniciar la guía?",
+	"no_guide": "No, sigo por mi cuenta",
+	"yes_guide": "Si, iniciar guía",
 	"close_guide": "Cerrar guía",
 	"icon_risk_right": "Con este icono identificas el riesgo general en el que se encuentra tu compañia respecto a ataques de ciberseguridad. Podrás ver a medida que uses la app la aparición de los siguientes iconos de riesgo.",
 	"icon_refresh_left": "Aquí podrás ver la última actualización de tus datos de ciberseguridad, presionando el icono de",
@@ -21,5 +24,6 @@
 	"icon_profile": "Presionando el icono de perfil accederás a tu información personal y configuraciones. Aquí también encontrarás una guia de ayuda por si te pierdes en el camino.",
 	"congratulations": "¡Felicitaciones!",
 	"congratulations_description": "¡Felicitaciones! has finalizado la guía de ayuda. Te recordamos que para volver a acceder a ella lo puedes hacer desde tu perfil",
-	"information_char_heatmap": "Esta gráfica es un Heatmap, con ella puedes identificar el día y hora que tu ticket se realizó. También te muestra la cantidad de tickets que se realizaron en la semana en la que ocurrió el respectivo ticket seleaccionado."
+	"information_char_heatmap": "Esta gráfica es un Heatmap, con ella puedes identificar el día y hora que tu ticket se realizó. También te muestra la cantidad de tickets que se realizaron en la semana en la que ocurrió el respectivo ticket seleaccionado.",
+	"finished_guide": "Finalizar guia"
 }

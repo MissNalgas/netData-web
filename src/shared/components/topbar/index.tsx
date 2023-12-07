@@ -2,6 +2,8 @@ import { useAuth } from "@infrastructure/containers/auth";
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
+import Logo from "/public/img/logo-sentria.png";
+
 import alarm from "/public/img/alarm_icon.png";
 import Icon from "../icons";
 import { useTranslation } from "react-i18next";
@@ -16,8 +18,8 @@ export default function Topbar() {
 				className="flex gap-2 items-center"
 				onClick={() => router.push("/profile")}
 			>
-				<div className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center">
-					<Icon icon="account" size={22} />
+				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center">
+					<Image src={Logo} alt="logo" width={20} height={20} />
 				</div>
 				<div className="flex flex-col">
 					<span>
