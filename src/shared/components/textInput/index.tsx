@@ -1,6 +1,7 @@
 import React, { forwardRef, useMemo, useState } from "react";
 import Icon from "../icons";
 import { useTheme } from "styled-components";
+import { useTranslation } from "react-i18next";
 
 export default forwardRef<HTMLInputElement, TextInputProps>(
 	function TextInput(props, ref) {
@@ -22,6 +23,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 		} = props;
 		const theme = useTheme();
 		const [inputType, setInputType] = useState(type);
+        const { t } = useTranslation("register");
 
 		const toggleShowPassword = () => {
 			setInputType((prevType) =>
@@ -153,7 +155,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 					)}
 				</div>
                 <span className={`text-sm block ${error ? "text-red30" : success ? "text-green-600" : ""}`}>
-                    {error}
+                    {t(error)}
                 </span>
 			</div>
 		);

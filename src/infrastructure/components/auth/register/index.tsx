@@ -1,5 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
-import CodeInputForm from "@infrastructure/containers/forms/forgotPassword/code-input";
+import React, { FC, useMemo } from "react";
 import { ContentForm } from "../login/styled";
 import RegisterEmailForm from "@infrastructure/containers/forms/register/registerEmail";
 import RegisterAccountForm from "@infrastructure/containers/forms/register/registerAccount";
@@ -10,62 +9,31 @@ import Steps from "@shared/components/steps";
 import { useRouter } from "next/navigation";
 import { TitleOne } from "@shared/components/labels/styled";
 import { useTranslation } from "react-i18next";
-import { validateEmail } from "@infrastructure/store/auth/actions";
 import LoaderComponent from "@shared/components/loader";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-
-interface IRegisterEmail {
-	email: string;
-    repeatEmail: string;
-}
+import ValidationsRegister from "./validations";
 interface IRegisterComponentProps {
-	actionButton?: () => void;
 	changeStateAction?: 1 | 2 | 3 | 4 | 5;
 	setChangeAction?: (_value: 1 | 2 | 3 | 4 | 5) => void;
 }
 
 const RegisterComponent: FC<IRegisterComponentProps> = ({
-	actionButton = () => {},
 	changeStateAction,
 	setChangeAction = () => {},
 }: IRegisterComponentProps) => {
-    const [isLoading, setIsLoading] = useState(false);
-	const router = useRouter();
+    const router = useRouter();
     const { t } = useTranslation("register");
-    const dispatch = useDispatch();
-
-    const validateIfExistEmail = useCallback(async (email: string) => {
-        return await dispatch(validateEmail({ email })).unwrap();
-    }, [dispatch]);
+    const { isLoading, handleSubmitFormUser, handleSubmitValidateEmail } = ValidationsRegister({ changeStep: setChangeAction});
 
 	const title = useMemo(() => {
 		switch (changeStateAction) {
-			case 4:
+			case 3:
 				return `${t("title_error")}`;
-			case 5:
+			case 4:
 				return `${t("title_success")}`;
 			default:
 				return `${t("title_create")}`;
 		}
 	}, [changeStateAction, t]);
-
-    const handleSubmitValidateEmail = async(data : IRegisterEmail) => {
-        const { email } = data;
-		setIsLoading(true);
-        try {
-            const exists = await validateIfExistEmail(email);
-            if(!exists){
-                setChangeAction(2);
-            }else {
-                toast.error(t("email_already_registered"));
-            }
-        } catch (error) {
-            toast.error(t("an_error_ocurred"));
-        } finally {
-            setIsLoading(false)
-        }
-	};
 
 	return (
 		<ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
@@ -80,36 +48,22 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 					</>
 				)}
 				{changeStateAction === 2 && (
-					<>
-						<label className="text-sm mb-5">
-							{t("type_code")}
-						</label>
-						<CodeInputForm
-							onSubmit={() => {
-								actionButton(), setChangeAction(3);
-							}}
-						/>
-					</>
-				)}
-				{changeStateAction === 3 && (
 					<div>
 						<Steps />
 						<RegisterAccountForm
-							onSubmit={() => {
-								actionButton(), setChangeAction(4);
-							}}
+							onSubmit={handleSubmitFormUser}
 						/>
 					</div>
 				)}
-				{changeStateAction === 4 && (
+				{changeStateAction === 3 && (
 					<ErrorImage
 						image={ErrorClose}
 						textButton={`${("retry")}`}
-						onClickButton={() => setChangeAction(5)}
+						onClickButton={() => setChangeAction(1)}
 						description={`${t("description_error_create_account")}`}
 					/>
 				)}
-				{changeStateAction === 5 && (
+				{changeStateAction === 4 && (
 					<ErrorImage
 						image={Computer}
 						textButton={`${t("sing_in")}`}

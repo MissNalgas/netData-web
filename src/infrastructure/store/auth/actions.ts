@@ -1,9 +1,11 @@
 import { authRepository } from "@infrastructure/api/repositories/auth/register.repository";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-
-interface GetEmailUserPayload {
-	email: string;
-}
+import {
+	GetEmailUserPayload,
+	IRegisterAccount,
+	RegisterResponseError,
+} from "./types";
+import { IFormResponse } from "@domain/models";
 
 const validateEmail = createAsyncThunk<boolean, GetEmailUserPayload>(
 	"auth/getData",
@@ -14,4 +16,12 @@ const validateEmail = createAsyncThunk<boolean, GetEmailUserPayload>(
 	}
 );
 
-export { validateEmail };
+const registerDataForm = createAsyncThunk<
+	RegisterResponseError | IFormResponse,
+	IRegisterAccount
+>("auth/dataForm", async (payload: IRegisterAccount) => {
+	const response = await authRepository.registerUser(payload);
+	return response;
+});
+
+export { validateEmail, registerDataForm };
