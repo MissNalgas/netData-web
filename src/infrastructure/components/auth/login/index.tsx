@@ -7,6 +7,8 @@ import { useAuth } from "@infrastructure/containers/auth";
 import { ILogin } from "@infrastructure/containers/forms/login";
 import LoaderComponent from "@shared/components/loader";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { SentriaError } from "@shared/utils/error";
 
 const LoginComponent: React.FC = () => {
 	const {login} = useAuth();
@@ -17,6 +19,14 @@ const LoginComponent: React.FC = () => {
 		setIsLoading(true);
 		login(data.email, data.password).finally(() => {
 			setIsLoading(false);
+		}).catch((err) => {
+
+			if (err instanceof SentriaError) {
+				toast.error(err.message);
+			} else {
+				toast.error("Hubo un error al iniciar sesión, por favor, vuelve a intentar");
+			}
+
 		})
 	}
 

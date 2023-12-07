@@ -10,10 +10,14 @@ interface GetDataUserPayload {
 
 const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
 	"user/getData",
-	async (payload: GetDataUserPayload) => {
-		const { email, password } = payload;
-		const user = await userRepository.getUser(email, password);
-		return user;
+	async (payload: GetDataUserPayload, state) => {
+		try {
+			const { email, password } = payload;
+			const user = await userRepository.getUser(email, password);
+			return user;
+		} catch (err) {
+			return state.rejectWithValue(err);
+		}
 	}
 );
 
