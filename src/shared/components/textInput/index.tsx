@@ -20,6 +20,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 			istextarea,
 			cols = 30,
 			rows = 10,
+			onRightIconClick,
 		} = props;
 		const theme = useTheme();
 		const [inputType, setInputType] = useState(type);
@@ -41,6 +42,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 				"label",
 				"error",
 				"success",
+				"onRightIconClick",
 			] as Array<keyof typeof props>;
 
 			//If the type is password we use the local state instead
@@ -138,7 +140,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							)}
 							{iconright && (
 								<div
-									onClick={toggleShowPassword}
+									onClick={onRightIconClick || toggleShowPassword}
 									className="h-full absolute right-0 top-0 w-10 grid place-content-center cursor-pointer"
 								>
 									<Icon
@@ -167,6 +169,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	iconColor?: string;
 	iconright?: string;
 	iconColorRight?: string;
+	onRightIconClick?: () => void;
 	label?: string;
 	name: string;
 	error?: any;

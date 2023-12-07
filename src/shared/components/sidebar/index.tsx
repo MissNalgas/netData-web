@@ -16,36 +16,28 @@ export default function Sidebar() {
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 
-	const buttons = useMemo(
-		() =>
-			[
-				{
-					label: `${t("dashboard")}`,
-					icon: () => <Icon icon="Sentria" size={24} color="white" />,
-					onClick: () => router.push("/"),
-				},
-				{
-					label: `${t("heatmap")}`,
-					icon: () => (
-						<Icon icon="temperature" size={24} color="white" />
-					),
-					onClick: () => alert("Heatmap"),
-				},
-				{
-					label: `${t("events")}`,
-					icon: () => (
-						<Icon icon="bar-graph" size={24} color="white" />
-					),
-					onClick: () => alert("eventos"),
-				},
-				{
-					label: `${t("notifications")}`,
-					icon: () => <Icon icon="Bell" size={24} color="white" />,
-					onClick: () => router.push("notifications"),
-				},
-			] as ISideButton[],
-		[router, t]
-	);
+	const buttons = useMemo(() => ([
+		{
+			label: "Dashboard",
+			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
+			onClick: () => router.push("/"),
+		},
+		{
+			label: "Heatmap",
+			icon: () => <Icon icon="temperature" size={24} color="white"/>,
+			onClick: () => router.push("/heatmap"),
+		},
+		{
+			label: "Eventos",
+			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
+			onClick: () => alert("eventos"),
+		},
+		{
+			label: "Notificaciones",
+			icon: () => <Icon icon="Bell" size={24} color="white"/>,
+			onClick: () => router.push("notifications"),
+		},
+	] as ISideButton[]), [router]);
 
 	const bottomButtons = useMemo(
 		() => [
