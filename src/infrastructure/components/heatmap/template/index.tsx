@@ -15,7 +15,7 @@ export default function HeadmapTemplate() {
 					<div className="w-full max-w-[400px]">
 						<FilterInput/>
 					</div>
-					<iframe className="w-[500px] h-[500px] bg-gray-100 rounded-lg p-2" src="/chart/heatmap"/>
+					<iframe className="w-full max-w-[500px] h-[500px] bg-gray-100 rounded-lg p-2" src="/chart/heatmap?height=500"/>
 				</div>
 				<div className="card p-4">
 					<h2 className="text-2xl font-bold">Eventos de ciberseguridad por prioridad</h2>
