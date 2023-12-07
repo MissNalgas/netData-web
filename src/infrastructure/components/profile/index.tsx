@@ -34,7 +34,7 @@ import Toggle from "@shared/components/toggle";
 import { useAppDispatch } from "@hooks/index";
 import { showTooltipModal } from "@shared/components/tooltip/slice";
 import { contact, deleteAccount } from "@infrastructure/store/user/actions";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
@@ -186,19 +186,6 @@ export default function ProfileComponent(): JSX.Element {
 	};
 	return (
 		<main className="flex space-between mx-5 py-8 h-screen mb-32">
-			<ToastContainer
-				position="top-center"
-				autoClose={5000}
-				hideProgressBar={true}
-				newestOnTop={true}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="light"
-			/>
-
 			<ContainerBackground className="grow justify-center p-10 h-min	">
 				<div className="p-10">
 					<ContentHeader>

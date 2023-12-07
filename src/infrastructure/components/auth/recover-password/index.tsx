@@ -14,7 +14,7 @@ import Computer from "/public/img/computer.png";
 import { useTranslation } from "react-i18next";
 import { IForgotPassword } from "@infrastructure/containers/forms/forgotPassword";
 import { useAppDispatch } from "@hooks/index";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {
 	changePassword,
 	checkEmail,
@@ -114,18 +114,6 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	const message = messages[changeStateAction ?? 1] || t("title_error");
 	return (
 		<ContentForm>
-			<ToastContainer
-				position="top-center"
-				autoClose={5000}
-				hideProgressBar={true}
-				newestOnTop={true}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="light"
-			/>
 			<TitleCustom $center>{message}</TitleCustom>
 			<SecondTitleCustom $center>
 				{(changeStateAction === 1 && t("type_email_sentria")) ||

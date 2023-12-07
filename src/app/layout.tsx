@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { SideModalProvider } from "@shared/components/sideModal";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@i18n/index";
+import { ToastContainer } from "react-toastify";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
@@ -34,6 +35,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 			<body className={inter.className}>
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persisted}>
+						<ToastContainer
+							position="top-center"
+							autoClose={5000}
+							hideProgressBar={true}
+							newestOnTop={true}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
+							theme="light"
+						/>
 						<ThemeProvider theme={theme}>
 							<AuthProvider>
 								<SideModalProvider>
