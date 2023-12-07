@@ -66,7 +66,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 				{changeStateAction === 4 && (
 					<ErrorImage
 						image={Computer}
-						textButton={`${t("sing_in")}`}
+						textButton={`${t("sign_in")}`}
 						onClickButton={() => router.push("login")}
 					/>
 				)}

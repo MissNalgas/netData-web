@@ -9,7 +9,7 @@ import {
 	RegisterResponseError,
 } from "@infrastructure/store/auth/types";
 class AuthRepository implements IAuthService {
-	async validateIfEmailExists(email: string): Promise<boolean> {
+	async validateIfEmailExists(email: string): Promise<string> {
 		const axios = await createAxios();
 
 		const emailResponse = await axios.post<IRegister>(
@@ -19,7 +19,7 @@ class AuthRepository implements IAuthService {
 			}
 		);
 
-		return emailResponse.data.message === "Mail already exist";
+		return emailResponse.data.message;
 	}
 
 	async registerUser(

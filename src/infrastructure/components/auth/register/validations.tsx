@@ -31,8 +31,8 @@ export default function ValidationsRegister(props:TProps) {
         const { email } = data;
 		setIsLoading(true);
         try {
-            const exists = await validateIfExistEmail(email);
-            if(!exists){
+            const message = await validateIfExistEmail(email);
+            if(message !== "Mail already exist"){
                 setEmail((email))
                 changeStep(2);
             }else {

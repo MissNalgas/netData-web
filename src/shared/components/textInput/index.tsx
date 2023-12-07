@@ -57,7 +57,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 		}, [props, type]);
 
 		return (
-			<div className="my-2">
+			<div className="my-2 mb-4">
 				{label && (
 					<label className="text-sm text-gray50" htmlFor={name}>
 						{label}
@@ -156,7 +156,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 						</>
 					)}
 				</div>
-                <span className={`text-sm block ${error ? "text-red30" : success ? "text-green-600" : ""}`}>
+                <span className={`text-sm mt-2 block ${error ? "text-red30" : success ? "text-green-600" : ""}`}>
                     {t(error)}
                 </span>
 			</div>

@@ -7,7 +7,7 @@ import {
 } from "./types";
 import { IFormResponse } from "@domain/models";
 
-const validateEmail = createAsyncThunk<boolean, GetEmailUserPayload>(
+const validateEmail = createAsyncThunk<string, GetEmailUserPayload>(
 	"auth/getData",
 	async (payload: GetEmailUserPayload) => {
 		const { email } = payload;
