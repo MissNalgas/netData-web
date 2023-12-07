@@ -33,7 +33,6 @@ export default function ChangePasswordForm({
 				iconright="eye"
 				type="password"
 				error={errors.password?.message}
-				helperText={errors.password?.message}
 			/>
 			<TextInput
 				name="repeatPassword"
@@ -43,7 +42,6 @@ export default function ChangePasswordForm({
 				iconright="eye"
 				type="password"
 				error={errors.repeatPassword?.message}
-				helperText={errors.repeatPassword?.message}
 			/>
 			{showValidationInputs && <RequirePassword isError={isError} />}
 

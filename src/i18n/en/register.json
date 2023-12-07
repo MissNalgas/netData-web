@@ -2,6 +2,8 @@
 	"title_create": "Create a new account",
 	"email": "Corporate email",
 	"corporate_email": "Corporate email",
+	"email_already_registered": "The entered email is already registered.",
+	"an_error_ocurred": "An error has occurred, please try again",
 	"confirm_email": "Confirm your corporate email",
 	"type_code": "Enter the code sent to your email",
 	"has_code_sent": "Haven't received the code yet?",
@@ -22,6 +24,10 @@
 	"password_contain": "Make sure your password contains:",
 	"min_8_charcters": "Minimum 8 characters",
 	"min_uppercase": "Minimum one uppercase and one lowercase",
+	"min_lowercase": "Minimum one lowercase",
 	"min_especial_character": "Minimum one special character (!”?@#)",
-	"min_number": "Minimum one number"
+	"min_number": "Minimum one number",
+	"field_required": "Field required",
+	"invalid_email": "The entered email is not valid",
+	"no_match_email": "The emails do not match"
 }

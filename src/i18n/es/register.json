@@ -2,6 +2,8 @@
 	"title_create": "Crea una cuenta nueva",
 	"email": "Correo corporativo",
 	"corporate_email": "Correo corporativo",
+	"email_already_registered": "El correo ingresado ya se encuentra registrado",
+	"an_error_ocurred": "Ha ocurrido un error, por favor intentalo de nuevo",
 	"confirm_email": "Confirma tu correo corporativo",
 	"type_code": "Introduce el código que fue enviado a tu correo eletrónico",
 	"has_code_sent": "¿No has recibido el código aún?",
@@ -22,6 +24,10 @@
 	"password_contain": "Asegúrate que tu contraseña contenga:",
 	"min_8_charcters": "Mínimo 8 carácteres",
 	"min_uppercase": "Mínimo una mayúscula y minúscula",
+	"min_lowercase": "Mínimo una minúscula",
 	"min_especial_character": "Mínimo un carácter especial (!”?@#)",
-	"min_number": "Mínimo un número"
+	"min_number": "Mínimo un número",
+	"field_required": "Campo requerido",
+	"invalid_email": "El correo ingresado no es válido",
+	"no_match_email": "Los correos no coinciden"
 }
