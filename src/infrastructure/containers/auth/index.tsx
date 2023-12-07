@@ -26,7 +26,7 @@ export function AuthProvider({children}: AuthProviderProps) {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const login = useCallback(async (email: string, password: string) => {
-		await dispatch(getDataUser({
+		return await dispatch(getDataUser({
 			email,
 			password,
 		})).unwrap();
