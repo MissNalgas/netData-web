@@ -85,7 +85,10 @@ const translationLoader: any = {
 i18n.use(initReactI18next)
 	.use(translationLoader)
 	.init({
-		lng: "en",
+		lng:
+			(typeof localStorage !== "undefined" &&
+				localStorage.getItem("language")) ||
+			"en",
 		fallbackLng: "en",
 		ns: namespace,
 		defaultNS: "welcome",

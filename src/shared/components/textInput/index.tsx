@@ -18,8 +18,8 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 			require,
 			height,
 			istextarea,
-			cols = 30,
-			rows = 10,
+			// cols = 30,
+			// rows = 10,
 			onRightIconClick,
 		} = props;
 		const theme = useTheme();
@@ -65,8 +65,8 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 					</label>
 				)}
 				<div className="relative">
-					{istextarea ? (
-						<textarea
+					{/* {istextarea ? (
+						<input
 							maxLength={500}
 							cols={cols}
 							rows={rows}
@@ -89,16 +89,17 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							`}
 							{...inputProps}
 						/>
-					) : (
-						<input
-							ref={ref}
-							type={inputType}
-							id={name}
-							className={`
+					) : ( */}
+					<input
+						ref={ref}
+						type={inputType}
+						id={name}
+						className={`
 								disabled:text-gray-400
 								border borde-gray-100
 								rounded-lg
-								h-10
+								${istextarea && height ? ` ${height}` : "h-10"}
+
 								focus:outline-gray20
 								z-10
 								px-2
@@ -114,9 +115,9 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 										: ""
 								}
 							`}
-							{...inputProps}
-						/>
-					)}
+						{...inputProps}
+					/>
+					{/* )} */}
 
 					{icon && (
 						<div className="h-full absolute left-0 top-0 w-10 grid place-content-center">
@@ -140,7 +141,9 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							)}
 							{iconright && (
 								<div
-									onClick={onRightIconClick || toggleShowPassword}
+									onClick={
+										onRightIconClick || toggleShowPassword
+									}
 									className="h-full absolute right-0 top-0 w-10 grid place-content-center cursor-pointer"
 								>
 									<Icon
@@ -185,7 +188,7 @@ interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	type?: "text" | "password" | "number";
 	require?: boolean;
 	height?: string;
-	istextarea?: boolean;
+	istextarea?: boolean | string;
 	cols?: number;
 	rows?: number;
 }

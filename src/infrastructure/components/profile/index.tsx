@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useTheme } from "styled-components";
-import { JSX } from "react";
+import { JSX, useCallback, useState } from "react";
 
 import { useAuth } from "@infrastructure/containers/auth";
 import Icon from "@shared/components/icons";
@@ -23,22 +23,78 @@ import {
 	ContentLogo,
 	ImageProfile,
 } from "./styled";
-import ChatForm from "@infrastructure/containers/forms/chat";
+import ChatForm, { IChatForm } from "@infrastructure/containers/forms/chat";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import Toggle from "@shared/components/toggle";
 import { useAppDispatch } from "@hooks/index";
 import { showTooltipModal } from "@shared/components/tooltip/slice";
+import { contact, deleteAccount } from "@infrastructure/store/user/actions";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
 	const theme = useTheme();
 	const router = useRouter();
 	const sideModal = useSideModal();
-    const { t } = useTranslation("profile");
+	const { t, i18n } = useTranslation("profile");
 	const [isOpen, setIsOpen] = useState(false);
+
 	const dispatch = useAppDispatch();
 
+	const _setLang = useCallback(
+		async (lang: "es" | "en") => {
+			await i18n?.changeLanguage(lang);
+			localStorage.setItem("language", lang);
+			setIsOpen(false);
+		},
+		[i18n]
+	);
+
+	const toggleNotifications = (isCheked: boolean) => {
+		if (isCheked) {
+			Notification.permission === "denied";
+			localStorage.setItem("notifications", "false");
+		} else {
+			if (Notification.permission !== "granted") {
+				Notification.requestPermission().then((permission) => {
+					if (permission === "granted") {
+						console.log("Permisos de notificación concedidos.");
+						localStorage.setItem("notifications", "true");
+					} else if (permission === "denied") {
+						console.log("Permisos de notificación denegados.");
+						localStorage.setItem("notifications", "false");
+					}
+				});
+			}
+		}
+
+		setIsOpen(false);
+	};
+
+	const handleSubmit = (data: IChatForm) => {
+		console.log("data", data);
+
+		dispatch(
+			contact({
+				body: data.affair,
+				subject: data.message,
+			})
+		)
+			.then((res) => {
+				console.log("res", res);
+				sideModal.toggle({});
+				toast.success(t("message_sent"));
+			})
+			.catch((err) => {
+				console.log("err", err);
+				sideModal.toggle({});
+				toast.error("Error al enviar el mensaje");
+			})
+			.finally(() => {
+				sideModal.toggle({});
+				console.log("finaliza");
+			});
+	};
 	const show = () => {
 		sideModal.toggle({
 			content: () => (
@@ -50,20 +106,29 @@ export default function ProfileComponent(): JSX.Element {
 						<Icon icon="Cancel" size={22} />
 					</button>
 					<div className="my-5">
-						<CaptionOne>
-							¿Tienes algún problema con el funcionamiento de la
-							app? envíanos un mensaje y pronto nos pondremos en
-							contacto contigo.
-						</CaptionOne>
+						<CaptionOne>{t("contact")}</CaptionOne>
 					</div>
 
-					<ChatForm onSubmit={() => {}} />
+					<ChatForm onSubmit={handleSubmit} />
 				</section>
 			),
 		});
 	};
 	return (
 		<main className="flex space-between mx-5 py-8 h-screen mb-32">
+			<ToastContainer
+				position="top-center"
+				autoClose={5000}
+				hideProgressBar={true}
+				newestOnTop={true}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/>
+
 			<ContainerBackground className="grow justify-center p-10 h-min	">
 				<div className="p-10">
 					<ContentHeader>
@@ -92,10 +157,12 @@ export default function ProfileComponent(): JSX.Element {
 										color={theme.colors.orange50}
 									/>
 									<SubtitleLink $weight={600}>
-										Notificaciones
+										{t("notifications")}
 									</SubtitleLink>
 									<Toggle
-										actionToggle={() => setIsOpen(false)}
+										actionToggle={(checked) => {
+											toggleNotifications(checked);
+										}}
 									/>
 								</div>
 							</ContentCardModalItem>
@@ -107,21 +174,21 @@ export default function ProfileComponent(): JSX.Element {
 										color={theme.colors.orange50}
 									/>
 									<SubtitleLink $weight={600}>
-										Idioma
+										{t("language")}
 									</SubtitleLink>
 								</div>
 								<div className="flex flex-row items-center justify-between gap-2">
 									<PrimaryButton
 										disabled={false}
-										onClick={() => setIsOpen(false)}
+										onClick={() => _setLang("es")}
 									>
-										Español
+										{t("es")}
 									</PrimaryButton>
 									<SecondaryButton
 										disabled={false}
-										onClick={() => setIsOpen(false)}
+										onClick={() => _setLang("en")}
 									>
-										Ingles
+										{t("en")}
 									</SecondaryButton>
 								</div>
 							</ContentCardModalItem>
@@ -132,6 +199,7 @@ export default function ProfileComponent(): JSX.Element {
 						<div>
 							<SubtitleLink $weight={600}>
 								{t("greeting")}
+								{","}
 								<span className="text-primary font-semibold">
 									{auth.user?.firstname}
 								</span>
@@ -189,7 +257,11 @@ export default function ProfileComponent(): JSX.Element {
 						</PrimaryButton>
 					</ContentBody>
 					<div className="flex justify-center my-8">
-						<SecondaryButton disabled={false} width={30}>
+						<SecondaryButton
+							disabled={false}
+							width={30}
+							onClick={() => dispatch(deleteAccount())}
+						>
 							<div className="flex flex-row gap-5">
 								<Icon
 									icon="account"

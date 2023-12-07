@@ -1,7 +1,19 @@
 {
-	"greeting": "Hi, ",
+	"greeting": "Hi",
 	"help_guide": "Help guide",
 	"notifications": "Notifications",
 	"report": "Report app problems",
-	"delete_account": "Delete account"
+	"delete_account": "Delete account",
+	"last_update": "Last update",
+	"message_sent": "Message sent",
+	"language": "Language",
+	"es": "Spanish",
+	"en": "English",
+	"contact": "Do you have any problems with the operation of the app? send us a message and we will get back to you soon I will contact you.",
+	"contactForm": {
+		"affair": "Affair",
+		"writeYourMessage": "Write your message here",
+		"yourMessage": "Your Message",
+		"send": "Send"
+	}
 }

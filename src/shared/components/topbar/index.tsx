@@ -4,11 +4,12 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import alarm from "/public/img/alarm_icon.png";
 import Icon from "../icons";
+import { useTranslation } from "react-i18next";
 
 export default function Topbar() {
 	const auth = useAuth();
 	const router = useRouter();
-
+	const { t } = useTranslation("profile");
 	return (
 		<div className="w-full h-20 flex justify-between items-center px-2 bg-white">
 			<div
@@ -20,13 +21,13 @@ export default function Topbar() {
 				</div>
 				<div className="flex flex-col">
 					<span>
-						Hola,
+						{t("greeting")},
 						<span className="text-primary font-semibold">
 							{auth.user?.firstname}
 						</span>
 					</span>
 					<span className="flex flex-row items-center gap-1">
-						Última actualización: <b>10:00 am</b>
+						{t("last_update")}, <b>10:00 am</b>
 						<Icon icon="Reload" size={22} />
 					</span>
 				</div>

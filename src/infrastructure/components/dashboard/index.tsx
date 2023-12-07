@@ -33,32 +33,38 @@ import { useTranslation } from "react-i18next";
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
 
-    const allEvents = [{
-        event: `${t("execution_event")}`,
-        description: `${t("description_execution")}`,
-        number: 3,
-        image: on,
-    }, {
-        event: `${t("initial_access")}`,
-        description: `${t("description_initial_access")}`,
-        number: 3,
-        image: targetShooting,
-    }, {
-        event: `${t("exploits_event")}`,
-        description: `${t("description_exploits")}`,
-        number: 3,
-        image: bomb,
-    }, {
-        event: `${t("restriction_event")}`,
-        description: `${t("description_restriction")}`,
-        number: 3,
-        image: targetShooting,
-    }, {
-        event: `${t("discovery_event")}`,
-        description: `${t("description_discovery")}`,
-        number: 3,
-        image: binoculars,
-    }];
+	const allEvents = [
+		{
+			event: `${t("execution_event")}`,
+			description: `${t("description_execution")}`,
+			number: 3,
+			image: on,
+		},
+		{
+			event: `${t("initial_access")}`,
+			description: `${t("description_initial_access")}`,
+			number: 3,
+			image: targetShooting,
+		},
+		{
+			event: `${t("exploits_event")}`,
+			description: `${t("description_exploits")}`,
+			number: 3,
+			image: bomb,
+		},
+		{
+			event: `${t("restriction_event")}`,
+			description: `${t("description_restriction")}`,
+			number: 3,
+			image: targetShooting,
+		},
+		{
+			event: `${t("discovery_event")}`,
+			description: `${t("description_discovery")}`,
+			number: 3,
+			image: binoculars,
+		},
+	];
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard
@@ -109,7 +115,7 @@ export default function Dashboard() {
 				</div>
 				<div className="flex ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
-					<IncidentsCard textDescription={t("risk_high_urgent")}/>
+					<IncidentsCard textDescription={t("risk_high_urgent")} />
 					{/* Events week card*/}
 					<EventsWeekCard />
 					{/* Saving month card*/}
@@ -122,7 +128,7 @@ export default function Dashboard() {
 					$weight={theme.fontWeight.bold}
 					className="my-5 block"
 				>
-					Eventos de ciber seguridad por categoría
+					{t("event_categories")}
 				</SubtitleLink>
 				<SimpleSlider slides={SlideInfo} />
 			</ContainerBackground>

@@ -1,8 +1,14 @@
 import { IUser } from "@domain/models";
 import { IUserService } from "@domain/services/User.service";
+import { ContactAdapter } from "@infrastructure/adapters";
 import { LoginAdapter } from "@infrastructure/adapters/login";
-import { createAxios } from "@infrastructure/api/http/axios";
-import { IXelcoInscriptionDTO, IXelcoLoginDTO } from "@infrastructure/model";
+import { createAxios, createAxiosApp } from "@infrastructure/api/http/axios";
+import {
+	IResponseServiceDTO,
+	IXelcoInscriptionDTO,
+	IXelcoLoginDTO,
+} from "@infrastructure/model";
+import { Contact } from "@infrastructure/store/user/types";
 import { VAPID_KEY } from "@shared/constants";
 import firebaseApp from "@shared/utils/firebase";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
@@ -41,8 +47,46 @@ class UserRepository implements IUserService {
 				password,
 			}
 		);
-
+		localStorage.setItem(
+			"tokenApp",
+			loginResponse?.data?.idToken?.jwtToken ?? ""
+		);
 		return LoginAdapter.userFromDTO(loginResponse.data);
+	}
+
+	async checkEmail(email: string): Promise<IResponseServiceDTO> {
+		const axios = await createAxios();
+		const body = {
+			mail: email,
+		};
+		const checkEmailResponse = await axios.post<IResponseServiceDTO>(
+			"/api/auth/checkMail",
+			body
+		);
+		return LoginAdapter.checkEmailDTO({
+			status: checkEmailResponse.status,
+			message: checkEmailResponse.data.message,
+			data: checkEmailResponse.data,
+		});
+	}
+
+	async deleteAccout(): Promise<IUser> {
+		const axios = await createAxios();
+		const deleteAccoutResponse = await axios.post<IXelcoLoginDTO>(
+			"/api/auth/deleteAccount"
+		);
+
+		return LoginAdapter.userFromDTO(deleteAccoutResponse.data);
+	}
+
+	async contact(body: Contact): Promise<any> {
+		const axios = await createAxiosApp();
+		const contactResponse = await axios.post<any>(
+			"/api/xelco/sendMail",
+			body
+		);
+
+		return ContactAdapter.userFromDTO(contactResponse.data);
 	}
 }
 
