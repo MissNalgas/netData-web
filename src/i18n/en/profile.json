@@ -16,5 +16,6 @@
 		"writeYourMessage": "Write your message here",
 		"yourMessage": "Your Message",
 		"send": "Send"
-	}
+	},
+	"message_deleted": "Account deleted"
 }

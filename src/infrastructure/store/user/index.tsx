@@ -6,8 +6,6 @@ import {
 	getDataUser,
 	resetState,
 	checkEmail,
-	// recoverPassword,
-	// changePassword,
 } from "infrastructure/store/user/actions";
 
 export const { actions, reducer } = createSlice({
@@ -25,17 +23,11 @@ export const { actions, reducer } = createSlice({
 		builder.addCase(checkEmail.fulfilled, (state, action) => {
 			action.payload;
 		});
-		builder.addCase(deleteAccount.fulfilled, (_, action) => {
-			action.payload;
+		builder.addCase(deleteAccount.fulfilled, (state, action) => {
+			state.user = action.payload;
 		});
 		builder.addCase(resetState.fulfilled, (state, action) => {
 			state.user = action.payload;
 		});
-		// builder.addCase(recoverPassword.fulfilled, (_, action) => {
-		// 	action.payload;
-		// });
-		// builder.addCase(changePassword.fulfilled, (_, action) => {
-		// 	action.payload;
-		// });
 	},
 });

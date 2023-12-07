@@ -71,7 +71,7 @@ class UserRepository implements IUserService {
 	}
 
 	async deleteAccout(): Promise<IUser> {
-		const axios = await createAxios();
+		const axios = await createAxiosApp();
 		const deleteAccoutResponse = await axios.post<IXelcoLoginDTO>(
 			"/api/auth/deleteAccount"
 		);

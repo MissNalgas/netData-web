@@ -90,6 +90,17 @@ export default function ProfileComponent(): JSX.Element {
 				sideModal.toggle({});
 			});
 	};
+
+	const handleDelete = () => {
+		dispatch(deleteAccount())
+			.then((res) => {
+				console.log("response", res);
+				toast.success(t("message_deleted"));
+			})
+			.catch(() => {
+				toast.error(t("message_error"));
+			});
+	};
 	const show = () => {
 		sideModal.toggle({
 			content: () => (
@@ -255,7 +266,7 @@ export default function ProfileComponent(): JSX.Element {
 						<SecondaryButton
 							disabled={false}
 							width={30}
-							onClick={() => dispatch(deleteAccount())}
+							onClick={handleDelete}
 						>
 							<div className="flex flex-row gap-5">
 								<Icon

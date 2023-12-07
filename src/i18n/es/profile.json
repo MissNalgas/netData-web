@@ -1,5 +1,5 @@
 {
-	"greeting": "Hola, ",
+	"greeting": "Hola",
 	"help_guide": "Guía de ayuda",
 	"notifications": "Notificaciones",
 	"report": "Reportar problemas de la app",
@@ -16,5 +16,6 @@
 		"writeYourMessage": "Escribe aquí",
 		"yourMessage": "Tu Mensaje",
 		"send": "Enviar"
-	}
+	},
+	"message_deleted": "Cuenta eliminada"
 }

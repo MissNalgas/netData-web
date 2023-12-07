@@ -86,7 +86,6 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 		const newPassword = data?.repeatPassword;
 		if (password !== newPassword) {
 			toast.error(t("passwords_not_match"));
-			return;
 		} else {
 			dispatch(
 				changePassword({
