@@ -22,7 +22,7 @@ export default function ChangePasswordForm({
 		resolver: yupResolver(validationPassword),
 		mode: "all",
 	});
-	const { t } = useTranslation("forgot_password");
+	const { t } = useTranslation("recover_password");
 	const isError = !!errors.password || !!errors.repeatPassword;
 	const showValidationInputs = isValid;
 
