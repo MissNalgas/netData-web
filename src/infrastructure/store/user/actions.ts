@@ -16,7 +16,7 @@ const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
 			const user = await userRepository.getUser(email, password);
 			return user;
 		} catch (err) {
-			return state.rejectWithValue(err)
+			return state.rejectWithValue(err);
 		}
 	}
 );
