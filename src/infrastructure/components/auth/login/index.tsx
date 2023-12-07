@@ -7,7 +7,8 @@ import { useAuth } from "@infrastructure/containers/auth";
 import { ILogin } from "@infrastructure/containers/forms/login";
 import LoaderComponent from "@shared/components/loader";
 import { useTranslation } from "react-i18next";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { SentriaError } from "@shared/utils/error";
 
 const LoginComponent: React.FC = () => {
 	const { login } = useAuth();
@@ -16,32 +17,21 @@ const LoginComponent: React.FC = () => {
 
 	const handleSubmit = (data: ILogin) => {
 		setIsLoading(true);
-		login(data.email, data.password)
-			.then(() => {
-				toast.success(t("success"));
-			})
-			.catch(() => {
-				toast.error(t("error"));
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
-	};
+		login(data.email, data.password).finally(() => {
+			setIsLoading(false);
+		}).catch((err) => {
+
+			if (err instanceof SentriaError) {
+				toast.error(err.message);
+			} else {
+				toast.error("Hubo un error al iniciar sesión, por favor, vuelve a intentar");
+			}
+
+		})
+	}
 
 	return (
 		<ContentForm>
-			<ToastContainer
-				position="top-center"
-				autoClose={5000}
-				hideProgressBar={true}
-				newestOnTop={true}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="light"
-			/>
 			<TitleCustom $center>{t("welcome_title")}</TitleCustom>
 			<SecondTitleCustom $center>{t("subTitle")}</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />

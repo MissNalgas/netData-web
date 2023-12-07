@@ -5,11 +5,14 @@ import { LoginAdapter } from "@infrastructure/adapters/login";
 import { createAxios, createAxiosApp } from "@infrastructure/api/http/axios";
 import {
 	IResponseServiceDTO,
+	IXelcoErrorDTO,
 	IXelcoInscriptionDTO,
 	IXelcoLoginDTO,
 } from "@infrastructure/model";
 import { Contact } from "@infrastructure/store/user/types";
 import { VAPID_KEY } from "@shared/constants";
+import { SentriaError } from "@shared/utils/error";
+import { AuthError } from "@shared/utils/error/auth";
 import firebaseApp from "@shared/utils/firebase";
 import { getMessaging, getToken, isSupported } from "firebase/messaging";
 
@@ -39,7 +42,7 @@ class UserRepository implements IUserService {
 		if (!xelcoToken)
 			throw new Error("Xelco inscription did not return a valid token");
 
-		const loginResponse = await axios.post<IXelcoLoginDTO>(
+		const loginResponse = await axios.post<IXelcoLoginDTO | IXelcoErrorDTO>(
 			"/api/auth/login",
 			{
 				token: xelcoToken,
@@ -51,7 +54,31 @@ class UserRepository implements IUserService {
 			"tokenApp",
 			loginResponse?.data?.idToken?.jwtToken ?? ""
 		);
-		return LoginAdapter.userFromDTO(loginResponse.data);
+
+		const code = "code" in loginResponse.data && loginResponse.data.code;
+
+		if (code === "NotAuthorizedException") {
+			throw new SentriaError(
+				AuthError.NotAuthorized,
+				"Correo o contraseña no válido"
+			);
+		}
+
+		if (code === "UserNotConfirmedException") {
+			throw new SentriaError(
+				AuthError.NotConfirmed,
+				"¡Tu usuario se encuentra inactivo! Valida tu cuenta a través del enlace enviado a tu bandeja de entrada o al spam del correo registrado, ten en cuenta que este enlace tiene una vigencia de 24 horas, de lo contrario deberás solicitar un correo nuevo."
+			);
+		}
+
+		if (code) {
+			throw new SentriaError(
+				AuthError.NotRegistered,
+				"Usuario no registrado"
+			);
+		}
+
+		return LoginAdapter.userFromDTO(loginResponse.data as IXelcoLoginDTO);
 	}
 
 	async checkEmail(email: string): Promise<IResponseServiceDTO> {
