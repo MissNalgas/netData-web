@@ -8,7 +8,6 @@ import {
 	PrimaryButton,
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
-import { useSideModal } from "@shared/components/sideModal";
 import { useTranslation } from "react-i18next";
 
 export interface ILogin {
@@ -21,23 +20,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
-	const sideModal = useSideModal();
     const { t } = useTranslation("login");
-
-	const show = () => {
-		sideModal.toggle({
-			content: () => (
-				<div>
-					<button onClick={() => sideModal.toggle({})}>close</button>
-					<h1 className="text-xl font-bold text-center">This is an example</h1>
-					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ea.
-					</p>
-
-				</div>
-			),
-		});
-	}
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -66,7 +49,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 			<PrimaryButton disabled={disableSubmit} type="submit" className="w-full">
 				{t("sign_in")}
 			</PrimaryButton>
-			<SecondaryButton onClick={show} type="button" className="w-full">
+			<SecondaryButton onClick={() => router.push("register")} type="button" className="w-full">
 				{t("register")}
 			</SecondaryButton>
 		</form>
