@@ -63,10 +63,8 @@ export default function ProfileComponent(): JSX.Element {
 			if (Notification.permission !== "granted") {
 				Notification.requestPermission().then((permission) => {
 					if (permission === "granted") {
-						console.log("Permisos de notificación concedidos.");
 						localStorage.setItem("notifications", "true");
 					} else if (permission === "denied") {
-						console.log("Permisos de notificación denegados.");
 						localStorage.setItem("notifications", "false");
 					}
 				});
