@@ -91,7 +91,7 @@ export default function Sidebar() {
 				icon={() => <Icon icon="Logout" size={24} color="white" />}
 				onClick={() => {
 					logOut();
-					localStorage.clear();
+					localStorage.removeItem("tokenApp");
 				}}
 			/>
 		</div>

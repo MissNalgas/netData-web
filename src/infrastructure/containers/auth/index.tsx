@@ -18,7 +18,7 @@ import LoaderComponent from "@shared/components/loader";
 
 const AuthContext = createContext<IUserContext>({
 	user: undefined,
-	async login(_email: string, _password: string) {},
+	async login(_email: string, _password: string): Promise<void> {},
 	logOut() {},
 });
 
@@ -32,8 +32,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const login = useCallback(
-		async (email: string, password: string) => {
-			return await dispatch(
+		async (email: string, password: string): Promise<void> => {
+			await dispatch(
 				getDataUser({
 					email,
 					password,
@@ -59,7 +59,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	useEffect(() => {
 		if (PUBLIC_ROUTES.some((route) => new RegExp(route).test(pathname))) {
 			if (isValidToken(user.token)) {
-				router.replace("/profile");
+				router.replace("/");
 			}
 		} else {
 			if (isValidToken(user.token)) {

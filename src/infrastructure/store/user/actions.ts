@@ -20,7 +20,7 @@ const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
 );
 
 const resetState = createAsyncThunk("user/cleanData", async (_, {}) => {
-	localStorage.clear();
+	localStorage.removeItem("tokenApp");
 	return initialState.user;
 });
 
