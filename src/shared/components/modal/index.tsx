@@ -46,7 +46,7 @@ export default function Modal(props: ModalProps) {
 				case "config":
 					buttonPosition = {
 						top: "26.5%",
-						left: "76%",
+						left: "73%",
 					};
 					setModalPosition(buttonPosition);
 					break;

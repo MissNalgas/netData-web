@@ -20,7 +20,7 @@ export const textValidation = <T extends boolean>(
 	return schema as TextValidationResult<T>;
 };
 
-export const emailValidation = () => textValidation(true).email();
+export const emailValidation = () => textValidation(true).email().required();
 export const passwordValidation = () =>
 	textValidation(true).min(6).matches(passwordRegex);
 const validationPassword = yup.object().shape({

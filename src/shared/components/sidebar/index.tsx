@@ -12,32 +12,40 @@ import { useTranslation } from "react-i18next";
 
 export default function Sidebar() {
 	const router = useRouter();
-    const { t } = useTranslation("sidebar");
+	const { t } = useTranslation("sidebar");
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 
-	const buttons = useMemo(() => ([
-		{
-			label: "Dashboard",
-			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
-			onClick: () => router.push("/"),
-		},
-		{
-			label: "Heatmap",
-			icon: () => <Icon icon="temperature" size={24} color="white"/>,
-			onClick: () => router.push("/heatmap"),
-		},
-		{
-			label: "Eventos",
-			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
-			onClick: () => alert("eventos"),
-		},
-		{
-			label: "Notificaciones",
-			icon: () => <Icon icon="Bell" size={24} color="white"/>,
-			onClick: () => router.push("notifications"),
-		},
-	] as ISideButton[]), [router]);
+	const buttons = useMemo(
+		() =>
+			[
+				{
+					label: "Dashboard",
+					icon: () => <Icon icon="Sentria" size={24} color="white" />,
+					onClick: () => router.push("/"),
+				},
+				{
+					label: "Heatmap",
+					icon: () => (
+						<Icon icon="temperature" size={24} color="white" />
+					),
+					onClick: () => router.push("/heatmap"),
+				},
+				{
+					label: "Eventos",
+					icon: () => (
+						<Icon icon="bar-graph" size={24} color="white" />
+					),
+					onClick: () => alert("eventos"),
+				},
+				{
+					label: "Notificaciones",
+					icon: () => <Icon icon="Bell" size={24} color="white" />,
+					onClick: () => router.push("notifications"),
+				},
+			] as ISideButton[],
+		[router]
+	);
 
 	const bottomButtons = useMemo(
 		() => [
@@ -80,8 +88,11 @@ export default function Sidebar() {
 			<hr className="my-4 mx-6" />
 			<SideButton
 				label={t("close_sesion")}
-				icon={() => <Icon icon="Logout" size={24} color="white"/>}
-				onClick={() => logOut()}
+				icon={() => <Icon icon="Logout" size={24} color="white" />}
+				onClick={() => {
+					logOut();
+					localStorage.removeItem("tokenApp");
+				}}
 			/>
 		</div>
 	);

@@ -1,12 +1,15 @@
 import { IUser } from "@domain/models";
 import { IUserService } from "@domain/services/User.service";
+import { ContactAdapter } from "@infrastructure/adapters";
 import { LoginAdapter } from "@infrastructure/adapters/login";
-import { createAxios } from "@infrastructure/api/http/axios";
+import { createAxios, createAxiosApp } from "@infrastructure/api/http/axios";
 import {
+	IResponseServiceDTO,
 	IXelcoErrorDTO,
 	IXelcoInscriptionDTO,
 	IXelcoLoginDTO,
 } from "@infrastructure/model";
+import { Contact } from "@infrastructure/store/user/types";
 import { VAPID_KEY } from "@shared/constants";
 import { SentriaError } from "@shared/utils/error";
 import { AuthError } from "@shared/utils/error/auth";
@@ -39,14 +42,21 @@ class UserRepository implements IUserService {
 		if (!xelcoToken)
 			throw new Error("Xelco inscription did not return a valid token");
 
-		const loginResponse = await axios.post<IXelcoLoginDTO | IXelcoErrorDTO>(
-			"/api/auth/login",
-			{
-				token: xelcoToken,
-				mail: email,
-				password,
-			}
+		const loginResponse = await axios.post<
+			IXelcoLoginDTO | IXelcoErrorDTO | any
+		>("/api/auth/login", {
+			token: xelcoToken,
+			mail: email,
+			password,
+		});
+
+		localStorage.setItem(
+			"tokenApp",
+			loginResponse?.data?.idToken?.jwtToken ?? ""
 		);
+
+		if (localStorage.getItem("guide") === null)
+			localStorage.setItem("guide", "true");
 
 		const code = "code" in loginResponse.data && loginResponse.data.code;
 
@@ -72,6 +82,45 @@ class UserRepository implements IUserService {
 		}
 
 		return LoginAdapter.userFromDTO(loginResponse.data as IXelcoLoginDTO);
+	}
+
+	async checkEmail(email: string): Promise<IResponseServiceDTO> {
+		try {
+			const axios = await createAxios();
+			const body = {
+				mail: email,
+			};
+			const checkEmailResponse = await axios.post(
+				"/api/auth/checkMail",
+				body
+			);
+			return LoginAdapter.checkEmailDTO({
+				status: checkEmailResponse.status,
+				message: checkEmailResponse.data.message,
+				data: checkEmailResponse.data,
+			});
+		} catch (error) {
+			throw error;
+		}
+	}
+
+	async deleteAccout(): Promise<IUser> {
+		const axios = await createAxiosApp();
+		const deleteAccoutResponse = await axios.post<IXelcoLoginDTO>(
+			"/api/auth/deleteAccount"
+		);
+
+		return LoginAdapter.userFromDTO(deleteAccoutResponse.data);
+	}
+
+	async contact(body: Contact): Promise<any> {
+		const axios = await createAxiosApp();
+		const contactResponse = await axios.post<any>(
+			"/api/xelco/sendMail",
+			body
+		);
+
+		return ContactAdapter.userFromDTO(contactResponse.data);
 	}
 }
 

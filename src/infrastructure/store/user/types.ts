@@ -5,3 +5,12 @@ export type AppState = {
 	pending: boolean;
 	error: boolean;
 };
+
+export interface GetDataUserPayload {
+	email: string;
+	password: string;
+}
+export interface Contact {
+	subject: string;
+	body: string;
+}

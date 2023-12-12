@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useTheme } from "styled-components";
-import { JSX } from "react";
+import { JSX, useCallback, useState } from "react";
 
 import { useAuth } from "@infrastructure/containers/auth";
 import Icon from "@shared/components/icons";
@@ -9,7 +9,12 @@ import {
 	PrimaryButton,
 	SecondaryButton,
 } from "@shared/components/buttons/styled";
-import { CaptionOne, SubtitleLink } from "@shared/components/labels/styled";
+import {
+	BodyTwo,
+	CaptionOne,
+	Overline,
+	SubtitleLink,
+} from "@shared/components/labels/styled";
 
 import { useSideModal } from "@shared/components/sideModal";
 import Modal from "@shared/components/modal";
@@ -23,22 +28,81 @@ import {
 	ContentLogo,
 	ImageProfile,
 } from "./styled";
-import ChatForm from "@infrastructure/containers/forms/chat";
+import ChatForm, { IChatForm } from "@infrastructure/containers/forms/chat";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 import Toggle from "@shared/components/toggle";
 import { useAppDispatch } from "@hooks/index";
 import { showTooltipModal } from "@shared/components/tooltip/slice";
+import { contact, deleteAccount } from "@infrastructure/store/user/actions";
+import { toast } from "react-toastify";
 
 export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
 	const theme = useTheme();
 	const router = useRouter();
 	const sideModal = useSideModal();
-    const { t } = useTranslation("profile");
+	const { t, i18n } = useTranslation("profile");
 	const [isOpen, setIsOpen] = useState(false);
+
 	const dispatch = useAppDispatch();
 
+	const _setLang = useCallback(
+		async (lang: "es" | "en") => {
+			await i18n?.changeLanguage(lang);
+			localStorage.setItem("language", lang);
+			setIsOpen(false);
+		},
+		[i18n]
+	);
+
+	const toggleNotifications = (isCheked: boolean) => {
+		if (isCheked) {
+			Notification.permission === "denied";
+			localStorage.setItem("notifications", "false");
+		} else {
+			if (Notification.permission !== "granted") {
+				Notification.requestPermission().then((permission) => {
+					if (permission === "granted") {
+						localStorage.setItem("notifications", "true");
+					} else if (permission === "denied") {
+						localStorage.setItem("notifications", "false");
+					}
+				});
+			}
+		}
+
+		setIsOpen(false);
+	};
+
+	const handleSubmit = (data: IChatForm) => {
+		dispatch(
+			contact({
+				body: data.affair,
+				subject: data.message,
+			})
+		)
+			.then(() => {
+				sideModal.toggle({});
+				toast.success(t("message_sent"));
+			})
+			.catch(() => {
+				sideModal.toggle({});
+				toast.error(t("message_error"));
+			})
+			.finally(() => {
+				sideModal.toggle({});
+			});
+	};
+
+	const handleDelete = () => {
+		dispatch(deleteAccount())
+			.then(() => {
+				toast.success(t("message_deleted"));
+			})
+			.catch(() => {
+				toast.error(t("message_error"));
+			});
+	};
 	const show = () => {
 		sideModal.toggle({
 			content: () => (
@@ -50,17 +114,72 @@ export default function ProfileComponent(): JSX.Element {
 						<Icon icon="Cancel" size={22} />
 					</button>
 					<div className="my-5">
-						<CaptionOne>
-							¿Tienes algún problema con el funcionamiento de la
-							app? envíanos un mensaje y pronto nos pondremos en
-							contacto contigo.
-						</CaptionOne>
+						<CaptionOne>{t("contact")}</CaptionOne>
 					</div>
 
-					<ChatForm onSubmit={() => {}} />
+					<ChatForm onSubmit={handleSubmit} />
 				</section>
 			),
 		});
+	};
+	const renderModal = () => {
+		return (
+			<Modal
+				typeModal="config"
+				isOpen={isOpen}
+				onActionModal={() => setIsOpen(!isOpen)}
+			>
+				<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
+					<div className="flex flex-row items-center justify-between  w-full">
+						<div className="flex flex-row items-center justify-start gap-3">
+							<Icon
+								icon="Bell"
+								size={24}
+								color={theme.colors.orange50}
+							/>
+							<Overline $weight={600} $size="16px">
+								{t("notifications")}
+							</Overline>
+						</div>
+						<div>
+							<Toggle
+								actionToggle={(checked) => {
+									toggleNotifications(checked);
+								}}
+							/>
+						</div>
+					</div>
+				</ContentCardModalItem>
+				<ContentCardModalItem className="h-28">
+					<div className="flex flex-row items-center justify-start gap-3 ">
+						<Icon
+							icon="account"
+							size={24}
+							color={theme.colors.orange50}
+						/>
+						<Overline $weight={600}>{t("language")}</Overline>
+					</div>
+					<div className="flex flex-row items-center justify-between gap-2 my-2">
+						<PrimaryButton
+							disabled={false}
+							onClick={() => _setLang("es")}
+						>
+							<BodyTwo $color="#FFFF" $weight={600}>
+								{t("es")}
+							</BodyTwo>
+						</PrimaryButton>
+						<SecondaryButton
+							disabled={false}
+							onClick={() => _setLang("en")}
+						>
+							<BodyTwo $color="#F37335" $weight={600}>
+								{t("en")}
+							</BodyTwo>
+						</SecondaryButton>
+					</div>
+				</ContentCardModalItem>
+			</Modal>
+		);
 	};
 	return (
 		<main className="flex space-between mx-5 py-8 h-screen mb-32">
@@ -79,59 +198,14 @@ export default function ProfileComponent(): JSX.Element {
 						>
 							<Icon icon="Setting" size={22} />
 						</button>
-						<Modal
-							typeModal="config"
-							isOpen={isOpen}
-							onActionModal={() => setIsOpen(!isOpen)}
-						>
-							<ContentCardModalItem className="flex flex-row items-center justify-between gap-2 h-14">
-								<div className="flex flex-row items-center justify-start gap-3 ">
-									<Icon
-										icon="Bell"
-										size={24}
-										color={theme.colors.orange50}
-									/>
-									<SubtitleLink $weight={600}>
-										Notificaciones
-									</SubtitleLink>
-									<Toggle
-										actionToggle={() => setIsOpen(false)}
-									/>
-								</div>
-							</ContentCardModalItem>
-							<ContentCardModalItem className="h-28">
-								<div className="flex flex-row items-center justify-start gap-3 ">
-									<Icon
-										icon="account"
-										size={24}
-										color={theme.colors.orange50}
-									/>
-									<SubtitleLink $weight={600}>
-										Idioma
-									</SubtitleLink>
-								</div>
-								<div className="flex flex-row items-center justify-between gap-2">
-									<PrimaryButton
-										disabled={false}
-										onClick={() => setIsOpen(false)}
-									>
-										Español
-									</PrimaryButton>
-									<SecondaryButton
-										disabled={false}
-										onClick={() => setIsOpen(false)}
-									>
-										Ingles
-									</SecondaryButton>
-								</div>
-							</ContentCardModalItem>
-						</Modal>
+						{renderModal()}
 					</ContentHeader>
 
 					<div className="flex flex-col justify-center items-center gap-y-2 p-10">
 						<div>
 							<SubtitleLink $weight={600}>
 								{t("greeting")}
+								{","}
 								<span className="text-primary font-semibold">
 									{auth.user?.firstname}
 								</span>
@@ -149,54 +223,66 @@ export default function ProfileComponent(): JSX.Element {
 
 					<ContentBody>
 						<PrimaryButton
-							width={30}
+							width={21}
 							onClick={() => {
 								router.push("/");
 								dispatch(showTooltipModal());
 							}}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon
 									icon="info-circle"
 									size={24}
 									color="white"
 								/>
-								{t("help_guide")}
+								<BodyTwo $color="#Ffff" $weight={600}>
+									{t("help_guide")}
+								</BodyTwo>
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
-							width={30}
+							width={21}
 							onClick={() => router.push("/notifications")}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon icon="Bell" size={24} color="white" />
-								{t("notifications")}
+								<BodyTwo $color="#Ffff" $weight={600}>
+									{t("notifications")}
+								</BodyTwo>
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
 							disabled={false}
-							width={30}
+							width={21}
 							onClick={show}
 						>
-							<div className="flex flex-row gap-5">
+							<div className="flex flex-row gap-2 ">
 								<Icon
 									icon="Paper-Plane"
 									size={24}
 									color="white"
 								/>
-								{t("report")}
+								<BodyTwo $color="#Ffff" $weight={600}>
+									{t("report")}
+								</BodyTwo>
 							</div>
 						</PrimaryButton>
 					</ContentBody>
 					<div className="flex justify-center my-8">
-						<SecondaryButton disabled={false} width={30}>
-							<div className="flex flex-row gap-5">
+						<SecondaryButton
+							disabled={false}
+							width={21}
+							onClick={handleDelete}
+						>
+							<div className="flex flex-row gap-2 ">
 								<Icon
 									icon="account"
 									size={24}
 									color={theme.colors.orange50}
 								/>
-								{t("delete_account")}
+								<BodyTwo $color="#F37335" $weight={600}>
+									{t("delete_account")}
+								</BodyTwo>
 							</div>
 						</SecondaryButton>
 					</div>
