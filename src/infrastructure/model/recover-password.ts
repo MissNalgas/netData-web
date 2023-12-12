@@ -10,7 +10,12 @@ export interface getDataChangePasswordDTO {
 
 export interface IResponseServiceDTO {
 	payload?: any;
-	message: string | "SUCCESS";
+	message:
+		| string
+		| "SUCCESS"
+		| "FAILED"
+		| "CodeMismatchException"
+		| "ExpiredCodeException";
 	status: number;
 	data: any;
 	code?: string;

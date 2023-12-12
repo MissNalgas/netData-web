@@ -4,21 +4,6 @@ import { createAxios } from "@infrastructure/api/http/axios";
 import { IResponseServiceDTO } from "@infrastructure/model";
 
 class recoverPasswordRepository implements IRecoverPasswordService {
-	async checkEmail(email: string): Promise<IResponseServiceDTO> {
-		const axios = await createAxios();
-		const body = {
-			mail: email,
-		};
-		const checkEmailResponse = await axios.post<IResponseServiceDTO>(
-			"/api/auth/checkMail",
-			body
-		);
-		return LoginAdapter.checkEmailDTO({
-			status: checkEmailResponse.status,
-			message: checkEmailResponse.data.message,
-			data: checkEmailResponse.data,
-		});
-	}
 	async recoverPassword(email: string): Promise<IResponseServiceDTO> {
 		const axios = await createAxios();
 

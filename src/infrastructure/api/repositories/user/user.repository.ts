@@ -85,19 +85,23 @@ class UserRepository implements IUserService {
 	}
 
 	async checkEmail(email: string): Promise<IResponseServiceDTO> {
-		const axios = await createAxios();
-		const body = {
-			mail: email,
-		};
-		const checkEmailResponse = await axios.post<IResponseServiceDTO>(
-			"/api/auth/checkMail",
-			body
-		);
-		return LoginAdapter.checkEmailDTO({
-			status: checkEmailResponse.status,
-			message: checkEmailResponse.data.message,
-			data: checkEmailResponse.data,
-		});
+		try {
+			const axios = await createAxios();
+			const body = {
+				mail: email,
+			};
+			const checkEmailResponse = await axios.post(
+				"/api/auth/checkMail",
+				body
+			);
+			return LoginAdapter.checkEmailDTO({
+				status: checkEmailResponse.status,
+				message: checkEmailResponse.data.message,
+				data: checkEmailResponse.data,
+			});
+		} catch (error) {
+			throw error;
+		}
 	}
 
 	async deleteAccout(): Promise<IUser> {

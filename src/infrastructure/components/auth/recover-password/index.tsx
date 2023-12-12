@@ -35,7 +35,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	const dispatch = useAppDispatch();
 	const [saveEmailTemporary, setSaveEmailTemporary] = useState<string>("");
 	const [saveCode, setSaveCode] = useState<string>("");
-	const [isSucces, setIsSuccess] = useState<boolean>(false);
+	const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
 	const router = useRouter();
 	const title = t("recover_password");
@@ -43,72 +43,71 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 		1: title,
 		2: title,
 		3: title,
-		4: isSucces ? t("title_success") : t("title_error"),
+		4: isSuccess ? t("title_success") : t("title_error"),
 	};
 
-	const handleSendCode = (email: string) => {
-		dispatch(recoverPassword(email))
-			.unwrap()
-			.then((res: any) => {
-				if (
-					res.payload.status === 201 &&
-					res.payload.data.name === "LimitExceededException"
-				) {
-					toast.error(t("LimitExceededException"));
-				} else {
-					setChangeAction(2);
-				}
-			})
-			.catch(() => {
-				toast.error(t("title_error"));
-			});
+	const handleSendCode = async (email: string) => {
+		try {
+			const res: any = await dispatch(recoverPassword(email));
+
+			if (
+				res.payload.status === 201 &&
+				res.payload.data.name === "LimitExceededException"
+			) {
+				toast.error(t("limitExceededException"));
+			} else {
+				setChangeAction(2);
+			}
+		} catch (error) {
+			toast.error(t("title_error"));
+		}
 		setSaveEmailTemporary(email);
 	};
-	const handleCheckEmail = (data: IForgotPassword) => {
+
+	const handleCheckEmail = async (data: IForgotPassword) => {
 		const email = data.email;
-		dispatch(checkEmail(email))
-			.unwrap()
-			.then((res: any) => {
-				if (
-					res.payload.status === 201 &&
-					res.payload.message === "Mail not found in requesters"
-				) {
-					toast.error(t("message_not_sent"));
-				} else {
-					handleSendCode(email);
-				}
-			})
-			.catch(() => {
-				toast.error(t("title_error"));
-			});
+		try {
+			const res: any = await dispatch(checkEmail(email));
+			if (
+				res.payload.status === 201 &&
+				res.payload.message === "Mail already exist"
+			) {
+				await handleSendCode(email);
+			} else if (
+				res.payload.status === 201 &&
+				res.payload.message === "Mail not found in requesters"
+			) {
+				toast.error(t("message_not_sent"));
+			}
+		} catch (error) {
+			toast.error(t("title_error"));
+		}
 	};
 
-	const handleChangePassword = (data: IChangePassword) => {
+	const handleChangePassword = async (data: IChangePassword) => {
 		const password = data.password;
 		const newPassword = data?.repeatPassword;
 		if (password !== newPassword) {
 			toast.error(t("passwords_not_match"));
 		} else {
-			dispatch(
-				changePassword({
-					mail: saveEmailTemporary,
-					code: saveCode,
-					newPassword: (newPassword && newPassword) || "",
-				})
-			)
-				.unwrap()
-				.then((res) => {
-					if (res.payload.message === "FAILED") {
-						setIsSuccess(false);
-						setChangeAction(4);
-					} else {
-						setIsSuccess(true);
-						setChangeAction(4);
-					}
-				})
-				.catch(() => {
-					toast.error(t("title_error"));
-				});
+			try {
+				const res: any = await dispatch(
+					changePassword({
+						mail: saveEmailTemporary,
+						code: saveCode,
+						newPassword: (newPassword && newPassword) || "",
+					})
+				);
+				if (res.payload.message === "FAILED") {
+					setIsSuccess(false);
+					setChangeAction(4);
+				} else {
+					setIsSuccess(true);
+					setChangeAction(4);
+				}
+			} catch (error) {
+				toast.error(t("title_error"));
+			}
 		}
 	};
 	const message = messages[changeStateAction ?? 1] || t("title_error");
@@ -141,14 +140,14 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 			)}
 			{changeStateAction === 4 && (
 				<ErrorImage
-					image={isSucces ? Computer : ErrorClose}
+					image={isSuccess ? Computer : ErrorClose}
 					textButton={
-						isSucces ? t("button_success") : t("button_error")
+						isSuccess ? t("button_success") : t("button_error")
 					}
 					onClickButton={() =>
-						isSucces ? router.push("login") : setChangeAction(1)
+						isSuccess ? router.push("login") : setChangeAction(1)
 					}
-					description={!isSucces ? t("description_error") : ""}
+					description={!isSuccess ? t("description_error") : ""}
 				/>
 			)}
 		</ContentForm>
