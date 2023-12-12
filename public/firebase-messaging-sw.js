@@ -103,9 +103,8 @@ function isVersionServiceProvider(provider) {
   var component = provider.getComponent();
   return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
 }
-
 var name$o = "@firebase/app";
-var version$1 = "0.9.23";
+var version$1 = "0.9.24";
 
 /**
  * @license
@@ -148,7 +147,7 @@ var name$3 = "@firebase/storage-compat";
 var name$2 = "@firebase/firestore";
 var name$1 = "@firebase/firestore-compat";
 var name = "firebase";
-var version = "10.6.0";
+var version = "10.7.0";
 
 /**
  * @license
@@ -439,7 +438,6 @@ function initializeApp(_options) {
   if (!options) {
     throw ERROR_FACTORY.create("no-options" /* AppError.NO_OPTIONS */);
   }
-
   var existingApp = _apps.get(name);
   if (existingApp) {
     // return the existing app if options and config deep equal the ones in the existing app.
@@ -613,7 +611,6 @@ function onLog(logCallback, options) {
   if (logCallback !== null && typeof logCallback !== 'function') {
     throw ERROR_FACTORY.create("invalid-log-argument" /* AppError.INVALID_LOG_ARGUMENT */);
   }
-
   (0, _logger.setUserLogHandler)(logCallback, options);
 }
 /**
@@ -808,7 +805,7 @@ var HeartbeatServiceImpl = /*#__PURE__*/function () {
     key: "triggerHeartbeat",
     value: (function () {
       var _triggerHeartbeat = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-        var _a, platformLogger, agent, date;
+        var _a, _b, platformLogger, agent, date;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
@@ -817,28 +814,33 @@ var HeartbeatServiceImpl = /*#__PURE__*/function () {
               agent = platformLogger.getPlatformInfoString();
               date = getUTCDateString();
               if (!(((_a = this._heartbeatsCache) === null || _a === void 0 ? void 0 : _a.heartbeats) == null)) {
-                _context.next = 7;
+                _context.next = 9;
                 break;
               }
               _context.next = 6;
               return this._heartbeatsCachePromise;
             case 6:
               this._heartbeatsCache = _context.sent;
-            case 7:
-              if (!(this._heartbeatsCache.lastSentHeartbeatDate === date || this._heartbeatsCache.heartbeats.some(function (singleDateHeartbeat) {
-                return singleDateHeartbeat.date === date;
-              }))) {
-                _context.next = 11;
+              if (!(((_b = this._heartbeatsCache) === null || _b === void 0 ? void 0 : _b.heartbeats) == null)) {
+                _context.next = 9;
                 break;
               }
               return _context.abrupt("return");
-            case 11:
+            case 9:
+              if (!(this._heartbeatsCache.lastSentHeartbeatDate === date || this._heartbeatsCache.heartbeats.some(function (singleDateHeartbeat) {
+                return singleDateHeartbeat.date === date;
+              }))) {
+                _context.next = 13;
+                break;
+              }
+              return _context.abrupt("return");
+            case 13:
               // There is no entry for this date. Create one.
               this._heartbeatsCache.heartbeats.push({
                 date: date,
                 agent: agent
               });
-            case 12:
+            case 14:
               // Remove entries older than 30 days.
               this._heartbeatsCache.heartbeats = this._heartbeatsCache.heartbeats.filter(function (singleDateHeartbeat) {
                 var hbTimestamp = new Date(singleDateHeartbeat.date).valueOf();
@@ -846,7 +848,7 @@ var HeartbeatServiceImpl = /*#__PURE__*/function () {
                 return now - hbTimestamp <= STORED_HEARTBEAT_RETENTION_MAX_MILLIS;
               });
               return _context.abrupt("return", this._storage.overwrite(this._heartbeatsCache));
-            case 14:
+            case 16:
             case "end":
               return _context.stop();
           }
@@ -1050,10 +1052,16 @@ var HeartbeatStorageImpl = /*#__PURE__*/function () {
               return readHeartbeatsFromIndexedDB(this.app);
             case 9:
               idbHeartbeatObject = _context4.sent;
-              return _context4.abrupt("return", idbHeartbeatObject || {
+              if (!(idbHeartbeatObject === null || idbHeartbeatObject === void 0 ? void 0 : idbHeartbeatObject.heartbeats)) {
+                _context4.next = 14;
+                break;
+              }
+              return _context4.abrupt("return", idbHeartbeatObject);
+            case 14:
+              return _context4.abrupt("return", {
                 heartbeats: []
               });
-            case 11:
+            case 15:
             case "end":
               return _context4.stop();
           }
@@ -1196,336 +1204,7 @@ function registerCoreComponents(variant) {
  */
 registerCoreComponents('');
 
-},{"@firebase/component":4,"@firebase/logger":6,"@firebase/util":8,"idb":2}],2:[function(require,module,exports){
-'use strict';
-
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw new Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw new Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-var wrapIdbValue = require('./wrap-idb-value.cjs');
-
-/**
- * Open a database.
- *
- * @param name Name of the database.
- * @param version Schema version.
- * @param callbacks Additional callbacks.
- */
-function openDB(name, version) {
-  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-    blocked = _ref.blocked,
-    upgrade = _ref.upgrade,
-    blocking = _ref.blocking,
-    terminated = _ref.terminated;
-  var request = indexedDB.open(name, version);
-  var openPromise = wrapIdbValue.wrap(request);
-  if (upgrade) {
-    request.addEventListener('upgradeneeded', function (event) {
-      upgrade(wrapIdbValue.wrap(request.result), event.oldVersion, event.newVersion, wrapIdbValue.wrap(request.transaction), event);
-    });
-  }
-  if (blocked) {
-    request.addEventListener('blocked', function (event) {
-      return blocked(
-      // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
-      event.oldVersion, event.newVersion, event);
-    });
-  }
-  openPromise.then(function (db) {
-    if (terminated) db.addEventListener('close', function () {
-      return terminated();
-    });
-    if (blocking) {
-      db.addEventListener('versionchange', function (event) {
-        return blocking(event.oldVersion, event.newVersion, event);
-      });
-    }
-  })["catch"](function () {});
-  return openPromise;
-}
-/**
- * Delete a database.
- *
- * @param name Name of the database.
- */
-function deleteDB(name) {
-  var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    blocked = _ref2.blocked;
-  var request = indexedDB.deleteDatabase(name);
-  if (blocked) {
-    request.addEventListener('blocked', function (event) {
-      return blocked(
-      // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
-      event.oldVersion, event);
-    });
-  }
-  return wrapIdbValue.wrap(request).then(function () {
-    return undefined;
-  });
-}
-var readMethods = ['get', 'getKey', 'getAll', 'getAllKeys', 'count'];
-var writeMethods = ['put', 'add', 'delete', 'clear'];
-var cachedMethods = new Map();
-function getMethod(target, prop) {
-  if (!(target instanceof IDBDatabase && !(prop in target) && typeof prop === 'string')) {
-    return;
-  }
-  if (cachedMethods.get(prop)) return cachedMethods.get(prop);
-  var targetFuncName = prop.replace(/FromIndex$/, '');
-  var useIndex = prop !== targetFuncName;
-  var isWrite = writeMethods.includes(targetFuncName);
-  if (
-  // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
-  !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) || !(isWrite || readMethods.includes(targetFuncName))) {
-    return;
-  }
-  var method = /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(storeName) {
-      var _target;
-      var tx,
-        target,
-        _len,
-        args,
-        _key,
-        _args = arguments;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            // isWrite ? 'readwrite' : undefined gzipps better, but fails in Edge :(
-            tx = this.transaction(storeName, isWrite ? 'readwrite' : 'readonly');
-            target = tx.store;
-            for (_len = _args.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-              args[_key - 1] = _args[_key];
-            }
-            if (useIndex) target = target.index(args.shift());
-            // Must reject if op rejects.
-            // If it's a write operation, must reject if tx.done rejects.
-            // Must reject with op rejection first.
-            // Must resolve with op value.
-            // Must handle both promises (no unhandled rejections)
-            _context.next = 6;
-            return Promise.all([(_target = target)[targetFuncName].apply(_target, args), isWrite && tx.done]);
-          case 6:
-            return _context.abrupt("return", _context.sent[0]);
-          case 7:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee, this);
-    }));
-    return function method(_x) {
-      return _ref3.apply(this, arguments);
-    };
-  }();
-  cachedMethods.set(prop, method);
-  return method;
-}
-wrapIdbValue.replaceTraps(function (oldTraps) {
-  return _objectSpread(_objectSpread({}, oldTraps), {}, {
-    get: function get(target, prop, receiver) {
-      return getMethod(target, prop) || oldTraps.get(target, prop, receiver);
-    },
-    has: function has(target, prop) {
-      return !!getMethod(target, prop) || oldTraps.has(target, prop);
-    }
-  });
-});
-exports.unwrap = wrapIdbValue.unwrap;
-exports.wrap = wrapIdbValue.wrap;
-exports.deleteDB = deleteDB;
-exports.openDB = openDB;
-
-},{"./wrap-idb-value.cjs":3}],3:[function(require,module,exports){
-'use strict';
-
-var instanceOfAny = function instanceOfAny(object, constructors) {
-  return constructors.some(function (c) {
-    return object instanceof c;
-  });
-};
-var idbProxyableTypes;
-var cursorAdvanceMethods;
-// This is a function to prevent it throwing up in node environments.
-function getIdbProxyableTypes() {
-  return idbProxyableTypes || (idbProxyableTypes = [IDBDatabase, IDBObjectStore, IDBIndex, IDBCursor, IDBTransaction]);
-}
-// This is a function to prevent it throwing up in node environments.
-function getCursorAdvanceMethods() {
-  return cursorAdvanceMethods || (cursorAdvanceMethods = [IDBCursor.prototype.advance, IDBCursor.prototype["continue"], IDBCursor.prototype.continuePrimaryKey]);
-}
-var cursorRequestMap = new WeakMap();
-var transactionDoneMap = new WeakMap();
-var transactionStoreNamesMap = new WeakMap();
-var transformCache = new WeakMap();
-var reverseTransformCache = new WeakMap();
-function promisifyRequest(request) {
-  var promise = new Promise(function (resolve, reject) {
-    var unlisten = function unlisten() {
-      request.removeEventListener('success', success);
-      request.removeEventListener('error', error);
-    };
-    var success = function success() {
-      resolve(wrap(request.result));
-      unlisten();
-    };
-    var error = function error() {
-      reject(request.error);
-      unlisten();
-    };
-    request.addEventListener('success', success);
-    request.addEventListener('error', error);
-  });
-  promise.then(function (value) {
-    // Since cursoring reuses the IDBRequest (*sigh*), we cache it for later retrieval
-    // (see wrapFunction).
-    if (value instanceof IDBCursor) {
-      cursorRequestMap.set(value, request);
-    }
-    // Catching to avoid "Uncaught Promise exceptions"
-  })["catch"](function () {});
-  // This mapping exists in reverseTransformCache but doesn't doesn't exist in transformCache. This
-  // is because we create many promises from a single IDBRequest.
-  reverseTransformCache.set(promise, request);
-  return promise;
-}
-function cacheDonePromiseForTransaction(tx) {
-  // Early bail if we've already created a done promise for this transaction.
-  if (transactionDoneMap.has(tx)) return;
-  var done = new Promise(function (resolve, reject) {
-    var unlisten = function unlisten() {
-      tx.removeEventListener('complete', complete);
-      tx.removeEventListener('error', error);
-      tx.removeEventListener('abort', error);
-    };
-    var complete = function complete() {
-      resolve();
-      unlisten();
-    };
-    var error = function error() {
-      reject(tx.error || new DOMException('AbortError', 'AbortError'));
-      unlisten();
-    };
-    tx.addEventListener('complete', complete);
-    tx.addEventListener('error', error);
-    tx.addEventListener('abort', error);
-  });
-  // Cache it for later retrieval.
-  transactionDoneMap.set(tx, done);
-}
-var idbProxyTraps = {
-  get: function get(target, prop, receiver) {
-    if (target instanceof IDBTransaction) {
-      // Special handling for transaction.done.
-      if (prop === 'done') return transactionDoneMap.get(target);
-      // Polyfill for objectStoreNames because of Edge.
-      if (prop === 'objectStoreNames') {
-        return target.objectStoreNames || transactionStoreNamesMap.get(target);
-      }
-      // Make tx.store return the only store in the transaction, or undefined if there are many.
-      if (prop === 'store') {
-        return receiver.objectStoreNames[1] ? undefined : receiver.objectStore(receiver.objectStoreNames[0]);
-      }
-    }
-    // Else transform whatever we get back.
-    return wrap(target[prop]);
-  },
-  set: function set(target, prop, value) {
-    target[prop] = value;
-    return true;
-  },
-  has: function has(target, prop) {
-    if (target instanceof IDBTransaction && (prop === 'done' || prop === 'store')) {
-      return true;
-    }
-    return prop in target;
-  }
-};
-function replaceTraps(callback) {
-  idbProxyTraps = callback(idbProxyTraps);
-}
-function wrapFunction(func) {
-  // Due to expected object equality (which is enforced by the caching in `wrap`), we
-  // only create one new func per func.
-  // Edge doesn't support objectStoreNames (booo), so we polyfill it here.
-  if (func === IDBDatabase.prototype.transaction && !('objectStoreNames' in IDBTransaction.prototype)) {
-    return function (storeNames) {
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-      var tx = func.call.apply(func, [unwrap(this), storeNames].concat(args));
-      transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
-      return wrap(tx);
-    };
-  }
-  // Cursor methods are special, as the behaviour is a little more different to standard IDB. In
-  // IDB, you advance the cursor and wait for a new 'success' on the IDBRequest that gave you the
-  // cursor. It's kinda like a promise that can resolve with many values. That doesn't make sense
-  // with real promises, so each advance methods returns a new promise for the cursor object, or
-  // undefined if the end of the cursor has been reached.
-  if (getCursorAdvanceMethods().includes(func)) {
-    return function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-        args[_key2] = arguments[_key2];
-      }
-      // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
-      // the original object.
-      func.apply(unwrap(this), args);
-      return wrap(cursorRequestMap.get(this));
-    };
-  }
-  return function () {
-    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      args[_key3] = arguments[_key3];
-    }
-    // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
-    // the original object.
-    return wrap(func.apply(unwrap(this), args));
-  };
-}
-function transformCachableValue(value) {
-  if (typeof value === 'function') return wrapFunction(value);
-  // This doesn't return, it just creates a 'done' promise for the transaction,
-  // which is later returned for transaction.done (see idbObjectHandler).
-  if (value instanceof IDBTransaction) cacheDonePromiseForTransaction(value);
-  if (instanceOfAny(value, getIdbProxyableTypes())) return new Proxy(value, idbProxyTraps);
-  // Return the same value back if we're not going to transform it.
-  return value;
-}
-function wrap(value) {
-  // We sometimes generate multiple promises from a single IDBRequest (eg when cursoring), because
-  // IDB is weird and a single IDBRequest can yield many responses, so these can't be cached.
-  if (value instanceof IDBRequest) return promisifyRequest(value);
-  // If we've already transformed this value before, reuse the transformed value.
-  // This is faster, but it also provides object equality.
-  if (transformCache.has(value)) return transformCache.get(value);
-  var newValue = transformCachableValue(value);
-  // Not all types are transformed.
-  // These may be primitive types, so they can't be WeakMap keys.
-  if (newValue !== value) {
-    transformCache.set(value, newValue);
-    reverseTransformCache.set(newValue, value);
-  }
-  return newValue;
-}
-var unwrap = function unwrap(value) {
-  return reverseTransformCache.get(value);
-};
-exports.instanceOfAny = instanceOfAny;
-exports.replaceTraps = replaceTraps;
-exports.reverseTransformCache = reverseTransformCache;
-exports.unwrap = unwrap;
-exports.wrap = wrap;
-
-},{}],4:[function(require,module,exports){
+},{"@firebase/component":2,"@firebase/logger":6,"@firebase/util":8,"idb":11}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2059,7 +1738,7 @@ var ComponentContainer = exports.ComponentContainer = /*#__PURE__*/function () {
   return ComponentContainer;
 }();
 
-},{"@firebase/util":8}],5:[function(require,module,exports){
+},{"@firebase/util":8}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2778,7 +2457,6 @@ function updateOrCreateInstallationEntry(oldEntry) {
     fid: generateFid(),
     registrationStatus: 0 /* RequestStatus.NOT_STARTED */
   };
-
   return clearTimedOutRequest(entry);
 }
 /**
@@ -2933,7 +2611,6 @@ function updateInstallationRequest(appConfig) {
     if (!oldEntry) {
       throw ERROR_FACTORY.create("installation-not-found" /* ErrorCode.INSTALLATION_NOT_FOUND */);
     }
-
     return clearTimedOutRequest(oldEntry);
   });
 }
@@ -2944,7 +2621,6 @@ function clearTimedOutRequest(entry) {
       registrationStatus: 0 /* RequestStatus.NOT_STARTED */
     };
   }
-
   return entry;
 }
 function hasInstallationRequestTimedOut(installationEntry) {
@@ -3086,7 +2762,6 @@ function _refreshAuthToken() {
             if (!isEntryRegistered(oldEntry)) {
               throw ERROR_FACTORY.create("not-registered" /* ErrorCode.NOT_REGISTERED */);
             }
-
             var oldAuthToken = oldEntry.authToken;
             if (!forceRefresh && isAuthTokenValid(oldAuthToken)) {
               // There is a valid token in the DB.
@@ -3100,7 +2775,6 @@ function _refreshAuthToken() {
               if (!navigator.onLine) {
                 throw ERROR_FACTORY.create("app-offline" /* ErrorCode.APP_OFFLINE */);
               }
-
               var inProgressEntry = makeAuthTokenRequestInProgressEntry(oldEntry);
               tokenPromise = fetchAuthTokenFromServer(installations, inProgressEntry);
               return inProgressEntry;
@@ -3188,7 +2862,6 @@ function updateAuthTokenRequest(appConfig) {
     if (!isEntryRegistered(oldEntry)) {
       throw ERROR_FACTORY.create("not-registered" /* ErrorCode.NOT_REGISTERED */);
     }
-
     var oldAuthToken = oldEntry.authToken;
     if (hasAuthTokenRequestTimedOut(oldAuthToken)) {
       return Object.assign(Object.assign({}, oldEntry), {
@@ -3197,7 +2870,6 @@ function updateAuthTokenRequest(appConfig) {
         }
       });
     }
-
     return oldEntry;
   });
 }
@@ -3255,7 +2927,6 @@ function _fetchAuthTokenFromServer() {
 function isEntryRegistered(installationEntry) {
   return installationEntry !== undefined && installationEntry.registrationStatus === 2 /* RequestStatus.COMPLETED */;
 }
-
 function isAuthTokenValid(authToken) {
   return authToken.requestStatus === 2 /* RequestStatus.COMPLETED */ && !isAuthTokenExpired(authToken);
 }
@@ -3715,7 +3386,326 @@ registerInstallations();
 // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
 (0, _app.registerVersion)(name, version, 'esm2017');
 
-},{"@firebase/app":1,"@firebase/component":4,"@firebase/util":8,"idb":11}],6:[function(require,module,exports){
+},{"@firebase/app":1,"@firebase/component":2,"@firebase/util":8,"idb":4}],4:[function(require,module,exports){
+'use strict';
+
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return e; }; var t, e = {}, r = Object.prototype, n = r.hasOwnProperty, o = Object.defineProperty || function (t, e, r) { t[e] = r.value; }, i = "function" == typeof Symbol ? Symbol : {}, a = i.iterator || "@@iterator", c = i.asyncIterator || "@@asyncIterator", u = i.toStringTag || "@@toStringTag"; function define(t, e, r) { return Object.defineProperty(t, e, { value: r, enumerable: !0, configurable: !0, writable: !0 }), t[e]; } try { define({}, ""); } catch (t) { define = function define(t, e, r) { return t[e] = r; }; } function wrap(t, e, r, n) { var i = e && e.prototype instanceof Generator ? e : Generator, a = Object.create(i.prototype), c = new Context(n || []); return o(a, "_invoke", { value: makeInvokeMethod(t, r, c) }), a; } function tryCatch(t, e, r) { try { return { type: "normal", arg: t.call(e, r) }; } catch (t) { return { type: "throw", arg: t }; } } e.wrap = wrap; var h = "suspendedStart", l = "suspendedYield", f = "executing", s = "completed", y = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var p = {}; define(p, a, function () { return this; }); var d = Object.getPrototypeOf, v = d && d(d(values([]))); v && v !== r && n.call(v, a) && (p = v); var g = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(p); function defineIteratorMethods(t) { ["next", "throw", "return"].forEach(function (e) { define(t, e, function (t) { return this._invoke(e, t); }); }); } function AsyncIterator(t, e) { function invoke(r, o, i, a) { var c = tryCatch(t[r], t, o); if ("throw" !== c.type) { var u = c.arg, h = u.value; return h && "object" == _typeof(h) && n.call(h, "__await") ? e.resolve(h.__await).then(function (t) { invoke("next", t, i, a); }, function (t) { invoke("throw", t, i, a); }) : e.resolve(h).then(function (t) { u.value = t, i(u); }, function (t) { return invoke("throw", t, i, a); }); } a(c.arg); } var r; o(this, "_invoke", { value: function value(t, n) { function callInvokeWithMethodAndArg() { return new e(function (e, r) { invoke(t, n, e, r); }); } return r = r ? r.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(e, r, n) { var o = h; return function (i, a) { if (o === f) throw new Error("Generator is already running"); if (o === s) { if ("throw" === i) throw a; return { value: t, done: !0 }; } for (n.method = i, n.arg = a;;) { var c = n.delegate; if (c) { var u = maybeInvokeDelegate(c, n); if (u) { if (u === y) continue; return u; } } if ("next" === n.method) n.sent = n._sent = n.arg;else if ("throw" === n.method) { if (o === h) throw o = s, n.arg; n.dispatchException(n.arg); } else "return" === n.method && n.abrupt("return", n.arg); o = f; var p = tryCatch(e, r, n); if ("normal" === p.type) { if (o = n.done ? s : l, p.arg === y) continue; return { value: p.arg, done: n.done }; } "throw" === p.type && (o = s, n.method = "throw", n.arg = p.arg); } }; } function maybeInvokeDelegate(e, r) { var n = r.method, o = e.iterator[n]; if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y; var i = tryCatch(o, e.iterator, r.arg); if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, y; var a = i.arg; return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), r.delegate = null, y); } function pushTryEntry(t) { var e = { tryLoc: t[0] }; 1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), this.tryEntries.push(e); } function resetTryEntry(t) { var e = t.completion || {}; e.type = "normal", delete e.arg, t.completion = e; } function Context(t) { this.tryEntries = [{ tryLoc: "root" }], t.forEach(pushTryEntry, this), this.reset(!0); } function values(e) { if (e || "" === e) { var r = e[a]; if (r) return r.call(e); if ("function" == typeof e.next) return e; if (!isNaN(e.length)) { var o = -1, i = function next() { for (; ++o < e.length;) if (n.call(e, o)) return next.value = e[o], next.done = !1, next; return next.value = t, next.done = !0, next; }; return i.next = i; } } throw new TypeError(_typeof(e) + " is not iterable"); } return GeneratorFunction.prototype = GeneratorFunctionPrototype, o(g, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), o(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), e.isGeneratorFunction = function (t) { var e = "function" == typeof t && t.constructor; return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name)); }, e.mark = function (t) { return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t; }, e.awrap = function (t) { return { __await: t }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, c, function () { return this; }), e.AsyncIterator = AsyncIterator, e.async = function (t, r, n, o, i) { void 0 === i && (i = Promise); var a = new AsyncIterator(wrap(t, r, n, o), i); return e.isGeneratorFunction(r) ? a : a.next().then(function (t) { return t.done ? t.value : a.next(); }); }, defineIteratorMethods(g), define(g, u, "Generator"), define(g, a, function () { return this; }), define(g, "toString", function () { return "[object Generator]"; }), e.keys = function (t) { var e = Object(t), r = []; for (var n in e) r.push(n); return r.reverse(), function next() { for (; r.length;) { var t = r.pop(); if (t in e) return next.value = t, next.done = !1, next; } return next.done = !0, next; }; }, e.values = values, Context.prototype = { constructor: Context, reset: function reset(e) { if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t); }, stop: function stop() { this.done = !0; var t = this.tryEntries[0].completion; if ("throw" === t.type) throw t.arg; return this.rval; }, dispatchException: function dispatchException(e) { if (this.done) throw e; var r = this; function handle(n, o) { return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), !!o; } for (var o = this.tryEntries.length - 1; o >= 0; --o) { var i = this.tryEntries[o], a = i.completion; if ("root" === i.tryLoc) return handle("end"); if (i.tryLoc <= this.prev) { var c = n.call(i, "catchLoc"), u = n.call(i, "finallyLoc"); if (c && u) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } else if (c) { if (this.prev < i.catchLoc) return handle(i.catchLoc, !0); } else { if (!u) throw new Error("try statement without catch or finally"); if (this.prev < i.finallyLoc) return handle(i.finallyLoc); } } } }, abrupt: function abrupt(t, e) { for (var r = this.tryEntries.length - 1; r >= 0; --r) { var o = this.tryEntries[r]; if (o.tryLoc <= this.prev && n.call(o, "finallyLoc") && this.prev < o.finallyLoc) { var i = o; break; } } i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null); var a = i ? i.completion : {}; return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, y) : this.complete(a); }, complete: function complete(t, e) { if ("throw" === t.type) throw t.arg; return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), y; }, finish: function finish(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), y; } }, "catch": function _catch(t) { for (var e = this.tryEntries.length - 1; e >= 0; --e) { var r = this.tryEntries[e]; if (r.tryLoc === t) { var n = r.completion; if ("throw" === n.type) { var o = n.arg; resetTryEntry(r); } return o; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(e, r, n) { return this.delegate = { iterator: values(e), resultName: r, nextLoc: n }, "next" === this.method && (this.arg = t), y; } }, e; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+var wrapIdbValue = require('./wrap-idb-value.cjs');
+
+/**
+ * Open a database.
+ *
+ * @param name Name of the database.
+ * @param version Schema version.
+ * @param callbacks Additional callbacks.
+ */
+function openDB(name, version) {
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+    blocked = _ref.blocked,
+    upgrade = _ref.upgrade,
+    blocking = _ref.blocking,
+    terminated = _ref.terminated;
+  var request = indexedDB.open(name, version);
+  var openPromise = wrapIdbValue.wrap(request);
+  if (upgrade) {
+    request.addEventListener('upgradeneeded', function (event) {
+      upgrade(wrapIdbValue.wrap(request.result), event.oldVersion, event.newVersion, wrapIdbValue.wrap(request.transaction));
+    });
+  }
+  if (blocked) request.addEventListener('blocked', function () {
+    return blocked();
+  });
+  openPromise.then(function (db) {
+    if (terminated) db.addEventListener('close', function () {
+      return terminated();
+    });
+    if (blocking) db.addEventListener('versionchange', function () {
+      return blocking();
+    });
+  })["catch"](function () {});
+  return openPromise;
+}
+/**
+ * Delete a database.
+ *
+ * @param name Name of the database.
+ */
+function deleteDB(name) {
+  var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+    blocked = _ref2.blocked;
+  var request = indexedDB.deleteDatabase(name);
+  if (blocked) request.addEventListener('blocked', function () {
+    return blocked();
+  });
+  return wrapIdbValue.wrap(request).then(function () {
+    return undefined;
+  });
+}
+var readMethods = ['get', 'getKey', 'getAll', 'getAllKeys', 'count'];
+var writeMethods = ['put', 'add', 'delete', 'clear'];
+var cachedMethods = new Map();
+function getMethod(target, prop) {
+  if (!(target instanceof IDBDatabase && !(prop in target) && typeof prop === 'string')) {
+    return;
+  }
+  if (cachedMethods.get(prop)) return cachedMethods.get(prop);
+  var targetFuncName = prop.replace(/FromIndex$/, '');
+  var useIndex = prop !== targetFuncName;
+  var isWrite = writeMethods.includes(targetFuncName);
+  if (
+  // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
+  !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) || !(isWrite || readMethods.includes(targetFuncName))) {
+    return;
+  }
+  var method = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(storeName) {
+      var _target;
+      var tx,
+        target,
+        _len,
+        args,
+        _key,
+        _args = arguments;
+      return _regeneratorRuntime().wrap(function _callee$(_context) {
+        while (1) switch (_context.prev = _context.next) {
+          case 0:
+            // isWrite ? 'readwrite' : undefined gzipps better, but fails in Edge :(
+            tx = this.transaction(storeName, isWrite ? 'readwrite' : 'readonly');
+            target = tx.store;
+            for (_len = _args.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+              args[_key - 1] = _args[_key];
+            }
+            if (useIndex) target = target.index(args.shift());
+            // Must reject if op rejects.
+            // If it's a write operation, must reject if tx.done rejects.
+            // Must reject with op rejection first.
+            // Must resolve with op value.
+            // Must handle both promises (no unhandled rejections)
+            _context.next = 6;
+            return Promise.all([(_target = target)[targetFuncName].apply(_target, args), isWrite && tx.done]);
+          case 6:
+            return _context.abrupt("return", _context.sent[0]);
+          case 7:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee, this);
+    }));
+    return function method(_x) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+  cachedMethods.set(prop, method);
+  return method;
+}
+wrapIdbValue.replaceTraps(function (oldTraps) {
+  return _objectSpread(_objectSpread({}, oldTraps), {}, {
+    get: function get(target, prop, receiver) {
+      return getMethod(target, prop) || oldTraps.get(target, prop, receiver);
+    },
+    has: function has(target, prop) {
+      return !!getMethod(target, prop) || oldTraps.has(target, prop);
+    }
+  });
+});
+exports.unwrap = wrapIdbValue.unwrap;
+exports.wrap = wrapIdbValue.wrap;
+exports.deleteDB = deleteDB;
+exports.openDB = openDB;
+
+},{"./wrap-idb-value.cjs":5}],5:[function(require,module,exports){
+'use strict';
+
+var instanceOfAny = function instanceOfAny(object, constructors) {
+  return constructors.some(function (c) {
+    return object instanceof c;
+  });
+};
+var idbProxyableTypes;
+var cursorAdvanceMethods;
+// This is a function to prevent it throwing up in node environments.
+function getIdbProxyableTypes() {
+  return idbProxyableTypes || (idbProxyableTypes = [IDBDatabase, IDBObjectStore, IDBIndex, IDBCursor, IDBTransaction]);
+}
+// This is a function to prevent it throwing up in node environments.
+function getCursorAdvanceMethods() {
+  return cursorAdvanceMethods || (cursorAdvanceMethods = [IDBCursor.prototype.advance, IDBCursor.prototype["continue"], IDBCursor.prototype.continuePrimaryKey]);
+}
+var cursorRequestMap = new WeakMap();
+var transactionDoneMap = new WeakMap();
+var transactionStoreNamesMap = new WeakMap();
+var transformCache = new WeakMap();
+var reverseTransformCache = new WeakMap();
+function promisifyRequest(request) {
+  var promise = new Promise(function (resolve, reject) {
+    var unlisten = function unlisten() {
+      request.removeEventListener('success', success);
+      request.removeEventListener('error', error);
+    };
+    var success = function success() {
+      resolve(wrap(request.result));
+      unlisten();
+    };
+    var error = function error() {
+      reject(request.error);
+      unlisten();
+    };
+    request.addEventListener('success', success);
+    request.addEventListener('error', error);
+  });
+  promise.then(function (value) {
+    // Since cursoring reuses the IDBRequest (*sigh*), we cache it for later retrieval
+    // (see wrapFunction).
+    if (value instanceof IDBCursor) {
+      cursorRequestMap.set(value, request);
+    }
+    // Catching to avoid "Uncaught Promise exceptions"
+  })["catch"](function () {});
+  // This mapping exists in reverseTransformCache but doesn't doesn't exist in transformCache. This
+  // is because we create many promises from a single IDBRequest.
+  reverseTransformCache.set(promise, request);
+  return promise;
+}
+function cacheDonePromiseForTransaction(tx) {
+  // Early bail if we've already created a done promise for this transaction.
+  if (transactionDoneMap.has(tx)) return;
+  var done = new Promise(function (resolve, reject) {
+    var unlisten = function unlisten() {
+      tx.removeEventListener('complete', complete);
+      tx.removeEventListener('error', error);
+      tx.removeEventListener('abort', error);
+    };
+    var complete = function complete() {
+      resolve();
+      unlisten();
+    };
+    var error = function error() {
+      reject(tx.error || new DOMException('AbortError', 'AbortError'));
+      unlisten();
+    };
+    tx.addEventListener('complete', complete);
+    tx.addEventListener('error', error);
+    tx.addEventListener('abort', error);
+  });
+  // Cache it for later retrieval.
+  transactionDoneMap.set(tx, done);
+}
+var idbProxyTraps = {
+  get: function get(target, prop, receiver) {
+    if (target instanceof IDBTransaction) {
+      // Special handling for transaction.done.
+      if (prop === 'done') return transactionDoneMap.get(target);
+      // Polyfill for objectStoreNames because of Edge.
+      if (prop === 'objectStoreNames') {
+        return target.objectStoreNames || transactionStoreNamesMap.get(target);
+      }
+      // Make tx.store return the only store in the transaction, or undefined if there are many.
+      if (prop === 'store') {
+        return receiver.objectStoreNames[1] ? undefined : receiver.objectStore(receiver.objectStoreNames[0]);
+      }
+    }
+    // Else transform whatever we get back.
+    return wrap(target[prop]);
+  },
+  set: function set(target, prop, value) {
+    target[prop] = value;
+    return true;
+  },
+  has: function has(target, prop) {
+    if (target instanceof IDBTransaction && (prop === 'done' || prop === 'store')) {
+      return true;
+    }
+    return prop in target;
+  }
+};
+function replaceTraps(callback) {
+  idbProxyTraps = callback(idbProxyTraps);
+}
+function wrapFunction(func) {
+  // Due to expected object equality (which is enforced by the caching in `wrap`), we
+  // only create one new func per func.
+  // Edge doesn't support objectStoreNames (booo), so we polyfill it here.
+  if (func === IDBDatabase.prototype.transaction && !('objectStoreNames' in IDBTransaction.prototype)) {
+    return function (storeNames) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
+      }
+      var tx = func.call.apply(func, [unwrap(this), storeNames].concat(args));
+      transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
+      return wrap(tx);
+    };
+  }
+  // Cursor methods are special, as the behaviour is a little more different to standard IDB. In
+  // IDB, you advance the cursor and wait for a new 'success' on the IDBRequest that gave you the
+  // cursor. It's kinda like a promise that can resolve with many values. That doesn't make sense
+  // with real promises, so each advance methods returns a new promise for the cursor object, or
+  // undefined if the end of the cursor has been reached.
+  if (getCursorAdvanceMethods().includes(func)) {
+    return function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+        args[_key2] = arguments[_key2];
+      }
+      // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
+      // the original object.
+      func.apply(unwrap(this), args);
+      return wrap(cursorRequestMap.get(this));
+    };
+  }
+  return function () {
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+    // Calling the original function with the proxy as 'this' causes ILLEGAL INVOCATION, so we use
+    // the original object.
+    return wrap(func.apply(unwrap(this), args));
+  };
+}
+function transformCachableValue(value) {
+  if (typeof value === 'function') return wrapFunction(value);
+  // This doesn't return, it just creates a 'done' promise for the transaction,
+  // which is later returned for transaction.done (see idbObjectHandler).
+  if (value instanceof IDBTransaction) cacheDonePromiseForTransaction(value);
+  if (instanceOfAny(value, getIdbProxyableTypes())) return new Proxy(value, idbProxyTraps);
+  // Return the same value back if we're not going to transform it.
+  return value;
+}
+function wrap(value) {
+  // We sometimes generate multiple promises from a single IDBRequest (eg when cursoring), because
+  // IDB is weird and a single IDBRequest can yield many responses, so these can't be cached.
+  if (value instanceof IDBRequest) return promisifyRequest(value);
+  // If we've already transformed this value before, reuse the transformed value.
+  // This is faster, but it also provides object equality.
+  if (transformCache.has(value)) return transformCache.get(value);
+  var newValue = transformCachableValue(value);
+  // Not all types are transformed.
+  // These may be primitive types, so they can't be WeakMap keys.
+  if (newValue !== value) {
+    transformCache.set(value, newValue);
+    reverseTransformCache.set(newValue, value);
+  }
+  return newValue;
+}
+var unwrap = function unwrap(value) {
+  return reverseTransformCache.get(value);
+};
+exports.instanceOfAny = instanceOfAny;
+exports.replaceTraps = replaceTraps;
+exports.reverseTransformCache = reverseTransformCache;
+exports.unwrap = unwrap;
+exports.wrap = wrap;
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -4126,12 +4116,10 @@ function migrateOldDatabase(senderId) {
                         // Database too old, skip migration.
                         return [2 /*return*/];
                       }
-
                       if (!db.objectStoreNames.contains(OLD_OBJECT_STORE_NAME)) {
                         // Database did not exist. Nothing to do.
                         return [2 /*return*/];
                       }
-
                       objectStore = upgradeTransaction.objectStore(OLD_OBJECT_STORE_NAME);
                       return [4 /*yield*/, objectStore.index('fcmSenderId').get(senderId)];
                     case 1:
@@ -4143,13 +4131,11 @@ function migrateOldDatabase(senderId) {
                         // No entry in the database, nothing to migrate.
                         return [2 /*return*/];
                       }
-
                       if (oldVersion === 2) {
                         oldDetails = value;
                         if (!oldDetails.auth || !oldDetails.p256dh || !oldDetails.endpoint) {
                           return [2 /*return*/];
                         }
-
                         tokenDetails = {
                           token: oldDetails.fcmToken,
                           createTime: (_a = oldDetails.createTime) !== null && _a !== void 0 ? _a : Date.now(),
@@ -4194,7 +4180,6 @@ function migrateOldDatabase(senderId) {
               });
             }
           })];
-
         case 3:
           db = _a.sent();
           db.close();
@@ -4337,7 +4322,6 @@ function dbRemove(firebaseDependencies) {
     });
   });
 }
-
 function getKey(_a) {
   var appConfig = _a.appConfig;
   return appConfig.appId;
@@ -4419,7 +4403,6 @@ function requestGetToken(firebaseDependencies, subscriptionOptions) {
           if (!responseData.token) {
             throw ERROR_FACTORY.create("token-subscribe-no-token" /* ErrorCode.TOKEN_SUBSCRIBE_NO_TOKEN */);
           }
-
           return [2 /*return*/, responseData.token];
       }
     });
@@ -4465,7 +4448,6 @@ function requestUpdateToken(firebaseDependencies, tokenDetails) {
           if (!responseData.token) {
             throw ERROR_FACTORY.create("token-update-no-token" /* ErrorCode.TOKEN_UPDATE_NO_TOKEN */);
           }
-
           return [2 /*return*/, responseData.token];
       }
     });
@@ -4511,7 +4493,6 @@ function requestDeleteToken(firebaseDependencies, token) {
     });
   });
 }
-
 function getEndpoint(_a) {
   var projectId = _a.projectId;
   return "".concat(ENDPOINT, "/projects/").concat(projectId, "/registrations");
@@ -4693,7 +4674,6 @@ function updateToken(messaging, tokenDetails) {
     });
   });
 }
-
 function getNewToken(firebaseDependencies, subscriptionOptions) {
   return tslib.__awaiter(this, void 0, void 0, function () {
     var token, tokenDetails;
@@ -4900,13 +4880,12 @@ function stageLog(messaging, internalPayload) {
           return [4 /*yield*/, messaging.firebaseDependencies.installations.getId()];
         case 1:
           fcmEvent = _a.apply(void 0, _b.concat([_c.sent()]));
-          createAndEnqueueLogEvent(messaging, fcmEvent);
+          createAndEnqueueLogEvent(messaging, fcmEvent, internalPayload.productId);
           return [2 /*return*/];
       }
     });
   });
 }
-
 function createFcmEvent(internalPayload, fid) {
   var _a, _b;
   var fcmEvent = {};
@@ -4936,13 +4915,26 @@ function createFcmEvent(internalPayload, fid) {
   /* eslint-enable camelcase */
   return fcmEvent;
 }
-function createAndEnqueueLogEvent(messaging, fcmEvent) {
+function createAndEnqueueLogEvent(messaging, fcmEvent, productId) {
   var logEvent = {};
   /* eslint-disable camelcase */
   logEvent.event_time_ms = Math.floor(Date.now()).toString();
   logEvent.source_extension_json_proto3 = JSON.stringify(fcmEvent);
+  if (!!productId) {
+    logEvent.compliance_data = buildComplianceData(productId);
+  }
   // eslint-disable-next-line camelcase
   messaging.logEvents.push(logEvent);
+}
+function buildComplianceData(productId) {
+  var complianceData = {
+    privacy_context: {
+      prequest: {
+        origin_associated_product_id: productId
+      }
+    }
+  };
+  return complianceData;
 }
 function _mergeStrings(s1, s2) {
   var resultArray = [];
@@ -5002,7 +4994,6 @@ function onSubChange(event, messaging) {
     });
   });
 }
-
 function onPush(event, messaging) {
   return tslib.__awaiter(this, void 0, void 0, function () {
     var internalPayload, clientList, payload;
@@ -5014,7 +5005,6 @@ function onPush(event, messaging) {
             // Failed to get parsed MessagePayload from the PushEvent. Skip handling the push.
             return [2 /*return*/];
           }
-
           if (!messaging.deliveryMetricsExportedToBigQueryEnabled) return [3 /*break*/, 2];
           return [4 /*yield*/, stageLog(messaging, internalPayload)];
         case 1:
@@ -5036,7 +5026,6 @@ function onPush(event, messaging) {
           if (!messaging) {
             return [2 /*return*/];
           }
-
           if (!!!messaging.onBackgroundMessageHandler) return [3 /*break*/, 8];
           payload = externalizePayload(internalPayload);
           if (!(typeof messaging.onBackgroundMessageHandler === 'function')) return [3 /*break*/, 7];
@@ -5053,7 +5042,6 @@ function onPush(event, messaging) {
     });
   });
 }
-
 function onNotificationClick(event) {
   var _a, _b;
   return tslib.__awaiter(this, void 0, void 0, function () {
@@ -5076,13 +5064,11 @@ function onNotificationClick(event) {
           if (!link) {
             return [2 /*return*/];
           }
-
           url = new URL(link, self.location.href);
           originUrl = new URL(self.location.origin);
           if (url.host !== originUrl.host) {
             return [2 /*return*/];
           }
-
           return [4 /*yield*/, getWindowClient(url)];
         case 1:
           client = _c.sent();
@@ -5108,7 +5094,6 @@ function onNotificationClick(event) {
             // Window Client will not be returned if it's for a third party origin.
             return [2 /*return*/];
           }
-
           internalPayload.messageType = MessageType.NOTIFICATION_CLICKED;
           internalPayload.isFirebaseMessaging = true;
           return [2 /*return*/, client.postMessage(internalPayload)];
@@ -5215,7 +5200,6 @@ function getClientList() {
     // TS doesn't know that "type: 'window'" means it'll return WindowClient[]
   });
 }
-
 function showNotification(notificationPayloadInternal) {
   var _a;
   // Note: Firefox does not support the maxActions property.
@@ -5441,7 +5425,6 @@ function onBackgroundMessage$1(messaging, nextOrObserver) {
   if (self.document !== undefined) {
     throw ERROR_FACTORY.create("only-available-in-sw" /* ErrorCode.AVAILABLE_IN_SW */);
   }
-
   messaging.onBackgroundMessageHandler = nextOrObserver;
   return function () {
     messaging.onBackgroundMessageHandler = null;
@@ -5508,7 +5491,6 @@ function getMessagingInSw(app$1) {
     // If `isSwSupported()` rejected.
     throw ERROR_FACTORY.create("indexed-db-unsupported" /* ErrorCode.INDEXED_DB_UNSUPPORTED */);
   });
-
   return app._getProvider(util.getModularInstance(app$1), 'messaging-sw').getImmediate();
 }
 /**
@@ -5565,7 +5547,7 @@ exports.getMessaging = getMessagingInSw;
 exports.isSupported = isSwSupported;
 exports.onBackgroundMessage = onBackgroundMessage;
 
-},{"@firebase/app":1,"@firebase/component":4,"@firebase/installations":5,"@firebase/util":8,"idb":11,"tslib":14}],8:[function(require,module,exports){
+},{"@firebase/app":1,"@firebase/component":2,"@firebase/installations":3,"@firebase/util":8,"idb":11,"tslib":14}],8:[function(require,module,exports){
 (function (process,global){(function (){
 "use strict";
 
@@ -7191,7 +7173,6 @@ var Sha1 = exports.Sha1 = /*#__PURE__*/function () {
         this.buf_[i] = totalBits & 255;
         totalBits /= 256; // Don't use bit-shifting here!
       }
-
       this.compress_(this.buf_);
       var n = 0;
       for (var _i7 = 0; _i7 < 5; _i7++) {
@@ -7785,7 +7766,7 @@ Object.keys(_app).forEach(function (key) {
   });
 });
 var name = "firebase";
-var version = "10.6.0";
+var version = "10.7.0";
 
 /**
  * @license
@@ -7857,19 +7838,25 @@ function openDB(name, version) {
   var openPromise = wrapIdbValue.wrap(request);
   if (upgrade) {
     request.addEventListener('upgradeneeded', function (event) {
-      upgrade(wrapIdbValue.wrap(request.result), event.oldVersion, event.newVersion, wrapIdbValue.wrap(request.transaction));
+      upgrade(wrapIdbValue.wrap(request.result), event.oldVersion, event.newVersion, wrapIdbValue.wrap(request.transaction), event);
     });
   }
-  if (blocked) request.addEventListener('blocked', function () {
-    return blocked();
-  });
+  if (blocked) {
+    request.addEventListener('blocked', function (event) {
+      return blocked(
+      // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+      event.oldVersion, event.newVersion, event);
+    });
+  }
   openPromise.then(function (db) {
     if (terminated) db.addEventListener('close', function () {
       return terminated();
     });
-    if (blocking) db.addEventListener('versionchange', function () {
-      return blocking();
-    });
+    if (blocking) {
+      db.addEventListener('versionchange', function (event) {
+        return blocking(event.oldVersion, event.newVersion, event);
+      });
+    }
   })["catch"](function () {});
   return openPromise;
 }
@@ -7882,9 +7869,13 @@ function deleteDB(name) {
   var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
     blocked = _ref2.blocked;
   var request = indexedDB.deleteDatabase(name);
-  if (blocked) request.addEventListener('blocked', function () {
-    return blocked();
-  });
+  if (blocked) {
+    request.addEventListener('blocked', function (event) {
+      return blocked(
+      // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+      event.oldVersion, event);
+    });
+  }
   return wrapIdbValue.wrap(request).then(function () {
     return undefined;
   });
@@ -7962,8 +7953,8 @@ exports.deleteDB = deleteDB;
 exports.openDB = openDB;
 
 },{"./wrap-idb-value.cjs":12}],12:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],13:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],13:[function(require,module,exports){
 "use strict";
 
 // shim for using process in browser

@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { setCurrentTooltip, hideTooltipModal } from "../slice";
 import { RootState } from "@infrastructure/store/reducers";
 import { useAppDispatch } from "@hooks/index";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -29,37 +30,37 @@ const InitialTooltip = ({ visible }: props) => {
 		},
 	};
 	const dispatch = useAppDispatch();
-
+	const { t } = useTranslation("guide");
 	const { currentTooltip } = useSelector(
 		(state: RootState) => state.tooltips
 	);
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<ContentInitialTooltipMain>
-				<TitleOne>¡Bienvenido a sentria!</TitleOne>
+				<TitleOne>{t("welcome_title")}</TitleOne>
 				<Overline>
-					En esta guia de ayuda entenderás cómo funciona el dashboard
-					de Sentria y sus funcionalidades. Como primer paso, te
-					invitamos a seguir la guía de ayuda para que logres
-					aprovechar al máximo cada una de las funcionalidades. Si
-					quieres abandonar la guía oprime
+					{t("description_guide")}
 					<Overline
 						style={{
 							color: "#F99E17",
 							margin: "0px 5px",
 						}}
 					>
-						Cerrar guía
+						{t("close_guide")}
 					</Overline>
-					en la parte inferior de la pantalla.
+					{t("continue_description_guide")}
 				</Overline>
-				<TitleSecond>¿Quieres iniciar la guía?</TitleSecond>
+				<TitleSecond>{t("has_init_guide")}</TitleSecond>
 				<ContentInitialTooltip>
 					<SecondaryButton
 						width={260}
-						onClick={() => dispatch(hideTooltipModal())}
+						onClick={() => {
+							localStorage.setItem("guide", "false");
+
+							dispatch(hideTooltipModal());
+						}}
 					>
-						No, sigo por mi cuenta
+						{t("no_guide")}
 					</SecondaryButton>
 					<PrimaryButton
 						onClick={() =>
@@ -67,7 +68,7 @@ const InitialTooltip = ({ visible }: props) => {
 						}
 						width={260}
 					>
-						Si, iniciar guía
+						{t("yes_guide")}
 					</PrimaryButton>
 				</ContentInitialTooltip>
 			</ContentInitialTooltipMain>

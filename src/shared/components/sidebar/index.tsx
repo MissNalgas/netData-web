@@ -18,7 +18,7 @@ function matchesRegex(regex: RegExp) {
 
 export default function Sidebar() {
 	const router = useRouter();
-    const { t } = useTranslation("sidebar");
+	const { t } = useTranslation("sidebar");
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 
@@ -89,8 +89,11 @@ export default function Sidebar() {
 			<hr className="my-4 mx-6" />
 			<SideButton
 				label={t("close_sesion")}
-				icon={() => <Icon icon="Logout" size={24} color="white"/>}
-				onClick={() => logOut()}
+				icon={() => <Icon icon="Logout" size={24} color="white" />}
+				onClick={() => {
+					logOut();
+					localStorage.removeItem("tokenApp");
+				}}
 			/>
 		</div>
 	);

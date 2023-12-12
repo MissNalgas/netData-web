@@ -1,5 +1,5 @@
 export type AppState = {
-	validationEmail: string;
+	validationEmail: boolean | string;
 	pending: boolean;
 	error: boolean;
 };

@@ -8,7 +8,8 @@ const ContentButtonMain = styled.div`
 	border-radius: 12px;
 	border: ${({ theme }) => theme.colors.orange50} solid 1px;
 	padding: 1%;
-	width: 92%;
+	width: 90%;
+	margin: 1%;
 `;
 
 export { ContentButtonMain };

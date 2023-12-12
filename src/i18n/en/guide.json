@@ -1,7 +1,10 @@
 {
 	"welcome_title": "Welcome to Sentria!",
-	"description_guide": "In this help guide, you will understand how the Sentria dashboard works and its functionalities. As a first step, we invite you to follow the help guide to make the most of each functionality. If you want to exit the guide, press the X at the top of the screen.",
+	"description_guide": "In this help guide, you will understand how the Sentria dashboard works and its functionalities. As a first step, we invite you to follow the help guide to make the most of each functionality. If you want to exit the guide,",
+	"continue_description_guide": "at the bottom of the screen.",
 	"has_init_guide": "Do you want to start the guide?",
+	"no_guide": "No, I'm still on my own",
+	"yes_guide": "Yes, I want to start the guide",
 	"close_guide": "Close guide",
 	"icon_risk_right": "With this icon, you identify the overall risk your company faces regarding cybersecurity attacks. You will see the appearance of the following risk icons as you use the app.",
 	"icon_refresh_left": "Here, you can see the latest update of your cybersecurity data by pressing the icon",
@@ -21,5 +24,6 @@
 	"icon_profile": "By pressing the profile icon, you will access your personal information and settings. Here, you will also find a help guide in case you get lost along the way.",
 	"congratulations": "Congratulations!",
 	"congratulations_description": "Congratulations! You have completed the help guide. Remember that to access it again, you can do so from your profile.",
-	"information_char_heatmap": "This chart is a heatmap, with it, you can identify the day and time your ticket was created. It also shows you the number of tickets created in the week the respective selected ticket occurred."
+	"information_char_heatmap": "This chart is a heatmap, with it, you can identify the day and time your ticket was created. It also shows you the number of tickets created in the week the respective selected ticket occurred.",
+	"finished_guide": "Finish guide"
 }

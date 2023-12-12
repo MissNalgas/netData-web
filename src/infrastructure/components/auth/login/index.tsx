@@ -11,11 +11,11 @@ import { toast } from "react-toastify";
 import { SentriaError } from "@shared/utils/error";
 
 const LoginComponent: React.FC = () => {
-	const {login} = useAuth();
-    const { t } = useTranslation("login");
+	const { login } = useAuth();
+	const { t } = useTranslation("login");
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = (data : ILogin) => {
+	const handleSubmit = (data: ILogin) => {
 		setIsLoading(true);
 		login(data.email, data.password).finally(() => {
 			setIsLoading(false);
@@ -30,17 +30,14 @@ const LoginComponent: React.FC = () => {
 		})
 	}
 
-
 	return (
 		<ContentForm>
 			<TitleCustom $center>{t("welcome_title")}</TitleCustom>
-			<SecondTitleCustom $center>
-				{t("subTitle")}
-			</SecondTitleCustom>
+			<SecondTitleCustom $center>{t("subTitle")}</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
 			{isLoading && (
 				<div className="fixed top-0 left-0 w-full bg-white">
-					<LoaderComponent/>
+					<LoaderComponent />
 				</div>
 			)}
 		</ContentForm>

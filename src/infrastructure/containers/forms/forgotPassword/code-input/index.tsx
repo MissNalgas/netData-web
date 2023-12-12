@@ -1,7 +1,4 @@
-import { emailValidation } from "@shared/utils";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 
 // import TextInput from "@shared/components/textInput";
@@ -9,23 +6,14 @@ import { PrimaryButton } from "@shared/components/buttons/styled";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-interface ICodeInput {
-	email: string;
-}
-
-const schema = yup.object({
-	email: emailValidation(),
-});
-
 export default function CodeInputForm({
 	onSubmit,
 	getCode = () => "",
+	sendAgainAction,
 }: CodeInputFormProps) {
-	const { handleSubmit } = useForm<ICodeInput>({
-		resolver: yupResolver(schema),
-	});
+	const { handleSubmit } = useForm({});
 	const router = useRouter();
-    const { t } = useTranslation("register");
+	const { t } = useTranslation("register");
 	const [codePartOne, setCodePartOne] = useState(["", "", ""]);
 	const [codePartTwo, setCodePartTwo] = useState(["", "", ""]);
 
@@ -96,7 +84,11 @@ export default function CodeInputForm({
 						inputMode="numeric"
 						onChange={(event) => handleChange(index, event)}
 						onKeyDown={(event) => {
-							if (event.key === "Backspace" && !value && index > 0) {
+							if (
+								event.key === "Backspace" &&
+								!value &&
+								index > 0
+							) {
 								inputsRef.current[index - 1]?.focus();
 							}
 						}}
@@ -127,24 +119,38 @@ export default function CodeInputForm({
 							handleChange(index + codePartOne.length, event)
 						}
 						onKeyDown={(event) => {
-							if (event.key === "Backspace" && !value && index > 0) {
-								inputsRef.current[index + codePartOne.length - 1]?.focus();
+							if (
+								event.key === "Backspace" &&
+								!value &&
+								index > 0
+							) {
+								inputsRef.current[
+									index + codePartOne.length - 1
+								]?.focus();
 							}
 						}}
 						ref={(input) => {
-							inputsRef.current[index + codePartOne.length] = input;
+							inputsRef.current[index + codePartOne.length] =
+								input;
 						}}
 					/>
 				))}
 			</div>
-			<PrimaryButton type="submit" className="w-full">
+			<PrimaryButton
+				type="submit"
+				className="w-full"
+				disabled={codestringjoin.length < 6}
+			>
 				{t("next")}
 			</PrimaryButton>
 			<div className="flex justify-center gap-1 my-2">
 				<label className="text-sm" onClick={() => router.push("login")}>
 					{t("has_code_sent")}
 				</label>
-				<label className="text-sm text-primary" onClick={() => {}}>
+				<label
+					className="text-sm text-primary"
+					onClick={sendAgainAction}
+				>
 					{t("send_again_code")}
 				</label>
 			</div>
@@ -153,6 +159,7 @@ export default function CodeInputForm({
 }
 
 interface CodeInputFormProps {
-	onSubmit: (_data: ICodeInput) => void;
+	onSubmit: () => void;
+	sendAgainAction?: () => void;
 	getCode?: (_code: string) => void;
 }

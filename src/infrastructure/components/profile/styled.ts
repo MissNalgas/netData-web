@@ -12,7 +12,8 @@ const ContentHeader = styled.div`
 const ContentBody = styled.div`
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
+	justify-content: center;
+	gap: 2%;
 `;
 
 const ContentLogo = styled.div`
@@ -35,7 +36,7 @@ const ContentImage = styled.div`
 const ImageProfile = styled(Image)``;
 
 const ContentCardModalItem = styled.div`
-	width: 312px;
+	width: 360px;
 	background-color: ${({ theme }) => theme.colors.shadow20};
 	margin: 5% 0;
 	padding: 5%;
