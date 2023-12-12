@@ -9,12 +9,7 @@ import Icon from "@shared/components/icons";
 import { showTooltipModal } from "@shared/components/tooltip/slice";
 import { useAppDispatch } from "@hooks/index";
 import { useTranslation } from "react-i18next";
-
-function matchesRegex(regex: RegExp) {
-	return (route: string) => {
-		return regex.test(route);
-	}
-}
+import { matchesRegex } from "@shared/utils";
 
 export default function Sidebar() {
 	const router = useRouter();
