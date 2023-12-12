@@ -10,6 +10,12 @@ import { showTooltipModal } from "@shared/components/tooltip/slice";
 import { useAppDispatch } from "@hooks/index";
 import { useTranslation } from "react-i18next";
 
+function matchesRegex(regex: RegExp) {
+	return (route: string) => {
+		return regex.test(route);
+	}
+}
+
 export default function Sidebar() {
 	const router = useRouter();
     const { t } = useTranslation("sidebar");
@@ -21,11 +27,13 @@ export default function Sidebar() {
 			label: "Dashboard",
 			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
 			onClick: () => router.push("/"),
+			isActive: matchesRegex(/^(\/|\/savings)$/),
 		},
 		{
 			label: "Heatmap",
 			icon: () => <Icon icon="temperature" size={24} color="white"/>,
 			onClick: () => router.push("/heatmap"),
+			isActive: matchesRegex(/^\/heatmap$/),
 		},
 		{
 			label: "Eventos",
@@ -36,6 +44,7 @@ export default function Sidebar() {
 			label: "Notificaciones",
 			icon: () => <Icon icon="Bell" size={24} color="white"/>,
 			onClick: () => router.push("notifications"),
+			isActive: matchesRegex(/^\/notifications$/),
 		},
 	] as ISideButton[]), [router]);
 

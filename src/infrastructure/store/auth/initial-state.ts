@@ -1,7 +1,7 @@
 import { AppState } from "infrastructure/store/auth/types";
 
 const initialState: AppState = {
-	validationEmail: false,
+	validationEmail: "",
 	pending: false,
 	error: false,
 };
