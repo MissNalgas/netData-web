@@ -96,8 +96,7 @@ export default function ProfileComponent(): JSX.Element {
 
 	const handleDelete = () => {
 		dispatch(deleteAccount())
-			.then((res) => {
-				console.log("response", res);
+			.then(() => {
 				toast.success(t("message_deleted"));
 			})
 			.catch(() => {

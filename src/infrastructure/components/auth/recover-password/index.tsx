@@ -35,7 +35,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	const dispatch = useAppDispatch();
 	const [saveEmailTemporary, setSaveEmailTemporary] = useState<string>("");
 	const [saveCode, setSaveCode] = useState<string>("");
-	const [isSucces, setIsSucces] = useState<boolean>(false);
+	const [isSucces, setIsSuccess] = useState<boolean>(false);
 
 	const router = useRouter();
 	const title = t("recover_password");
@@ -48,6 +48,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 
 	const handleSendCode = (email: string) => {
 		dispatch(recoverPassword(email))
+			.unwrap()
 			.then((res: any) => {
 				if (
 					res.payload.status === 201 &&
@@ -66,6 +67,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	const handleCheckEmail = (data: IForgotPassword) => {
 		const email = data.email;
 		dispatch(checkEmail(email))
+			.unwrap()
 			.then((res: any) => {
 				if (
 					res.payload.status === 201 &&
@@ -94,15 +96,13 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					newPassword: (newPassword && newPassword) || "",
 				})
 			)
-				.then((res: any) => {
-					if (
-						res.payload.status === 201 &&
-						res.payload.message !== "SUCCESS"
-					) {
-						setIsSucces(false);
+				.unwrap()
+				.then((res) => {
+					if (res.payload.message === "FAILED") {
+						setIsSuccess(false);
 						setChangeAction(4);
 					} else {
-						setIsSucces(true);
+						setIsSuccess(true);
 						setChangeAction(4);
 					}
 				})

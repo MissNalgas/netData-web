@@ -9,7 +9,8 @@ export interface getDataChangePasswordDTO {
 }
 
 export interface IResponseServiceDTO {
-	message: string;
+	payload?: any;
+	message: string | "SUCCESS";
 	status: number;
 	data: any;
 	code?: string;

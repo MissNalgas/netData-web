@@ -65,6 +65,9 @@ class recoverPasswordRepository implements IRecoverPasswordService {
 				message = "ExpiredCodeException";
 			}
 		}
+		if (confirmPasswordResponse.status === 201 && message !== "SUCCESS") {
+			message = "FAILED";
+		}
 
 		return LoginAdapter.responseService({
 			message: message,
