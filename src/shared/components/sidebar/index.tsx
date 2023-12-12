@@ -9,6 +9,7 @@ import Icon from "@shared/components/icons";
 import { showTooltipModal } from "@shared/components/tooltip/slice";
 import { useAppDispatch } from "@hooks/index";
 import { useTranslation } from "react-i18next";
+import { matchesRegex } from "@shared/utils";
 
 export default function Sidebar() {
 	const router = useRouter();
@@ -16,36 +17,31 @@ export default function Sidebar() {
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 
-	const buttons = useMemo(
-		() =>
-			[
-				{
-					label: "Dashboard",
-					icon: () => <Icon icon="Sentria" size={24} color="white" />,
-					onClick: () => router.push("/"),
-				},
-				{
-					label: "Heatmap",
-					icon: () => (
-						<Icon icon="temperature" size={24} color="white" />
-					),
-					onClick: () => router.push("/heatmap"),
-				},
-				{
-					label: "Eventos",
-					icon: () => (
-						<Icon icon="bar-graph" size={24} color="white" />
-					),
-					onClick: () => alert("eventos"),
-				},
-				{
-					label: "Notificaciones",
-					icon: () => <Icon icon="Bell" size={24} color="white" />,
-					onClick: () => router.push("notifications"),
-				},
-			] as ISideButton[],
-		[router]
-	);
+	const buttons = useMemo(() => ([
+		{
+			label: "Dashboard",
+			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
+			onClick: () => router.push("/"),
+			isActive: matchesRegex(/^(\/|\/savings)$/),
+		},
+		{
+			label: "Heatmap",
+			icon: () => <Icon icon="temperature" size={24} color="white"/>,
+			onClick: () => router.push("/heatmap"),
+			isActive: matchesRegex(/^\/heatmap$/),
+		},
+		{
+			label: "Eventos",
+			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
+			onClick: () => alert("eventos"),
+		},
+		{
+			label: "Notificaciones",
+			icon: () => <Icon icon="Bell" size={24} color="white"/>,
+			onClick: () => router.push("notifications"),
+			isActive: matchesRegex(/^\/notifications$/),
+		},
+	] as ISideButton[]), [router]);
 
 	const bottomButtons = useMemo(
 		() => [
