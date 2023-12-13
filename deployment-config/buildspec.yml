@@ -2,71 +2,33 @@ version: 0.2
 
 env:
   secrets-manager:
-    # COMMONS ENVS
-    BASE_IMAGE_URI: $SECRET_ARN:BASE_IMAGE_URI
-    PUBLIC_SUBNETS: $SECRET_ARN:PUBLIC_SUBNETS
-    ALB_GROUP_NAME: $SECRET_ARN:ALB_GROUP_NAME
-    ALB_NAME: $SECRET_ARN:ALB_NAME
-    EKS_NAME_SPACE: $SECRET_ARN:EKS_NAME_SPACE
-    ALB_SECURITY_GROUP: $SECRET_ARN:ALB_SECURITY_GROUP
-    REDIS_URL: $SECRET_ARN:REDIS_URL
-    ACM_ARN: $SECRET_ARN:ACM_ARN
-    BACKEND_COMMONS_KEY: $SECRET_ARN:BACKEND_COMMONS_KEY
-    AWS_REGION: $SECRET_ARN:AWS_REGION
-    EKS_CLUSTER_NAME: $SECRET_ARN:EKS_CLUSTER_NAME
-    NODE_ENV: $SECRET_ARN:NODE_ENV
-    SECRET_PASSWORD: $SECRET_ARN:SECRET_PASSWORD
-    DATABASE_USER: $SECRET_ARN:DATABASE_USER   
     DATABASE_HOST: $SECRET_ARN:DATABASE_HOST
-    DATABASE_NAME: $SECRET_ARN:DATABASE_NAME
+    DATABASE_USER: $SECRET_ARN:DATABASE_USER
     DATABASE_PASSWORD: $SECRET_ARN:DATABASE_PASSWORD
-    DATABASE_PORT: $SECRET_ARN:DATABASE_PORT
-    REDIS_HOSTNAME: $SECRET_ARN:REDIS_HOSTNAME
-    REDIS_PORT: $SECRET_ARN:REDIS_PORT
-    API_PREFIX: $SECRET_ARN:API_PREFIX
-    SECRET_TOKEN_KEY:  $SECRET_ARN:SECRET_TOKEN_KEY
-
-    # MICROSERVICE ENVS
-    # NEXT_PUBLIC_API_NAME: $SECRET_ARN:NEXT_PUBLIC_API_NAME
+    DATABASE_NAME: $SECRET_ARN:DATABASE_NAME
 
 phases:
-  # pre_build
-  # commands:
   install:
     commands:
-      - apt-get update
-      - apt-get install -y curl
-      - curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-      - apt-get install -y nodejs
-      - node -v
-      - node deployment-config/environment_setter.js
-      - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 281426533658.dkr.ecr.us-east-2.amazonaws.com
+      - curl -sL https://deb.nodesource.com/setup_14.x
+  pre_build:
+    commands:
+      - node deployment-config/environment_setter.js && cp .env src/
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - IMAGE_TAG=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
-      - bash deployment-config/createRSACommons.sh # Create SHH COMMONS RSA
-      - more ~/.ssh/BackendCommonsKey
 
   build:
     commands:
       - echo Building the Docker image...
-      - (docker build -t $ECR_URI_REPOSITORY:$IMAGE_TAG --build-arg BASE_IMAGE_URI=$BASE_IMAGE_URI --build-arg SERVER_APP_PORT=$SERVER_APP_PORT -f dockerConfig/dockerfile .)
-      - docker tag $ECR_URI_REPOSITORY:$IMAGE_TAG $ECR_URI_REPOSITORY:$IMAGE_TAG
-      - APP_ECR_IMAGE_URI=$ECR_URI_REPOSITORY:$IMAGE_TAG # Set env to replace un kubectl yml iamge
-      - echo Replace kubernetes manifest...
-      - envsubst < deployment-config/kubernetes-manifest.yml > deployment-config/kubernetes-manifest-with-envs.yml
-      - mv deployment-config/kubernetes-manifest-with-envs.yml deployment-config/kubernetes-manifest.yml
-
+      - echo $IMAGE_TAG
+      - (docker build -t $API_STARTER_BACKEND_REPOSITORY_URI:$IMAGE_TAG --build-arg BASE_IMAGE_URI=$BASE_IMAGE_URI --build-arg SERVER_APP_PORT=$APP_PORT -f dockerConfig/dockerfile .)
+      - docker tag $API_STARTER_BACKEND_REPOSITORY_URI:$IMAGE_TAG $API_STARTER_BACKEND_REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
-      # Push image in ECR
       - echo Pushing the Docker images...
-      - docker push $ECR_URI_REPOSITORY:$IMAGE_TAG
-      # Setup kubectl with our EKS Cluster
-      - echo "Update Kube Config"
-      - aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
-      # Apply changes to our Application using kubectl
-      - echo "Apply changes to kube manifests"
-      - aws sts get-caller-identity
-      - kubectl apply -f deployment-config/kubernetes-manifest.yml -n $EKS_NAME_SPACE
-      - echo "Completed applying changes to Kubernetes Objects"
+      - docker push $API_STARTER_BACKEND_REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"%s","imageUri":"%s"}]' $API_STARTER_BACKEND_CONTAINER_NAME $API_STARTER_BACKEND_REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
 artifacts:
-  files: deployment-config/kubernetes-manifest.yml
+  files: imagedefinitions.json
