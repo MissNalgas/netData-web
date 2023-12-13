@@ -24,7 +24,7 @@ const SimpleSlider: React.FC<SimpleSliderProps> = ({ slides }) => {
 
     const updateVisibleCards = () => {
         const screenWidth = window.innerWidth;
-        const newVisibleCards = Math.floor(screenWidth / (200 + 16)); // Ajusta según el ancho deseado de una tarjeta y el espacio entre ellas
+        const newVisibleCards = Math.floor(screenWidth / (200 + 16));
         setVisibleCards(Math.min(newVisibleCards, 4));
     };
 

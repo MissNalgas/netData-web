@@ -4,6 +4,7 @@ import Image from "next/image";
 
 export const TitleCard = styled(Overline)`
 	display: block;
+	margin-top: 10px;
 `;
 
 export const DescriptionCard = styled(BodyTwo)`
