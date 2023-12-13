@@ -8,6 +8,7 @@ export class LoginAdapter {
 			firstname: xelcoLogin.idToken?.payload?.["custom:name"] || "",
 			lastname: xelcoLogin.idToken?.payload?.["custom:last_name"] || "",
 			token: xelcoLogin.idToken?.jwtToken || "",
+			company: xelcoLogin.idToken?.payload?.["custom:company"] || "",
 		};
 	}
 	static checkEmailDTO(checkEmail: IResponseServiceDTO): IResponseServiceDTO {

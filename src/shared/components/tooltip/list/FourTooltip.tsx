@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -16,13 +17,12 @@ const FourTooltip = ({ visible }: props) => {
 			left: "17ch",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<div className="m-1 w-5/6">
-				<Overline>
-					Mira en esta gráfica de burbuja, el nivel de riesgo de tus
-					eventos del día.
-				</Overline>
+				<Overline>{t("bubble_chart")}</Overline>
 			</div>
 		</Tooltip>
 	);

@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -16,16 +17,12 @@ const FiveTooltip = ({ visible }: props) => {
 			left: "19ch",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<div className="m-1 w-5/6">
-				<Overline>
-					Aquí te saldrán todas las categorias de eventos de
-					ciberseguridad a las cuales tu compañia está expuesta. El
-					número en la parte superior derecha de estas indica el # de
-					incidentes que están ocurriendo desde las últimas 24 horas
-					¡inspeccionalas!
-				</Overline>
+				<Overline>{t("event_categories")}</Overline>
 			</div>
 		</Tooltip>
 	);
