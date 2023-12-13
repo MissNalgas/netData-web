@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -20,6 +21,8 @@ const EightTooltip = ({ visible }: props) => {
 			transform: "rotateY(183deg)",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip
 			styles={styles.tooltip}
@@ -27,10 +30,7 @@ const EightTooltip = ({ visible }: props) => {
 			polygonStyle={styles.polygonStyles}
 		>
 			<div className="m-1 w-5/6">
-				<Overline>
-					En este momento te encuentras en tu página principal, Podrás
-					acceder dando click en este apartado
-				</Overline>
+				<Overline>{t("dashboard")}</Overline>
 			</div>
 		</Tooltip>
 	);

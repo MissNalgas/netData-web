@@ -3,6 +3,7 @@ import React from "react";
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
 import Icon from "@shared/components/icons";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -21,6 +22,8 @@ const ElevenTooltip = ({ visible }: props) => {
 			transform: "rotateY(183deg)",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip
 			styles={styles.tooltip}
@@ -29,10 +32,9 @@ const ElevenTooltip = ({ visible }: props) => {
 		>
 			<div className="m-1 w-5/6">
 				<Overline>
-					Presionando el icono de la campana{" "}
-					<Icon icon="Bell" size={20} color="#F99E17" /> accederás a
-					tus notificaciones, función que te notificará cuando un
-					ticket sea realizado.
+					{t("notifications")}{" "}
+					<Icon icon="Bell" size={20} color="#F99E17" />{" "}
+					{t("continue_notifications")}
 				</Overline>
 			</div>
 		</Tooltip>

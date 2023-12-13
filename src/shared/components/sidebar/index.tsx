@@ -69,7 +69,7 @@ export default function Sidebar() {
 				onClick: () => show(),
 			},
 		],
-		[dispatch, router, t]
+		[dispatch, router, show, t]
 	);
 
 	return (

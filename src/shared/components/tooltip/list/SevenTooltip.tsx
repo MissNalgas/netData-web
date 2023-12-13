@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -16,13 +17,12 @@ const SevenTooltip = ({ visible }: props) => {
 			right: "38ch",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<div className="m-1 w-5/6">
-				<Overline>
-					Aquí podrás ver cuánto te has ahorrado contratando nuestro
-					servicios.
-				</Overline>
+				<Overline>{t("saving_our_services")}</Overline>
 			</div>
 		</Tooltip>
 	);

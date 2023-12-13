@@ -3,6 +3,7 @@ import React from "react";
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
 import Icon from "@shared/components/icons";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -17,14 +18,14 @@ const SecondTooltip = ({ visible }: props) => {
 			left: "23ch",
 		},
 	};
+	const { t } = useTranslation("guide");
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<div className="m-1 w-5/6">
 				<Overline>
-					Aquí podrás ver la última actualización de tus datos de
-					ciberseguridad, presionando el icono de{" "}
-					<Icon icon="Reload" size={20} color="#F99E17" /> podrá
-					actualizar la información.
+					{t("icon_refresh_left")}{" "}
+					<Icon icon="Reload" size={20} color="#F99E17" />{" "}
+					{t("complement_icon_refresh_left")}
 				</Overline>
 			</div>
 		</Tooltip>

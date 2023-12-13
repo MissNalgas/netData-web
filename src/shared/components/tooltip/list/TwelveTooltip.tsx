@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -20,6 +21,8 @@ const TwelveTooltip = ({ visible }: props) => {
 			transform: "rotateY(183deg)",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip
 			styles={styles.tooltip}
@@ -27,11 +30,7 @@ const TwelveTooltip = ({ visible }: props) => {
 			polygonStyle={styles.polygonStyles}
 		>
 			<div className="m-1 w-5/6">
-				<Overline>
-					Presionando el icono de perfil accederás a tu información
-					personal y configuraciones. Aquí también encontrarás una
-					guia de ayuda por si te pierdes en el camino.
-				</Overline>
+				<Overline>{t("icon_profile")}</Overline>
 			</div>
 		</Tooltip>
 	);
