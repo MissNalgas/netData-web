@@ -13,7 +13,7 @@ export default function EventCard(props: IEventCardProps) {
     const {image, number, title, description} = props;
 
     return (
-        <div className="border border-orange50 rounded-2xl p-3 w-44 h-full">
+        <div className="border border-orange50 rounded-2xl p-3 w-44 h-full pb-10">
             <Container>
                 <ImageContainer>
                     <Photo src={image} alt="event" />

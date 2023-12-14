@@ -19,39 +19,31 @@ export default function Sidebar() {
 	const { logOut } = useAuth();
 	const { show } = ContactComponent();
 
-	const buttons = useMemo(
-		() =>
-			[
-				{
-					label: "Dashboard",
-					icon: () => <Icon icon="Sentria" size={24} color="white" />,
-					onClick: () => router.push("/"),
-					isActive: matchesRegex(/^(\/|\/savings)$/),
-				},
-				{
-					label: "Heatmap",
-					icon: () => (
-						<Icon icon="temperature" size={24} color="white" />
-					),
-					onClick: () => router.push("/heatmap"),
-					isActive: matchesRegex(/^\/heatmap$/),
-				},
-				{
-					label: "Eventos",
-					icon: () => (
-						<Icon icon="bar-graph" size={24} color="white" />
-					),
-					onClick: () => alert("eventos"),
-				},
-				{
-					label: "Notificaciones",
-					icon: () => <Icon icon="Bell" size={24} color="white" />,
-					onClick: () => router.push("notifications"),
-					isActive: matchesRegex(/^\/notifications$/),
-				},
-			] as ISideButton[],
-		[router]
-	);
+	const buttons = useMemo(() => ([
+		{
+			label: `${t("dashboard")}`,
+			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
+			onClick: () => router.push("/"),
+			isActive: matchesRegex(/^(\/|\/savings)$/),
+		},
+		{
+			label: `${t("heatmap")}`,
+			icon: () => <Icon icon="temperature" size={24} color="white"/>,
+			onClick: () => router.push("/heatmap"),
+			isActive: matchesRegex(/^\/heatmap$/),
+		},
+		{
+			label: `${t("events")}`,
+			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
+			onClick: () => router.push("/events"),
+		},
+		{
+			label: `${t("notifications")}`,
+			icon: () => <Icon icon="Bell" size={24} color="white"/>,
+			onClick: () => router.push("notifications"),
+			isActive: matchesRegex(/^\/notifications$/),
+		},
+	] as ISideButton[]), [router, t]);
 
 	const bottomButtons = useMemo(
 		() => [

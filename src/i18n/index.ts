@@ -17,6 +17,7 @@ const resources = {
 		events_week: require("./es/events_week.json"),
 		tickets_week: require("./es/tickets_week.json"),
 		profile: require("./es/profile.json"),
+		events_today: require("./es/events_today.json"),
 	},
 	en: {
 		welcome: require("./en/welcome.json"),
@@ -32,6 +33,7 @@ const resources = {
 		events_week: require("./en/events_week.json"),
 		tickets_week: require("./en/tickets_week.json"),
 		profile: require("./en/profile.json"),
+		events_today: require("./en/events_today.json"),
 	},
 };
 
@@ -49,6 +51,7 @@ const namespace: string[] = [
 	"events_week",
 	"tickets_week",
 	"profile",
+	"events_today",
 ];
 
 export const supportedLocales: any = {
