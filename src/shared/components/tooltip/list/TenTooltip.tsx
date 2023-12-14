@@ -3,6 +3,7 @@ import React from "react";
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
 import Icon from "@shared/components/icons";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -21,6 +22,8 @@ const TenTooltip = ({ visible }: props) => {
 			transform: "rotateY(183deg)",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip
 			styles={styles.tooltip}
@@ -29,11 +32,9 @@ const TenTooltip = ({ visible }: props) => {
 		>
 			<div className="m-1 w-5/6">
 				<Overline>
-					Presionando el icono de las gráficas{" "}
-					<Icon icon="bar-graph" size={20} color="#F99E17" />
-					accederás a tus eventos de ciberseguridad del día, podrás
-					ver todos los tickets que se han realizado las últimas 24
-					horas.
+					{t("events")}{" "}
+					<Icon icon="bar-graph" size={20} color="#F99E17" />{" "}
+					{t("continue_events")}
 				</Overline>
 			</div>
 		</Tooltip>

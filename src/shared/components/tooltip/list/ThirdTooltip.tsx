@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -16,14 +17,12 @@ const ThirdTooltip = ({ visible }: props) => {
 			right: "25ch",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<div className="m-1 w-5/6">
-				<Overline>
-					¡Cuidado cuando te salga este mensaje! Aquí se mostrarán tus
-					eventos urgentes y de alto riesgo del día, presionandolo
-					podrás dirigirte a ellos directamente.
-				</Overline>
+				<Overline>{t("urgent_events_risk")}</Overline>
 			</div>
 		</Tooltip>
 	);

@@ -5,6 +5,7 @@ import SideButton, { ISideButton } from "./sideButton";
 import { useAuth } from "@infrastructure/containers/auth";
 import { useRouter } from "next/navigation";
 import Icon from "@shared/components/icons";
+import ContactComponent from "@shared/components/sidebar/contact";
 
 import { showTooltipModal } from "@shared/components/tooltip/slice";
 import { useAppDispatch } from "@hooks/index";
@@ -16,6 +17,7 @@ export default function Sidebar() {
 	const { t } = useTranslation("sidebar");
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
+	const { show } = ContactComponent();
 
 	const buttons = useMemo(() => ([
 		{
@@ -56,10 +58,10 @@ export default function Sidebar() {
 			{
 				label: `${t("message_sentria")}`,
 				icon: () => <Icon icon="Paper-Plane" size={24} color="white" />,
-				onClick: () => alert("mensaje"),
+				onClick: () => show(),
 			},
 		],
-		[dispatch, router, t]
+		[dispatch, router, show, t]
 	);
 
 	return (

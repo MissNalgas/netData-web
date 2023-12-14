@@ -3,6 +3,7 @@ import React from "react";
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
 import Icon from "@shared/components/icons";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -21,6 +22,8 @@ const NineTooltip = ({ visible }: props) => {
 			transform: "rotateY(183deg)",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip
 			styles={styles.tooltip}
@@ -29,11 +32,9 @@ const NineTooltip = ({ visible }: props) => {
 		>
 			<div className="m-1 w-5/6">
 				<Overline>
-					Presionando el icono del termómetro{" "}
+					{t("heatmap")}{" "}
 					<Icon icon="temperature" size={20} color="#F99E17" />{" "}
-					accederás a tu heatmap, función con la cual podrás acceder a
-					cualquier ticket que se haya realizado para tu compañia,
-					podrás encontrar del más reciente al más antiguo.
+					{t("continue_heatmap")}
 				</Overline>
 			</div>
 		</Tooltip>

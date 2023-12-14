@@ -2,6 +2,7 @@ import React from "react";
 
 import Tooltip from "@shared/components/tooltip";
 import { Overline } from "@shared/components/labels/styled";
+import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
@@ -16,14 +17,12 @@ const SixTooltip = ({ visible }: props) => {
 			right: "38ch",
 		},
 	};
+	const { t } = useTranslation("guide");
+
 	return (
 		<Tooltip styles={styles.tooltip} visible={visible}>
 			<div className="m-1 w-5/6">
-				<Overline>
-					En esta sección se acumularán los eventos de ciberseguridad
-					los últimos 8 días, podrás ver los que siguen en revisión y
-					los que ya cerraron.
-				</Overline>
+				<Overline>{t("events_of_the_week")}</Overline>
 			</div>
 		</Tooltip>
 	);

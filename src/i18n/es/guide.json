@@ -23,7 +23,7 @@
 	"continue_notifications": "accederás a tus notificaciones, función que te notificará cuando un ticket sea realizado.",
 	"icon_profile": "Presionando el icono de perfil accederás a tu información personal y configuraciones. Aquí también encontrarás una guia de ayuda por si te pierdes en el camino.",
 	"congratulations": "¡Felicitaciones!",
-	"congratulations_description": "¡Felicitaciones! has finalizado la guía de ayuda. Te recordamos que para volver a acceder a ella lo puedes hacer desde tu perfil",
+	"congratulations_description": "Has finalizado la guía de ayuda. Te recordamos que para volver a acceder a ella lo puedes hacer desde tu perfil",
 	"information_char_heatmap": "Esta gráfica es un Heatmap, con ella puedes identificar el día y hora que tu ticket se realizó. También te muestra la cantidad de tickets que se realizaron en la semana en la que ocurrió el respectivo ticket seleaccionado.",
 	"finished_guide": "Finalizar guia"
 }

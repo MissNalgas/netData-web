@@ -16,7 +16,6 @@ import {
 	SubtitleLink,
 } from "@shared/components/labels/styled";
 
-import { useSideModal } from "@shared/components/sideModal";
 import Modal from "@shared/components/modal";
 import Logo from "/public/img/logo-sentria.png";
 
@@ -28,19 +27,19 @@ import {
 	ContentLogo,
 	ImageProfile,
 } from "./styled";
-import ChatForm, { IChatForm } from "@infrastructure/containers/forms/chat";
 import { useTranslation } from "react-i18next";
 import Toggle from "@shared/components/toggle";
 import { useAppDispatch } from "@hooks/index";
 import { showTooltipModal } from "@shared/components/tooltip/slice";
-import { contact, deleteAccount } from "@infrastructure/store/user/actions";
+import { deleteAccount } from "@infrastructure/store/user/actions";
 import { toast } from "react-toastify";
+import ContactComponent from "@shared/components/sidebar/contact";
 
 export default function ProfileComponent(): JSX.Element {
 	const auth = useAuth();
 	const theme = useTheme();
 	const router = useRouter();
-	const sideModal = useSideModal();
+	const { show } = ContactComponent();
 	const { t, i18n } = useTranslation("profile");
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -74,26 +73,6 @@ export default function ProfileComponent(): JSX.Element {
 		setIsOpen(false);
 	};
 
-	const handleSubmit = (data: IChatForm) => {
-		dispatch(
-			contact({
-				body: data.affair,
-				subject: data.message,
-			})
-		)
-			.then(() => {
-				sideModal.toggle({});
-				toast.success(t("message_sent"));
-			})
-			.catch(() => {
-				sideModal.toggle({});
-				toast.error(t("message_error"));
-			})
-			.finally(() => {
-				sideModal.toggle({});
-			});
-	};
-
 	const handleDelete = () => {
 		dispatch(deleteAccount())
 			.then(() => {
@@ -103,25 +82,7 @@ export default function ProfileComponent(): JSX.Element {
 				toast.error(t("message_error"));
 			});
 	};
-	const show = () => {
-		sideModal.toggle({
-			content: () => (
-				<section className="p-5">
-					<button
-						className="w-12 h-12 rounded-full bg-gray-100 items-center flex justify-center"
-						onClick={() => sideModal.toggle({})}
-					>
-						<Icon icon="Cancel" size={22} />
-					</button>
-					<div className="my-5">
-						<CaptionOne>{t("contact")}</CaptionOne>
-					</div>
 
-					<ChatForm onSubmit={handleSubmit} />
-				</section>
-			),
-		});
-	};
 	const renderModal = () => {
 		return (
 			<Modal
@@ -216,7 +177,7 @@ export default function ProfileComponent(): JSX.Element {
 								<Icon icon="office-building1" size={24} />
 							</span>
 							<CaptionOne className="text-primary" $weight={600}>
-								Redeban
+								{JSON.parse(auth.user?.company).name}
 							</CaptionOne>
 						</div>
 					</div>
