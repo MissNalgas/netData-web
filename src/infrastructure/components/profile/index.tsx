@@ -205,7 +205,7 @@ export default function ProfileComponent(): JSX.Element {
 						<div>
 							<SubtitleLink $weight={600}>
 								{t("greeting")}
-								{","}
+								{", "}
 								<span className="text-primary font-semibold">
 									{auth.user?.firstname}
 								</span>

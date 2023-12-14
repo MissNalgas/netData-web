@@ -23,7 +23,8 @@ export default function Topbar() {
 				</div>
 				<div className="flex flex-col">
 					<span>
-						{t("greeting")},
+						{t("greeting")}
+                        {", "}
 						<span className="text-primary font-semibold">
 							{auth.user?.firstname}
 						</span>
@@ -35,7 +36,7 @@ export default function Topbar() {
 				</div>
 			</div>
 
-			<div className="w-12 h-12 bg-[#d4c0dd] rounded-full grid place-content-center">
+			<div className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">
 				<Image src={alarm} alt="Alarm" width={32} height={0} />
 			</div>
 		</div>

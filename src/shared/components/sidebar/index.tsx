@@ -19,29 +19,29 @@ export default function Sidebar() {
 
 	const buttons = useMemo(() => ([
 		{
-			label: "Dashboard",
+			label: `${t("dashboard")}`,
 			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
 			onClick: () => router.push("/"),
 			isActive: matchesRegex(/^(\/|\/savings)$/),
 		},
 		{
-			label: "Heatmap",
+			label: `${t("heatmap")}`,
 			icon: () => <Icon icon="temperature" size={24} color="white"/>,
 			onClick: () => router.push("/heatmap"),
 			isActive: matchesRegex(/^\/heatmap$/),
 		},
 		{
-			label: "Eventos",
+			label: `${t("events")}`,
 			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
-			onClick: () => alert("eventos"),
+			onClick: () => router.push("/events"),
 		},
 		{
-			label: "Notificaciones",
+			label: `${t("notifications")}`,
 			icon: () => <Icon icon="Bell" size={24} color="white"/>,
 			onClick: () => router.push("notifications"),
 			isActive: matchesRegex(/^\/notifications$/),
 		},
-	] as ISideButton[]), [router]);
+	] as ISideButton[]), [router, t]);
 
 	const bottomButtons = useMemo(
 		() => [
