@@ -11,6 +11,7 @@ import Icon from "../icons";
 import { format } from "date-fns";
 import { PrimaryButton } from "../buttons/styled";
 import { GroupBase } from "react-select";
+import { IFilterForm } from "@domain/models";
 
 const FILTERS = [
 	{
@@ -58,20 +59,20 @@ const FILTERS = [
 			},
 		],
 	},
-]
+];
 
-export default function FilterInput() {
+
+
+export default function FilterInput({onChange} : FilterInputProps) {
 
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const [filterData, setFilter] = useFilterState({category: ""});
+	const [filterData, setFilter] = useFilterState({category: null, status: null, risk: null});
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [date, setDate] = useState<Date | null>(null);
 
 	const updateDate = (newDate: Date) => {
-
 		setShowCalendar(false);
 		setDate(newDate);
-
 	}
 
 	const {refs, floatingStyles} = useFloating({
@@ -82,6 +83,10 @@ export default function FilterInput() {
 	const handleSubmit : FormEventHandler = (e) => {
 		e.preventDefault();
 		setIsFilterOpen(false);
+		onChange?.({
+			...filterData,
+			date: date,
+		});
 	}
 
 	const clearDate : MouseEventHandler = (e) => {
@@ -140,4 +145,7 @@ export default function FilterInput() {
 			)}
 		</>
 	);
+}
+interface FilterInputProps {
+	onChange?: (_data: IFilterForm) => void;
 }

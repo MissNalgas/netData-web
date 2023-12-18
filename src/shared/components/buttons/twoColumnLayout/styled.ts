@@ -7,6 +7,6 @@ export const Container = styled.div`
 	padding: 1rem;
 	min-height: 100%;
 	@media (min-width: 768px) {
-		grid-template-columns: 3fr 1fr;
+		grid-template-columns: 1fr 350px;
 	}
 `;
