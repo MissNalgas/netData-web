@@ -4,7 +4,6 @@ import { CaptionTwo, Overline } from "@shared/components/labels/styled";
 import theme from "@theme/index";
 import Fire from "/public/img/fire_1.png";
 import Alarm from "/public/img/alarm_icon.png";
-import Chat from "@shared/components/chat";
 
 export default function NotificationsComponent() {
 	return (
@@ -44,7 +43,6 @@ export default function NotificationsComponent() {
 				<Overline $weight={theme.fontWeight.bold}>
 					¡No hay ningún ticket seleccionado!
 				</Overline>
-				<Chat />
 			</ContainerBackground>
 		</div>
 	);
