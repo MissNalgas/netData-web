@@ -26,9 +26,16 @@ import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
+import { getDataDashboard } from "@infrastructure/store/dashboard/actions";
+import { useAppDispatch } from "@hooks/use-dispatch";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getDataDashboard());
+    }, [dispatch]);
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard
