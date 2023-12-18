@@ -1,7 +1,7 @@
 "use client"
 import Chart from "@shared/components/chart";
 import { ScatterChart } from "echarts/charts";
-import { GridComponent, TooltipComponent } from "echarts/components";
+import { GridComponent } from "echarts/components";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import { useMemo, useRef } from "react";
@@ -10,7 +10,6 @@ export default function HeatmapChart() {
 
 
 	const loadComponents = useRef([
-		TooltipComponent,
 		GridComponent,
 		ScatterChart,
 		CanvasRenderer,
@@ -39,18 +38,6 @@ export default function HeatmapChart() {
 		const maxCount = data.map(data => data[2]).reduce((a, b) => a > b ? a : b, 0);
 
 		return {
-			tooltip: {
-				position: "top",
-				formatter: function (params : any) {
-					return (
-						params.value[2] +
-							" commits in " +
-							hours[params.value[0]] +
-							" of " +
-							days[params.value[1]]
-					);
-				},
-			},
 			grid: {
 				left: 2,
 				bottom: 10,
