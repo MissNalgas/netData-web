@@ -1,6 +1,8 @@
+import React from "react";
 import { createContext, useCallback, useMemo, useState } from "react";
 import { ISideModalContext, ModalContent, ModalToggle, SideModalProps } from "./models";
 import { SideModalComponent } from "./component";
+
 
 export const SideModalContext = createContext<ISideModalContext>({
 	isOpen: false,
