@@ -7,9 +7,16 @@ import Logo from "/public/img/logo-sentria.png";
 import alarm from "/public/img/alarm_icon.png";
 import Icon from "../icons";
 import { useTranslation } from "react-i18next";
+import SwitchButton from "../buttons/buttonGroup";
+import theme from "@theme/index";
 
-export default function Topbar() {
-	const auth = useAuth();
+interface TopBarProps {
+    screen?: "dashboard" | "other"
+}
+
+export default function Topbar(props: TopBarProps) {
+    const { screen } = props;
+    const auth = useAuth();
 	const router = useRouter();
 	const { t } = useTranslation("profile");
 	return (
@@ -35,7 +42,14 @@ export default function Topbar() {
 					</span>
 				</div>
 			</div>
-
+            {screen && (
+                <SwitchButton
+                    textButtonLeft={screen === "dashboard" ? "Eventos de hoy" : "Eventos abiertos" }
+                    textButtonRight={screen === "dashboard" ? "Eventos de ayer" : "Eventos cerrados"}
+                    bgColor={screen === "dashboard" ? theme.colors.orange30 : theme.colors.blue30}
+                    activeColor={screen === "dashboard" ? theme.colors.orange : theme.colors.blue50}
+                    />
+            )}
 			<div className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">
 				<Image src={alarm} alt="Alarm" width={32} height={0} />
 			</div>
