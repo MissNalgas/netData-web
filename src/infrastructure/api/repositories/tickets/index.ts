@@ -44,7 +44,15 @@ class TicketRepository implements ITicketService {
 					description: "descripotion",
 					description_text: "description text",
 					workspace_id: 3,
-					custom_fields: null as any,
+					custom_fields: {
+						persistencia: "lorem",
+						objetivos: "Mejorar 1, 2, 3",
+						usuarios: "paco1, paco2, paco3",
+						sistema: "Sistema 1",
+						ttps: "SSL",
+						que_necesitamos_hacer: "Mejorar A",
+						que_estamos_haciendo: "Mejorando B",
+					} as any,
 				})),
 		});
 

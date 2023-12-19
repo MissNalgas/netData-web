@@ -1,6 +1,7 @@
-import { IFilterForm, ITicket, IWeekGraph } from "@domain/models";
+import { ICustomFields, IFilterForm, ITicket, IWeekGraph } from "@domain/models";
 import {
 	IFilterParamDTO,
+	ITicketCustomFieldsDTO,
 	ITicketDTO,
 	IWeekGraphDTO,
 	PriorityDTO,
@@ -22,12 +23,25 @@ export class TicketAdapter {
 		};
 	}
 
+	static customFieldsFromDTO(customFieldsDTO: ITicketCustomFieldsDTO) : ICustomFields {
+		return {
+			persistent: customFieldsDTO.persistencia,
+			objectives: customFieldsDTO.objetivos,
+			user: customFieldsDTO.usuarios,
+			system: customFieldsDTO.sistema,
+			https: customFieldsDTO.ttps,
+			whatWeNeedYouToDo: customFieldsDTO.que_necesitamos_hacer,
+			whatWeAreDoing: customFieldsDTO.que_estamos_haciendo,
+		}
+	}
+
 	static ticketFromDTO(ticketDTO: ITicketDTO): ITicket {
 		return {
 			subject: ticketDTO.subject,
 			id: ticketDTO.id,
 			category: ticketDTO.category,
 			createdAt: new Date(ticketDTO.created_at),
+			customFields: TicketAdapter.customFieldsFromDTO(ticketDTO.custom_fields),
 		};
 	}
 
