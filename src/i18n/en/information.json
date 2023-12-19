@@ -10,5 +10,9 @@
 	"objetives": "Objectives",
 	"actions_for_solutions": "What action should you take to solve it?",
 	"actions_sentria": "What action is Sentria taking to solve it?",
-	"description_chat": "Having an issue with the app's functionality? Send us a message, and we'll get in touch with you soon."
+	"description_chat": "Having an issue with the app's functionality? Send us a message, and we'll get in touch with you soon.",
+	"send": "Send",
+	"write_your_message": "Write your message",
+	"message_sent": "Message sent",
+	"message_error": "Oops... an error occurred"
 }

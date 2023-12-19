@@ -7,8 +7,7 @@ import { PrimaryButton } from "@shared/components/buttons/styled";
 import { useTranslation } from "react-i18next";
 
 export interface IChatForm {
-	affair: string;
-	message: string;
+	reply: string;
 }
 
 export default function ChatForm({ onSubmit }: ChatFormProps) {
@@ -20,26 +19,30 @@ export default function ChatForm({ onSubmit }: ChatFormProps) {
 		resolver: yupResolver(schema),
 	});
 
-	const { t } = useTranslation("profile");
+	const { t } = useTranslation("information");
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
-				label={t("contactForm.affair")}
-				placeholder={t("contactForm.writeYourMessage")}
-				error={errors.affair?.message}
-				{...register("affair")}
-			/>
-			<TextInput
-				istextarea={true}
-				height="h-40"
-				label={t("contactForm.yourMessage")}
-				placeholder={t("contactForm.writeYourMessage")}
-				error={errors.affair?.message}
-				{...register("message")}
+				placeholder={t("write_your_message")}
+				iconright="Paper-Plane"
+				className="
+				bg-shadow20
+								disabled:text-gray-400
+								rounded-lg
+								h-12
+								focus:outline-gray20
+								z-10
+								px-2
+								w-full
+								mt-1
+								pr-12
+						"
+				{...register("reply")}
+				error={errors.reply?.message}
 			/>
 			<PrimaryButton disabled={!isValid} type="submit" className="w-full">
-				{t("contactForm.send")}
+				{t("send")}
 			</PrimaryButton>
 		</form>
 	);

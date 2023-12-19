@@ -30,6 +30,6 @@ export interface IFormRegister {
 export interface RegisterResponseError {
 	data: {
 		message: string;
-		status: string;
+		status: number;
 	};
 }

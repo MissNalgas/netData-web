@@ -42,6 +42,6 @@ export type IFormResponse = {
 			Destination: string;
 		};
 		message: "";
-		status: "";
+		status: number | string;
 	};
 };

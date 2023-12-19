@@ -1,14 +1,53 @@
-import { JSX } from "react";
-import TextInput from "../textInput";
+import { JSX, useEffect } from "react";
 import { CaptionOne, Body } from "../labels/styled";
 import Icon from "../icons";
 import { ContentChat } from "./styled";
+import ChatForm, { IChatForm } from "@infrastructure/containers/forms/chat";
+import { useAppDispatch, useTypedSelector } from "@hooks/index";
+import { useTranslation } from "react-i18next";
+import { useSideModal } from "../sideModal";
+import { getComments, sendComment } from "@infrastructure/store/chat/actions";
+import { toast } from "react-toastify";
 
 interface ChatProps {
+	tikectId: string;
 	onActionChat: () => void;
 }
 
-export default function Chat({ onActionChat }: ChatProps): JSX.Element {
+export default function Chat({
+	onActionChat,
+	tikectId = "1",
+}: ChatProps): JSX.Element {
+	const dispatch = useAppDispatch();
+	const { t } = useTranslation("information");
+	const sideModal = useSideModal();
+
+	const chatData = useTypedSelector((state) => state.chat.data);
+
+	console.log("data", chatData);
+	useEffect(() => {
+		dispatch(getComments({ id: 1 }));
+	}, [dispatch]);
+
+	const handleSubmit = (data: IChatForm) => {
+		dispatch(
+			sendComment({
+				ticketId: tikectId.toString(),
+				reply: data.reply,
+			})
+		)
+			.then(() => {
+				sideModal.toggle({});
+				toast.success(t("message_sent"));
+			})
+			.catch(() => {
+				sideModal.toggle({});
+				toast.error(t("message_error"));
+			})
+			.finally(() => {
+				sideModal.toggle({});
+			});
+	};
 	return (
 		<div className="p-6">
 			<div className="w-full flex justify-between py-3">
@@ -22,9 +61,7 @@ export default function Chat({ onActionChat }: ChatProps): JSX.Element {
 			</div>
 			<div className="w-full text-right flex justify-end">
 				<div className="w-80">
-					<CaptionOne>
-						¿Tienes dudas? manda una comentario Xelco
-					</CaptionOne>
+					<CaptionOne>{t("you_have_doubts")}</CaptionOne>
 				</div>
 			</div>
 			<ContentChat>
@@ -35,23 +72,7 @@ export default function Chat({ onActionChat }: ChatProps): JSX.Element {
 				</div>
 
 				<div>
-					<TextInput
-						placeholder="Escribe tu mensaje"
-						name={""}
-						iconright="Paper-Plane"
-						className="
-				bg-shadow20
-								disabled:text-gray-400
-								rounded-lg
-								h-12
-								focus:outline-gray20
-								z-10
-								px-2
-								w-full
-								mt-1
-								pr-12
-						"
-					/>
+					<ChatForm onSubmit={handleSubmit} />
 				</div>
 			</ContentChat>
 		</div>
