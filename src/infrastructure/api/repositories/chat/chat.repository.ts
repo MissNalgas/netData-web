@@ -9,7 +9,7 @@ import { IChatService } from "@domain/services/chat.service";
 import { ChatAdapter } from "@infrastructure/adapters/chat";
 
 class ChatRepository implements IChatService {
-	async getCommentsApi(id: number): Promise<[Message]> {
+	async getCommentsApi(id: number | string): Promise<[Message]> {
 		const axios = await createAxiosApp();
 
 		const getCommentsResponse = await axios.get<[Message]>(

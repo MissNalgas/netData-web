@@ -1,5 +1,5 @@
 export interface GetIdTicketPayload {
-	id: number;
+	id: number | string;
 }
 
 export type ChatState = {

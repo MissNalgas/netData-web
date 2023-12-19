@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { chatObject } from "@infrastructure/store/chat/types";
 
 interface ChatProps {
-	tikectId: string;
+	tikectId: string | number;
 	onActionChat: () => void;
 }
 
@@ -25,10 +25,9 @@ export default function Chat({
 
 	const chatData = useTypedSelector((state) => state.chat.data);
 
-	console.log("data", chatData);
 	useEffect(() => {
-		dispatch(getComments({ id: 1 }));
-	}, [dispatch]);
+		dispatch(getComments({ id: tikectId.toString() }));
+	}, [dispatch, tikectId]);
 
 	const handleSubmit = (data: IChatForm) => {
 		dispatch(
@@ -86,8 +85,15 @@ export default function Chat({
 								</div>
 							))
 						) : (
-							<div className="w-2/3 h-auto flex justify-end p-2 bg-shadow20 rounded-2xl">
-								cargando
+							<div className="w-full h-auto flex justify-end p-2 bg-shadow20 rounded-2xl">
+								<CaptionOne
+									style={{
+										height: "auto",
+										wordWrap: "break-word",
+									}}
+								>
+									{t("loading")}
+								</CaptionOne>
 							</div>
 						)}
 					</div>

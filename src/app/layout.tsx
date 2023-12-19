@@ -19,15 +19,15 @@ const inter = Open_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	useEffect(() => {
-		// if (Notification.permission !== "granted") {
-		// 	Notification.requestPermission().then((permission) => {
-		// 		if (permission === "granted") {
-		// 			localStorage.setItem("notifications", "true");
-		// 		} else if (permission === "denied") {
-		// 			localStorage.setItem("notifications", "false");
-		// 		}
-		// 	});
-		// }
+		if (Notification.permission !== "granted") {
+			Notification.requestPermission().then((permission) => {
+				if (permission === "granted") {
+					localStorage.setItem("notifications", "true");
+				} else if (permission === "denied") {
+					localStorage.setItem("notifications", "false");
+				}
+			});
+		}
 	});
 
 	return (

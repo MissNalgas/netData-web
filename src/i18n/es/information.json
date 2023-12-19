@@ -14,5 +14,6 @@
 	"send": "Enviar",
 	"write_your_message": "Escribe tu mensaje",
 	"message_sent": "Mensaje enviado",
-	"message_error": "Oops... a ocurrido un error"
+	"message_error": "Oops... a ocurrido un error",
+	"loading": "Cargando..."
 }

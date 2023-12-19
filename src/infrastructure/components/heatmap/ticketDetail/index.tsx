@@ -14,7 +14,9 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 
 	const openChat = () => {
 		toggle({
-			content: () => <Chat onActionChat={() => toggle({})} />,
+			content: () => (
+				<Chat tikectId={ticket.id} onActionChat={() => toggle({})} />
+			),
 		});
 	};
 
