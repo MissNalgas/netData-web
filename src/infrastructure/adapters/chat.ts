@@ -1,11 +1,11 @@
-import { IResponseServiceDTO } from "@infrastructure/model";
+import { IResponseServiceChatDTO } from "@infrastructure/model";
 
 export class ChatAdapter {
 	static responseService(
-		dataResponse: IResponseServiceDTO
-	): IResponseServiceDTO {
+		dataResponse: IResponseServiceChatDTO
+	): IResponseServiceChatDTO {
 		return {
-			message: dataResponse.message || "",
+			statusText: dataResponse.statusText || "",
 			status: dataResponse.status || 400,
 			data: dataResponse.data,
 		};

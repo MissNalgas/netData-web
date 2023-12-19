@@ -1,9 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GetIdTicketPayload } from "./types";
-// import { IFormResponse } from "@domain/models";
 import { chatRepository } from "@infrastructure/api/repositories/chat/chat.repository";
 import { SendMessage } from "@infrastructure/model/chat";
-// import { Message } from "yup";
 
 const getComments = createAsyncThunk(
 	"chat/getComments",

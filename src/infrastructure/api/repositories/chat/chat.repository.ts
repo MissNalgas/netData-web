@@ -1,17 +1,18 @@
-import { IFormResponse } from "@domain/models/register";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
 
-import { RegisterResponseError } from "@infrastructure/store/auth/types";
-import { Message, SendMessage } from "@infrastructure/model/chat";
+import {
+	IResponseServiceChatDTO,
+	Message,
+	SendMessage,
+} from "@infrastructure/model/chat";
 import { IChatService } from "@domain/services/chat.service";
-import { IResponseServiceDTO } from "@infrastructure/model";
 import { ChatAdapter } from "@infrastructure/adapters/chat";
 
 class ChatRepository implements IChatService {
-	async getCommentsApi(id: number): Promise<Message> {
+	async getCommentsApi(id: number): Promise<[Message]> {
 		const axios = await createAxiosApp();
 
-		const getCommentsResponse = await axios.get<Message>(
+		const getCommentsResponse = await axios.get<[Message]>(
 			`/api/xelco/getReply/${id}`
 		);
 		return getCommentsResponse.data;
@@ -19,20 +20,20 @@ class ChatRepository implements IChatService {
 
 	async sendCommentApi(
 		data: SendMessage
-	): Promise<IResponseServiceDTO | void> {
+	): Promise<IResponseServiceChatDTO | void> {
 		const axios = await createAxiosApp();
 
-		const dataResponse = await axios.post<
-			SendMessage,
-			RegisterResponseError | IFormResponse
-		>("/api/xelco/addReply", {
-			ticketId: data.ticketId,
-			reply: data.reply,
-		});
-
+		const dataResponse = await axios.post<IResponseServiceChatDTO | void>(
+			"/api/xelco/addReply",
+			{
+				ticketId: data.ticketId,
+				reply: data.reply,
+			}
+		);
+		console.log("dataResponse", dataResponse);
 		return ChatAdapter.responseService({
-			message: dataResponse.data.message,
-			status: dataResponse.data.status,
+			statusText: dataResponse.statusText,
+			status: dataResponse.status,
 			data: dataResponse.data,
 		});
 	}

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useSideModal } from "../sideModal";
 import { getComments, sendComment } from "@infrastructure/store/chat/actions";
 import { toast } from "react-toastify";
+import { chatObject } from "@infrastructure/store/chat/types";
 
 interface ChatProps {
 	tikectId: string;
@@ -57,7 +58,7 @@ export default function Chat({
 				>
 					<Icon icon="Cancel" size="24px" />
 				</button>
-				<Body $weight={700}>ID 1234456</Body>
+				<Body $weight={700}>ID {tikectId}</Body>
 			</div>
 			<div className="w-full text-right flex justify-end">
 				<div className="w-80">
@@ -65,12 +66,32 @@ export default function Chat({
 				</div>
 			</div>
 			<ContentChat>
-				<div className="flex justify-end  py-4">
-					<div className="w-2/3 h-20 flex justify-end py-2 bg-shadow20 rounded-2xl ">
-						Contents
+				<div className="flex justify-end  py-4 h-5/6">
+					<div className="flex flex-col gap-2 overflow-y-auto items-end">
+						{chatData.length ? (
+							chatData?.map((item: chatObject) => (
+								<div
+									className="w-2/3 h-auto flex justify-end p-2 bg-shadow20 rounded-2xl"
+									key={item.id}
+								>
+									<CaptionOne
+										style={{
+											width: "90%",
+											height: "auto",
+											wordWrap: "break-word",
+										}}
+									>
+										{item.body_text}
+									</CaptionOne>
+								</div>
+							))
+						) : (
+							<div className="w-2/3 h-auto flex justify-end p-2 bg-shadow20 rounded-2xl">
+								cargando
+							</div>
+						)}
 					</div>
 				</div>
-
 				<div>
 					<ChatForm onSubmit={handleSubmit} />
 				</div>

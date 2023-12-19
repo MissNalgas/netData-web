@@ -1,7 +1,7 @@
 import { ChatState } from "./types";
 
 const initialState: ChatState = {
-	data: "",
+	data: [],
 	pending: false,
 	error: false,
 	success: false,

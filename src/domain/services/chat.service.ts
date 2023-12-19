@@ -1,7 +1,10 @@
-import { Message, SendMessage } from "@infrastructure/model/chat";
-import { IResponseServiceDTO } from "@infrastructure/model/recover-password";
+import {
+	IResponseServiceChatDTO,
+	Message,
+	SendMessage,
+} from "@infrastructure/model/chat";
 
 export interface IChatService {
-	getCommentsApi(_id: number): Promise<Message>;
-	sendCommentApi(_data: SendMessage): Promise<IResponseServiceDTO | void>;
+	getCommentsApi(_id: number): Promise<[Message]>;
+	sendCommentApi(_data: SendMessage): Promise<IResponseServiceChatDTO | void>;
 }

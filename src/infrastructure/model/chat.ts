@@ -1,23 +1,35 @@
 export interface Message {
-	id: number;
-	user_id: number;
-	to_emails: string[];
+	attachments: any[];
+	bcc_emails: any[];
 	body: string;
 	body_text: string;
-	ticket_id: number;
-	created_at: Date;
-	updated_at: Date;
+	cc_emails: any[];
+	created_at: string;
+	from_email: string;
+	id: number;
 	incoming: boolean;
 	private: boolean;
-	support_email: null | string;
 	source: number;
-	from_email: null | string;
-	cc_emails: any[];
-	bcc_emails: any[] | null;
-	attachments: any[];
+	support_email: string;
+	ticket_id: number;
+	to_emails: string[];
+	updated_at: string;
+	user_id: number;
 }
 
 export interface SendMessage {
 	ticketId: string;
 	reply: string;
+}
+
+export interface IResponseServiceChatDTO {
+	statusText:
+		| string
+		| "SUCCESS"
+		| "FAILED"
+		| "CodeMismatchException"
+		| "ExpiredCodeException";
+	status: number | string;
+	data: any;
+	code?: string;
 }
