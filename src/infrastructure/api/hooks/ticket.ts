@@ -1,4 +1,4 @@
-import { IFilterForm, ITicket, IWeekGraph } from "@domain/models";
+import { IFilterForm, ITicket, ITicketPerCategory, ITicketPerPriority, IWeekGraph } from "@domain/models";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "../repositories/tickets";
 
@@ -29,6 +29,30 @@ export function useTicketDetail(ticketId: number, notificationId: number) {
 				setData(null);
 			});
 	}, [ticketId, notificationId]);
+
+	return data;
+}
+
+export function useTicketPerCategory() {
+	const [data, setData] = useState<ITicketPerCategory | null>();
+
+	useEffect(() => {
+		ticketRepository.getTicketPerCategory().then(setData).catch(() => {
+			setData(null);
+		})
+	}, []);
+
+	return data;
+}
+
+export function useTicketPerPriority() {
+	const [data, setData] = useState<ITicketPerPriority | null>();
+
+	useEffect(() => {
+		ticketRepository.getTicketsPerPriority().then(setData).catch(() => {
+			setData(null);
+		})
+	}, []);
 
 	return data;
 }

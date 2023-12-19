@@ -1,8 +1,10 @@
-import { ICustomFields, IFilterForm, ITicket, IWeekGraph } from "@domain/models";
+import { ICustomFields, IFilterForm, ITicket, ITicketPerCategory, ITicketPerPriority, IWeekGraph } from "@domain/models";
 import {
 	IFilterParamDTO,
 	ITicketCustomFieldsDTO,
 	ITicketDTO,
+	ITicketPerCategoryDTO,
+	ITicketPerPriorityDTO,
 	IWeekGraphDTO,
 	PriorityDTO,
 	StatusDTO,
@@ -49,5 +51,23 @@ export class TicketAdapter {
 		return {
 			tickets: weehGraphDTO.tickets.map(TicketAdapter.ticketFromDTO),
 		};
+	}
+
+	static ticketPerCategoryFromDTO(tickerPerCategoryDTO: ITicketPerCategoryDTO) : ITicketPerCategory {
+		return {
+			categoriesEn: tickerPerCategoryDTO.categories_en,
+			categoriesEs: tickerPerCategoryDTO.categories_es,
+			count: tickerPerCategoryDTO.count,
+		}
+	}
+
+	static ticketPerPriorityFromDTO(tickerPerPriorityDTO: ITicketPerPriorityDTO) : ITicketPerPriority {
+		return {
+			low: tickerPerPriorityDTO.Low,
+			medium: tickerPerPriorityDTO.Medium,
+			high: tickerPerPriorityDTO.High,
+			urgent: tickerPerPriorityDTO.Urgent,
+			tickets: tickerPerPriorityDTO.tickets,
+		}
 	}
 }

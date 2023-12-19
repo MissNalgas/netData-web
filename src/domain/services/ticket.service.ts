@@ -1,4 +1,4 @@
-import { IFilterForm, ITicket, IWeekGraph } from "@domain/models";
+import { IFilterForm, ITicket, ITicketPerCategory, ITicketPerPriority, IWeekGraph } from "@domain/models";
 
 export interface ITicketService {
 	getAllTickets(_filters: IFilterForm): Promise<IWeekGraph>;
@@ -6,4 +6,6 @@ export interface ITicketService {
 		_ticketId: number,
 		_notificationId: number
 	): Promise<ITicket>;
+	getTicketPerCategory(): Promise<ITicketPerCategory>;
+	getTicketsPerPriority(): Promise<ITicketPerPriority>;
 }

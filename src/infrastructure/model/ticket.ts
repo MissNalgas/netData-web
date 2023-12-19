@@ -62,6 +62,21 @@ export interface ITicketDTO {
 	custom_fields: ITicketCustomFieldsDTO;
 }
 
+export interface ITicketPerCategoryDTO {
+	categories_en: string[];
+	categories_es: string[];
+	count: number[];
+}
+
+export interface ITicketPerPriorityDTO {
+	Low: number;
+	Medium: number;
+	High: number;
+	Urgent: number;
+	total: number;
+	tickets: number;
+}
+
 /* eslint-disable no-unused-vars */
 export enum PriorityDTO {
 	All = "all",
