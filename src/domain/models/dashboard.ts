@@ -1,3 +1,8 @@
+export interface responseDashboard {
+	data: IDashboard;
+	status: number;
+}
+
 export interface IDashboard {
 	today: Day;
 	yesterday: Day;

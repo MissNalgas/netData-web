@@ -34,7 +34,7 @@ export default function Dashboard() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(getDataDashboard());
+        dispatch(getDataDashboard()).unwrap();
     }, [dispatch]);
 
 	const SlideInfo = allEvents.map((event, index) => (

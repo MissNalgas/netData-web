@@ -6,8 +6,8 @@ const getDataDashboard = createAsyncThunk<IDashboard>(
 	"dashboard/getDataDashboard",
 	async (payload, state) => {
 		try {
-			const dashboard = await dashboardRepository.getDashboardData();
-			return dashboard;
+			const response = await dashboardRepository.getDashboardData();
+			return response;
 		} catch (err) {
 			return state.rejectWithValue(err);
 		}

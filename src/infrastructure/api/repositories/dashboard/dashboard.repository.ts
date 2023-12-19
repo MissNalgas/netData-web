@@ -1,15 +1,15 @@
-import { IDashboard } from "@domain/models";
+import { IDashboard, responseDashboard } from "@domain/models";
 import { IDashboardService } from "@domain/services/dashboard.service";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
 
 class DashboardRepository implements IDashboardService {
 	async getDashboardData(): Promise<IDashboard> {
 		const axios = await createAxiosApp();
-		const data = await axios.get<IDashboard, IDashboard>(
+		const data = await axios.get<IDashboard, responseDashboard>(
 			"/api/xelco/dashboard"
 		);
 
-		return data;
+		return data.data;
 	}
 }
 
