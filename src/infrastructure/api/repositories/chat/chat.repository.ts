@@ -30,7 +30,6 @@ class ChatRepository implements IChatService {
 				reply: data.reply,
 			}
 		);
-		console.log("dataResponse", dataResponse);
 		return ChatAdapter.responseService({
 			statusText: dataResponse.statusText,
 			status: dataResponse.status,
