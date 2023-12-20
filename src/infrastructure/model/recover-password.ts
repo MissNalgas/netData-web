@@ -16,7 +16,7 @@ export interface IResponseServiceDTO {
 		| "FAILED"
 		| "CodeMismatchException"
 		| "ExpiredCodeException";
-	status: number;
+	status: number | string;
 	data: any;
 	code?: string;
 }
