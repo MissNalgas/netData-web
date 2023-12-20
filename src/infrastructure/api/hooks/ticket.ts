@@ -1,4 +1,10 @@
-import { IFilterForm, ITicket, ITicketPerCategory, ITicketPerPriority, IWeekGraph } from "@domain/models";
+import {
+	IFilterForm,
+	ITicket,
+	ITicketPerCategory,
+	ITicketPerPriority,
+	IWeekGraph,
+} from "@domain/models";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "../repositories/tickets";
 
@@ -37,9 +43,12 @@ export function useTicketPerCategory() {
 	const [data, setData] = useState<ITicketPerCategory | null>();
 
 	useEffect(() => {
-		ticketRepository.getTicketPerCategory().then(setData).catch(() => {
-			setData(null);
-		})
+		ticketRepository
+			.getTicketPerCategory()
+			.then(setData)
+			.catch(() => {
+				setData(null);
+			});
 	}, []);
 
 	return data;
@@ -49,9 +58,12 @@ export function useTicketPerPriority() {
 	const [data, setData] = useState<ITicketPerPriority | null>();
 
 	useEffect(() => {
-		ticketRepository.getTicketsPerPriority().then(setData).catch(() => {
-			setData(null);
-		})
+		ticketRepository
+			.getTicketsPerPriority()
+			.then(setData)
+			.catch(() => {
+				setData(null);
+			});
 	}, []);
 
 	return data;

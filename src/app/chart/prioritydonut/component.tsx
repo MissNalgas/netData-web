@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useTicketPerPriority } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";

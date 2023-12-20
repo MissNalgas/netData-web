@@ -1,4 +1,11 @@
-import { ICustomFields, IFilterForm, ITicket, ITicketPerCategory, ITicketPerPriority, IWeekGraph } from "@domain/models";
+import {
+	ICustomFields,
+	IFilterForm,
+	ITicket,
+	ITicketPerCategory,
+	ITicketPerPriority,
+	IWeekGraph,
+} from "@domain/models";
 import {
 	IFilterParamDTO,
 	ITicketCustomFieldsDTO,
@@ -25,7 +32,9 @@ export class TicketAdapter {
 		};
 	}
 
-	static customFieldsFromDTO(customFieldsDTO: ITicketCustomFieldsDTO) : ICustomFields {
+	static customFieldsFromDTO(
+		customFieldsDTO: ITicketCustomFieldsDTO
+	): ICustomFields {
 		return {
 			persistent: customFieldsDTO.persistencia,
 			objectives: customFieldsDTO.objetivos,
@@ -34,7 +43,7 @@ export class TicketAdapter {
 			https: customFieldsDTO.ttps,
 			whatWeNeedYouToDo: customFieldsDTO.que_necesitamos_hacer,
 			whatWeAreDoing: customFieldsDTO.que_estamos_haciendo,
-		}
+		};
 	}
 
 	static ticketFromDTO(ticketDTO: ITicketDTO): ITicket {
@@ -43,7 +52,9 @@ export class TicketAdapter {
 			id: ticketDTO.id,
 			category: ticketDTO.category,
 			createdAt: new Date(ticketDTO.created_at),
-			customFields: TicketAdapter.customFieldsFromDTO(ticketDTO.custom_fields),
+			customFields: TicketAdapter.customFieldsFromDTO(
+				ticketDTO.custom_fields
+			),
 		};
 	}
 
@@ -53,21 +64,25 @@ export class TicketAdapter {
 		};
 	}
 
-	static ticketPerCategoryFromDTO(tickerPerCategoryDTO: ITicketPerCategoryDTO) : ITicketPerCategory {
+	static ticketPerCategoryFromDTO(
+		tickerPerCategoryDTO: ITicketPerCategoryDTO
+	): ITicketPerCategory {
 		return {
 			categoriesEn: tickerPerCategoryDTO.categories_en,
 			categoriesEs: tickerPerCategoryDTO.categories_es,
 			count: tickerPerCategoryDTO.count,
-		}
+		};
 	}
 
-	static ticketPerPriorityFromDTO(tickerPerPriorityDTO: ITicketPerPriorityDTO) : ITicketPerPriority {
+	static ticketPerPriorityFromDTO(
+		tickerPerPriorityDTO: ITicketPerPriorityDTO
+	): ITicketPerPriority {
 		return {
 			low: tickerPerPriorityDTO.Low,
 			medium: tickerPerPriorityDTO.Medium,
 			high: tickerPerPriorityDTO.High,
 			urgent: tickerPerPriorityDTO.Urgent,
 			tickets: tickerPerPriorityDTO.tickets,
-		}
+		};
 	}
 }

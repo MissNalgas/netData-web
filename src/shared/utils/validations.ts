@@ -43,6 +43,7 @@ const validationPassword = yup.object().shape({
 
 const affair = yup.string().max(100).required();
 const message = yup.string().max(500).required();
+const reply = yup.string().max(500).required();
 
 export {
 	charactersOnlyEmail,
@@ -50,4 +51,5 @@ export {
 	validationPassword,
 	affair,
 	message,
+	reply,
 };

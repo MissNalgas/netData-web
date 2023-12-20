@@ -7,6 +7,7 @@ import { Fragment } from "react";
 import { useSideModal } from "@shared/components/sideModal";
 import TicketDetailModal from "./modal";
 import { useTranslation } from "react-i18next";
+import Chat from "@shared/components/chat"
 
 const grid = [
 	0, 1, 0, 1, 0,
@@ -42,15 +43,16 @@ const images=  [
 	"/img/logo-sentria.png",
 ];
 
-export default function TicketDetail({ticket, onClose}: TicketDetailProps) {
-
+export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 	const { toggle } = useSideModal();
 	const { t } = useTranslation();
 
 	const openChat = () => {
 		toggle({
-			content: () => <div>Chat placeholder</div>,
-		})
+			content: () => (
+				<Chat tikectId={ticket.id} onActionChat={() => toggle({})} />
+			),
+		});
 	};
 
 	const onClickCircle = (index: number) => {
@@ -68,7 +70,7 @@ export default function TicketDetail({ticket, onClose}: TicketDetailProps) {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<div className="flex items-centeiconsr justify-between">
+			<div className="flex items-center justify-between">
 				<button onClick={onClose} className="bg-gray10 rounded-full w-10 h-10 grid place-content-center">
 					<Icon icon="Cancel" size="24px"/>
 				</button>
@@ -76,8 +78,11 @@ export default function TicketDetail({ticket, onClose}: TicketDetailProps) {
 					<h3 className="font-bold">{t("ticket_selected:understands_ticket")}</h3>
 					<h5 className="text-center">ID {ticket.id}</h5>
 				</div>
-				<button onClick={openChat} className="bg-gray10 rounded-full w-10 h-10 grid place-content-center">
-					<Icon icon="Paper-Plane" size="24px"/>
+				<button
+					onClick={openChat}
+					className="bg-gray10 rounded-full w-10 h-10 grid place-content-center"
+				>
+					<Icon icon="Paper-Plane" size="24px" />
 				</button>
 			</div>
 			<div className="flex justify-between items-center text-sm">
@@ -90,7 +95,11 @@ export default function TicketDetail({ticket, onClose}: TicketDetailProps) {
 					<span className="text-gray50">{t("ticket_selected:agent")}: Francis Parra</span>
 				</div>
 			</div>
-			<iframe className="w-full rounded p-2 bg-gray-100" height={300} src="/chart/heatmap?height=300"/>
+			<iframe
+				className="w-full rounded p-2 bg-gray-100"
+				height={300}
+				src="/chart/heatmap?height=300"
+			/>
 			<PentaContainerGrid>
 				{grid.map((item, index) => (
 					<Fragment key={index}>
@@ -101,14 +110,13 @@ export default function TicketDetail({ticket, onClose}: TicketDetailProps) {
 								icon={images[Math.floor(index / 2)]}
 							/>
 						) : (
-							<div/>
+							<div />
 						)}
 					</Fragment>
 				))}
 			</PentaContainerGrid>
 		</div>
 	);
-
 }
 interface TicketDetailProps {
 	ticket: ITicket;

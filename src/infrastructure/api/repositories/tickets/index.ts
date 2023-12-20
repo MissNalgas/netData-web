@@ -1,8 +1,18 @@
-import { IFilterForm, ITicket, ITicketPerCategory, ITicketPerPriority, IWeekGraph } from "@domain/models";
+import {
+	IFilterForm,
+	ITicket,
+	ITicketPerCategory,
+	ITicketPerPriority,
+	IWeekGraph,
+} from "@domain/models";
 import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
-import { ITicketPerCategoryDTO, ITicketPerPriorityDTO, IWeekGraphDTO } from "@infrastructure/model";
+import {
+	ITicketPerCategoryDTO,
+	ITicketPerPriorityDTO,
+	IWeekGraphDTO,
+} from "@infrastructure/model";
 class TicketRepository implements ITicketService {
 	async getAllTickets(filters: IFilterForm): Promise<IWeekGraph> {
 		//@todo - remove this after the endpoint is working
@@ -90,12 +100,13 @@ class TicketRepository implements ITicketService {
 		});
 
 		const axios = await createAxiosApp();
-		const result = await axios.get<ITicketPerCategoryDTO>("/api/xelco/graphic/category");
+		const result = await axios.get<ITicketPerCategoryDTO>(
+			"/api/xelco/graphic/category"
+		);
 		return TicketAdapter.ticketPerCategoryFromDTO(result.data);
 	}
 
 	async getTicketsPerPriority(): Promise<ITicketPerPriority> {
-
 		//@todo - Remove mock data
 		return TicketAdapter.ticketPerPriorityFromDTO({
 			Low: 2,
@@ -106,13 +117,12 @@ class TicketRepository implements ITicketService {
 			tickets: 123,
 		});
 
-
 		const axios = await createAxiosApp();
-		const result = await axios.get<ITicketPerPriorityDTO>("/api/xelco/graphic/solutions");
+		const result = await axios.get<ITicketPerPriorityDTO>(
+			"/api/xelco/graphic/solutions"
+		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
 	}
-
-
 }
 
 export const ticketRepository = new TicketRepository();
