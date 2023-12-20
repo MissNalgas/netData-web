@@ -32,6 +32,7 @@ import { useAppDispatch } from "@hooks/use-dispatch";
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
     const dispatch = useAppDispatch();
+    const { dashboard } = useSelector((state: RootState) => state.dashboard);
 
     useEffect(() => {
         dispatch(getDataDashboard()).unwrap();
@@ -90,7 +91,7 @@ export default function Dashboard() {
 					{/* Events week card*/}
 					<EventsWeekCard />
 					{/* Saving month card*/}
-					<SavingMonthCard />
+					<SavingMonthCard saving={dashboard.today.saving.f}/>
 				</div>
 			</div>
 			{/* Category events */}

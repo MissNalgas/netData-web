@@ -4,11 +4,15 @@ import SavingsItem from "./letterItem";
 import Topbar from "@shared/components/topbar";
 import Icon from "@shared/components/icons";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import { RootState } from "@infrastructure/store";
+import { currencyFormat } from "@shared/utils";
 
 export default function SavingsTemplate() {
+    const { saving } = useSelector((state: RootState) => state.dashboard.dashboard.today);
 	return (
 		<>
-			<Topbar/>
+			<Topbar screen="dashboard"/>
 			<div>
 				<div className="w-full h-40 bg-primary rounded-bl-3xl rounded-br-3xl grid place-content-center relative">
 					<Link href="/" className="absolute top-4 left-4 bg-gray-200 rounded-full">
@@ -17,7 +21,7 @@ export default function SavingsTemplate() {
 					<h1 className="font-bold text-2xl text-white text-center">Tu ahorro de servicio del último mes</h1>
 					<div className="card p-4 flex items-center gap-2 absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-max">
 						<Image className="bg-gray-100 rounded-lg" src="/img/money 1.png" alt="Money" width={50} height={55}/>
-						<h2 className="text-4xl font-bold">$8.000 <span className="text-xl">USD</span></h2>
+						<h2 className="text-4xl font-bold">{currencyFormat(saving?.f)} <span className="text-xl">USD</span></h2>
 					</div>
 				</div>
 				<div className="flex flex-col p-4 gap-4 my-10">
@@ -44,19 +48,19 @@ export default function SavingsTemplate() {
 						</div>
 						<div className="card flex flex-col p-4 gap-4">
 							<SavingsItem letter="A">
-								Tickets de los últimos 30 días: <b>1000</b>
+								Tickets de los últimos 30 días: <b>{saving?.a}</b>
 							</SavingsItem>
 							<SavingsItem letter="B">
-								Hora de investigación por ticket: <b>2</b> horas
+								Hora de investigación por ticket: <b>{saving?.b}</b> horas
 							</SavingsItem>
 							<SavingsItem letter="C">
-								Horas de trabajo en el mes: <b>160</b> horas
+								Horas de trabajo en el mes: <b>{saving?.c}</b> horas
 							</SavingsItem>
 							<SavingsItem letter="D">
-								Cantidad de agentes necesarios: <b>3</b> agentes
+								Cantidad de agentes necesarios: <b>{saving?.d}</b> agentes
 							</SavingsItem>
 							<SavingsItem letter="E">
-								Valor mes por agente: <b>2800 USD</b>
+								Valor mes por agente: <b>{currencyFormat(saving?.e)} USD</b>
 							</SavingsItem>
 							<SavingsItem letter="F">
 								Ahorro en USD
