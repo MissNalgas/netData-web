@@ -12,13 +12,15 @@ import theme from "@theme/index";
 
 interface TopBarProps {
     screen?: "dashboard" | "other"
+    onPressGroupButton?: (_active: boolean) => void;
 }
 
 export default function Topbar(props: TopBarProps) {
-    const { screen } = props;
+    const { screen, onPressGroupButton } = props;
     const auth = useAuth();
 	const router = useRouter();
 	const { t } = useTranslation("profile");
+
 	return (
 		<div className="w-full h-20 flex justify-between items-center px-2 bg-white">
 			<div
@@ -48,6 +50,7 @@ export default function Topbar(props: TopBarProps) {
                     textButtonRight={screen === "dashboard" ? "Eventos de ayer" : "Eventos cerrados"}
                     bgColor={screen === "dashboard" ? theme.colors.orange30 : theme.colors.blue30}
                     activeColor={screen === "dashboard" ? theme.colors.orange : theme.colors.blue50}
+                    handleSwitch={onPressGroupButton ? onPressGroupButton : () => {}}
                     />
             )}
 			<div className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">

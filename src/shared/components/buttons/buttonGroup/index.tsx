@@ -8,14 +8,16 @@ interface SwitchButtonProps {
     textButtonRight: string;
     bgColor: string;
     activeColor: string;
+    handleSwitch: (_active: boolean) => void;
 }
 
 const SwitchButton = (props: SwitchButtonProps) => {
-    const { textButtonRight, textButtonLeft, bgColor, activeColor } = props;
+    const { textButtonRight, textButtonLeft, bgColor, activeColor, handleSwitch } = props;
     const [isSwitched, setIsSwitched] = useState(false);
 
     const handleSwitchToggle = () => {
         setIsSwitched((prev) => !prev);
+        handleSwitch(isSwitched);
     };
 
     return (
