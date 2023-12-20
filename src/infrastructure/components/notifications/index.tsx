@@ -4,44 +4,78 @@ import { CaptionTwo, Overline } from "@shared/components/labels/styled";
 import theme from "@theme/index";
 import Fire from "/public/img/fire_1.png";
 import Alarm from "/public/img/alarm_icon.png";
+import Tree from "/public/img/tree 1.png";
+import Clock from "/public/img/clock 1.png";
+
+import { useAppDispatch } from "@hooks/use-dispatch";
+import { useTypedSelector } from "@hooks/index";
+import { getNotifications } from "@infrastructure/store/notifications/actions";
+import { useEffect } from "react";
+import LoaderComponent from "@shared/components/loader";
+import { NotificationItem } from "@infrastructure/store/notifications/types";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+
+// import { useTranslation } from "react-i18next";
 
 export default function NotificationsComponent() {
+	const dispatch = useAppDispatch();
+	const notificationsData = useTypedSelector((state) => state.notifications);
+	const { t } = useTranslation("notifications");
+	useEffect(() => {
+		dispatch(getNotifications()).unwrap();
+		if (notificationsData.error) {
+			toast.error(t("token_expired"));
+		}
+	}, [dispatch, notificationsData.error, t]);
+	const data = new Date();
 	return (
-		<div className="flex space-between mx-5 py-8 h-screen mb-32">
+		<div className="flex space-between mx-5 py-8 h-screen mb-32 overflow-auto">
 			<ContainerBackground className="grow justify-center mr-8">
 				<div className="flex flex-col items-center mb-5">
 					<Overline $weight={theme.fontWeight.bold} $center>
-						Tus notificaciones
+						{t("your_notifications")}
 					</Overline>
-					<CaptionTwo>De último mes</CaptionTwo>
+					<CaptionTwo>{t("from_last_week")}</CaptionTwo>
 					<CaptionTwo
 						$weight={theme.fontWeight.semiBold}
 						className="mt-3"
 					>
-						24 de Marzo de 2022
+						{format(data, "dd 'de' MMMM 'de' yyyy", { locale: es })}
 					</CaptionTwo>
 				</div>
-				<InformationCard
-					textLeft="Se ha creado un ticker nuevo"
-					textRight="ID 4759485"
-				/>
-				<InformationCard
-					textLeft="Se ha creado un ticker nuevo"
-					textRight="ID 4759485"
-				/>
-				<InformationCard
-					imageLeft={Alarm}
-					textLeft="¡Cuidado! manejas un nivel de riesgo alto"
-				/>
-				<InformationCard
-					imageLeft={Fire}
-					textLeft="¡Alerta! manejas un nivel de riesgo de urgente revisión"
-				/>
+				{notificationsData?.data?.length > 0 ? (
+					notificationsData?.data?.map(
+						(notification: NotificationItem) => (
+							<div key={notification.id}>
+								<InformationCard
+									imageLeft={
+										(notification.risk === "Low" && Tree) ||
+										(notification.risk === "Urgent" &&
+											Fire) ||
+										(notification.risk === "High" &&
+											Alarm) ||
+										(notification.risk === "Medium" &&
+											Clock) ||
+										Fire
+									}
+									textLeft={notification.message_body}
+									textRight={notification.ticket_id}
+									showIconLeft={false}
+								/>
+							</div>
+						)
+					)
+				) : (
+					<LoaderComponent />
+				)}
 			</ContainerBackground>
 
 			<ContainerBackground className="flex items-center flex-col">
 				<Overline $weight={theme.fontWeight.bold}>
-					¡No hay ningún ticket seleccionado!
+					{t("no_tickets_selected")}
 				</Overline>
 			</ContainerBackground>
 		</div>
