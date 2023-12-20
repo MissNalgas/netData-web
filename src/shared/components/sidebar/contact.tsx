@@ -1,7 +1,9 @@
 import React from "react";
 
 import { contact } from "@infrastructure/store/user/actions";
-import ChatForm, { IChatForm } from "@infrastructure/containers/forms/chat";
+import ContactForm, {
+	IContactForm,
+} from "@infrastructure/containers/forms/contact";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@hooks/index";
 import Icon from "../icons";
@@ -14,7 +16,7 @@ export default function ContactComponent(): any {
 	const dispatch = useAppDispatch();
 	const { t } = useTranslation("profile");
 
-	const handleSubmit = (data: IChatForm) => {
+	const handleSubmit = (data: IContactForm) => {
 		dispatch(
 			contact({
 				body: data.affair,
@@ -48,7 +50,7 @@ export default function ContactComponent(): any {
 						<CaptionOne>{t("contact")}</CaptionOne>
 					</div>
 
-					<ChatForm onSubmit={handleSubmit} />
+					<ContactForm onSubmit={handleSubmit} />
 				</section>
 			),
 		});
