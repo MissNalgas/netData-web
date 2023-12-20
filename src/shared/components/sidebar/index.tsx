@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SideButton, { ISideButton } from "./sideButton";
 import { useAuth } from "@infrastructure/containers/auth";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ export default function Sidebar() {
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 	const { show } = ContactComponent();
+	const [saveCountNotifications, saveCountNotificationsSet] = useState(0);
 	const notificationsData = useTypedSelector((state) => state.notifications);
 	const countNotifications = useMemo(
 		() => notificationsData.data?.length,
@@ -26,7 +27,9 @@ export default function Sidebar() {
 	);
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
-	}, [dispatch]);
+		saveCountNotificationsSet(countNotifications);
+	}, [dispatch, countNotifications]);
+
 	const buttons = useMemo(
 		() =>
 			[
@@ -58,7 +61,7 @@ export default function Sidebar() {
 							<div className="relative">
 								<div className="absolute w-3.5 h-3.5 bg-[purple] flex items-center justify-center rounded-2xl left-[1ch] top-[0ch]">
 									<span className="text-[10px] font-bold">
-										{countNotifications}
+										{saveCountNotifications}
 									</span>
 								</div>
 
