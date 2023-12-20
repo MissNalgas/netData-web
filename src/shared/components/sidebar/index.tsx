@@ -73,7 +73,7 @@ export default function Sidebar() {
 					isActive: matchesRegex(/^\/notifications$/),
 				},
 			] as ISideButton[],
-		[router, t]
+		[router, saveCountNotifications, t]
 	);
 
 	const bottomButtons = useMemo(
