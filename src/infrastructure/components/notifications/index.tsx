@@ -14,23 +14,21 @@ import { useEffect } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { es, enUS } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-
-// import { useTranslation } from "react-i18next";
 
 export default function NotificationsComponent() {
 	const dispatch = useAppDispatch();
 	const notificationsData = useTypedSelector((state) => state.notifications);
-	const { t } = useTranslation("notifications");
+	const { t, i18n } = useTranslation("notifications");
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
 		if (notificationsData.error) {
 			toast.error(t("token_expired"));
 		}
 	}, [dispatch, notificationsData.error, t]);
-	const data = new Date();
+	const date = new Date();
 	return (
 		<div className="flex space-between mx-5 py-8 h-screen mb-32 overflow-auto">
 			<ContainerBackground className="grow justify-center mr-8">
@@ -43,9 +41,12 @@ export default function NotificationsComponent() {
 						$weight={theme.fontWeight.semiBold}
 						className="mt-3"
 					>
-						{format(data, "dd 'de' MMMM 'de' yyyy", { locale: es })}
+						{format(date, "dd 'de' MMMM 'de' yyyy", {
+							locale: i18n.language === "en" ? enUS : es,
+						})}
 					</CaptionTwo>
 				</div>
+
 				{notificationsData?.data?.length > 0 ? (
 					notificationsData?.data?.map(
 						(notification: NotificationItem) => (
@@ -68,6 +69,10 @@ export default function NotificationsComponent() {
 							</div>
 						)
 					)
+				) : notificationsData?.data?.length === 0 ? (
+					<Overline $weight={theme.fontWeight.bold}>
+						{t("you_do_not_have_any_notifications")}
+					</Overline>
 				) : (
 					<LoaderComponent />
 				)}
