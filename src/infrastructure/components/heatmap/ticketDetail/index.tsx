@@ -55,7 +55,7 @@ export default function TicketDetail({ticket, onClose}: TicketDetailProps) {
 
 	const onClickCircle = (index: number) => {
 
-		const keys = ["persistent", "objectives", "user",  "system", "https", "whatWeNeedYouToDo", "whatWeAreDoing"] as unknown as keyof typeof ticket.customFields;
+		const keys = ["persistent", "objectives", "user",  "system", "https", "whatWeNeedYouToDo", "whatWeAreDoing"] as const;
 
 		const image = images[index];
 		const title = t(titles[index]);

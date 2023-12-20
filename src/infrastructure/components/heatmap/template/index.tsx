@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import TicketDetail from "../ticketDetail";
 import { useTranslation } from "react-i18next";
+import Pagination from "@shared/components/pagination";
 
 export default function HeatmapTemplate() {
 
@@ -14,6 +15,7 @@ export default function HeatmapTemplate() {
 	const [filter, setFilter] = useState<IFilterForm>();
 	const data = useAllTickets(filter);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+	const [page, setSelectedPage] = useState(1);
 
 	const selectTicket = (ticket: ITicket) => {
 		setSelectedTicket(ticket);
@@ -68,6 +70,7 @@ export default function HeatmapTemplate() {
 							ticket={ticket}
 						/>
 					))}
+					<Pagination selectedPage={page} setSelectedPage={setSelectedPage} totalPages={10}/>
 				</div>
 			</div>
 			<div className="flex flex-col h-full gap-4">
