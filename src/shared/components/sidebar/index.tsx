@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import SideButton, { ISideButton } from "./sideButton";
 import { useAuth } from "@infrastructure/containers/auth";
 import { useRouter } from "next/navigation";
@@ -8,9 +8,10 @@ import Icon from "@shared/components/icons";
 import ContactComponent from "@shared/components/sidebar/contact";
 
 import { showTooltipModal } from "@shared/components/tooltip/slice";
-import { useAppDispatch } from "@hooks/index";
+import { useAppDispatch, useTypedSelector } from "@hooks/index";
 import { useTranslation } from "react-i18next";
 import { matchesRegex } from "@shared/utils";
+import { getNotifications } from "@infrastructure/store/notifications/actions";
 
 export default function Sidebar() {
 	const router = useRouter();
@@ -18,32 +19,59 @@ export default function Sidebar() {
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
 	const { show } = ContactComponent();
+	const notificationsData = useTypedSelector((state) => state.notifications);
+	const countNotifications = useMemo(
+		() => notificationsData.data?.length,
+		[notificationsData.data]
+	);
+	useEffect(() => {
+		dispatch(getNotifications()).unwrap();
+	}, [dispatch]);
+	const buttons = useMemo(
+		() =>
+			[
+				{
+					label: `${t("dashboard")}`,
+					icon: () => <Icon icon="Sentria" size={24} color="white" />,
+					onClick: () => router.push("/"),
+					isActive: matchesRegex(/^(\/|\/savings)$/),
+				},
+				{
+					label: `${t("heatmap")}`,
+					icon: () => (
+						<Icon icon="temperature" size={24} color="white" />
+					),
+					onClick: () => router.push("/heatmap"),
+					isActive: matchesRegex(/^\/heatmap$/),
+				},
+				{
+					label: `${t("events")}`,
+					icon: () => (
+						<Icon icon="bar-graph" size={24} color="white" />
+					),
+					onClick: () => router.push("/events"),
+				},
+				{
+					label: `${t("notifications")}`,
+					icon: () => {
+						return (
+							<div className="relative">
+								<div className="absolute w-3.5 h-3.5 bg-[purple] flex items-center justify-center rounded-2xl left-[1ch] top-[0ch]">
+									<span className="text-[10px] font-bold">
+										{countNotifications}
+									</span>
+								</div>
 
-	const buttons = useMemo(() => ([
-		{
-			label: `${t("dashboard")}`,
-			icon: () => <Icon icon="Sentria" size={24} color="white"/>,
-			onClick: () => router.push("/"),
-			isActive: matchesRegex(/^(\/|\/savings)$/),
-		},
-		{
-			label: `${t("heatmap")}`,
-			icon: () => <Icon icon="temperature" size={24} color="white"/>,
-			onClick: () => router.push("/heatmap"),
-			isActive: matchesRegex(/^\/heatmap$/),
-		},
-		{
-			label: `${t("events")}`,
-			icon: () => <Icon icon="bar-graph" size={24} color="white"/>,
-			onClick: () => router.push("/events"),
-		},
-		{
-			label: `${t("notifications")}`,
-			icon: () => <Icon icon="Bell" size={24} color="white"/>,
-			onClick: () => router.push("notifications"),
-			isActive: matchesRegex(/^\/notifications$/),
-		},
-	] as ISideButton[]), [router, t]);
+								<Icon icon="Bell" size={24} color="white" />
+							</div>
+						);
+					},
+					onClick: () => router.push("notifications"),
+					isActive: matchesRegex(/^\/notifications$/),
+				},
+			] as ISideButton[],
+		[router, t]
+	);
 
 	const bottomButtons = useMemo(
 		() => [
