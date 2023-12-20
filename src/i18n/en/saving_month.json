@@ -8,5 +8,7 @@
 	"hour_work_month": "Working hours in the month:",
 	"number_agents": "Number of agents needed:",
 	"agent_month_value": "Monthly value per agent:",
-	"sanvingUSD": "Savings in USD"
+	"sanvingUSD": "Savings in USD",
+	"hours": "hours",
+	"agent": "agents"
 }

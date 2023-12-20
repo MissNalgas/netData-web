@@ -1,0 +1,34 @@
+import { AppState } from "infrastructure/store/dashboard/types";
+
+const initialState: AppState = {
+	dashboard: {
+		today: {
+			tickets: {},
+			ticketsForPriorityByDepartment: [],
+			riskState: "",
+			saving: {
+				a: 0,
+				b: 0,
+				c: 0,
+				d: 0,
+				e: 0,
+				f: 0,
+			},
+		},
+		yesterday: {
+			tickets: {},
+			ticketsForPriorityByDepartment: [],
+			riskState: "",
+			saving: {
+				a: 0,
+				b: 0,
+				c: 0,
+				d: 0,
+				e: 0,
+				f: 0,
+			},
+		},
+	},
+};
+
+export default initialState;
