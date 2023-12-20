@@ -26,16 +26,29 @@ export default function Chat({
 	const chatData = useTypedSelector((state) => state.chat.data);
 
 	useEffect(() => {
-		dispatch(getComments({ id: tikectId.toString() }));
-	}, [dispatch, tikectId]);
+		dispatch(getComments({ id: tikectId.toString() }))
+			.unwrap()
+			.then(() => {
+				sideModal.toggle({});
+				toast.success(t("message_sent"));
+			})
+			.catch(() => {
+				sideModal.toggle({});
+				toast.error(t("message_error"));
+			})
+			.finally(() => {
+				sideModal.toggle({});
+			});
+	}, [dispatch, sideModal, t, tikectId]);
 
-	const handleSubmit = (data: IChatForm) => {
-		dispatch(
+	const handleSubmit = async (data: IChatForm) => {
+		await dispatch(
 			sendComment({
 				ticketId: tikectId.toString(),
 				reply: data.reply,
 			})
 		)
+			.unwrap()
 			.then(() => {
 				sideModal.toggle({});
 				toast.success(t("message_sent"));
