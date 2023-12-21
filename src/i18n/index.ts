@@ -18,6 +18,7 @@ const resources = {
 		tickets_week: require("./es/tickets_week.json"),
 		profile: require("./es/profile.json"),
 		events_today: require("./es/events_today.json"),
+		notifications: require("./es/notifications.json"),
 	},
 	en: {
 		welcome: require("./en/welcome.json"),
@@ -34,6 +35,7 @@ const resources = {
 		tickets_week: require("./en/tickets_week.json"),
 		profile: require("./en/profile.json"),
 		events_today: require("./en/events_today.json"),
+		notifications: require("./en/notifications.json"),
 	},
 };
 
