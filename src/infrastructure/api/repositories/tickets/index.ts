@@ -1,8 +1,18 @@
-import { IFilterForm, ITicket, IWeekGraph } from "@domain/models";
+import {
+	IFilterForm,
+	ITicket,
+	ITicketPerCategory,
+	ITicketPerPriority,
+	IWeekGraph,
+} from "@domain/models";
 import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
-import { IWeekGraphDTO } from "@infrastructure/model";
+import {
+	ITicketPerCategoryDTO,
+	ITicketPerPriorityDTO,
+	IWeekGraphDTO,
+} from "@infrastructure/model";
 class TicketRepository implements ITicketService {
 	async getAllTickets(filters: IFilterForm): Promise<IWeekGraph> {
 		//@todo - remove this after the endpoint is working
@@ -44,7 +54,15 @@ class TicketRepository implements ITicketService {
 					description: "descripotion",
 					description_text: "description text",
 					workspace_id: 3,
-					custom_fields: null as any,
+					custom_fields: {
+						persistencia: "lorem",
+						objetivos: "Mejorar 1, 2, 3",
+						usuarios: "paco1, paco2, paco3",
+						sistema: "Sistema 1",
+						ttps: "SSL",
+						que_necesitamos_hacer: "Mejorar A",
+						que_estamos_haciendo: "Mejorando B",
+					} as any,
 				})),
 		});
 
@@ -71,6 +89,39 @@ class TicketRepository implements ITicketService {
 		});
 
 		return result.data;
+	}
+
+	async getTicketPerCategory(): Promise<ITicketPerCategory> {
+		//@todo - Remove mock data
+		return TicketAdapter.ticketPerCategoryFromDTO({
+			categories_es: ["Categoria 1", "Categoria 2"],
+			categories_en: ["Category 1", "Category 2"],
+			count: [4, 3],
+		});
+
+		const axios = await createAxiosApp();
+		const result = await axios.get<ITicketPerCategoryDTO>(
+			"/api/xelco/graphic/category"
+		);
+		return TicketAdapter.ticketPerCategoryFromDTO(result.data);
+	}
+
+	async getTicketsPerPriority(): Promise<ITicketPerPriority> {
+		//@todo - Remove mock data
+		return TicketAdapter.ticketPerPriorityFromDTO({
+			Low: 2,
+			Medium: 3,
+			High: 2,
+			Urgent: 3,
+			total: 10,
+			tickets: 123,
+		});
+
+		const axios = await createAxiosApp();
+		const result = await axios.get<ITicketPerPriorityDTO>(
+			"/api/xelco/graphic/solutions"
+		);
+		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
 	}
 }
 

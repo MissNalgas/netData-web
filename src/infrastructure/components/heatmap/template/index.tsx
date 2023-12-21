@@ -6,12 +6,16 @@ import TicketCard from "@shared/components/ticketCard";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import TicketDetail from "../ticketDetail";
+import { useTranslation } from "react-i18next";
+import Pagination from "@shared/components/pagination";
 
-export default function HeadmapTemplate() {
+export default function HeatmapTemplate() {
 
+	const { t } = useTranslation();
 	const [filter, setFilter] = useState<IFilterForm>();
 	const data = useAllTickets(filter);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+	const [page, setSelectedPage] = useState(1);
 
 	const selectTicket = (ticket: ITicket) => {
 		setSelectedTicket(ticket);
@@ -27,10 +31,13 @@ export default function HeadmapTemplate() {
 		<TwoColumnLayout>
 			<div className="flex flex-col gap-8">
 				<div className="card p-4 h-[max-content] flex flex-col items-center">
-					<h2 className="text-2xl font-bold">Heatmap</h2>
-					<h3 className="text-xl">Tu historial de tickets</h3>
+					<h2 className="text-2xl font-bold">{t("heatmap:heatmap")}</h2>
+					<h3 className="text-xl">{t("heatmap:your_ticket_history")}</h3>
 					<div className="w-full max-w-[400px]">
-						<FilterInput onChange={setFilter}/>
+						<FilterInput
+							placeholder={t("heatmap:number_of_ticket")}
+							onChange={setFilter}
+						/>
 					</div>
 					<iframe
 						className="w-full max-w-[500px] h-[500px] bg-gray-100 rounded-lg p-2"
@@ -39,7 +46,7 @@ export default function HeadmapTemplate() {
 				</div>
 				<div className="card p-4">
 					<h2 className="text-2xl font-bold">
-						Eventos de ciberseguridad por prioridad
+						{t("heatmap:events_by_priority")}
 					</h2>
 					<iframe
 						src="/chart/prioritydonut"
@@ -48,7 +55,7 @@ export default function HeadmapTemplate() {
 				</div>
 				<div className="card p-4">
 					<h2 className="text-2xl font-bold">
-						Eventos de ciberseguridad por categoría
+						{t("heatmap:events_by_category")}
 					</h2>
 					<iframe
 						src="/chart/categorybars"
@@ -63,6 +70,7 @@ export default function HeadmapTemplate() {
 							ticket={ticket}
 						/>
 					))}
+					<Pagination selectedPage={page} setSelectedPage={setSelectedPage} totalPages={10}/>
 				</div>
 			</div>
 			<div className="flex flex-col h-full gap-4">
@@ -74,7 +82,7 @@ export default function HeadmapTemplate() {
 						height={0}
 					/>
 					<span className="font-bold">
-						Seleccionaste este # de tickets
+						{t("heatmap:you_selected_this_number")}
 					</span>
 					<h1 className="text-8xl font-bold text-primary">0</h1>
 				</div>
@@ -84,14 +92,14 @@ export default function HeadmapTemplate() {
 						) : (
 							<div className="grid place-content-center min-h-[400px]">
 								<span className="text-center">
-									¡No hay ningún ticket seleccionado!
+									{t("heatmap:there_is_no_selected_ticket")}
 								</span>
 							</div>
 						)}
 				</div>
 				<div className="card p-4">
 					<h2 className="text-2xl font-bold">
-						Eventos de ciberseguridad por solución
+						{t("heatmap:events_by_solution")}
 					</h2>
 					<iframe
 						src="/chart/solutionbars?height=400"
