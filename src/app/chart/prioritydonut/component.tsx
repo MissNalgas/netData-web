@@ -1,6 +1,8 @@
 "use client";
 
+import { useTicketPerPriority } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
+import LoaderComponent from "@shared/components/loader";
 import { PieChart } from "echarts/charts";
 import { LegendComponent, TooltipComponent } from "echarts/components";
 import { LabelLayout } from "echarts/features";
@@ -15,9 +17,23 @@ export default function PriorityDonut() {
 		CanvasRenderer,
 		LabelLayout,
 	]);
+	const data = useTicketPerPriority();
 
-	const options = useMemo(
-		() => ({
+	const options = useMemo(() => {
+		if (!data) return {};
+
+		const mappedKeys = ["low", "medium", "urgent", "high"];
+		const colors = ["#75dad4", "#73259a", "#f99e17", "#b01212"];
+		const transformedData = Object.entries(data).filter(([key]) => mappedKeys.includes(key)).map(([key, value], index) => {
+
+			return {
+				value,
+				name: key,
+				color: colors[index],
+			}
+		});
+
+		return{
 			tooltip: {
 				trigger: "item",
 			},
@@ -46,11 +62,12 @@ export default function PriorityDonut() {
 						show: false,
 					},
 					itemStyle: {
-						color: (obj: any) => {
+						color: (obj : any) => {
 							return obj.data?.color || "red";
 						},
 					},
-					data: [
+					data: transformedData,
+					mockdata: [
 						{ value: 1048, name: "Bajo", color: "#75DAD4" },
 						{ value: 735, name: "Medio", color: "#73259A" },
 						{ value: 580, name: "Alto", color: "#F99E17" },
@@ -58,9 +75,17 @@ export default function PriorityDonut() {
 					],
 				},
 			],
-		}),
-		[]
-	);
+		}
+	}, [data]);
 
-	return <Chart options={options} loadComponents={loadComponents.current} />;
+	if (data === undefined) return <LoaderComponent/>
+	if (data === null) return <div>Error loading the data</div>
+
+
+	return (
+		<Chart
+			options={options}
+			loadComponents={loadComponents.current}
+		/>
+	);
 }
