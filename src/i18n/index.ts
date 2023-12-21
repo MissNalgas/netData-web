@@ -20,6 +20,7 @@ const resources = {
 		events_today: require("./es/events_today.json"),
 		heatmap: require("./es/heatmap.json"),
 		filter: require("./es/filter.json"),
+		notifications: require("./es/notifications.json"),
 	},
 	en: {
 		welcome: require("./en/welcome.json"),
@@ -38,6 +39,7 @@ const resources = {
 		events_today: require("./en/events_today.json"),
 		heatmap: require("./en/heatmap.json"),
 		filter: require("./en/filter.json"),
+		notifications: require("./en/notifications.json"),
 	},
 };
 
