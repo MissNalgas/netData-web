@@ -1,8 +1,18 @@
+export interface ICustomFields {
+	persistent: string;
+	objectives: string;
+	user: string;
+	system: string;
+	https: string;
+	whatWeNeedYouToDo: string;
+	whatWeAreDoing: string;
+}
 export interface ITicket {
 	subject: string;
 	id: number;
 	category: string;
 	createdAt: Date;
+	customFields: ICustomFields;
 }
 
 export type FilterOption = {
@@ -19,4 +29,18 @@ export interface IFilterForm {
 
 export interface IWeekGraph {
 	tickets: ITicket[];
+}
+
+export interface ITicketPerCategory {
+	categoriesEn: string[];
+	categoriesEs: string[];
+	count: number[];
+}
+
+export interface ITicketPerPriority {
+	low: number;
+	medium: number;
+	high: number;
+	urgent: number;
+	tickets: number;
 }

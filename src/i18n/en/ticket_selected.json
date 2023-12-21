@@ -8,5 +8,13 @@
 	"systems": "Systems",
 	"ttps": "TTPS",
 	"your_actions": "Your actions",
-	"our_actions": "Our actions"
+	"our_actions": "Our actions",
+	"compromised_user_accounts": "Compromised user accounts",
+	"involved_systems": "Involved systems",
+	"techniques_and_procedures": "Tactics, techniques, and procedures",
+	"used_mechanisms_persistence": "Used mechanisms' persistence",
+	"objectives": "Objectives",
+	"what_action_should_you_take": "What action should you take to solve it?",
+	"what_action_are_we_taking": "What actions is Sentria taking to solve it?",
+	"on_revision": "On revision"
 }
