@@ -73,3 +73,16 @@ export interface Saving {
 	e: number;
 	f: number;
 }
+
+export interface responseGraphic {
+	data: IGraphicWeek;
+}
+export interface IGraphicWeek {
+	open: number;
+	closed: number;
+	tickets: Ticket[];
+}
+
+export interface Priority {
+	priority: "all" | "high" | "medium" | "low" | "urgent";
+}

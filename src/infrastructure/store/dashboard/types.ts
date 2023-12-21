@@ -1,7 +1,8 @@
-import { Day, IDashboard } from "@domain/models";
+import { Day, IDashboard, IGraphicWeek } from "@domain/models";
 
 export type AppState = {
 	dashboard: IDashboard;
+	graphicWeek: IGraphicWeek;
 };
 
 export const dashboardDataInitial: Day = {

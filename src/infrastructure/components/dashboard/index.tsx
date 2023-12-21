@@ -26,7 +26,7 @@ import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
-import { getDataDashboard } from "@infrastructure/store/dashboard/actions";
+import { getDataDashboard, getDataGraphicWeek } from "@infrastructure/store/dashboard/actions";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import Topbar from "@shared/components/topbar";
 import { Day, Ticket } from "@domain/models";
@@ -43,6 +43,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         dispatch(getDataDashboard()).unwrap();
+        dispatch(getDataGraphicWeek({priority: "all"})).unwrap();
     }, [dispatch]);
 
 	const SlideInfo = allEvents.map((event, index) => (
@@ -51,7 +52,7 @@ export default function Dashboard() {
 			title={t(event.event)}
 			description={t(event.description)}
 			image={event.image}
-            ticketsCount={dashboardDay.tickets[event.machineName] ? dashboardDay.tickets[event.machineName].length : 0}
+            ticketsCount={dashboardDay?.tickets[event.machineName] ? dashboardDay?.tickets[event.machineName].length : 0}
 		/>
 	));
 	const scrollRef = useRef<any>();
@@ -79,15 +80,15 @@ export default function Dashboard() {
 		if (dashboard) {
 			let ticketsPriority;
 			if (day === "yesterday") {
-				setDashboardDay(dashboard.yesterday);
-				ticketsPriority = dashboard.yesterday.ticketsForPriorityByDepartment
-					?.filter((ticket: Ticket) => [TicketStatus._open, TicketStatus._pending].includes(ticket.status))
-					.map((ticket: Ticket) => ticket.priority);
+				setDashboardDay(dashboard?.yesterday);
+				ticketsPriority = dashboard?.yesterday?.ticketsForPriorityByDepartment
+					?.filter((ticket: Ticket) => [TicketStatus?._open, TicketStatus?._pending].includes(ticket?.status))
+					.map((ticket: Ticket) => ticket?.priority);
 			} else {
 				setDashboardDay(dashboard.today);
-				ticketsPriority = dashboard.today.ticketsForPriorityByDepartment
-					?.filter((ticket: Ticket) => [TicketStatus._open, TicketStatus._pending].includes(ticket.status))
-					.map((ticket: Ticket) => ticket.priority);
+				ticketsPriority = dashboard.today?.ticketsForPriorityByDepartment
+					?.filter((ticket: Ticket) => [TicketStatus?._open, TicketStatus?._pending].includes(ticket?.status))
+					.map((ticket: Ticket) => ticket?.priority);
 			}
 			setPriorityTickets(ticketsPriority ?? []);
 		}
@@ -121,7 +122,7 @@ export default function Dashboard() {
 					{/* Events week card*/}
 					<EventsWeekCard />
 					{/* Saving month card*/}
-					<SavingMonthCard saving={dashboard.today.saving.f}/>
+					<SavingMonthCard saving={dashboard?.today?.saving?.f}/>
 				</div>
 			</div>
 			{/* Category events */}

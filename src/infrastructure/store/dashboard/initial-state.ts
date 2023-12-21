@@ -29,6 +29,11 @@ const initialState: AppState = {
 			},
 		},
 	},
+	graphicWeek: {
+		open: 0,
+		closed: 0,
+		tickets: [],
+	},
 };
 
 export default initialState;

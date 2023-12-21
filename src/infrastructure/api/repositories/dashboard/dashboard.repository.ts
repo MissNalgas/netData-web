@@ -1,4 +1,10 @@
-import { IDashboard, responseDashboard } from "@domain/models";
+import {
+	IDashboard,
+	IGraphicWeek,
+	Priority,
+	responseDashboard,
+	responseGraphic,
+} from "@domain/models";
 import { IDashboardService } from "@domain/services/dashboard.service";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
 
@@ -10,6 +16,20 @@ class DashboardRepository implements IDashboardService {
 		);
 
 		return data.data;
+	}
+
+	async getGraphicWeek(data: Priority): Promise<IGraphicWeek> {
+		const axios = await createAxiosApp();
+		const response = await axios.get<IGraphicWeek, responseGraphic>(
+			"api/xelco/graphic/week_oc",
+			{
+				params: {
+					priority: data.priority,
+				},
+			}
+		);
+
+		return response.data;
 	}
 }
 
