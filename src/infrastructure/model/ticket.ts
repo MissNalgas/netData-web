@@ -68,6 +68,12 @@ export interface ITicketPerCategoryDTO {
 	count: number[];
 }
 
+export interface ITicketPerSolutionDTO {
+	solutions_es: string[];
+	solutions_en: string[];
+	count: number[];
+}
+
 export interface ITicketPerPriorityDTO {
 	Low: number;
 	Medium: number;

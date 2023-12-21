@@ -1,6 +1,7 @@
 import {
 	ICustomFields,
 	IFilterForm,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -15,6 +16,7 @@ import {
 	PriorityDTO,
 	StatusDTO,
 	ITicketsPerWeekDTO,
+	ITicketPerSolutionDTO,
 } from "@infrastructure/model";
 import { formatDateDTO } from "@shared/utils";
 
@@ -86,6 +88,16 @@ export class TicketAdapter {
 			high: tickerPerPriorityDTO.High,
 			urgent: tickerPerPriorityDTO.Urgent,
 			tickets: tickerPerPriorityDTO.tickets,
+		};
+	}
+
+	static ticketPerSolutionFromDTO(
+		solutionDTO: ITicketPerSolutionDTO
+	): ITIcketPerSolution {
+		return {
+			solutionsEn: solutionDTO.solutions_en,
+			solutionsEs: solutionDTO.solutions_es,
+			counts: solutionDTO.count,
 		};
 	}
 }

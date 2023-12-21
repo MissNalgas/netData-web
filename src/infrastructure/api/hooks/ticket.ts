@@ -1,5 +1,6 @@
 import {
 	IFilterForm,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -61,6 +62,21 @@ export function useTicketPerPriority() {
 	useEffect(() => {
 		ticketRepository
 			.getTicketsPerPriority()
+			.then(setData)
+			.catch(() => {
+				setData(null);
+			});
+	}, []);
+
+	return data;
+}
+
+export function useTicketPerSolution() {
+	const [data, setData] = useState<ITIcketPerSolution | null>();
+
+	useEffect(() => {
+		ticketRepository
+			.getTicketsPerSolution()
 			.then(setData)
 			.catch(() => {
 				setData(null);

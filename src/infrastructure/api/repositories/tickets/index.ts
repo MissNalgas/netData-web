@@ -1,5 +1,6 @@
 import {
 	IFilterForm,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -11,6 +12,7 @@ import { createAxiosApp } from "@infrastructure/api/http/axios";
 import {
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
+	ITicketPerSolutionDTO,
 	ITicketsPerWeekDTO,
 } from "@infrastructure/model";
 class TicketRepository implements ITicketService {
@@ -126,6 +128,20 @@ class TicketRepository implements ITicketService {
 			"/api/xelco/graphic/solutions"
 		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
+	}
+
+	async getTicketsPerSolution(): Promise<ITIcketPerSolution> {
+		return TicketAdapter.ticketPerSolutionFromDTO({
+			solutions_es: ["Solucion A", "Solucion B", "Solucion C"],
+			solutions_en: ["Solution A", "Solution B", "Solution C"],
+			count: [6, 12, 18],
+		});
+
+		const axios = await createAxiosApp();
+		const response = await axios.get<ITicketPerSolutionDTO>(
+			"/api/xelco/graphic/solutions"
+		);
+		return TicketAdapter.ticketPerSolutionFromDTO(response.data);
 	}
 }
 

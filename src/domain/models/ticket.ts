@@ -33,6 +33,12 @@ export interface ITicketPerCategory {
 	count: number[];
 }
 
+export interface ITIcketPerSolution {
+	solutionsEn: string[];
+	solutionsEs: string[];
+	counts: number[];
+}
+
 export interface ITicketPerPriority {
 	low: number;
 	medium: number;

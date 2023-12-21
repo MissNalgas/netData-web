@@ -1,5 +1,6 @@
 import {
 	IFilterForm,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -14,4 +15,5 @@ export interface ITicketService {
 	): Promise<ITicket>;
 	getTicketPerCategory(): Promise<ITicketPerCategory>;
 	getTicketsPerPriority(): Promise<ITicketPerPriority>;
+	getTicketsPerSolution(): Promise<ITIcketPerSolution>;
 }
