@@ -24,7 +24,10 @@ export function useAllTickets(filters?: IFilterForm) {
 	return data;
 }
 
-export function useTicketDetail(ticketId: number, notificationId: number) {
+export function useTicketDetail(
+	ticketId: number | string,
+	notificationId: number
+) {
 	const [data, setData] = useState<ITicket | null>();
 
 	useEffect(() => {

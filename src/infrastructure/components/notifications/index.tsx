@@ -26,6 +26,7 @@ import Pagination from "@shared/components/pagination";
 import TicketDetail from "../heatmap/ticketDetail";
 import { ITicket } from "@domain/models";
 import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
+import { useTicketDetail } from "@infrastructure/api/hooks";
 
 export default function NotificationsComponent() {
 	const dispatch = useAppDispatch();
@@ -33,16 +34,13 @@ export default function NotificationsComponent() {
 	const { t, i18n } = useTranslation("notifications");
 	const [page, setPage] = useState<number>(1);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-
+	const data = useTicketDetail("INC-131490", 131490);
+	//delete
+	/* eslint-disable no-console */
+	console.log("data Ticket", data);
 	const selectTicket = (ticket: ITicket) => {
 		setSelectedTicket(ticket);
 	};
-
-	useEffect(() => {
-		const firstTicket = notificationsData?.data[0];
-
-		firstTicket && setSelectedTicket(firstTicket);
-	}, [notificationsData?.data]);
 
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
@@ -102,7 +100,9 @@ export default function NotificationsComponent() {
 									}
 									textLeft={notification.message_body}
 									textRight={notification.ticket_id}
-									showIconLeft={false}
+									showIconLeft={
+										notification.ticket_id && true
+									}
 								/>
 							</div>
 						)
@@ -153,15 +153,7 @@ export default function NotificationsComponent() {
 				{selectedTicket ? (
 					<TicketDetail
 						onClose={() => setSelectedTicket(null)}
-						ticket={[
-							{
-								subject: "dddd",
-								id: 1,
-								category: "sadds",
-								createdAt: "sdadasdasd",
-								customFields: "asdsd",
-							},
-						]}
+						ticket={selectedTicket}
 					/>
 				) : (
 					<TitleSecond $weight={theme.fontWeight.bold} $center>

@@ -35,15 +35,15 @@ import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
-    const dispatch = useAppDispatch();
-    const { dashboard } = useSelector((state: RootState) => state.dashboard);
-    const [day, setDay] = useState<"today" | "yesterday">("today");
-    const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
-    const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
+	const dispatch = useAppDispatch();
+	const { dashboard } = useSelector((state: RootState) => state.dashboard);
+	const [day, setDay] = useState<"today" | "yesterday">("today");
+	const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
+	const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
 
-    useEffect(() => {
-        dispatch(getDataDashboard()).unwrap();
-    }, [dispatch]);
+	useEffect(() => {
+		dispatch(getDataDashboard()).unwrap();
+	}, [dispatch]);
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard
@@ -51,7 +51,11 @@ export default function Dashboard() {
 			title={t(event.event)}
 			description={t(event.description)}
 			image={event.image}
-            ticketsCount={dashboardDay.tickets[event.machineName] ? dashboardDay.tickets[event.machineName].length : 0}
+			ticketsCount={
+				dashboardDay?.tickets[event.machineName]
+					? dashboardDay?.tickets[event.machineName].length
+					: 0
+			}
 		/>
 	));
 	const scrollRef = useRef<any>();
@@ -71,28 +75,39 @@ export default function Dashboard() {
 		});
 	}, [currentTooltip]);
 
-    const changeTime = (isActive: boolean) => {
-        isActive ? setDay("today") : setDay("yesterday");
-    }
+	const changeTime = (isActive: boolean) => {
+		isActive ? setDay("today") : setDay("yesterday");
+	};
 
-    useEffect(() => {
+	useEffect(() => {
 		if (dashboard) {
 			let ticketsPriority;
 			if (day === "yesterday") {
 				setDashboardDay(dashboard.yesterday);
-				ticketsPriority = dashboard.yesterday.ticketsForPriorityByDepartment
-					?.filter((ticket: Ticket) => [TicketStatus._open, TicketStatus._pending].includes(ticket.status))
-					.map((ticket: Ticket) => ticket.priority);
+				ticketsPriority =
+					dashboard.yesterday.ticketsForPriorityByDepartment
+						?.filter((ticket: Ticket) =>
+							[
+								TicketStatus._open,
+								TicketStatus._pending,
+							].includes(ticket.status)
+						)
+						.map((ticket: Ticket) => ticket.priority);
 			} else {
-				setDashboardDay(dashboard.today);
-				ticketsPriority = dashboard.today.ticketsForPriorityByDepartment
-					?.filter((ticket: Ticket) => [TicketStatus._open, TicketStatus._pending].includes(ticket.status))
-					.map((ticket: Ticket) => ticket.priority);
+				setDashboardDay(dashboard?.today);
+				ticketsPriority =
+					dashboard?.today?.ticketsForPriorityByDepartment
+						?.filter((ticket: Ticket) =>
+							[
+								TicketStatus._open,
+								TicketStatus._pending,
+							].includes(ticket.status)
+						)
+						.map((ticket: Ticket) => ticket.priority);
 			}
 			setPriorityTickets(ticketsPriority ?? []);
 		}
 	}, [dashboard, day]);
-
 	return (
 		<>
 			<InitialTooltip visible={currentTooltip === 0} />
@@ -109,7 +124,7 @@ export default function Dashboard() {
 			<ElevenTooltip visible={currentTooltip === 11} />
 			<TwelveTooltip visible={currentTooltip === 12} />
 			<FinalTooltip visible={currentTooltip === 13} />
-            <Topbar screen="dashboard" onPressGroupButton={changeTime}/>
+			<Topbar screen="dashboard" onPressGroupButton={changeTime} />
 			<div className="m-8 flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">
@@ -121,7 +136,7 @@ export default function Dashboard() {
 					{/* Events week card*/}
 					<EventsWeekCard />
 					{/* Saving month card*/}
-					<SavingMonthCard saving={dashboard.today.saving.f}/>
+					<SavingMonthCard saving={dashboard?.today?.saving?.f} />
 				</div>
 			</div>
 			{/* Category events */}
