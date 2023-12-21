@@ -26,7 +26,7 @@ class TicketRepository implements ITicketService {
 			],
 			hours: [1, 2, 3],
 			days: ["monday"],
-			tickets: Array(5)
+			tickets: Array(100)
 				.fill(null)
 				.map((_, i) => ({
 					subject: "Subject",
@@ -54,7 +54,7 @@ class TicketRepository implements ITicketService {
 					updated_at: new Date().toString(),
 					requested_for_id: 2,
 					to_emails: null,
-					id: i,
+					id: i + 10,
 					type: "id",
 					description: "descripotion",
 					description_text: "description text",

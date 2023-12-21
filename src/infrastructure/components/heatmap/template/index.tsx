@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import TicketDetail from "../ticketDetail";
 import { useTranslation } from "react-i18next";
 import Pagination from "@shared/components/pagination";
+import { useArrayPagination } from "@shared/hooks";
 
 export default function HeatmapTemplate() {
 
@@ -15,7 +16,7 @@ export default function HeatmapTemplate() {
 	const [filter, setFilter] = useState<IFilterForm>();
 	const data = useAllTickets(filter);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const [page, setSelectedPage] = useState(1);
+	const [tickets, page, setPage, maxPages] = useArrayPagination(data?.tickets);
 
 	const selectTicket = (ticket: ITicket) => {
 		setSelectedTicket(ticket);
@@ -62,15 +63,24 @@ export default function HeatmapTemplate() {
 						className="w-full h-[300px]"
 					/>
 				</div>
-				<div className="card p-4 flex flex-col gap-2">
-					{data?.tickets.map(ticket => (
-						<TicketCard
-							key={ticket.id}
-							onClick={() => selectTicket(ticket)}
-							ticket={ticket}
-						/>
-					))}
-					<Pagination selectedPage={page} setSelectedPage={setSelectedPage} totalPages={10}/>
+				<div className="card p-4 flex flex-col gap-4">
+					{!!data?.tickets.length && (
+						<>
+							<div className="flex flex-col gap-2">
+								{tickets.map(ticket => (
+									<TicketCard
+										key={ticket.id}
+										onClick={() => selectTicket(ticket)}
+										ticket={ticket}
+									/>
+								))}
+
+							</div>
+							<div className="grid place-content-center">
+								<Pagination selectedPage={page} setSelectedPage={setPage} totalPages={maxPages}/>
+							</div>
+						</>
+					)}
 				</div>
 			</div>
 			<div className="flex flex-col h-full gap-4">
