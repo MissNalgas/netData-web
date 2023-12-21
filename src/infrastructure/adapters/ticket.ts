@@ -4,7 +4,7 @@ import {
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 import {
 	IFilterParamDTO,
@@ -12,9 +12,9 @@ import {
 	ITicketDTO,
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
-	IWeekGraphDTO,
 	PriorityDTO,
 	StatusDTO,
+	ITicketsPerWeekDTO,
 } from "@infrastructure/model";
 import { formatDateDTO } from "@shared/utils";
 
@@ -58,9 +58,12 @@ export class TicketAdapter {
 		};
 	}
 
-	static weekGraphFromDTO(weehGraphDTO: IWeekGraphDTO): IWeekGraph {
+	static weekGraphFromDTO(weehGraphDTO: ITicketsPerWeekDTO): ITicketPerWeek {
 		return {
 			tickets: weehGraphDTO.tickets.map(TicketAdapter.ticketFromDTO),
+			data: weehGraphDTO.data,
+			hours: weehGraphDTO.hours,
+			days: weehGraphDTO.days,
 		};
 	}
 

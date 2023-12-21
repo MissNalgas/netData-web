@@ -3,16 +3,17 @@ import {
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "../repositories/tickets";
 
 export function useAllTickets(filters?: IFilterForm) {
-	const [data, setData] = useState<IWeekGraph | null>();
+	const [data, setData] = useState<ITicketPerWeek | null>();
 
 	useEffect(() => {
 		if (!filters) return;
+
 		ticketRepository
 			.getAllTickets(filters)
 			.then(setData)

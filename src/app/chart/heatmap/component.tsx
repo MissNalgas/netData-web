@@ -1,13 +1,14 @@
 "use client"
+import { useAllTickets } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
+import LoaderComponent from "@shared/components/loader";
 import { ScatterChart } from "echarts/charts";
 import { GridComponent } from "echarts/components";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 
 export default function HeatmapChart() {
-
 
 	const loadComponents = useRef([
 		GridComponent,
@@ -15,14 +16,18 @@ export default function HeatmapChart() {
 		CanvasRenderer,
 		UniversalTransition,
 	]);
-
+	const [filters] = useState({date: new Date()});
+	const ticketData = useAllTickets(filters as any);
 
 	const option = useMemo(() => {
+
+		if (!ticketData) return {};
+
 		const hours = [
-			"12a", "1a", "2a", "3a", "4a", "5a", "6a",
-			"7a", "8a", "9a", "10a", "11a",
-			"12p", "1p", "2p", "3p", "4p", "5p",
-			"6p", "7p", "8p", "9p", "10p", "11p",
+			"12am", "1am", "2am", "3am", "4am", "5am", "6am",
+			"7am", "8am", "9am", "10am", "11am",
+			"12pm", "1pm", "2pm", "3pm", "4pm", "5pm",
+			"6pm", "7pm", "8pm", "9pm", "10pm", "11pm",
 		];
 		// prettier-ignore
 		const days = [
@@ -30,7 +35,7 @@ export default function HeatmapChart() {
 			"Wednesday", "Tuesday", "Monday", "Sunday",
 		];
 		// prettier-ignore
-		const data = [[3, 2, 1], [2, 3, 4]]
+		const data = ticketData.data
 		.map(function (item) {
 			return [item[1], item[0], item[2]];
 		});
@@ -83,8 +88,11 @@ export default function HeatmapChart() {
 					},
 				},
 			],
-		}}, []);
+		}}, [ticketData]);
 
+
+	if (ticketData === undefined) return <LoaderComponent/>
+	if (ticketData === null) return <div>Error loading data</div>
 
 	return (
 		<Chart

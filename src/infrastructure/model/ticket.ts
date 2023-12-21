@@ -98,9 +98,9 @@ export interface IFilterParamDTO {
 	date?: `${number}-${number}-${number}`;
 }
 
-export interface IWeekGraphDTO {
-	data: number[][][];
-	hours: number[][];
-	days: string[][];
+export interface ITicketsPerWeekDTO {
+	data: number[][];
+	hours: number[];
+	days: string[];
 	tickets: ITicketDTO[];
 }

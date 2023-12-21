@@ -3,11 +3,11 @@ import {
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 
 export interface ITicketService {
-	getAllTickets(_filters: IFilterForm): Promise<IWeekGraph>;
+	getAllTickets(_filters: IFilterForm): Promise<ITicketPerWeek>;
 	getTicketDetail(
 		_ticketId: number,
 		_notificationId: number

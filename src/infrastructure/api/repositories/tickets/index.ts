@@ -3,7 +3,7 @@ import {
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
@@ -11,16 +11,19 @@ import { createAxiosApp } from "@infrastructure/api/http/axios";
 import {
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
-	IWeekGraphDTO,
+	ITicketsPerWeekDTO,
 } from "@infrastructure/model";
 class TicketRepository implements ITicketService {
-	async getAllTickets(filters: IFilterForm): Promise<IWeekGraph> {
+	async getAllTickets(filters: IFilterForm): Promise<ITicketPerWeek> {
 		//@todo - remove this after the endpoint is working
 
-		return TicketAdapter.weekGraphFromDTO({
-			data: [[[2]]],
-			hours: [[2]],
-			days: [["monday"]],
+		const mockData = TicketAdapter.weekGraphFromDTO({
+			data: [
+				[2, 3, 1],
+				[1, 2, 3],
+			],
+			hours: [1, 2, 3],
+			days: ["monday"],
 			tickets: Array(5)
 				.fill(null)
 				.map((_, i) => ({
@@ -65,12 +68,13 @@ class TicketRepository implements ITicketService {
 					} as any,
 				})),
 		});
+		return mockData;
 
 		/* eslint-disable no-unreachable */
 		const axios = await createAxiosApp();
 
 		const params = TicketAdapter.paramsFromFilter(filters);
-		const result = await axios.post<IWeekGraphDTO>(
+		const result = await axios.post<ITicketsPerWeekDTO>(
 			"/api/xelco/graphic/week",
 			params
 		);

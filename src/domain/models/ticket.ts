@@ -27,10 +27,6 @@ export interface IFilterForm {
 	date: null | Date;
 }
 
-export interface IWeekGraph {
-	tickets: ITicket[];
-}
-
 export interface ITicketPerCategory {
 	categoriesEn: string[];
 	categoriesEs: string[];
@@ -43,4 +39,11 @@ export interface ITicketPerPriority {
 	high: number;
 	urgent: number;
 	tickets: number;
+}
+
+export interface ITicketPerWeek {
+	data: number[][];
+	hours: number[];
+	days: string[];
+	tickets: ITicket[];
 }
