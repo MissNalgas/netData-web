@@ -10,19 +10,22 @@ import Clock from "/public/img/clock 1.png";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import { useTypedSelector } from "@hooks/index";
 import { getNotifications } from "@infrastructure/store/notifications/actions";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
 import { format } from "date-fns";
 import { es, enUS } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { getFormattedDate } from "@shared/utils";
+import { getFormattedDate, pagination } from "@shared/utils";
+import Pagination from "@shared/components/pagination";
 
 export default function NotificationsComponent() {
 	const dispatch = useAppDispatch();
 	const notificationsData = useTypedSelector((state) => state.notifications);
 	const { t, i18n } = useTranslation("notifications");
+	const [page, setPage] = useState<number>(1);
+
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
 		if (notificationsData.error) {
@@ -47,9 +50,13 @@ export default function NotificationsComponent() {
 				: (prev[index] = [curr]);
 			return prev;
 		}, {});
+
+	const paginationData = pagination(Object.keys(listNotifications), 5);
 	const renderNotifications = () => {
-		if (notificationsData.data.length > 0) {
-			return Object.keys(listNotifications).map((date: any) => (
+		const currentPageData = paginationData[page - 1] || [];
+
+		if (currentPageData.length > 0) {
+			return currentPageData.map((date: any) => (
 				<div key={date}>
 					<h1>{date}</h1>
 					{listNotifications[date].map(
@@ -72,7 +79,7 @@ export default function NotificationsComponent() {
 				</div>
 			));
 		} else {
-			return notificationsData?.data?.length === 0 ? (
+			return currentPageData.length === 0 ? (
 				<Overline $weight={theme.fontWeight.bold}>
 					{t("you_do_not_have_any_notifications")}
 				</Overline>
@@ -81,6 +88,7 @@ export default function NotificationsComponent() {
 			);
 		}
 	};
+
 	return (
 		<div className="flex space-between mx-5 py-8 h-screen mb-32 overflow-auto">
 			<ContainerBackground className="grow justify-center mr-8">
@@ -98,8 +106,16 @@ export default function NotificationsComponent() {
 						})}
 					</CaptionTwo>
 				</div>
-
-				{renderNotifications()}
+				<div className="flex flex-col justify-around h-[42rem]">
+					<div>{renderNotifications()}</div>
+					<div className="items-center flex justify-center">
+						<Pagination
+							selectedPage={page}
+							setSelectedPage={setPage}
+							totalPages={paginationData.length}
+						/>
+					</div>
+				</div>
 			</ContainerBackground>
 
 			<ContainerBackground className="flex items-center flex-col">
