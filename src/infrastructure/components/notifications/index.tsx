@@ -1,6 +1,10 @@
 import ContainerBackground from "@shared/components/containerBackground";
 import InformationCard from "@shared/components/informationCard";
-import { CaptionTwo, Overline } from "@shared/components/labels/styled";
+import {
+	CaptionTwo,
+	Overline,
+	TitleSecond,
+} from "@shared/components/labels/styled";
 import theme from "@theme/index";
 import Fire from "/public/img/fire_1.png";
 import Alarm from "/public/img/alarm_icon.png";
@@ -19,12 +23,26 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { getFormattedDate, pagination } from "@shared/utils";
 import Pagination from "@shared/components/pagination";
+import TicketDetail from "../heatmap/ticketDetail";
+import { ITicket } from "@domain/models";
+import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
 
 export default function NotificationsComponent() {
 	const dispatch = useAppDispatch();
 	const notificationsData = useTypedSelector((state) => state.notifications);
 	const { t, i18n } = useTranslation("notifications");
 	const [page, setPage] = useState<number>(1);
+	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+
+	const selectTicket = (ticket: ITicket) => {
+		setSelectedTicket(ticket);
+	};
+
+	useEffect(() => {
+		const firstTicket = notificationsData?.data[0];
+
+		firstTicket && setSelectedTicket(firstTicket);
+	}, [notificationsData?.data]);
 
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
@@ -61,19 +79,32 @@ export default function NotificationsComponent() {
 					<h1>{date}</h1>
 					{listNotifications[date].map(
 						(notification: NotificationItem) => (
-							<InformationCard
+							<div
 								key={notification.id}
-								imageLeft={
-									(notification.risk === "Low" && Tree) ||
-									(notification.risk === "Urgent" && Fire) ||
-									(notification.risk === "High" && Alarm) ||
-									(notification.risk === "Medium" && Clock) ||
-									Fire
-								}
-								textLeft={notification.message_body}
-								textRight={notification.ticket_id}
-								showIconLeft={false}
-							/>
+								onClick={() => {
+									if (notification.ticket_id) {
+										return selectTicket(
+											notification.ticket_id
+										);
+									}
+								}}
+							>
+								<InformationCard
+									imageLeft={
+										(notification.risk === "Low" && Tree) ||
+										(notification.risk === "Urgent" &&
+											Fire) ||
+										(notification.risk === "High" &&
+											Alarm) ||
+										(notification.risk === "Medium" &&
+											Clock) ||
+										Fire
+									}
+									textLeft={notification.message_body}
+									textRight={notification.ticket_id}
+									showIconLeft={false}
+								/>
+							</div>
 						)
 					)}
 				</div>
@@ -90,7 +121,7 @@ export default function NotificationsComponent() {
 	};
 
 	return (
-		<div className="flex space-between mx-5 py-8 h-screen mb-32 overflow-auto">
+		<TwoColumnLayout>
 			<ContainerBackground className="grow justify-center mr-8">
 				<div className="flex flex-col items-center mb-5">
 					<Overline $weight={theme.fontWeight.bold} $center>
@@ -118,11 +149,26 @@ export default function NotificationsComponent() {
 				</div>
 			</ContainerBackground>
 
-			<ContainerBackground className="flex items-center flex-col">
-				<Overline $weight={theme.fontWeight.bold}>
-					{t("no_tickets_selected")}
-				</Overline>
+			<ContainerBackground className="flex items-center flex-col justify-center">
+				{selectedTicket ? (
+					<TicketDetail
+						onClose={() => setSelectedTicket(null)}
+						ticket={[
+							{
+								subject: "dddd",
+								id: 1,
+								category: "sadds",
+								createdAt: "sdadasdasd",
+								customFields: "asdsd",
+							},
+						]}
+					/>
+				) : (
+					<TitleSecond $weight={theme.fontWeight.bold} $center>
+						{t("no_tickets_selected")}
+					</TitleSecond>
+				)}
 			</ContainerBackground>
-		</div>
+		</TwoColumnLayout>
 	);
 }
