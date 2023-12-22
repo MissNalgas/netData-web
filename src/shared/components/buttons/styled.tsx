@@ -24,7 +24,7 @@ export const PrimaryButton = styled.button<ButtonProps>`
 	height: ${({ height }) => height || 100}%;
 	align-items: center;
 	justify-content: center;
-	margin: 5px 0 5px;
+	margin: 5px 4px 5px;
 	pointer-events: ${(props) => (props.disabled ? "none" : null)};
 	&:hover {
 		background: ${colors.orange};
@@ -49,7 +49,7 @@ export const SecondaryButton = styled.button<ButtonProps>`
 	justify-content: center;
 	width: ${({ width }) => width || 100}%;
 	height: ${({ height }) => height || 100}%;
-	margin: 5px 0 5px;
+	margin: 5px 3px 5px;
 	pointer-events: ${(props) => (props.disabled ? "none" : null)};
 	&:hover {
 		border-color: ${colors.orange};

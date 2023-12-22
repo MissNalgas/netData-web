@@ -1,12 +1,20 @@
 "use client"
+import { IGraphicDay } from "@domain/models";
 import Chart from "@shared/components/chart";
 import { PieChart } from "echarts/charts";
 import { LegendComponent } from "echarts/components";
 import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
 import { useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
-export default function ExampleChart() {
+interface ChartProps {
+    data: IGraphicDay;
+}
+
+export default function ExampleChart(props: ChartProps) {
+    const { data } = props;
+    const { t } = useTranslation("dashboard");
 
 	const loadComponentes = useRef([
 		LegendComponent,
@@ -27,19 +35,15 @@ export default function ExampleChart() {
 					borderRadius: 8,
 				},
 				data: [
-					{ value: 40, name: "rose 1" },
-					{ value: 38, name: "rose 2" },
-					{ value: 32, name: "rose 3" },
-					{ value: 30, name: "rose 4" },
-					{ value: 28, name: "rose 5" },
-					{ value: 26, name: "rose 6" },
-					{ value: 22, name: "rose 7" },
-					{ value: 18, name: "rose 8" },
+					{ value: data?.Low ?? 0, name: `${t("low")}` },
+					{ value: data?.Medium ?? 0, name: `${t("medium")}` },
+					{ value: data?.High ?? 0, name: `${t("high")}` },
+					{ value: data?.Urgent ?? 0, name: `${t("urgent")}` },
 				],
 			},
 		],
 
-		}), []);
+		}), [t, data]);
 
 
 	return (

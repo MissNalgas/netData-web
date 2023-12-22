@@ -73,3 +73,36 @@ export interface Saving {
 	e: number;
 	f: number;
 }
+
+export interface responseGraphic {
+	data: IGraphicWeek;
+}
+export interface IGraphicWeek {
+	open: number;
+	closed: number;
+	tickets?: Ticket[];
+}
+
+export interface Priority {
+	priority: "all" | "high" | "medium" | "low" | "urgent";
+}
+
+export interface filtersGraphicDay {
+	priority: "all" | "high" | "medium" | "low" | "urgent";
+	type: "general" | "cybersecurity";
+	day: "today" | "yesterday";
+	status: "open" | "closed";
+}
+
+export interface responseGraphicDay {
+	data: IGraphicDay;
+}
+
+export interface IGraphicDay {
+	Low: number;
+	Medium: number;
+	High: number;
+	Urgent: number;
+	total: number;
+	tickets: Ticket[];
+}
