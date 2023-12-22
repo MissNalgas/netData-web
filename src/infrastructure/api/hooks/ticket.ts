@@ -1,5 +1,5 @@
 import {
-	IFilterForm,
+	IFilters,
 	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
@@ -9,11 +9,15 @@ import {
 import { useEffect, useState } from "react";
 import { ticketRepository } from "../repositories/tickets";
 
-export function useAllTickets(filters?: IFilterForm) {
+export function useAllTickets(filters?: IFilters) {
 	const [data, setData] = useState<ITicketPerWeek | null>();
 
 	useEffect(() => {
-		if (!filters) return;
+		if (
+			!filters ||
+			Object.values(filters).every((filter) => filter === null)
+		)
+			return setData(undefined);
 
 		ticketRepository
 			.getAllTickets(filters)

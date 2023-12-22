@@ -1,5 +1,5 @@
 import {
-	IFilterForm,
+	IFilters,
 	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
@@ -8,7 +8,7 @@ import {
 } from "@domain/models";
 
 export interface ITicketService {
-	getAllTickets(_filters: IFilterForm): Promise<ITicketPerWeek>;
+	getAllTickets(_filters: IFilters): Promise<ITicketPerWeek>;
 	getTicketDetail(
 		_ticketId: number,
 		_notificationId: number

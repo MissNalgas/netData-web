@@ -1,6 +1,6 @@
 import colors from "@theme/colors";
 import TextInput from "../textInput";
-import { FormEventHandler, MouseEventHandler, useMemo, useState } from "react";
+import { FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 import { autoUpdate, offset, useFloating } from "@floating-ui/react";
 import Select from "../select";
 import { useFilterState } from "./hooks";
@@ -11,19 +11,32 @@ import Icon from "../icons";
 import { format } from "date-fns";
 import { PrimaryButton } from "../buttons/styled";
 import { GroupBase } from "react-select";
-import { IFilterForm } from "@domain/models";
+import { FilterOption, IFilters } from "@domain/models";
 import { useTranslation } from "react-i18next";
 
 
+type INITIAL_TYPE = {category: null | FilterOption, status: null | FilterOption, risk: null | FilterOption};
+const INITAL_STATE : INITIAL_TYPE = {category: null, status: null, risk: null};
 
 
-export default function FilterInput({onChange, placeholder} : FilterInputProps) {
+export default function FilterInput({filter, onChange, placeholder} : FilterInputProps) {
 
 	const { t } = useTranslation();
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const [filterData, setFilter] = useFilterState({category: null, status: null, risk: null});
+	const [filterData, setFilter] = useFilterState(INITAL_STATE);
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [date, setDate] = useState<Date | null>(null);
+
+	useEffect(() => {
+		if (!filter) return;
+
+		setFilter({
+			category: filter.category,
+			status: filter.status || null,
+			risk: filter.risk || null,
+		});
+		setDate(filter.date);
+	}, [filter, setFilter]);
 
 	const updateDate = (newDate: Date) => {
 		setShowCalendar(false);
@@ -119,7 +132,7 @@ export default function FilterInput({onChange, placeholder} : FilterInputProps) 
 							icon={filter.icon}
 							key={filter.name}
 							placeholder={filter.placeholder}
-							options={filter.options as any as GroupBase<string>[]}
+							options={filter.options as any as GroupBase<FilterOption>[]}
 							onChange={item => setFilter({[filter.name]: item})}
 						/>
 					))}
@@ -150,6 +163,7 @@ export default function FilterInput({onChange, placeholder} : FilterInputProps) 
 	);
 }
 interface FilterInputProps {
-	onChange?: (_data: IFilterForm) => void;
+	onChange?: (_data: IFilters) => void;
 	placeholder?: string;
+	filter?: IFilters;
 }

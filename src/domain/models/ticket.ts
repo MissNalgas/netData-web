@@ -20,7 +20,7 @@ export type FilterOption = {
 	label: string;
 };
 
-export interface IFilterForm {
+export interface IFilters {
 	category: null | FilterOption;
 	status: null | FilterOption;
 	risk: null | FilterOption;

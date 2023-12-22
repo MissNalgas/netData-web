@@ -1,6 +1,6 @@
 import {
 	ICustomFields,
-	IFilterForm,
+	IFilters,
 	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
@@ -21,7 +21,7 @@ import {
 import { formatDateDTO } from "@shared/utils";
 
 export class TicketAdapter {
-	static paramsFromFilter(filter: IFilterForm): IFilterParamDTO {
+	static paramsFromFilter(filter: IFilters): IFilterParamDTO {
 		return {
 			priority: filter.risk
 				? (filter.risk.value as PriorityDTO)

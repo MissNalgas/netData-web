@@ -1,5 +1,5 @@
 import {
-	IFilterForm,
+	IFilters,
 	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
@@ -16,7 +16,7 @@ import {
 	ITicketsPerWeekDTO,
 } from "@infrastructure/model";
 class TicketRepository implements ITicketService {
-	async getAllTickets(filters: IFilterForm): Promise<ITicketPerWeek> {
+	async getAllTickets(filters: IFilters): Promise<ITicketPerWeek> {
 		//@todo - remove this after the endpoint is working
 
 		const mockData = TicketAdapter.weekGraphFromDTO({
