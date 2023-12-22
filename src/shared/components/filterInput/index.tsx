@@ -13,6 +13,7 @@ import { PrimaryButton } from "../buttons/styled";
 import { GroupBase } from "react-select";
 import { FilterOption, IFilters, TicketPriority } from "@domain/models";
 import { useTranslation } from "react-i18next";
+import { useTicketPerCategory } from "@infrastructure/api/hooks";
 
 
 type INITIAL_TYPE = {category: null | FilterOption, status: null | FilterOption, risk: null | FilterOption};
@@ -21,11 +22,12 @@ const INITAL_STATE : INITIAL_TYPE = {category: null, status: null, risk: null};
 
 export default function FilterInput({filter, onChange, placeholder} : FilterInputProps) {
 
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
 	const [filterData, setFilter] = useFilterState(INITAL_STATE);
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [date, setDate] = useState<Date | null>(null);
+	const categoryData = useTicketPerCategory();
 
 	useEffect(() => {
 		if (!filter) return;
@@ -67,16 +69,10 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 			name: "category",
 			placeholder: t("filter:category"),
 			icon: "Sentria",
-			options: [
-				{
-					value: "CategoriaA",
-					label: "Categoría A",
-				},
-				{
-					value: "CategoriaB",
-					label: "Categoría B",
-				},
-			],
+			options: categoryData?.[i18n.resolvedLanguage === "es" ? "categoriesEs" : "categoriesEn"].map(category => ({
+				value: category,
+				label: category,
+			})) || [],
 		},
 		{
 			name: "status",
@@ -116,7 +112,7 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 				},
 			],
 		},
-	]), [t]);
+	]), [t, categoryData, i18n]);
 
 
 	return (

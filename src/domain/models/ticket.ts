@@ -7,12 +7,21 @@ export interface ICustomFields {
 	whatWeNeedYouToDo: string;
 	whatWeAreDoing: string;
 }
+
+/* eslint-disable no-unused-vars */
+export enum TicketStatus {
+	Open = 1,
+	Closed = 0,
+}
+
 export interface ITicket {
 	subject: string;
 	id: number;
 	category: string;
 	createdAt: Date;
 	customFields: ICustomFields;
+	status: TicketStatus;
+	agent: string;
 }
 
 export type FilterOption = {

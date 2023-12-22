@@ -1,4 +1,4 @@
-import { ITicket } from "@domain/models";
+import { ITicket, TicketStatus } from "@domain/models";
 import Icon from "@shared/components/icons";
 import colors from "@theme/colors";
 import { PentaContainerGrid } from "./styled";
@@ -87,12 +87,21 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 			</div>
 			<div className="flex justify-between items-center text-sm">
 				<div className="flex items-center gap-2">
-					<Icon icon="Magnifier" size="22px" color={colors.green50}/>
-					<span className="text-green50">{t("ticket_selected:on_revision")}</span>
+					{ticket.status === TicketStatus.Open ? (
+						<>
+							<Icon icon="Magnifier" size="22px" color={colors.green50}/>
+							<span className="text-green50">{t("ticket_selected:on_revision")}</span>
+						</>
+					) : (
+						<>
+							<Icon icon="Approve" size="22px" color={colors.gray40}/>
+							<span className="text-gray40">{t("ticket_selected:closed")}</span>
+						</>
+					)}
 				</div>
 				<div className="flex items-center gap-2">
 					<Icon icon="headphone" size="22px" color={colors.gray50}/>
-					<span className="text-gray50">{t("ticket_selected:agent")}: Francis Parra</span>
+					<span className="text-gray50">{t("ticket_selected:agent")}: {ticket.agent}</span>
 				</div>
 			</div>
 			<iframe
