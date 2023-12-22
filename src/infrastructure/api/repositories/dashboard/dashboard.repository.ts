@@ -1,9 +1,12 @@
 import {
 	IDashboard,
+	IGraphicDay,
 	IGraphicWeek,
 	Priority,
+	filtersGraphicDay,
 	responseDashboard,
 	responseGraphic,
+	responseGraphicDay,
 } from "@domain/models";
 import { IDashboardService } from "@domain/services/dashboard.service";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
@@ -25,6 +28,23 @@ class DashboardRepository implements IDashboardService {
 			{
 				params: {
 					priority: data.priority,
+				},
+			}
+		);
+
+		return response.data;
+	}
+
+	async getGraphicDay(_filters: filtersGraphicDay): Promise<IGraphicDay> {
+		const axios = await createAxiosApp();
+		const response = await axios.get<IGraphicDay, responseGraphicDay>(
+			"api/xelco/graphic/day",
+			{
+				params: {
+					day: _filters.day,
+					type: _filters.type,
+					priority: _filters.priority,
+					status: _filters.status,
 				},
 			}
 		);

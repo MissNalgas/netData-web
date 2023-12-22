@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import initialState from "infrastructure/store/dashboard/initial-state";
 import {
-	getDataDashboard, getDataGraphicWeek,
+	getDataDashboard, getDataGraphicDay, getDataGraphicWeek,
 } from "infrastructure/store/dashboard/actions";
 
 export const { actions, reducer } = createSlice({
@@ -14,6 +14,9 @@ export const { actions, reducer } = createSlice({
 		});
         builder.addCase(getDataGraphicWeek.fulfilled, (state, action) => {
 			state.graphicWeek = action.payload;
+		});
+        builder.addCase(getDataGraphicDay.fulfilled, (state, action) => {
+			state.graphicDay = action.payload;
 		});
 	},
 });

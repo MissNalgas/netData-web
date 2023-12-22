@@ -26,7 +26,7 @@ import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
-import { getDataDashboard, getDataGraphicWeek } from "@infrastructure/store/dashboard/actions";
+import { getDataDashboard, getDataGraphicDay, getDataGraphicWeek } from "@infrastructure/store/dashboard/actions";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import Topbar from "@shared/components/topbar";
 import { Day, Ticket } from "@domain/models";
@@ -44,7 +44,13 @@ export default function Dashboard() {
     useEffect(() => {
         dispatch(getDataDashboard()).unwrap();
         dispatch(getDataGraphicWeek({priority: "all"})).unwrap();
-    }, [dispatch]);
+        dispatch(getDataGraphicDay({
+            day: day,
+            type: "general",
+            status: "open",
+            priority: "all",
+        })).unwrap();
+    }, [dispatch, day]);
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard
