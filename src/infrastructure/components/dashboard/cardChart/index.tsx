@@ -7,9 +7,15 @@ import CircleStatus from "@shared/components/circleStatus";
 import theme from "@theme/index";
 import colors from "@theme/colors";
 import { useTranslation } from "next-i18next";
+import { IGraphicDay } from "@domain/models";
 
-export default function CardChart() {
+interface CardChartProps {
+    data: IGraphicDay
+}
+
+export default function CardChart(props: CardChartProps) {
     const { t } = useTranslation("dashboard")
+    const { data } = props;
 
     const status = [{
         state: `${t("low")}`,
@@ -44,7 +50,7 @@ export default function CardChart() {
                 <Arrow action={() => {}} nameIcon="right-arrow"/>
             </ContainerFlex>
             <ContainerFlex className="items-center">
-                <ExampleChart/>
+                <ExampleChart data={data}/>
                 <div className="flex-column">
                     {status.map((item, index) => (
                         <div key={index} className={`flex border items-center my-5 mr-5 p-1 rounded-lg ${item.border}`}>
