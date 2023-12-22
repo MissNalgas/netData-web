@@ -26,24 +26,32 @@ import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
-import { getDataDashboard } from "@infrastructure/store/dashboard/actions";
+import { getDataDashboard, getDataGraphicDay, getDataGraphicWeek } from "@infrastructure/store/dashboard/actions";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import Topbar from "@shared/components/topbar";
 import { Day, Ticket } from "@domain/models";
 import { TicketStatus } from "@shared/constants/statusList";
 import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
+import LoaderComponent from "@shared/components/loader";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
     const dispatch = useAppDispatch();
-    const { dashboard } = useSelector((state: RootState) => state.dashboard);
+    const { dashboard, loading, graphicWeek, graphicDay } = useSelector((state: RootState) => state.dashboard);
     const [day, setDay] = useState<"today" | "yesterday">("today");
     const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
     const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
 
     useEffect(() => {
         dispatch(getDataDashboard()).unwrap();
-    }, [dispatch]);
+        dispatch(getDataGraphicWeek({ priority: "all" })).unwrap();
+        dispatch(getDataGraphicDay({
+            day: day,
+            type: "general",
+            status: "open",
+            priority: "all",
+        })).unwrap();
+    }, [dispatch, day]);
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard
@@ -51,7 +59,7 @@ export default function Dashboard() {
 			title={t(event.event)}
 			description={t(event.description)}
 			image={event.image}
-            ticketsCount={dashboardDay.tickets[event.machineName] ? dashboardDay.tickets[event.machineName].length : 0}
+            ticketsCount={dashboardDay?.tickets[event.machineName] ? dashboardDay?.tickets[event.machineName].length : 0}
 		/>
 	));
 	const scrollRef = useRef<any>();
@@ -79,19 +87,21 @@ export default function Dashboard() {
 		if (dashboard) {
 			let ticketsPriority;
 			if (day === "yesterday") {
-				setDashboardDay(dashboard.yesterday);
-				ticketsPriority = dashboard.yesterday.ticketsForPriorityByDepartment
-					?.filter((ticket: Ticket) => [TicketStatus._open, TicketStatus._pending].includes(ticket.status))
-					.map((ticket: Ticket) => ticket.priority);
+				setDashboardDay(dashboard?.yesterday);
+				ticketsPriority = dashboard?.yesterday?.ticketsForPriorityByDepartment
+					?.filter((ticket: Ticket) => [TicketStatus?._open, TicketStatus?._pending].includes(ticket?.status))
+					.map((ticket: Ticket) => ticket?.priority);
 			} else {
 				setDashboardDay(dashboard.today);
-				ticketsPriority = dashboard.today.ticketsForPriorityByDepartment
-					?.filter((ticket: Ticket) => [TicketStatus._open, TicketStatus._pending].includes(ticket.status))
-					.map((ticket: Ticket) => ticket.priority);
+				ticketsPriority = dashboard.today?.ticketsForPriorityByDepartment
+					?.filter((ticket: Ticket) => [TicketStatus?._open, TicketStatus?._pending].includes(ticket?.status))
+					.map((ticket: Ticket) => ticket?.priority);
 			}
 			setPriorityTickets(ticketsPriority ?? []);
 		}
 	}, [dashboard, day]);
+
+    if(loading) return <LoaderComponent/>
 
 	return (
 		<>
@@ -113,15 +123,15 @@ export default function Dashboard() {
 			<div className="m-8 flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">
-					<CardChart />
+					<CardChart data={graphicDay}/>
 				</div>
 				<div className="flex ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
-					<IncidentsCard textDescription={t("risk_high_urgent")} />
+					<IncidentsCard textDescription={t("risk_high_urgent")} numIncidents={graphicDay?.High ?? 0}/>
 					{/* Events week card*/}
-					<EventsWeekCard />
+					<EventsWeekCard open={graphicWeek?.open} closed={graphicWeek?.closed}/>
 					{/* Saving month card*/}
-					<SavingMonthCard saving={dashboard.today.saving.f}/>
+					<SavingMonthCard saving={dashboard?.today?.saving?.f}/>
 				</div>
 			</div>
 			{/* Category events */}

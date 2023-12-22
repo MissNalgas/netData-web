@@ -1,6 +1,13 @@
-import { IDashboard } from "@domain/models";
+import {
+	IDashboard,
+	IGraphicDay,
+	IGraphicWeek,
+	Priority,
+	filtersGraphicDay,
+} from "@domain/models";
 import { dashboardRepository } from "@infrastructure/api/repositories/dashboard/dashboard.repository";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const getDataDashboard = createAsyncThunk<IDashboard>(
 	"dashboard/getDataDashboard",
@@ -14,4 +21,29 @@ const getDataDashboard = createAsyncThunk<IDashboard>(
 	}
 );
 
-export { getDataDashboard };
+const getDataGraphicWeek = createAsyncThunk<IGraphicWeek, Priority>(
+	"dashboard/getDataGraphicWeek",
+	async (payload: Priority) => {
+		const { priority } = payload;
+		try {
+			const response = await dashboardRepository.getGraphicWeek(priority);
+			return response;
+		} catch (err) {
+			toast.error("error");
+		}
+	}
+);
+
+const getDataGraphicDay = createAsyncThunk<IGraphicDay, filtersGraphicDay>(
+	"dashboard/getDataGraphicDay",
+	async (payload: filtersGraphicDay) => {
+		try {
+			const response = await dashboardRepository.getGraphicWeek(payload);
+			return response;
+		} catch (err) {
+			toast.error("error");
+		}
+	}
+);
+
+export { getDataDashboard, getDataGraphicWeek, getDataGraphicDay };

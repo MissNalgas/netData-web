@@ -7,10 +7,11 @@ import Risk from "/public/img/card_risk.png";
 
 interface IncidentsCardProps {
     textDescription: string;
+    numIncidents: number;
 }
 
 export default function IncidentsCard(props: IncidentsCardProps) {
-    const { textDescription } = props;
+    const { textDescription, numIncidents } = props;
 
     return (
         <ContainerBackground className="flex mb-4 items-center">
@@ -18,7 +19,7 @@ export default function IncidentsCard(props: IncidentsCardProps) {
                 <Image src={Risk} alt="risk" width={82}/>
             </div>
             <CaptionTwo className="wrap mx-2 ml-4" $weight={theme.fontWeight.bold}>{textDescription}</CaptionTwo>
-            <TitleOne $color={theme.colors.orange50}>3</TitleOne>
+            <TitleOne $color={theme.colors.orange50}>{numIncidents}</TitleOne>
             <Arrow action={() => {}} nameIcon="right-arrow"/>
         </ContainerBackground>
     )

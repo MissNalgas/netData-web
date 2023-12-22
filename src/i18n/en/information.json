@@ -2,6 +2,8 @@
 	"you_still_there": "Are you still there?",
 	"security_close_sesion": "For security reasons, your session will be closed. Otherwise, confirm that you are still using Sentria.",
 	"five_minutes_close": "Your session will be closed in 5 minutes.",
+	"no_close_session": "No, log out",
+	"yes_im_still_here": "Yes, I'm still here",
 	"you_have_doubts": "Do you have doubts? Send a comment to Xelco.",
 	"compromised_user_accounts": "Compromised user accounts",
 	"systems_involved": "Systems Involved",
