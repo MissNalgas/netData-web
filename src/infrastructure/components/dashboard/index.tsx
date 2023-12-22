@@ -37,14 +37,14 @@ import LoaderComponent from "@shared/components/loader";
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
     const dispatch = useAppDispatch();
-    const { dashboard, loading, graphicWeek } = useSelector((state: RootState) => state.dashboard);
+    const { dashboard, loading, graphicWeek, graphicDay } = useSelector((state: RootState) => state.dashboard);
     const [day, setDay] = useState<"today" | "yesterday">("today");
     const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
     const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
 
     useEffect(() => {
         dispatch(getDataDashboard()).unwrap();
-        dispatch(getDataGraphicWeek({priority: "all"})).unwrap();
+        dispatch(getDataGraphicWeek({ priority: "all" })).unwrap();
         dispatch(getDataGraphicDay({
             day: day,
             type: "general",
@@ -123,7 +123,7 @@ export default function Dashboard() {
 			<div className="m-8 flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">
-					<CardChart />
+					<CardChart data={graphicDay}/>
 				</div>
 				<div className="flex ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
