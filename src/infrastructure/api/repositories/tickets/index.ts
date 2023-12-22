@@ -1,9 +1,10 @@
 import {
-	IFilterForm,
+	IFilters,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
@@ -11,17 +12,21 @@ import { createAxiosApp } from "@infrastructure/api/http/axios";
 import {
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
-	IWeekGraphDTO,
+	ITicketPerSolutionDTO,
+	ITicketsPerWeekDTO,
 } from "@infrastructure/model";
 class TicketRepository implements ITicketService {
-	async getAllTickets(filters: IFilterForm): Promise<IWeekGraph> {
+	async getAllTickets(filters: IFilters): Promise<ITicketPerWeek> {
 		//@todo - remove this after the endpoint is working
 
-		return TicketAdapter.weekGraphFromDTO({
-			data: [[[2]]],
-			hours: [[2]],
-			days: [["monday"]],
-			tickets: Array(5)
+		const mockData = TicketAdapter.weekGraphFromDTO({
+			data: [
+				[2, 3, 1],
+				[1, 2, 3],
+			],
+			hours: [1, 2, 3],
+			days: ["monday"],
+			tickets: Array(100)
 				.fill(null)
 				.map((_, i) => ({
 					subject: "Subject",
@@ -49,7 +54,7 @@ class TicketRepository implements ITicketService {
 					updated_at: new Date().toString(),
 					requested_for_id: 2,
 					to_emails: null,
-					id: i,
+					id: i + 10,
 					type: "id",
 					description: "descripotion",
 					description_text: "description text",
@@ -65,12 +70,13 @@ class TicketRepository implements ITicketService {
 					} as any,
 				})),
 		});
+		return mockData;
 
 		/* eslint-disable no-unreachable */
 		const axios = await createAxiosApp();
 
 		const params = TicketAdapter.paramsFromFilter(filters);
-		const result = await axios.post<IWeekGraphDTO>(
+		const result = await axios.post<ITicketsPerWeekDTO>(
 			"/api/xelco/graphic/week",
 			params
 		);
@@ -127,6 +133,20 @@ class TicketRepository implements ITicketService {
 			"/api/xelco/graphic/solutions"
 		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
+	}
+
+	async getTicketsPerSolution(): Promise<ITIcketPerSolution> {
+		return TicketAdapter.ticketPerSolutionFromDTO({
+			solutions_es: ["Solucion A", "Solucion B", "Solucion C"],
+			solutions_en: ["Solution A", "Solution B", "Solution C"],
+			count: [6, 12, 18],
+		});
+
+		const axios = await createAxiosApp();
+		const response = await axios.get<ITicketPerSolutionDTO>(
+			"/api/xelco/graphic/solutions"
+		);
+		return TicketAdapter.ticketPerSolutionFromDTO(response.data);
 	}
 }
 

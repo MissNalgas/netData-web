@@ -1,10 +1,11 @@
 import {
 	ICustomFields,
-	IFilterForm,
+	IFilters,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 import {
 	IFilterParamDTO,
@@ -12,14 +13,15 @@ import {
 	ITicketDTO,
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
-	IWeekGraphDTO,
 	PriorityDTO,
 	StatusDTO,
+	ITicketsPerWeekDTO,
+	ITicketPerSolutionDTO,
 } from "@infrastructure/model";
 import { formatDateDTO } from "@shared/utils";
 
 export class TicketAdapter {
-	static paramsFromFilter(filter: IFilterForm): IFilterParamDTO {
+	static paramsFromFilter(filter: IFilters): IFilterParamDTO {
 		return {
 			priority: filter.risk
 				? (filter.risk.value as PriorityDTO)
@@ -58,9 +60,12 @@ export class TicketAdapter {
 		};
 	}
 
-	static weekGraphFromDTO(weehGraphDTO: IWeekGraphDTO): IWeekGraph {
+	static weekGraphFromDTO(weehGraphDTO: ITicketsPerWeekDTO): ITicketPerWeek {
 		return {
 			tickets: weehGraphDTO.tickets.map(TicketAdapter.ticketFromDTO),
+			data: weehGraphDTO.data,
+			hours: weehGraphDTO.hours,
+			days: weehGraphDTO.days,
 		};
 	}
 
@@ -83,6 +88,16 @@ export class TicketAdapter {
 			high: tickerPerPriorityDTO.High,
 			urgent: tickerPerPriorityDTO.Urgent,
 			tickets: tickerPerPriorityDTO.tickets,
+		};
+	}
+
+	static ticketPerSolutionFromDTO(
+		solutionDTO: ITicketPerSolutionDTO
+	): ITIcketPerSolution {
+		return {
+			solutionsEn: solutionDTO.solutions_en,
+			solutionsEs: solutionDTO.solutions_es,
+			counts: solutionDTO.count,
 		};
 	}
 }
