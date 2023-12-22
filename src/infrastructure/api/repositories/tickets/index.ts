@@ -29,6 +29,7 @@ class TicketRepository implements ITicketService {
 			tickets: Array(100)
 				.fill(null)
 				.map((_, i) => ({
+					agent: "Francis Parra",
 					subject: "Subject",
 					group_id: 23,
 					department_id: 23,
@@ -49,7 +50,7 @@ class TicketRepository implements ITicketService {
 					fr_due_by: new Date().toString(),
 					priority: 2,
 					source: 3,
-					status: 23,
+					status: 1,
 					created_at: new Date().toString(),
 					updated_at: new Date().toString(),
 					requested_for_id: 2,

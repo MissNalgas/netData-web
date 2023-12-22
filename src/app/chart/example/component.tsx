@@ -1,5 +1,5 @@
 "use client"
-import { IGraphicDay } from "@domain/models";
+import { useTicketPerCategory } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
 import { PieChart } from "echarts/charts";
 import { LegendComponent } from "echarts/components";
@@ -8,13 +8,9 @@ import { CanvasRenderer } from "echarts/renderers";
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-interface ChartProps {
-    data: IGraphicDay;
-}
-
-export default function ExampleChart(props: ChartProps) {
-    const { data } = props;
-    const { t } = useTranslation("dashboard");
+export default function ExampleChart() {
+	const data = useTicketPerCategory();
+	const { i18n } = useTranslation("dashboard");
 
 	const loadComponentes = useRef([
 		LegendComponent,
@@ -23,27 +19,31 @@ export default function ExampleChart(props: ChartProps) {
 		LabelLayout,
 	]);
 
-	const option = useMemo(() => ({
-		series: [
-			{
-				name: "Nightingale Chart",
-				type: "pie",
-				radius: ["10%", "100%"],
-				center: ["50%", "50%"],
-				roseType: "area",
-				itemStyle: {
-					borderRadius: 8,
-				},
-				data: [
-					{ value: data?.Low ?? 0, name: `${t("low")}` },
-					{ value: data?.Medium ?? 0, name: `${t("medium")}` },
-					{ value: data?.High ?? 0, name: `${t("high")}` },
-					{ value: data?.Urgent ?? 0, name: `${t("urgent")}` },
-				],
-			},
-		],
+	const option = useMemo(() => {
+		if (!data) return {};
 
-		}), [t, data]);
+		const key = i18n.resolvedLanguage === "en" ? "categoriesEn" : "categoriesEs";
+		const formattedData = data[key].map((category, index) => ({
+			value: data.count[index],
+			name: category,
+		}));
+
+		return {
+			series: [
+				{
+					name: "Nightingale Chart",
+					type: "pie",
+					radius: ["10%", "100%"],
+					center: ["50%", "50%"],
+					roseType: "area",
+					itemStyle: {
+						borderRadius: 8,
+					},
+					data: formattedData,
+				},
+			],
+		};
+	}, [data, i18n]);
 
 
 	return (

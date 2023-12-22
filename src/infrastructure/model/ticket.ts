@@ -28,6 +28,13 @@ export interface ITicketCustomFieldsDTO {
 	que_estamos_haciendo: string;
 	que_necesitamos_hacer: string;
 }
+
+/* eslint-disable no-unused-vars */
+export enum ITicketStatusDTO {
+	Open = 1,
+	Closed = 0,
+}
+
 export interface ITicketDTO {
 	subject: string;
 	group_id: number;
@@ -49,7 +56,7 @@ export interface ITicketDTO {
 	fr_due_by: string;
 	priority: number;
 	source: number;
-	status: number;
+	status: ITicketStatusDTO;
 	created_at: string;
 	updated_at: string;
 	requested_for_id: number;
@@ -60,6 +67,7 @@ export interface ITicketDTO {
 	description_text: string;
 	workspace_id: number;
 	custom_fields: ITicketCustomFieldsDTO;
+	agent: string;
 }
 
 export interface ITicketPerCategoryDTO {

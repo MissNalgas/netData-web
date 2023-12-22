@@ -6,6 +6,7 @@ import {
 	ITicketPerCategory,
 	ITicketPerPriority,
 	ITicketPerWeek,
+	TicketStatus,
 } from "@domain/models";
 import {
 	IFilterParamDTO,
@@ -57,6 +58,8 @@ export class TicketAdapter {
 			customFields: TicketAdapter.customFieldsFromDTO(
 				ticketDTO.custom_fields
 			),
+			status: ticketDTO.status as unknown as TicketStatus,
+			agent: ticketDTO.agent,
 		};
 	}
 

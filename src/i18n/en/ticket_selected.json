@@ -16,5 +16,6 @@
 	"objectives": "Objectives",
 	"what_action_should_you_take": "What action should you take to solve it?",
 	"what_action_are_we_taking": "What actions is Sentria taking to solve it?",
-	"on_revision": "On revision"
+	"on_revision": "On revision",
+	"closed": "Closed"
 }
