@@ -108,7 +108,7 @@ export default function HeatmapTemplate() {
 							<TicketDetail onClose={() => setSelectedTicket(null)} ticket={selectedTicket}/>
 						) : (
 							<div className="grid place-content-center min-h-[400px]">
-								<span className="text-center">
+								<span className="text-center font-bold text-xl">
 									{t("heatmap:there_is_no_selected_ticket")}
 								</span>
 							</div>

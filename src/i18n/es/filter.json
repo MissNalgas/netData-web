@@ -3,5 +3,11 @@
 	"status": "Estado",
 	"risk": "Riesgo",
 	"date": "Fecha",
-	"apply_filters": "Aplicar filtros"
+	"apply_filters": "Aplicar filtros",
+	"open": "Abierto",
+	"closed": "Cerrado",
+	"low": "Bajo",
+	"medium": "Medio",
+	"high": "Alto",
+	"urgent": "Urgente"
 }

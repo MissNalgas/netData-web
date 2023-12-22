@@ -11,7 +11,7 @@ import Icon from "../icons";
 import { format } from "date-fns";
 import { PrimaryButton } from "../buttons/styled";
 import { GroupBase } from "react-select";
-import { FilterOption, IFilters } from "@domain/models";
+import { FilterOption, IFilters, TicketPriority } from "@domain/models";
 import { useTranslation } from "react-i18next";
 
 
@@ -84,12 +84,12 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 			icon: "Sentria",
 			options: [
 				{
-					value: "EstadoA",
-					label: "Estado A",
+					value: "open",
+					label: t("filter:open"),
 				},
 				{
-					value: "EstadoB",
-					label: "Estado B",
+					value: "close",
+					label: t("filter:closed"),
 				},
 			],
 		},
@@ -99,12 +99,20 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 			icon: "Sentria",
 			options: [
 				{
-					value: "RiesgoA",
-					label: "Riesgo A",
+					value: TicketPriority.Low,
+					label: t("filter:low"),
 				},
 				{
-					value: "RiesgoB",
-					label: "Riesgo B",
+					value: TicketPriority.Medium,
+					label: t("filter:medium"),
+				},
+				{
+					value: TicketPriority.High,
+					label: t("filter:high"),
+				},
+				{
+					value: TicketPriority.Urgent,
+					label: t("filter:urgent"),
 				},
 			],
 		},

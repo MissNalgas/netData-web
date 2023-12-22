@@ -47,6 +47,14 @@ export interface ITicketPerPriority {
 	tickets: number;
 }
 
+/* eslint-disable no-unused-vars */
+export enum TicketPriority {
+	Low = "low",
+	Medium = "medium",
+	High = "high",
+	Urgent = "urgent",
+}
+
 export interface ITicketPerWeek {
 	data: number[][];
 	hours: number[];
