@@ -1,7 +1,7 @@
 import React from "react";
 import Icon from "../icons";
 
-const MAX_PAGES = 3;
+const MAX_PAGES = 5;
 const MIDDLE = Math.floor(MAX_PAGES / 2);
 
 function mapPages(selectedPage : number, totalPages: number) {
@@ -37,8 +37,8 @@ export default function Pagination({selectedPage, setSelectedPage, totalPages}: 
 					...
 				</span>
 			)}
-			<button onClick={goNext}>
-				<Icon className="w-6 h-5 bg-white rounded-full place-content-center grid"  icon="right-arrow" size="24"/>
+			<button className="w-6 h-5 bg-white rounded-full place-content-center grid" onClick={goNext}>
+				<Icon icon="right-arrow" size="24"/>
 			</button>
 		</div>
 	);

@@ -20,15 +20,11 @@ export type FilterOption = {
 	label: string;
 };
 
-export interface IFilterForm {
+export interface IFilters {
 	category: null | FilterOption;
 	status: null | FilterOption;
 	risk: null | FilterOption;
 	date: null | Date;
-}
-
-export interface IWeekGraph {
-	tickets: ITicket[];
 }
 
 export interface ITicketPerCategory {
@@ -37,10 +33,31 @@ export interface ITicketPerCategory {
 	count: number[];
 }
 
+export interface ITIcketPerSolution {
+	solutionsEn: string[];
+	solutionsEs: string[];
+	counts: number[];
+}
+
 export interface ITicketPerPriority {
 	low: number;
 	medium: number;
 	high: number;
 	urgent: number;
 	tickets: number;
+}
+
+/* eslint-disable no-unused-vars */
+export enum TicketPriority {
+	Low = "low",
+	Medium = "medium",
+	High = "high",
+	Urgent = "urgent",
+}
+
+export interface ITicketPerWeek {
+	data: number[][];
+	hours: number[];
+	days: string[];
+	tickets: ITicket[];
 }

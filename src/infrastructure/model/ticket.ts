@@ -68,6 +68,12 @@ export interface ITicketPerCategoryDTO {
 	count: number[];
 }
 
+export interface ITicketPerSolutionDTO {
+	solutions_es: string[];
+	solutions_en: string[];
+	count: number[];
+}
+
 export interface ITicketPerPriorityDTO {
 	Low: number;
 	Medium: number;
@@ -98,9 +104,9 @@ export interface IFilterParamDTO {
 	date?: `${number}-${number}-${number}`;
 }
 
-export interface IWeekGraphDTO {
-	data: number[][][];
-	hours: number[][];
-	days: string[][];
+export interface ITicketsPerWeekDTO {
+	data: number[][];
+	hours: number[];
+	days: string[];
 	tickets: ITicketDTO[];
 }

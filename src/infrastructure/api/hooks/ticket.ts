@@ -1,18 +1,24 @@
 import {
-	IFilterForm,
+	IFilters,
+	ITIcketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
-	IWeekGraph,
+	ITicketPerWeek,
 } from "@domain/models";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "../repositories/tickets";
 
-export function useAllTickets(filters?: IFilterForm) {
-	const [data, setData] = useState<IWeekGraph | null>();
+export function useAllTickets(filters?: IFilters) {
+	const [data, setData] = useState<ITicketPerWeek | null>();
 
 	useEffect(() => {
-		if (!filters) return;
+		if (
+			!filters ||
+			Object.values(filters).every((filter) => filter === null)
+		)
+			return setData(undefined);
+
 		ticketRepository
 			.getAllTickets(filters)
 			.then(setData)
@@ -60,6 +66,21 @@ export function useTicketPerPriority() {
 	useEffect(() => {
 		ticketRepository
 			.getTicketsPerPriority()
+			.then(setData)
+			.catch(() => {
+				setData(null);
+			});
+	}, []);
+
+	return data;
+}
+
+export function useTicketPerSolution() {
+	const [data, setData] = useState<ITIcketPerSolution | null>();
+
+	useEffect(() => {
+		ticketRepository
+			.getTicketsPerSolution()
 			.then(setData)
 			.catch(() => {
 				setData(null);
