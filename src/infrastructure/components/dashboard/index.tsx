@@ -127,7 +127,7 @@ export default function Dashboard() {
 				</div>
 				<div className="flex ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
-					<IncidentsCard textDescription={t("risk_high_urgent")} />
+					<IncidentsCard textDescription={t("risk_high_urgent")} numIncidents={graphicDay?.High ?? 0}/>
 					{/* Events week card*/}
 					<EventsWeekCard open={graphicWeek?.open} closed={graphicWeek?.closed}/>
 					{/* Saving month card*/}
