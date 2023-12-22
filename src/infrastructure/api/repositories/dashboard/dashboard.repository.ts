@@ -2,7 +2,7 @@ import {
 	IDashboard,
 	IGraphicDay,
 	IGraphicWeek,
-	Priority,
+	TicketPriority,
 	filtersGraphicDay,
 	responseDashboard,
 	responseGraphic,
@@ -21,13 +21,13 @@ class DashboardRepository implements IDashboardService {
 		return data.data;
 	}
 
-	async getGraphicWeek(data: Priority): Promise<IGraphicWeek> {
+	async getGraphicWeek(data: TicketPriority): Promise<IGraphicWeek> {
 		const axios = await createAxiosApp();
 		const response = await axios.get<IGraphicWeek, responseGraphic>(
 			"api/xelco/graphic/week_oc",
 			{
 				params: {
-					priority: data.priority,
+					priority: data,
 				},
 			}
 		);

@@ -13,10 +13,11 @@ import ColorGuide from "@shared/components/colorGuide";
 import InformationCard from "@shared/components/informationCard";
 import magnet from "/public/img/magnet.png";
 import { format } from "date-fns";
+import { getFormattedDate } from "@shared/utils";
 
 export default function HeatmapTemplate() {
 
-	const { t } = useTranslation();
+	const { t, i18n } = useTranslation();
 	const [filter, setFilter] = useState<IFilters>();
 	const data = useAllTickets(filter);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
@@ -81,7 +82,7 @@ export default function HeatmapTemplate() {
 							</div>
 							{!!filter?.date && (
 								<h2 className="text-center font-bold text-lg">
-									{filter?.date.toLocaleDateString()}
+									{getFormattedDate(filter.date, i18n?.resolvedLanguage || "en")}
 								</h2>
 							)}
 							<div className="flex flex-col">
@@ -112,13 +113,15 @@ export default function HeatmapTemplate() {
 				)}
 			</div>
 			<div className="flex flex-col h-full gap-4">
-				<div className="card flex items-center p-4">
-					<Image
-						src="/img/Diseño sin título (2) 1.png"
-						alt="Ticket icon"
-						width={100}
-						height={0}
-					/>
+				<div className="card flex items-center p-4 gap-2">
+					<div className="p-3 bg-gray10 rounded-lg">
+						<Image
+							src="/img/magnifying_glass.png"
+							alt="Ticket icon"
+							width={40}
+							height={40}
+						/>
+					</div>
 					<span className="font-bold">
 						{t("heatmap:you_selected_this_number")}
 					</span>

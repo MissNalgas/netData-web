@@ -1,3 +1,5 @@
+import { TicketPriority } from ".";
+
 export interface responseDashboard {
 	data: IDashboard;
 	status: number;
@@ -83,12 +85,8 @@ export interface IGraphicWeek {
 	tickets?: Ticket[];
 }
 
-export interface Priority {
-	priority: "all" | "high" | "medium" | "low" | "urgent";
-}
-
 export interface filtersGraphicDay {
-	priority: "all" | "high" | "medium" | "low" | "urgent";
+	priority: TicketPriority;
 	type: "general" | "cybersecurity";
 	day: "today" | "yesterday";
 	status: "open" | "closed";

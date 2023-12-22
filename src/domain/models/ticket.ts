@@ -62,6 +62,7 @@ export enum TicketPriority {
 	Medium = "medium",
 	High = "high",
 	Urgent = "urgent",
+	All = "all",
 }
 
 export interface ITicketPerWeek {

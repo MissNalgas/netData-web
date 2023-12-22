@@ -30,7 +30,7 @@ export const storage =
 const persistConfig = {
 	key: "root",
 	storage: storage,
-	whitelist: ["user", "notifications"],
+	whitelist: ["user", "notifications", "dashboard"],
 	blacklist: ["app"],
 };
 

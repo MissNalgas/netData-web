@@ -26,3 +26,15 @@ export interface NotificationResponseError {
 	pending?: boolean;
 	error: boolean;
 }
+
+export interface Notification {
+	id: number;
+	ticket_id: null | string;
+	ticket_id_inc: null | string;
+	message_subject: string;
+	message_body: string;
+	risk: null;
+	status: null | string;
+	notificationStatus: string;
+	created_at: string;
+}
