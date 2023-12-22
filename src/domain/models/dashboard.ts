@@ -80,7 +80,7 @@ export interface responseGraphic {
 export interface IGraphicWeek {
 	open: number;
 	closed: number;
-	tickets: Ticket[];
+	tickets?: Ticket[];
 }
 
 export interface Priority {

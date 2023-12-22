@@ -37,7 +37,7 @@ import LoaderComponent from "@shared/components/loader";
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
     const dispatch = useAppDispatch();
-    const { dashboard, loading } = useSelector((state: RootState) => state.dashboard);
+    const { dashboard, loading, graphicWeek } = useSelector((state: RootState) => state.dashboard);
     const [day, setDay] = useState<"today" | "yesterday">("today");
     const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
     const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
@@ -129,7 +129,7 @@ export default function Dashboard() {
 					{/* Incidents card */}
 					<IncidentsCard textDescription={t("risk_high_urgent")} />
 					{/* Events week card*/}
-					<EventsWeekCard />
+					<EventsWeekCard open={graphicWeek?.open} closed={graphicWeek?.closed}/>
 					{/* Saving month card*/}
 					<SavingMonthCard saving={dashboard?.today?.saving?.f}/>
 				</div>

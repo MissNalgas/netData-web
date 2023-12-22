@@ -5,8 +5,11 @@ import { ContainerFlex } from "../styled";
 import theme from "@theme/index";
 import CircleStatus from "@shared/components/circleStatus";
 import { useTranslation } from "react-i18next";
+import { IGraphicWeek } from "@domain/models";
 
-export default function EventsWeekCard() {
+
+export default function EventsWeekCard(props: IGraphicWeek) {
+    const { open, closed } = props;
     const { t } = useTranslation("dashboard");
 
     return (
@@ -18,7 +21,7 @@ export default function EventsWeekCard() {
             <ContainerFlex>
                 <ContainerFlex>
                     <div className="w-12 bg-red40 rounded-2xl mr-2"/>
-                    <Overline $weight={theme.fontWeight.bold}>15</Overline>
+                    <Overline $weight={theme.fontWeight.bold}>{open ?? 0}</Overline>
                 </ContainerFlex>
                 <ContainerFlex className="items-center">
                     <CircleStatus internalColor="red40" externalColor="red20"/>
@@ -28,7 +31,7 @@ export default function EventsWeekCard() {
             <ContainerFlex className="mt-2">
                 <ContainerFlex>
                     <div className="w-20 bg-green40 rounded-2xl mr-2"/>
-                    <Overline $weight={theme.fontWeight.bold}>35</Overline>
+                    <Overline $weight={theme.fontWeight.bold}>{closed ?? 0}</Overline>
                 </ContainerFlex>
                 <ContainerFlex className="items-center">
                     <CircleStatus internalColor="green40" externalColor="green20"/>
