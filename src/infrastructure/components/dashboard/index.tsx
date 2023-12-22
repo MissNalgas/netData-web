@@ -32,11 +32,12 @@ import Topbar from "@shared/components/topbar";
 import { Day, Ticket } from "@domain/models";
 import { TicketStatus } from "@shared/constants/statusList";
 import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
+import LoaderComponent from "@shared/components/loader";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
     const dispatch = useAppDispatch();
-    const { dashboard } = useSelector((state: RootState) => state.dashboard);
+    const { dashboard, loading } = useSelector((state: RootState) => state.dashboard);
     const [day, setDay] = useState<"today" | "yesterday">("today");
     const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
     const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
@@ -99,6 +100,8 @@ export default function Dashboard() {
 			setPriorityTickets(ticketsPriority ?? []);
 		}
 	}, [dashboard, day]);
+
+    if(loading) return <LoaderComponent/>
 
 	return (
 		<>

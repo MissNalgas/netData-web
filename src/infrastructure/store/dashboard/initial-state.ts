@@ -42,6 +42,7 @@ const initialState: AppState = {
 		total: 0,
 		tickets: [],
 	},
+	loading: false,
 };
 
 export default initialState;

@@ -4,6 +4,7 @@ export type AppState = {
 	dashboard: IDashboard;
 	graphicWeek: IGraphicWeek;
 	graphicDay: IGraphicDay;
+	loading: boolean;
 };
 
 export const dashboardDataInitial: Day = {
