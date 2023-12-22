@@ -1,8 +1,7 @@
-import { IFilters, ITicket } from "@domain/models";
+import { IFilters, ITicket, TicketStatus } from "@domain/models";
 import { useAllTickets } from "@infrastructure/api/hooks";
 import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
 import FilterInput from "@shared/components/filterInput";
-import TicketCard from "@shared/components/ticketCard";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import TicketDetail from "../ticketDetail";
@@ -10,6 +9,10 @@ import { useTranslation } from "react-i18next";
 import Pagination from "@shared/components/pagination";
 import { useArrayPagination } from "@shared/hooks";
 import FilterDetail from "../filterDetail";
+import ColorGuide from "@shared/components/colorGuide";
+import InformationCard from "@shared/components/informationCard";
+import magnet from "/public/img/magnet.png";
+import { format } from "date-fns";
 
 export default function HeatmapTemplate() {
 
@@ -73,13 +76,31 @@ export default function HeatmapTemplate() {
 							/>
 						</div>
 						<div className="card p-4 flex flex-col gap-4">
-							<div className="flex flex-col gap-2">
+							<div className="flex justify-center">
+								<ColorGuide className="w-full"/>
+							</div>
+							{!!filter?.date && (
+								<h2 className="text-center font-bold text-lg">
+									{filter?.date.toLocaleDateString()}
+								</h2>
+							)}
+							<div className="flex flex-col">
 								{tickets.map(ticket => (
-									<TicketCard
-										key={ticket.id}
-										onClick={() => selectTicket(ticket)}
-										ticket={ticket}
-									/>
+									<button onClick={() => selectTicket(ticket)} key={ticket.id}>
+										<InformationCard
+											imageLeft={magnet}
+											textLeft={`ID ${ticket.id}`}
+											textRight={format(ticket.createdAt, "hh:mm aaa")}
+											textCenter={ticket.category}
+											classContainer={
+												ticket.status === TicketStatus.Open ? (
+													"bg-red10"
+												) : (
+													"bg-green10"
+												)
+											}
+										/>
+									</button>
 								))}
 
 							</div>
