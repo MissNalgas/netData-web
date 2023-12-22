@@ -79,11 +79,11 @@ export default function Dashboard() {
 		});
 	}, [currentTooltip]);
 
-    const changeTime = (isActive: boolean) => {
-        isActive ? setDay("today") : setDay("yesterday");
-    }
+	const changeTime = (isActive: boolean) => {
+		isActive ? setDay("today") : setDay("yesterday");
+	};
 
-    useEffect(() => {
+	useEffect(() => {
 		if (dashboard) {
 			let ticketsPriority;
 			if (day === "yesterday") {
@@ -119,7 +119,7 @@ export default function Dashboard() {
 			<ElevenTooltip visible={currentTooltip === 11} />
 			<TwelveTooltip visible={currentTooltip === 12} />
 			<FinalTooltip visible={currentTooltip === 13} />
-            <Topbar screen="dashboard" onPressGroupButton={changeTime}/>
+			<Topbar screen="dashboard" onPressGroupButton={changeTime} />
 			<div className="m-8 flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">

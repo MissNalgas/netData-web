@@ -85,16 +85,21 @@ class TicketRepository implements ITicketService {
 	}
 
 	async getTicketDetail(
-		ticketId: number,
+		ticketId: number | string,
 		notificationId: number
 	): Promise<ITicket> {
 		const axios = await createAxiosApp();
-
-		const result = await axios.post(`/api/xelco/ticketsForId/${ticketId}`, {
-			id: notificationId,
-		});
-
-		return result.data;
+		try {
+			const result = await axios.post(
+				`/api/xelco/ticketsForId/${ticketId}`,
+				{
+					idNotification: notificationId,
+				}
+			);
+			return result.data;
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 
 	async getTicketPerCategory(): Promise<ITicketPerCategory> {
