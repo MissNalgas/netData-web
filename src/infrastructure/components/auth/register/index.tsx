@@ -12,8 +12,8 @@ import { useTranslation } from "react-i18next";
 import LoaderComponent from "@shared/components/loader";
 import ValidationsRegister from "./validations";
 interface IRegisterComponentProps {
-	changeStateAction?: 1 | 2 | 3 | 4 | 5;
-	setChangeAction?: (_value: 1 | 2 | 3 | 4 | 5) => void;
+	changeStateAction?: 1 | 2 | 3 | 4 ;
+	setChangeAction?: (_value: 1 | 2 | 3 | 4 ) => void;
 }
 
 const RegisterComponent: FC<IRegisterComponentProps> = ({
