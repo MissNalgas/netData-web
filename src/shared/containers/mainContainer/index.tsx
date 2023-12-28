@@ -57,7 +57,7 @@ export default function MainContainer({children} : MainContainerProps) {
 
 	return (
 		<div className="w-full h-screen flex">
-			<div className="w-80 h-full hidden lg:block">
+			<div className="w-80 h-full hidden laptop:block">
                 <ModalQuestion isOpen={isModalVisible} onClose={() => yesClose()} onPressYes={() => noCloseModal()}/>
 				<Sidebar/>
 			</div>

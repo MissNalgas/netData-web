@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import { useTranslation } from "react-i18next";
+import { Overline } from "@shared/components/labels/styled";
+import theme from "@theme/index";
 
 export interface IForgotPassword {
 	email: string;
@@ -42,13 +44,13 @@ export default function ForgotPasswordForm({
 			<PrimaryButton type="submit" className="w-full" disabled={!isValid}>
 				{t("next")}
 			</PrimaryButton>
-			<div className="flex justify-center gap-1 my-2">
-				<label className="text-sm" onClick={() => router.push("login")}>
+			<div className="cel:text-center my-2 cel:text-wrap gap-1">
+				<Overline onClick={() => router.push("login")}>
 					{t("has_code_sent")}
-				</label>
-				<label className="text-sm text-primary" onClick={() => {}}>
+				</Overline>
+				<Overline $color={theme.colors.orange} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
 					{t("send_again_code")}
-				</label>
+				</Overline>
 			</div>
 		</form>
 	);

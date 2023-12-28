@@ -34,13 +34,18 @@ const ContentHeaderLogo = styled.div`
 `;
 
 const LayoutContainerRight = styled.div`
-	width: 712px;
 	justify-content: center;
 	align-items: center;
-	background: ${({ theme }) => theme.colors.orange} center center no-repeat;
+	background: linear-gradient(
+		to bottom,
+		#f99e17 400%,
+		#fcb638 34.48%,
+		#f99e17 100%
+	);
 	${() =>
 		mq({
 			display: ["none", "none", "flex", "flex", "flex"],
+			width: ["100%", "100%", "100%", "40%", "50%"],
 		})}
 `;
 

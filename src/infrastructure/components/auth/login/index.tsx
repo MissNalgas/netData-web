@@ -33,7 +33,7 @@ const LoginComponent: React.FC = () => {
 	return (
 		<ContentForm>
 			<TitleCustom $center>{t("welcome_title")}</TitleCustom>
-			<SecondTitleCustom $center>{t("subTitle")}</SecondTitleCustom>
+            <SecondTitleCustom $center={true}>{t("subTitle")}</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
 			{isLoading && (
 				<div className="fixed top-0 left-0 w-full bg-white">
