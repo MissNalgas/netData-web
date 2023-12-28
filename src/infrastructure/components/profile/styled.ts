@@ -1,3 +1,4 @@
+import { mq } from "@theme/media";
 import Image from "next/image";
 import styled from "styled-components";
 
@@ -14,6 +15,10 @@ const ContentBody = styled.div`
 	flex-direction: row;
 	justify-content: center;
 	gap: 2%;
+	${() =>
+		mq({
+			flexDirection: ["column", "column", "row", "row", "row"],
+		})}
 `;
 
 const ContentLogo = styled.div`
@@ -21,6 +26,7 @@ const ContentLogo = styled.div`
 	display: flex;
 	align-items: center;
 	width: 100%;
+	padding-left: 40px;
 `;
 
 const ContentImage = styled.div`
