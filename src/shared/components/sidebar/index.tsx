@@ -12,6 +12,7 @@ import { useAppDispatch, useTypedSelector } from "@hooks/index";
 import { useTranslation } from "react-i18next";
 import { matchesRegex } from "@shared/utils";
 import { getNotifications } from "@infrastructure/store/notifications/actions";
+import LogoSentria from "/public/img/logo-sentria.png";
 
 export default function Sidebar() {
 	const router = useRouter();
@@ -98,12 +99,19 @@ export default function Sidebar() {
 	return (
 		<div className="bg-shadow40 h-full max-h-full flex flex-col pb-6">
 			<Image
-				className="mx-4 my-8"
+				className="mx-4 my-8 tablet:hidden desktop:block"
 				alt="Sentria logo"
 				src="/sentria.png"
 				width={136}
 				height={26}
 			/>
+            <Image
+                className="mx-auto my-8 desktop:hidden"
+                alt="Sentria logo"
+                src={LogoSentria}
+                width={30}
+				height={26}
+            />
 			<div className="flex-1">
 				{buttons.map((button) => (
 					<SideButton key={button.label} {...button} />
