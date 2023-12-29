@@ -120,12 +120,12 @@ export default function Dashboard() {
 			<TwelveTooltip visible={currentTooltip === 12} />
 			<FinalTooltip visible={currentTooltip === 13} />
 			<Topbar screen="dashboard" onPressGroupButton={changeTime} />
-			<div className="m-8 flex justify-between">
+			<div className="m-8 tablet:flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">
 					<CardChart/>
 				</div>
-				<div className="flex ml-5 basis-1/3 flex-col justify-between">
+				<div className="flex cel:mt-8 tablet:mt-0 tablet:ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
 					<IncidentsCard textDescription={t("risk_high_urgent")} numIncidents={graphicDay?.High ?? 0}/>
 					{/* Events week card*/}
