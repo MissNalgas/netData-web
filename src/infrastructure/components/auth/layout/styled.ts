@@ -20,19 +20,6 @@ const LayoutContainerLeft = styled.div`
 	background-color: ${({ theme }) => theme.colors.white};
 `;
 
-const ContentHeaderLogo = styled.div`
-	${({ theme }) =>
-		mq({
-			width: "100%",
-			height: "80px",
-			display: ["flex", "flex", "none", "none", "none"],
-			justifyContent: ["center", "center"],
-			alignItems: ["center", "center"],
-			alignSelf: ["center", "center"],
-			background: [`center center no-repeat ${theme.colors.orange50}`],
-		})}
-`;
-
 const LayoutContainerRight = styled.div`
 	justify-content: center;
 	align-items: center;
@@ -49,9 +36,4 @@ const LayoutContainerRight = styled.div`
 		})}
 `;
 
-export {
-	LayoutContainer,
-	LayoutContainerLeft,
-	LayoutContainerRight,
-	ContentHeaderLogo,
-};
+export { LayoutContainer, LayoutContainerLeft, LayoutContainerRight };
