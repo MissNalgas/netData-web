@@ -13,15 +13,26 @@ import { useTranslation } from "react-i18next";
 import { matchesRegex } from "@shared/utils";
 import { getNotifications } from "@infrastructure/store/notifications/actions";
 import LogoSentria from "/public/img/logo-sentria.png";
+import { changeStateDrawer } from "@infrastructure/store/layout/actions";
+import { useSelector } from "react-redux";
+import { RootState } from "@infrastructure/store";
+import Logo from "/public/img/logo-sentria.png";
+import { format } from "date-fns";
+import { BodyTwo } from "../labels/styled";
+import theme from "@theme/index";
 
 export default function Sidebar() {
 	const router = useRouter();
 	const { t } = useTranslation("sidebar");
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
+    const date = new Date();
 	const { show } = ContactComponent();
 	const [saveCountNotifications, saveCountNotificationsSet] = useState(0);
+    const { user } = useSelector((state: RootState) => state.user);
+    const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
 	const notificationsData = useTypedSelector((state) => state.notifications);
+
 	const countNotifications = useMemo(
 		() => notificationsData.data?.length,
 		[notificationsData.data]
@@ -54,6 +65,7 @@ export default function Sidebar() {
 						<Icon icon="bar-graph" size={24} color="white" />
 					),
 					onClick: () => router.push("/events"),
+                    isActive: matchesRegex(/^\/events$/),
 				},
 				{
 					label: `${t("notifications")}`,
@@ -97,21 +109,51 @@ export default function Sidebar() {
 	);
 
 	return (
-		<div className="bg-shadow40 h-full max-h-full flex flex-col pb-6">
-			<Image
-				className="mx-4 my-8 tablet:hidden desktop:block"
-				alt="Sentria logo"
-				src="/sentria.png"
-				width={136}
-				height={26}
-			/>
+		<div className="bg-shadow40 h-full max-h-full flex flex-col pb-6 cel:p-5 tablet:p-0">
+            <div className="flex justify-between items-center pr-4">
+                <Image
+                    className="mx-4 my-8 tablet:hidden desktop:block"
+                    alt="Sentria logo"
+                    src="/sentria.png"
+                    width={136}
+                    height={26}
+                />
+                <Icon
+                    className="tablet:w-0"
+                    icon="Cancel"
+                    size={32}
+                    color="white"
+                    onClick={() => dispatch(changeStateDrawer(!isOpenDrawer))}
+                />
+            </div>
             <Image
-                className="mx-auto my-8 desktop:hidden"
+                className="mx-auto my-8 cel:hidden tablet:block desktop:hidden"
                 alt="Sentria logo"
                 src={LogoSentria}
                 width={30}
 				height={26}
             />
+            <div
+				className="cel:flex tablet:hidden items-center mb-5 border-b-white border-b cel:py-4 tablet:py-0"
+				onClick={() => router.push("/profile")}
+			>
+				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center mr-3">
+					<Image src={Logo} alt="logo" width={20} height={20} />
+				</div>
+				<div className="flex flex-col">
+					<BodyTwo $color="white">
+						{t("greeting")}
+						{", "}
+						<BodyTwo $color={theme.colors.orange} className="text-primary font-semibold">
+							{user?.firstname}
+						</BodyTwo>
+					</BodyTwo>
+					<BodyTwo $color="white" className="flex flex-row items-center gap-1">
+						{t("last_update")}, <b>{format(date, "p")}</b>
+						<Icon icon="Reload" size={22} color="white" className="ml-5"/>
+					</BodyTwo>
+				</div>
+			</div>
 			<div className="flex-1">
 				{buttons.map((button) => (
 					<SideButton key={button.label} {...button} />

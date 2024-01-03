@@ -1,4 +1,3 @@
-import { useAuth } from "@infrastructure/containers/auth";
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
@@ -15,6 +14,8 @@ import theme from "@theme/index";
 import { format } from "date-fns";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "@infrastructure/store";
+import { changeStateDrawer } from "@infrastructure/store/layout/actions";
+import { useDispatch } from "react-redux";
 
 interface TopBarProps {
 	screen?: "dashboard" | "other";
@@ -23,16 +24,24 @@ interface TopBarProps {
 
 export default function Topbar(props: TopBarProps) {
 	const { screen, onPressGroupButton } = props;
-	const auth = useAuth();
 	const router = useRouter();
+    const dispatch = useDispatch();
 	const { t } = useTranslation("profile");
 	const date = new Date();
 	const { dashboard } = useSelector((state: RootState) => state.dashboard);
+    const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
+    const { user } = useSelector((state: RootState) => state.user);
 	const riskState = dashboard.today?.riskState;
+
 	return (
 		<div className="w-full h-20 flex justify-between items-center px-2 bg-white">
+            <div className="tablet:hidden flex gap-2 items-center " color="red">
+                <div className="w-12 h-12 rounded-full items-center flex justify-center" onClick={() => dispatch(changeStateDrawer(!isOpenDrawer))}>
+                    <Icon icon="bars" size={32}/>
+				</div>
+            </div>
 			<div
-				className="flex gap-2 items-center"
+				className="cel:hidden tablet:flex gap-2 items-center"
 				onClick={() => router.push("/profile")}
 			>
 				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center">
@@ -43,7 +52,7 @@ export default function Topbar(props: TopBarProps) {
 						{t("greeting")}
 						{", "}
 						<span className="text-primary font-semibold">
-							{auth.user?.firstname}
+							{user?.firstname}
 						</span>
 					</span>
 					<span className="flex flex-row items-center gap-1">
@@ -53,31 +62,33 @@ export default function Topbar(props: TopBarProps) {
 				</div>
 			</div>
 			{screen && (
-				<SwitchButton
-					textButtonLeft={
-						screen === "dashboard"
-							? "Eventos de hoy"
-							: "Eventos abiertos"
-					}
-					textButtonRight={
-						screen === "dashboard"
-							? "Eventos de ayer"
-							: "Eventos cerrados"
-					}
-					bgColor={
-						screen === "dashboard"
-							? theme.colors.orange30
-							: theme.colors.blue30
-					}
-					activeColor={
-						screen === "dashboard"
-							? theme.colors.orange
-							: theme.colors.blue50
-					}
-					handleSwitch={
-						onPressGroupButton ? onPressGroupButton : () => {}
-					}
-				/>
+                <div className="cel:hidden tablet:block">
+                    <SwitchButton
+                        textButtonLeft={
+                            screen === "dashboard"
+                                ? "Eventos de hoy"
+                                : "Eventos abiertos"
+                        }
+                        textButtonRight={
+                            screen === "dashboard"
+                                ? "Eventos de ayer"
+                                : "Eventos cerrados"
+                        }
+                        bgColor={
+                            screen === "dashboard"
+                                ? theme.colors.orange30
+                                : theme.colors.blue30
+                        }
+                        activeColor={
+                            screen === "dashboard"
+                                ? theme.colors.orange
+                                : theme.colors.blue50
+                        }
+                        handleSwitch={
+                            onPressGroupButton ? onPressGroupButton : () => {}
+                        }
+                    />
+                </div>
 			)}
 			<div className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">
 				<Image
