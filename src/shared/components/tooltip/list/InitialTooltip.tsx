@@ -26,7 +26,7 @@ const InitialTooltip = ({ visible }: props) => {
 	const styles = {
 		tooltip: {
 			width: "100%",
-			height: "342px",
+			height: "auto",
 		},
 	};
 	const dispatch = useAppDispatch();
@@ -53,7 +53,7 @@ const InitialTooltip = ({ visible }: props) => {
 				<TitleSecond>{t("has_init_guide")}</TitleSecond>
 				<ContentInitialTooltip>
 					<SecondaryButton
-						width={260}
+
 						onClick={() => {
 							localStorage.setItem("guide", "false");
 
@@ -66,7 +66,6 @@ const InitialTooltip = ({ visible }: props) => {
 						onClick={() =>
 							dispatch(setCurrentTooltip(currentTooltip + 1))
 						}
-						width={260}
 					>
 						{t("yes_guide")}
 					</PrimaryButton>
