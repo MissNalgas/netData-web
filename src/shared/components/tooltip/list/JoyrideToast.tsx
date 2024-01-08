@@ -19,7 +19,6 @@ export const JoyrideToast = () => {
     const dispatch = useDispatch();
     const { showTooltip } = useSelector((state: RootState) => state.tooltips);
     const helpers = useRef<StoreHelpers>();
-    // const [runJoyride, setRunJoyride] = useState(true);
 
     const handleClickHelper = (method: "next" | "prev" | "close") => {
         const { next, prev, skip } = helpers.current!;

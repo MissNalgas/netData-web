@@ -11,17 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@infrastructure/store";
 import InitialTooltip from "@shared/components/tooltip/list/InitialTooltip";
-// import SecondTooltip from "@shared/components/tooltip/list/SecondTooltip";
-// import ThirdTooltip from "@shared/components/tooltip/list/ThirdTooltip";
-// import FourTooltip from "@shared/components/tooltip/list/FourTooltip";
-// import FiveTooltip from "@shared/components/tooltip/list/FiveTooltip";
-// import SixTooltip from "@shared/components/tooltip/list/SixTooltip";
-// import SevenTooltip from "@shared/components/tooltip/list/SevenTooltip";
-// import EightTooltip from "@shared/components/tooltip/list/EightTooltip";
-// import NineTooltip from "@shared/components/tooltip/list/NineTooltip";
-// import TenTooltip from "@shared/components/tooltip/list/TenTooltip";
-// import ElevenTooltip from "@shared/components/tooltip/list/ElevenTooltip";
-// import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
@@ -106,18 +95,6 @@ export default function Dashboard() {
 	return (
 		<>
 			<InitialTooltip visible={currentTooltip === 0} />
-			{/* <FirstTooltip handleClickNext={handleClickRestart}/> */}
-			{/* <SecondTooltip visible={currentTooltip === 2} /> */}
-			{/*<ThirdTooltip visible={currentTooltip === 3} />
-			<FourTooltip visible={currentTooltip === 4} />
-			<FiveTooltip visible={currentTooltip === 5} />
-			<SixTooltip visible={currentTooltip === 6} />
-			<SevenTooltip visible={currentTooltip === 7} />
-			<EightTooltip visible={currentTooltip === 8} />
-			<NineTooltip visible={currentTooltip === 9} />
-			<TenTooltip visible={currentTooltip === 10} />
-			<ElevenTooltip visible={currentTooltip === 11} />
-			<TwelveTooltip visible={currentTooltip === 12} /> */}
 			<FinalTooltip visible={currentTooltip === 13} />
 			<Topbar screen="dashboard" onPressGroupButton={changeTime} />
             <JoyrideToast/>
