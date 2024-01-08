@@ -13,7 +13,7 @@ export default function EventsWeekCard(props: IGraphicWeek) {
     const { t } = useTranslation("dashboard");
 
     return (
-        <ContainerBackground className="my-4">
+        <ContainerBackground className="my-4" id="step-6">
             <ContainerFlex>
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
                 <Arrow action={() => {}} nameIcon="right-arrow"/>

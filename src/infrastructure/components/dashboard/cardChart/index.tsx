@@ -43,7 +43,7 @@ export default function CardChart() {
                 <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">{t("daily_watering_level")}</SubtitleLink>
                 <Arrow action={() => {}} nameIcon="right-arrow"/>
             </ContainerFlex>
-            <ContainerFlex className="items-center">
+            <ContainerFlex className="items-center" id="step-4">
                 <ExampleChart/>
                 <div className="flex-column">
                     {status.map((item, index) => (

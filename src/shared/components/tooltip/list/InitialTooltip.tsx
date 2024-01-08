@@ -53,10 +53,8 @@ const InitialTooltip = ({ visible }: props) => {
 				<TitleSecond>{t("has_init_guide")}</TitleSecond>
 				<ContentInitialTooltip>
 					<SecondaryButton
-
 						onClick={() => {
 							localStorage.setItem("guide", "false");
-
 							dispatch(hideTooltipModal());
 						}}
 					>

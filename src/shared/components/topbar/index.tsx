@@ -44,7 +44,7 @@ export default function Topbar(props: TopBarProps) {
 				className="cel:hidden tablet:flex gap-2 items-center"
 				onClick={() => router.push("/profile")}
 			>
-				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center">
+				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center" id="step-12">
 					<Image src={Logo} alt="logo" width={20} height={20} />
 				</div>
 				<div className="flex flex-col">
@@ -55,7 +55,7 @@ export default function Topbar(props: TopBarProps) {
 							{user?.firstname}
 						</span>
 					</span>
-					<span className="flex flex-row items-center gap-1">
+					<span className="flex flex-row items-center gap-1" id="step-2">
 						{t("last_update")}, <b>{format(date, "p")}</b>
 						<Icon icon="Reload" size={22} />
 					</span>
@@ -90,7 +90,7 @@ export default function Topbar(props: TopBarProps) {
                     />
                 </div>
 			)}
-			<div className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">
+			<div id="step-1" className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">
 				<Image
 					src={
 						(riskState === "Low" && Tree) ||

@@ -50,6 +50,7 @@ export default function Sidebar() {
 					icon: () => <Icon icon="Sentria" size={24} color="white" />,
 					onClick: () => router.push("/"),
 					isActive: matchesRegex(/^(\/|\/savings)$/),
+                    id: "step-8",
 				},
 				{
 					label: `${t("heatmap")}`,
@@ -58,6 +59,7 @@ export default function Sidebar() {
 					),
 					onClick: () => router.push("/heatmap"),
 					isActive: matchesRegex(/^\/heatmap$/),
+                    id: "step-9",
 				},
 				{
 					label: `${t("events")}`,
@@ -66,6 +68,7 @@ export default function Sidebar() {
 					),
 					onClick: () => router.push("/events"),
                     isActive: matchesRegex(/^\/events$/),
+                    id: "step-10",
 				},
 				{
 					label: `${t("notifications")}`,
@@ -84,6 +87,7 @@ export default function Sidebar() {
 					},
 					onClick: () => router.push("notifications"),
 					isActive: matchesRegex(/^\/notifications$/),
+                    id: "step-11",
 				},
 			] as ISideButton[],
 		[router, saveCountNotifications, t]
