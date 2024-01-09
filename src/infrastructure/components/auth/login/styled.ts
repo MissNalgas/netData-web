@@ -5,7 +5,7 @@ import { mq } from "theme";
 const ContentForm = styled.div`
 	${() =>
 		mq({
-			width: ["76%", "76%", "70%", "70%", "70%"],
+			width: ["76%", "76%", "60%", "60%", "60%"],
 		})}
 `;
 

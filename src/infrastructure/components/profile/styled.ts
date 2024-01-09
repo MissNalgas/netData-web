@@ -14,10 +14,13 @@ const ContentBody = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
+	margin-inline: auto;
+	width: 90%;
 	gap: 2%;
 	${() =>
 		mq({
 			flexDirection: ["column", "column", "row", "row", "row"],
+			width: ["100%", "100%", "90%", "90%", "90%"],
 		})}
 `;
 
