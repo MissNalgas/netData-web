@@ -86,7 +86,7 @@ export default function ProfileComponent(): JSX.Element {
 	const renderModal = () => {
 		return (
 			<ModalTooltip
-				typeModal="config"
+                tooltipStyles={{}}
 				isOpen={isOpen}
 				onActionModal={() => setIsOpen(!isOpen)}
 			>

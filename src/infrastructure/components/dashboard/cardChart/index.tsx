@@ -43,9 +43,9 @@ export default function CardChart() {
                 <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">{t("daily_watering_level")}</SubtitleLink>
                 <Arrow action={() => {}} nameIcon="right-arrow"/>
             </ContainerFlex>
-            <ContainerFlex className="items-center" id="step-4">
+            <div className="flex-column tablet:flex justify-between items-center" id="step-4">
                 <ExampleChart/>
-                <div className="flex-column">
+                <div className="grid gap-1 grid-cols-2 tablet:flex tablet:flex-col">
                     {status.map((item, index) => (
                         <div key={index} className={`flex border items-center my-5 mr-5 p-1 rounded-lg ${item.border}`}>
                             <CircleStatus internalColor={item.internalColor} externalColor={item.externalColor}/>
@@ -53,7 +53,7 @@ export default function CardChart() {
                         </div>
                     ))}
                 </div>
-            </ContainerFlex>
+            </div>
         </ContainerBackground>
     )
 }

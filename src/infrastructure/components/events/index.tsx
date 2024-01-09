@@ -21,7 +21,7 @@ export default function EventsTemplate() {
             <ContainerBackground className={`${selectedTicket === 0 ? "cel:block" : "cel:hidden"} tablet:block tablet:w-9/12 justify-center tablet:mr-8`}>
 				<div className="flex flex-col items-center mb-5">
                     <div className="flex w-full justify-between">
-                        <Arrow action={() => router.push("/")} nameIcon="left-arrow"/>
+                        <Arrow action={() => router.push("/")} nameIcon="left-arrow" showMore={false}/>
                         <div className="grid">
                             <SubtitleLink $weight={theme.fontWeight.bold} $center>
                                 {t("title_tickes")}
@@ -67,6 +67,7 @@ export default function EventsTemplate() {
 			</ContainerBackground>
 
 			<ContainerBackground className={`${selectedTicket > 0 ? "cel:block" : "cel:hidden"} tablet:block flex items-center flex-col justify-center`}>
+                <Arrow action={() => setSelectedTicket(0)} nameIcon="Cancel" className="tablet:hidden mb-5" showMore={false}/>
 				<Overline $weight={theme.fontWeight.bold}>
 					¡No hay ningún ticket seleccionado! {selectedTicket}
 				</Overline>
