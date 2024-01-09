@@ -6,17 +6,18 @@ import theme from "@theme/index";
 import CircleStatus from "@shared/components/circleStatus";
 import { useTranslation } from "react-i18next";
 import { IGraphicWeek } from "@domain/models";
-
+import { useRouter } from "next/navigation";
 
 export default function EventsWeekCard(props: IGraphicWeek) {
     const { open, closed } = props;
     const { t } = useTranslation("dashboard");
+    const router = useRouter();
 
     return (
         <ContainerBackground className="my-4" id="step-6">
             <ContainerFlex>
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
-                <Arrow action={() => {}} nameIcon="right-arrow"/>
+                <Arrow action={() => router.push("/events-cibersecurity")} nameIcon="right-arrow"/>
             </ContainerFlex>
             <ContainerFlex>
                 <ContainerFlex>
