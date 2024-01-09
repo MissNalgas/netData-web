@@ -27,17 +27,7 @@ class UserRepository implements IUserService {
 		 */
 		let messagingToken = "placeholder";
 
-		/*
-		 *
-		 *
-		 *
-		 * ! CAMBIAR ANTES DE HACER COMIIIIIIIIT
-		 *
-		 *
-		 *
-		 *
-		 */
-		if (!isMessagingSupported) {
+		if (isMessagingSupported) {
 			const messaging = getMessaging(firebaseApp);
 			messagingToken = await getToken(messaging, { vapidKey: VAPID_KEY });
 		}
