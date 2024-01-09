@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
 
-export const changeStateDrawer = createAction<boolean>(
-	"layout/changeStateDrawer"
-);
+export const openDrawer = createAction<boolean>("layout/openDrawer");
+
+export const closeDrawer = createAction<boolean>("layout/closeDrawer");

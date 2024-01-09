@@ -20,9 +20,10 @@ import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
+    handleStartTour: (_method: "open") => void;
 }
 
-const InitialTooltip = ({ visible }: props) => {
+const InitialTooltip = ({ visible, handleStartTour }: props) => {
 	const styles = {
 		tooltip: {
 			width: "100%",
@@ -61,9 +62,10 @@ const InitialTooltip = ({ visible }: props) => {
 						{t("no_guide")}
 					</SecondaryButton>
 					<PrimaryButton
-						onClick={() =>
-							dispatch(setCurrentTooltip(currentTooltip + 1))
-						}
+						onClick={() =>{
+                            dispatch(setCurrentTooltip(currentTooltip + 1))
+                            handleStartTour("open");
+                        }}
 					>
 						{t("yes_guide")}
 					</PrimaryButton>

@@ -10,8 +10,6 @@ import SavingMonthCard from "./savingMonthCard";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@infrastructure/store";
-import InitialTooltip from "@shared/components/tooltip/list/InitialTooltip";
-import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
 import { getDataDashboard, getDataGraphicDay, getDataGraphicWeek } from "@infrastructure/store/dashboard/actions";
@@ -30,6 +28,7 @@ export default function Dashboard() {
 	const [day, setDay] = useState<"today" | "yesterday">("today");
 	const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
 	const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
+    const joyrideRef = useRef();
 
 	useEffect(() => {
 		dispatch(getDataDashboard()).unwrap();
@@ -94,10 +93,8 @@ export default function Dashboard() {
 
 	return (
 		<>
-			<InitialTooltip visible={currentTooltip === 0} />
-			<FinalTooltip visible={currentTooltip === 13} />
 			<Topbar screen="dashboard" onPressGroupButton={changeTime} />
-            <JoyrideToast/>
+            <JoyrideToast joyrideRef={joyrideRef}/>
 			<div className="m-8 tablet:flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">

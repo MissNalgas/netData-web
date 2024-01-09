@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 interface props {
 	visible?: boolean;
-    handleClickHelper: (_method: "next" | "prev" | "close") => void;
+    handleClickHelper: (_method: "next" | "prev" | "close" | "open") => void;
     step?: number;
     description: ReactNode;
 }
@@ -36,7 +36,13 @@ const FirstTooltip = (props: props) => {
                     <Icon icon="right-arrow" size={30} />
                 </button>
             </ContentButtonMain>
-            <Overline $color="#F99E17" $center onClick={() => handleClickHelper("close")}>{t("close_guide")}</Overline>
+            <Overline
+                $color="#F99E17"
+                $center
+                onClick={() => handleClickHelper("close")}
+                className="cursor-pointer">
+                    {t("close_guide")}
+                </Overline>
         </>
 	);
 };

@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { matchesRegex } from "@shared/utils";
 import { getNotifications } from "@infrastructure/store/notifications/actions";
 import LogoSentria from "/public/img/logo-sentria.png";
-import { changeStateDrawer } from "@infrastructure/store/layout/actions";
+import { closeDrawer } from "@infrastructure/store/layout/actions";
 import { useSelector } from "react-redux";
 import { RootState } from "@infrastructure/store";
 import Logo from "/public/img/logo-sentria.png";
@@ -30,7 +30,6 @@ export default function Sidebar() {
 	const { show } = ContactComponent();
 	const [saveCountNotifications, saveCountNotificationsSet] = useState(0);
     const { user } = useSelector((state: RootState) => state.user);
-    const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
 	const notificationsData = useTypedSelector((state) => state.notifications);
 
 	const countNotifications = useMemo(
@@ -48,7 +47,7 @@ export default function Sidebar() {
 				{
 					label: `${t("dashboard")}`,
 					icon: () => <Icon icon="Sentria" size={24} color="white" />,
-					onClick: () => router.push("/"),
+					onClick: () => {router.push("/"); dispatch(closeDrawer(false))},
 					isActive: matchesRegex(/^(\/|\/savings)$/),
                     id: "step-8",
 				},
@@ -57,7 +56,7 @@ export default function Sidebar() {
 					icon: () => (
 						<Icon icon="temperature" size={24} color="white" />
 					),
-					onClick: () => router.push("/heatmap"),
+					onClick: () => {router.push("/heatmap"); dispatch(closeDrawer(false))},
 					isActive: matchesRegex(/^\/heatmap$/),
                     id: "step-9",
 				},
@@ -66,7 +65,7 @@ export default function Sidebar() {
 					icon: () => (
 						<Icon icon="bar-graph" size={24} color="white" />
 					),
-					onClick: () => router.push("/events"),
+					onClick: () => {router.push("/events"); dispatch(closeDrawer(false))},
                     isActive: matchesRegex(/^\/events$/),
                     id: "step-10",
 				},
@@ -85,12 +84,12 @@ export default function Sidebar() {
 							</div>
 						);
 					},
-					onClick: () => router.push("notifications"),
+					onClick: () => {router.push("notifications"); dispatch(closeDrawer(false))},
 					isActive: matchesRegex(/^\/notifications$/),
                     id: "step-11",
 				},
 			] as ISideButton[],
-		[router, saveCountNotifications, t]
+		[router, saveCountNotifications, t, dispatch]
 	);
 
 	const bottomButtons = useMemo(
@@ -101,12 +100,13 @@ export default function Sidebar() {
 				onClick: () => {
 					router.push("/");
 					dispatch(showTooltipModal());
+                    dispatch(closeDrawer(false))
 				},
 			},
 			{
 				label: `${t("message_sentria")}`,
 				icon: () => <Icon icon="Paper-Plane" size={24} color="white" />,
-				onClick: () => show(),
+				onClick: () => {show(); dispatch(closeDrawer(false))},
 			},
 		],
 		[dispatch, router, show, t]
@@ -127,7 +127,7 @@ export default function Sidebar() {
                     icon="Cancel"
                     size={32}
                     color="white"
-                    onClick={() => dispatch(changeStateDrawer(!isOpenDrawer))}
+                    onClick={() => dispatch(closeDrawer(false))}
                 />
             </div>
             <Image
@@ -139,8 +139,8 @@ export default function Sidebar() {
             />
             <div
 				className="cel:flex tablet:hidden items-center mb-5 border-b-white border-b cel:py-4 tablet:py-0"
-				onClick={() => router.push("/profile")}
-			>
+				onClick={() => {router.push("/profile"); dispatch(closeDrawer(false))}}
+                >
 				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center mr-3">
 					<Image src={Logo} alt="logo" width={20} height={20} />
 				</div>

@@ -16,7 +16,7 @@ import {
 	SubtitleLink,
 } from "@shared/components/labels/styled";
 
-import Modal from "@shared/components/modal";
+import ModalTooltip from "@shared/components/modalTooltip";
 import Logo from "/public/img/logo-sentria.png";
 
 import {
@@ -85,7 +85,7 @@ export default function ProfileComponent(): JSX.Element {
 
 	const renderModal = () => {
 		return (
-			<Modal
+			<ModalTooltip
 				typeModal="config"
 				isOpen={isOpen}
 				onActionModal={() => setIsOpen(!isOpen)}
@@ -139,7 +139,7 @@ export default function ProfileComponent(): JSX.Element {
 						</SecondaryButton>
 					</div>
 				</ContentCardModalItem>
-			</Modal>
+			</ModalTooltip>
 		);
 	};
 	return (

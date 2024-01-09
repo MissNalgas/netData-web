@@ -14,7 +14,7 @@ import theme from "@theme/index";
 import { format } from "date-fns";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "@infrastructure/store";
-import { changeStateDrawer } from "@infrastructure/store/layout/actions";
+import { openDrawer } from "@infrastructure/store/layout/actions";
 import { useDispatch } from "react-redux";
 
 interface TopBarProps {
@@ -29,14 +29,13 @@ export default function Topbar(props: TopBarProps) {
 	const { t } = useTranslation("profile");
 	const date = new Date();
 	const { dashboard } = useSelector((state: RootState) => state.dashboard);
-    const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
     const { user } = useSelector((state: RootState) => state.user);
 	const riskState = dashboard.today?.riskState;
 
 	return (
 		<div className="w-full h-20 flex justify-between items-center px-2 bg-white">
             <div className="tablet:hidden flex gap-2 items-center " color="red">
-                <div className="w-12 h-12 rounded-full items-center flex justify-center" onClick={() => dispatch(changeStateDrawer(!isOpenDrawer))}>
+                <div className="w-12 h-12 rounded-full items-center flex justify-center" onClick={() => dispatch(openDrawer(true))}>
                     <Icon icon="bars" size={32}/>
 				</div>
             </div>

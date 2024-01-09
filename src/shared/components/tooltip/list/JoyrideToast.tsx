@@ -3,7 +3,7 @@ import FirstTooltip from "./FirstTooltip";
 import { useTranslation } from "react-i18next";
 import { Overline } from "@shared/components/labels/styled";
 import Icon from "@shared/components/icons";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import alarm from "/public/img/alarm_icon.png";
 import fire from "/public/img/fire_1.png";
@@ -12,16 +12,27 @@ import clock from "/public/img/clock 1.png";
 import { useDispatch, useSelector } from "react-redux";
 import { hideTooltipModal, setCurrentTooltip } from "../slice";
 import { RootState } from "@infrastructure/store";
+import InitialTooltip from "./InitialTooltip";
+import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 
-export const JoyrideToast = () => {
+interface JoyrideProps {
+    joyrideRef?: any;
+}
+
+export const JoyrideToast = (props: JoyrideProps) => {
+    const { joyrideRef } = props;
     const { t:guide } = useTranslation("guide");
     const [step, setStep] = useState(0);
     const dispatch = useDispatch();
     const { showTooltip } = useSelector((state: RootState) => state.tooltips);
     const helpers = useRef<StoreHelpers>();
+    const { currentTooltip } = useSelector(
+		(state: RootState) => state.tooltips
+	);
 
-    const handleClickHelper = (method: "next" | "prev" | "close") => {
-        const { next, prev, skip } = helpers.current!;
+    const handleClickHelper = (method: "next" | "prev" | "close" | "open") => {
+        const { next, prev, skip, open } = helpers.current!;
+
         switch (method) {
             case "next":
                 next();
@@ -33,6 +44,8 @@ export const JoyrideToast = () => {
                 skip();
                 dispatch(hideTooltipModal());
                 break;
+            case "open":
+                open()
         }
     };
 
@@ -236,27 +249,35 @@ export const JoyrideToast = () => {
     };
 
     return (
-        <Joyride
-            steps={joyrideSteps}
-            run={showTooltip}
-            continuous
-            spotlightClicks={false}
-            getHelpers={setHelpers}
-            callback={handleJoyrideCallback}
-            hideCloseButton={true}
-            disableOverlayClose={true}
-            hideBackButton={true}
-            showSkipButton={false}
-            styles={{
-                options: {
-                    zIndex: 10000,
-                },
-                tooltip: {
-                    borderRadius: 30,
-                    padding: 7,
-                    paddingTop: 0,
-                },
-            }}
-        />
+        <>
+            <InitialTooltip visible={currentTooltip === 0} handleStartTour={handleClickHelper}/>
+            <FinalTooltip visible={currentTooltip === 13} />
+            <Joyride
+                ref={joyrideRef}
+                steps={joyrideSteps}
+                run={showTooltip}
+                continuous
+                spotlightClicks={false}
+                getHelpers={setHelpers}
+                callback={handleJoyrideCallback}
+                hideCloseButton={true}
+                disableOverlayClose={true}
+                hideBackButton={true}
+                showSkipButton={false}
+                styles={{
+                    options: {
+                        zIndex: 10000,
+                    },
+                    tooltip: {
+                        borderRadius: 30,
+                        padding: 7,
+                        paddingTop: 0,
+                    },
+                    beacon: {
+                        display: "none",
+                    },
+                }}
+            />
+        </>
     )
 }
