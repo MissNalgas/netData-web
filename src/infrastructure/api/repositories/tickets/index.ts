@@ -106,7 +106,7 @@ class TicketRepository implements ITicketService {
 	async getTicketPerCategory(): Promise<ITicketPerCategory> {
 		//@todo - Remove mock data
 		return TicketAdapter.ticketPerCategoryFromDTO({
-			categories_es: ["Categoria 1", "Categoria 2"],
+			categories_es: ["Categoría 1", "Categoría 2"],
 			categories_en: ["Category 1", "Category 2"],
 			count: [4, 3],
 		});

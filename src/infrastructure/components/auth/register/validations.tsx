@@ -14,7 +14,7 @@ interface IRegisterEmail {
 }
 
 type TProps = {
-	changeStep: (_step: 1 | 2 | 3 | 4 | 5) => void;
+	changeStep: (_step: 1 | 2 | 3 | 4 ) => void;
 };
 
 export default function ValidationsRegister(props: TProps) {

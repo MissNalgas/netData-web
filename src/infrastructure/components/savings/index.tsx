@@ -20,7 +20,7 @@ export default function SavingsTemplate() {
 					<Link href="/" className="absolute top-4 left-4 bg-gray-200 rounded-full">
 						<Icon icon="left-arrow" size="32"/>
 					</Link>
-					<h1 className="font-bold text-2xl text-white text-center">{t("last_month_savings")}</h1>
+					<h1 className="font-bold text-2xl text-white text-center mx-8 my-4">{t("last_month_savings")}</h1>
 					<div className="card p-4 flex items-center gap-2 absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-max">
 						<Image className="bg-gray-100 rounded-lg" src="/img/money 1.png" alt="Money" width={50} height={55}/>
 						<h2 className="text-4xl font-bold">{currencyFormat(saving?.f)} <span className="text-xl">USD</span></h2>
@@ -30,7 +30,7 @@ export default function SavingsTemplate() {
 					<div className="card p-4 py-8">
 						<h2 className="text-2xl text-gray50 font-bold text-center">{t("keep_in_mind")}</h2>
 					</div>
-					<div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+					<div className="grid gap-4 grid-cols-1 laptop:grid-cols-2">
 						<div className="flex flex-col gap-4">
 							<div className="card p-4 flex items-center gap-2">
 								<Image src="/img/Diseño sin título (4) 1.png" width={63} height={63} alt="Gear image"/>

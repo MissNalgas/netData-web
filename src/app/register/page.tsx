@@ -6,9 +6,9 @@ import { NextPage } from "next";
 import { useState } from "react";
 
 const Register: NextPage = () => {
-    const [changeAction, setChangeAction] = useState<1 | 2 | 3 	| 4 | 5>(1);
+    const [changeAction, setChangeAction] = useState<1 | 2 | 3 	| 4 >(1);
 
-	const handleActionButtonClick = (numberComponent: 1 | 2 | 3	| 4 | 5) => {
+	const handleActionButtonClick = (numberComponent: 1 | 2 | 3	| 4) => {
 		setChangeAction(numberComponent);
 	};
 

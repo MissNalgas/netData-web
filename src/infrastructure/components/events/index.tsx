@@ -9,17 +9,19 @@ import alarm from "/public/img/alarm_icon.png";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import ColorGuide from "@shared/components/colorGuide";
+import { useState } from "react";
 
 export default function EventsTemplate() {
     const router = useRouter();
     const { t } = useTranslation("events_today");
+    const [selectedTicket, setSelectedTicket] = useState(0);
 
     return(
-        <div className="flex space-between mx-5 py-8 h-screen mb-32">
-            <ContainerBackground className="grow justify-center mr-8">
+        <div className="tablet:flex space-between mx-5 py-8 h-screen mb-32">
+            <ContainerBackground className={`${selectedTicket === 0 ? "cel:block" : "cel:hidden"} tablet:block tablet:w-9/12 justify-center tablet:mr-8`}>
 				<div className="flex flex-col items-center mb-5">
                     <div className="flex w-full justify-between">
-                        <Arrow action={() => router.push("/")} nameIcon="left-arrow"/>
+                        <Arrow action={() => router.push("/")} nameIcon="left-arrow" showMore={false}/>
                         <div className="grid">
                             <SubtitleLink $weight={theme.fontWeight.bold} $center>
                                 {t("title_tickes")}
@@ -43,27 +45,31 @@ export default function EventsTemplate() {
 					textLeft="ID 4849384"
 					textRight="10:00am"
                     textCenter="Exfiltration"
-                    classContainer="bg-green10"
+                    classContainer="bg-green10 cursor-pointer"
+                    onClick={() => setSelectedTicket(2)}
 				/>
                 <InformationCard
                     imageLeft={magnet}
 					textLeft="ID 4849384"
 					textRight="10:00am"
                     textCenter="Exfiltration"
-                    classContainer="bg-shadow20"
+                    classContainer="bg-shadow20 cursor-pointer"
+                    onClick={() => setSelectedTicket(3)}
 				/>
                 <InformationCard
                     imageLeft={magnet}
 					textLeft="ID 4849384"
 					textRight="10:00am"
                     textCenter="Exfiltration"
-                    classContainer="bg-red10"
+                    classContainer="bg-red10 cursor-pointer"
+                    onClick={() => setSelectedTicket(4)}
 				/>
 			</ContainerBackground>
 
-			<ContainerBackground className="flex items-center flex-col justify-center">
+			<ContainerBackground className={`${selectedTicket > 0 ? "cel:block" : "cel:hidden"} tablet:block flex items-center flex-col justify-center`}>
+                <Arrow action={() => setSelectedTicket(0)} nameIcon="Cancel" className="tablet:hidden mb-5" showMore={false}/>
 				<Overline $weight={theme.fontWeight.bold}>
-					¡No hay ningún ticket seleccionado!
+					¡No hay ningún ticket seleccionado! {selectedTicket}
 				</Overline>
 			</ContainerBackground>
         </div>

@@ -14,8 +14,8 @@ export default function IncidentsCard(props: IncidentsCardProps) {
     const { textDescription, numIncidents } = props;
 
     return (
-        <ContainerBackground className="flex mb-4 items-center">
-            <div className="bg-shadow20 rounded-xl p-2">
+        <ContainerBackground className="flex mb-4 items-center" id="step-3">
+            <div className="bg-shadow20 rounded-xl p-2" id="step-2">
                 <Image src={Risk} alt="risk" width={82}/>
             </div>
             <CaptionTwo className="wrap mx-2 ml-4" $weight={theme.fontWeight.bold}>{textDescription}</CaptionTwo>
