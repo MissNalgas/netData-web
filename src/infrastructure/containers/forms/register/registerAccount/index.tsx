@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { schemaRegisterAccount } from "./validation-schema";
 import TextInput from "@shared/components/textInput";
 import {
 	PrimaryButton,
 } from "@shared/components/buttons/styled";
 import RequirePassword from "@shared/components/requirePassword";
+import { useTranslation } from "react-i18next";
 interface IRegisterAccount {
 	name: string;
     lastName: string;
@@ -15,55 +16,83 @@ interface IRegisterAccount {
 }
 
 export default function RegisterAccountForm({ onSubmit }: RegisterAccountFormProps) {
-	const { handleSubmit } = useForm<IRegisterAccount>({
+    const { t } = useTranslation("register");
+
+    const {
+        control,
+        handleSubmit,
+        register,
+        formState: { errors, isValid },
+    } = useForm<IRegisterAccount>({
+        mode: "all",
 		resolver: yupResolver(schemaRegisterAccount),
+        criteriaMode: "all",
 	});
     const isError = false;
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
-			<TextInput
-				name="name"
-				label="Nombres"
-				placeholder="Nombres"
-				icon="account"
-                require={true}
-			/>
-			<TextInput
-				name="lastName"
-				label="Apellidos"
-				placeholder="Apellidos"
-				icon="message"
-                require={true}
-			/>
-            <TextInput
-				name="company"
-				label="Compañia"
-				placeholder="Compañia"
-				icon="office-building"
-                require={true}
-			/>
-            <TextInput
-				label="Contraseña"
-				name="password"
-				icon="lock-key"
-                type="password"
-				placeholder="Nueva contraseña"
-                iconright="eye"
-                require={true}
-			/>
-            <TextInput
-				label="Confirma tu contraseña"
-				name="repeatPassword"
-				icon="lock-key"
-                type="password"
-				placeholder="Confirma tu contraseña"
-                iconright="eye"
-                require={true}
-			/>
+            <Controller
+                control={control}
+                name="name"
+                render={({ field }) => (
+                    <TextInput
+                        name={field.name}
+                        label={t("names")}
+                        placeholder={t("names")}
+                        icon="account"
+                        type="text"
+                        error={errors.name?.message}
+                        onChange={(e) => field.onChange(e)}
+                    />
+                )}/>
+            <Controller
+                control={control}
+                name="lastName"
+                render={({ field }) => (
+                    <TextInput
+                        name={field.name}
+                        label={t("last_name")}
+                        placeholder={t("last_name")}
+                        icon="message"
+                        error={errors.lastName?.message}
+                        onChange={(e) => field.onChange(e)}
+                    />
+                )}/>
+            <Controller
+                control={control}
+                name="company"
+                render={({ field }) => (
+                    <TextInput
+                        name={field.name}
+                        label={t("company_name")}
+                        placeholder={t("company_name")}
+                        icon="office-building"
+                        error={errors.company?.message}
+                        onChange={(e) => field.onChange(e)}
+                    />
+                )}/>
+                <TextInput
+                    placeholder={`${t("new_password")}`}
+                    icon="lock-key"
+                    iconright="eye"
+                    type="password"
+                    label={t("password")}
+                    error={errors.password?.message}
+                    {...register("password")}
+                />
+                <TextInput
+                    placeholder={t("confirm_password")}
+                    icon="lock-key"
+                    iconright="eye"
+                    type="password"
+                    label={t("confirm_password")}
+                    error={errors.repeatPassword?.message}
+                    {...register("repeatPassword")}
+                />
             <RequirePassword isError={isError}/>
-			<PrimaryButton type="submit" className="w-full">
-				Siguiente
+			<PrimaryButton type="submit" className="w-full" disabled={!isValid}>
+				{t("next")}
 			</PrimaryButton>
 		</form>
 	);

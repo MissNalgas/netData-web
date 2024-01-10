@@ -1,0 +1,14 @@
+{
+	"last_month_savings": "Your service savings from the last month",
+	"keep_in_mind": "Keep in mind that...",
+	"saving_month": "Monthly savings",
+	"calculate_with_operation": "is calculated with the following operation",
+	"last_tickets": "Tickets from the last 30 days: ",
+	"investigation_hour": "Investigation hour per ticket: ",
+	"hour_work_month": "Working hours in the month:",
+	"number_agents": "Number of agents needed:",
+	"agent_month_value": "Monthly value per agent:",
+	"sanvingUSD": "Savings in USD",
+	"hours": "hours",
+	"agent": "agents"
+}

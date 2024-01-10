@@ -2,6 +2,11 @@ export interface IXelcoInscriptionDTO {
 	response?: string;
 }
 
+export interface IXelcoErrorDTO {
+	code: string;
+	name: string;
+}
+
 export interface IXelcoLoginDTO {
 	idToken?: {
 		jwtToken?: string;

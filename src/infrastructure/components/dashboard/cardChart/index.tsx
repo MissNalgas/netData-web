@@ -6,29 +6,31 @@ import ExampleChart from "@app/chart/example/component";
 import CircleStatus from "@shared/components/circleStatus";
 import theme from "@theme/index";
 import colors from "@theme/colors";
+import { useTranslation } from "next-i18next";
 
 export default function CardChart() {
+    const { t } = useTranslation("dashboard")
 
     const status = [{
-        state: "Bajo",
+        state: `${t("low")}`,
         internalColor: "bg-green40",
         externalColor: "bg-green20",
         border: "border-green40",
         color: colors.green40,
     }, {
-        state: "Medio",
+        state: `${t("medium")}`,
         internalColor: "bg-purple50",
         externalColor: "bg-purple20",
         border: "border-purple50",
         color: colors.purple50,
     }, {
-        state: "Alto",
+        state: `${t("high")}`,
         internalColor: "bg-orange50",
         externalColor: "bg-orange20",
         border: "border-orange50",
         color: colors.orange50,
     }, {
-        state: "Urgente",
+        state: `${t("urgent")}`,
         internalColor: "bg-red40",
         externalColor: "bg-red20",
         border: "border-red40",
@@ -38,7 +40,7 @@ export default function CardChart() {
     return (
         <ContainerBackground className="grow">
             <ContainerFlex className="items-center">
-                <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">Nivel de riesgo diario</SubtitleLink>
+                <SubtitleLink $weight={theme.fontWeight.bold} className="my-5 block">{t("daily_watering_level")}</SubtitleLink>
                 <Arrow action={() => {}} nameIcon="right-arrow"/>
             </ContainerFlex>
             <ContainerFlex className="items-center">

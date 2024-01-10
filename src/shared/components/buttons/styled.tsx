@@ -9,20 +9,22 @@ type ButtonProps = {
 	borderColor?: string;
 	boxShadow?: string;
 	width?: number;
+	height?: number;
 };
 
 export const PrimaryButton = styled.button<ButtonProps>`
 	background: ${({ background }) => background ?? colors.orange50};
 	border-width: ${({ borderWidth }) => borderWidth || 0};
 	border-color: ${({ borderColor }) => borderColor ?? colors.white};
-	border-radius: 4px;
+	border-radius: 8px;
 	padding: 8px 12px;
 	color: ${({ color }) => color ?? colors.white};
 	font-size: ${({ theme }) => theme.fontSize.overline};
 	width: ${({ width }) => width || 100}%;
+	height: ${({ height }) => height || 100}%;
 	align-items: center;
 	justify-content: center;
-	margin: 5px 0 5px;
+	margin: 5px 4px 5px;
 	pointer-events: ${(props) => (props.disabled ? "none" : null)};
 	&:hover {
 		background: ${colors.orange};
@@ -42,11 +44,12 @@ export const SecondaryButton = styled.button<ButtonProps>`
 	border-width: ${({ borderWidth }) => borderWidth || "thin"};
 	color: ${({ color }) => color ?? colors.orange};
 	padding: 8px 12px;
-	border-radius: 4px;
+	border-radius: 8px;
 	align-items: center;
 	justify-content: center;
 	width: ${({ width }) => width || 100}%;
-	margin: 5px 0 5px;
+	height: ${({ height }) => height || 100}%;
+	margin: 5px 3px 5px;
 	pointer-events: ${(props) => (props.disabled ? "none" : null)};
 	&:hover {
 		border-color: ${colors.orange};

@@ -3,4 +3,5 @@ export type IUser = {
 	firstname: string;
 	lastname: string;
 	token: string;
+	company: any;
 };

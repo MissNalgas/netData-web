@@ -1,39 +1,166 @@
 import ContainerBackground from "@shared/components/containerBackground";
 import InformationCard from "@shared/components/informationCard";
-import { CaptionTwo, Overline } from "@shared/components/labels/styled";
+import {
+	CaptionTwo,
+	Overline,
+	TitleSecond,
+} from "@shared/components/labels/styled";
 import theme from "@theme/index";
 import Fire from "/public/img/fire_1.png";
 import Alarm from "/public/img/alarm_icon.png";
+import Tree from "/public/img/tree 1.png";
+import Clock from "/public/img/clock 1.png";
+
+import { useAppDispatch } from "@hooks/use-dispatch";
+import { useTypedSelector } from "@hooks/index";
+import { getNotifications } from "@infrastructure/store/notifications/actions";
+import { useEffect, useState } from "react";
+import LoaderComponent from "@shared/components/loader";
+import { NotificationItem } from "@infrastructure/store/notifications/types";
+import { format } from "date-fns";
+import { es, enUS } from "date-fns/locale";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { getFormattedDate, pagination } from "@shared/utils";
+import Pagination from "@shared/components/pagination";
+import TicketDetail from "../heatmap/ticketDetail";
+import { ITicket } from "@domain/models";
+import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
+import { useTicketDetail } from "@infrastructure/api/hooks";
 
 export default function NotificationsComponent() {
-    return (
-        <div className="flex space-between mx-5 py-8 h-screen mb-32">
-            <ContainerBackground className="grow justify-center mr-8">
-                <div className="flex flex-col items-center mb-5">
-                    <Overline $weight={theme.fontWeight.bold} $center>Tus notificaciones</Overline>
-                    <CaptionTwo>De último mes</CaptionTwo>
-                    <CaptionTwo $weight={theme.fontWeight.semiBold} className="mt-3">24 de Marzo de 2022</CaptionTwo>
-                </div>
-                <InformationCard
-                    textLeft="Se ha creado un ticker nuevo"
-                    textRight="ID 4759485"
-                />
-                <InformationCard
-                    textLeft="Se ha creado un ticker nuevo"
-                    textRight="ID 4759485"
-                />
-                <InformationCard
-                    imageLeft={Alarm}
-                    textLeft="¡Cuidado! manejas un nivel de riesgo alto"
-                />
-                <InformationCard
-                    imageLeft={Fire}
-                    textLeft="¡Alerta! manejas un nivel de riesgo de urgente revisión"
-                />
-            </ContainerBackground>
-            <ContainerBackground className="flex items-center">
-                <Overline $weight={theme.fontWeight.bold}>¡No hay ningún ticket seleccionado!</Overline>
-            </ContainerBackground>
-        </div>
-    )
+	const dispatch = useAppDispatch();
+	const notificationsData = useTypedSelector((state) => state.notifications);
+	const { t, i18n } = useTranslation("notifications");
+	const [page, setPage] = useState<number>(1);
+	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+	const data = useTicketDetail("INC-131490", 131490);
+	//delete
+	/* eslint-disable no-console */
+	console.log("data Ticket", data);
+	const selectTicket = (ticket: ITicket) => {
+		setSelectedTicket(ticket);
+	};
+
+	useEffect(() => {
+		dispatch(getNotifications()).unwrap();
+		if (notificationsData.error) {
+			toast.error(t("token_expired"));
+		}
+	}, [dispatch, notificationsData.error, t]);
+	const date = new Date();
+
+	const listNotifications = [...notificationsData.data]
+		.sort(
+			(a, b) =>
+				new Date(b.created_at).getTime() -
+				new Date(a.created_at).getTime()
+		)
+		.reduce((prev: any, curr: any) => {
+			let index = getFormattedDate(
+				new Date(curr.created_at),
+				i18n.language
+			);
+			prev[index] !== undefined
+				? prev[index].push(curr)
+				: (prev[index] = [curr]);
+			return prev;
+		}, {});
+
+	const paginationData = pagination(Object.keys(listNotifications), 5);
+	const renderNotifications = () => {
+		const currentPageData = paginationData[page - 1] || [];
+
+		if (currentPageData.length > 0) {
+			return currentPageData.map((date: any) => (
+				<div key={date}>
+					<h1>{date}</h1>
+					{listNotifications[date].map(
+						(notification: NotificationItem) => (
+							<div
+								key={notification.id}
+								onClick={() => {
+									if (notification.ticket_id) {
+										return selectTicket(
+											notification.ticket_id
+										);
+									}
+								}}
+							>
+								<InformationCard
+									imageLeft={
+										(notification.risk === "Low" && Tree) ||
+										(notification.risk === "Urgent" &&
+											Fire) ||
+										(notification.risk === "High" &&
+											Alarm) ||
+										(notification.risk === "Medium" &&
+											Clock) ||
+										Fire
+									}
+									textLeft={notification.message_body}
+									textRight={notification.ticket_id}
+									showIconLeft={
+										notification.ticket_id && true
+									}
+								/>
+							</div>
+						)
+					)}
+				</div>
+			));
+		} else {
+			return currentPageData.length === 0 ? (
+				<Overline $weight={theme.fontWeight.bold}>
+					{t("you_do_not_have_any_notifications")}
+				</Overline>
+			) : (
+				<LoaderComponent />
+			);
+		}
+	};
+
+	return (
+		<TwoColumnLayout>
+			<ContainerBackground className="grow justify-center mr-8">
+				<div className="flex flex-col items-center mb-5">
+					<Overline $weight={theme.fontWeight.bold} $center>
+						{t("your_notifications")}
+					</Overline>
+					<CaptionTwo>{t("from_last_week")}</CaptionTwo>
+					<CaptionTwo
+						$weight={theme.fontWeight.semiBold}
+						className="mt-3"
+					>
+						{format(date, "dd 'de' MMMM 'de' yyyy", {
+							locale: i18n.language === "en" ? enUS : es,
+						})}
+					</CaptionTwo>
+				</div>
+				<div className="flex flex-col justify-around h-[42rem]">
+					<div>{renderNotifications()}</div>
+					<div className="items-center flex justify-center">
+						<Pagination
+							selectedPage={page}
+							setSelectedPage={setPage}
+							totalPages={paginationData.length}
+						/>
+					</div>
+				</div>
+			</ContainerBackground>
+
+			<ContainerBackground className="flex items-center flex-col justify-center">
+				{selectedTicket ? (
+					<TicketDetail
+						onClose={() => setSelectedTicket(null)}
+						ticket={selectedTicket}
+					/>
+				) : (
+					<TitleSecond $weight={theme.fontWeight.bold} $center>
+						{t("no_tickets_selected")}
+					</TitleSecond>
+				)}
+			</ContainerBackground>
+		</TwoColumnLayout>
+	);
 }

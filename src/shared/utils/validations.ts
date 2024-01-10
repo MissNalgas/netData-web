@@ -20,24 +20,36 @@ export const textValidation = <T extends boolean>(
 	return schema as TextValidationResult<T>;
 };
 
-export const emailValidation = () => textValidation(true).email();
+export const emailValidation = () => textValidation(true).email().required();
 export const passwordValidation = () =>
 	textValidation(true).min(6).matches(passwordRegex);
 const validationPassword = yup.object().shape({
 	password: yup
 		.string()
-		.min(8, "Mínimo 8 caracteres")
-		.matches(/[A-Z]/, "Al menos una mayúscula")
-		.matches(/[a-z]/, "Al menos una minúscula")
-		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
-		.matches(/[0-9]/, "Al menos un número"),
+		.min(8, "min_8_charcters")
+		.matches(/[A-Z]/, "min_uppercase")
+		.matches(/[a-z]/, "min_lowercase")
+		.matches(/[!?"@#]/, "min_especial_character")
+		.matches(/[0-9]/, "min_number"),
 	repeatPassword: yup
 		.string()
-		.min(8, "Mínimo 8 caracteres")
-		.matches(/[A-Z]/, "Al menos una mayúscula")
-		.matches(/[a-z]/, "Al menos una minúscula")
-		.matches(/[!?"@#]/, 'Al menos un carácter especial (!"?@#)')
-		.matches(/[0-9]/, "Al menos un número")
+		.min(8, "min_8_charcters")
+		.matches(/[A-Z]/, "min_uppercase")
+		.matches(/[a-z]/, "min_lowercase")
+		.matches(/[!?"@#]/, "min_especial_character")
+		.matches(/[0-9]/, "min_number")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma"),
 });
-export { charactersOnlyEmail, numbersOnly, validationPassword };
+
+const affair = yup.string().max(100).required();
+const message = yup.string().max(500).required();
+const reply = yup.string().max(500).required();
+
+export {
+	charactersOnlyEmail,
+	numbersOnly,
+	validationPassword,
+	affair,
+	message,
+	reply,
+};

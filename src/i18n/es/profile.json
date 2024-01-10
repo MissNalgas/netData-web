@@ -1,0 +1,21 @@
+{
+	"greeting": "Hola",
+	"help_guide": "Guía de ayuda",
+	"notifications": "Notificaciones",
+	"report": "Reportar problemas de la app",
+	"delete_account": "Eliminar cuenta",
+	"last_update": "Última actualización",
+	"message_sent": "Mensaje enviado",
+	"message_error": "Upss... ha ocurrido un error",
+	"language": "Idioma",
+	"es": "Español",
+	"en": "Ingles",
+	"contact": "¿Tienes algún problema con el funcionamiento de la app? envíanos un mensaje y pronto nos pondremos en contacto contigo.",
+	"contactForm": {
+		"affair": "Asunto",
+		"writeYourMessage": "Escribe aquí",
+		"yourMessage": "Tu Mensaje",
+		"send": "Enviar"
+	},
+	"message_deleted": "Cuenta eliminada"
+}

@@ -1,0 +1,13 @@
+{
+	"category": "Category",
+	"status": "Status",
+	"risk": "Risk",
+	"date": "Date",
+	"apply_filters": "Apply filters",
+	"open": "Open",
+	"closed": "Closed",
+	"low": "Low",
+	"medium": "Medium",
+	"high": "High",
+	"urgent": "Urgent"
+}

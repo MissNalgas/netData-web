@@ -4,23 +4,23 @@ import { StaticImageData } from "next/image";
 
 interface IEventCardProps {
     image: StaticImageData;
-    number: string | number;
     title: string;
     description: string;
+    ticketsCount: number;
 }
 
 export default function EventCard(props: IEventCardProps) {
-    const {image, number, title, description} = props;
+    const {image, title, description, ticketsCount} = props;
 
     return (
-        <div className="border border-orange50 rounded-2xl p-3 w-44 h-full">
+        <div className="border border-orange50 rounded-2xl p-3 w-44 h-full pb-10">
             <Container>
                 <ImageContainer>
                     <Photo src={image} alt="event" />
                 </ImageContainer>
                 <BadgeContainer>
                     <div className="bg-blue20 rounded-full p-2 px-3">
-                        {number}
+                        {ticketsCount}
                     </div>
                 </BadgeContainer>
             </Container>

@@ -6,7 +6,9 @@ import { useRouter } from "next/navigation";
 
 import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
-interface IForgotPassword {
+import { useTranslation } from "react-i18next";
+
+export interface IForgotPassword {
 	email: string;
 }
 
@@ -17,29 +19,35 @@ const schema = yup.object({
 export default function ForgotPasswordForm({
 	onSubmit,
 }: ForgotPasswordFormProps) {
-	const { handleSubmit } = useForm<IForgotPassword>({
+	const {
+		handleSubmit,
+		register,
+		formState: { errors, isValid },
+	} = useForm<IForgotPassword>({
 		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
+	const { t } = useTranslation("recover_password");
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<TextInput
-				name="email"
-				label="Correo corporativo"
-				placeholder="Correo corporativo"
+				label={`${t("email")}`}
+				placeholder={`${t("email")}`}
 				icon="message"
 				require
+				error={errors.email?.message}
+				{...register("email")}
 			/>
-			<PrimaryButton type="submit" className="w-full">
-				Siguiente
+			<PrimaryButton type="submit" className="w-full" disabled={!isValid}>
+				{t("next")}
 			</PrimaryButton>
 			<div className="flex justify-center gap-1 my-2">
 				<label className="text-sm" onClick={() => router.push("login")}>
-					¿No has recibido el código aún?
+					{t("has_code_sent")}
 				</label>
 				<label className="text-sm text-primary" onClick={() => {}}>
-					Reenviar código
+					{t("send_again_code")}
 				</label>
 			</div>
 		</form>
