@@ -10,20 +10,6 @@ import SavingMonthCard from "./savingMonthCard";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@infrastructure/store";
-import InitialTooltip from "@shared/components/tooltip/list/InitialTooltip";
-import FirstTooltip from "@shared/components/tooltip/list/FirstTooltip";
-import SecondTooltip from "@shared/components/tooltip/list/SecondTooltip";
-import ThirdTooltip from "@shared/components/tooltip/list/ThirdTooltip";
-import FourTooltip from "@shared/components/tooltip/list/FourTooltip";
-import FiveTooltip from "@shared/components/tooltip/list/FiveTooltip";
-import SixTooltip from "@shared/components/tooltip/list/SixTooltip";
-import SevenTooltip from "@shared/components/tooltip/list/SevenTooltip";
-import EightTooltip from "@shared/components/tooltip/list/EightTooltip";
-import NineTooltip from "@shared/components/tooltip/list/NineTooltip";
-import TenTooltip from "@shared/components/tooltip/list/TenTooltip";
-import ElevenTooltip from "@shared/components/tooltip/list/ElevenTooltip";
-import TwelveTooltip from "@shared/components/tooltip/list/TwelveTooltip";
-import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
 import { useTranslation } from "react-i18next";
 import { allEvents } from "@shared/utils/eventsList";
 import { getDataDashboard, getDataGraphicDay, getDataGraphicWeek } from "@infrastructure/store/dashboard/actions";
@@ -33,6 +19,7 @@ import { Day, Ticket, TicketPriority } from "@domain/models";
 import { TicketStatus } from "@shared/constants/statusList";
 import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
 import LoaderComponent from "@shared/components/loader";
+import { JoyrideToast } from "@shared/components/tooltip/list/JoyrideToast";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
@@ -41,6 +28,7 @@ export default function Dashboard() {
 	const [day, setDay] = useState<"today" | "yesterday">("today");
 	const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
 	const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
+    const joyrideRef = useRef();
 
 	useEffect(() => {
 		dispatch(getDataDashboard()).unwrap();
@@ -99,33 +87,20 @@ export default function Dashboard() {
 			}
 			setPriorityTickets(ticketsPriority ?? []);
 		}
-		}, [dashboard, day]);
+    }, [dashboard, day]);
 
 	if(loading) return <LoaderComponent/>
 
 	return (
 		<>
-			<InitialTooltip visible={currentTooltip === 0} />
-			<FirstTooltip visible={currentTooltip === 1} />
-			<SecondTooltip visible={currentTooltip === 2} />
-			<ThirdTooltip visible={currentTooltip === 3} />
-			<FourTooltip visible={currentTooltip === 4} />
-			<FiveTooltip visible={currentTooltip === 5} />
-			<SixTooltip visible={currentTooltip === 6} />
-			<SevenTooltip visible={currentTooltip === 7} />
-			<EightTooltip visible={currentTooltip === 8} />
-			<NineTooltip visible={currentTooltip === 9} />
-			<TenTooltip visible={currentTooltip === 10} />
-			<ElevenTooltip visible={currentTooltip === 11} />
-			<TwelveTooltip visible={currentTooltip === 12} />
-			<FinalTooltip visible={currentTooltip === 13} />
 			<Topbar screen="dashboard" onPressGroupButton={changeTime} />
-			<div className="m-8 flex justify-between">
+            <JoyrideToast joyrideRef={joyrideRef}/>
+			<div className="m-8 tablet:flex justify-between">
 				{/* Chart card */}
 				<div className="grow basis-2/3">
 					<CardChart/>
 				</div>
-				<div className="flex ml-5 basis-1/3 flex-col justify-between">
+				<div className="flex cel:mt-8 tablet:mt-0 tablet:ml-5 basis-1/3 flex-col justify-between">
 					{/* Incidents card */}
 					<IncidentsCard textDescription={t("risk_high_urgent")} numIncidents={graphicDay?.High ?? 0}/>
 					{/* Events week card*/}
@@ -135,7 +110,7 @@ export default function Dashboard() {
 				</div>
 			</div>
 			{/* Category events */}
-			<ContainerBackground className="mx-5">
+			<ContainerBackground className="mx-5" id="step-5">
 				<SubtitleLink
 					$weight={theme.fontWeight.bold}
 					className="my-5 block"

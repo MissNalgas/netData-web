@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Overline } from "@shared/components/labels/styled";
+import theme from "@theme/index";
+import { Input } from "./styled";
 
 export default function CodeInputForm({
 	onSubmit,
@@ -67,19 +70,10 @@ export default function CodeInputForm({
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="flex flex-row items-center	justify-center	">
 				{codePartOne.map((value, index) => (
-					<input
+					<Input
 						key={index}
 						type="text"
 						value={value}
-						style={{
-							width: "52.88px",
-							height: "68px",
-							margin: "3%",
-							border: "1px solid #999999",
-							backgroundColor: "#FBFBFB",
-							textAlign: "center",
-							borderRadius: "4px",
-						}}
 						maxLength={1}
 						inputMode="numeric"
 						onChange={(event) => handleChange(index, event)}
@@ -100,19 +94,10 @@ export default function CodeInputForm({
 				<div>-</div>
 
 				{codePartTwo.map((value, index) => (
-					<input
+					<Input
 						key={index}
 						type="text"
 						value={value}
-						style={{
-							width: "52.88px",
-							height: "68px",
-							margin: "3%",
-							border: "1px solid #999999",
-							backgroundColor: "#FBFBFB",
-							textAlign: "center",
-							borderRadius: "4px",
-						}}
 						maxLength={1}
 						inputMode="numeric"
 						onChange={(event) =>
@@ -143,16 +128,17 @@ export default function CodeInputForm({
 			>
 				{t("next")}
 			</PrimaryButton>
-			<div className="flex justify-center gap-1 my-2">
-				<label className="text-sm" onClick={() => router.push("login")}>
+			<div className="cel:text-center my-2 cel:text-wrap gap-1">
+				<Overline className="text-sm" onClick={() => router.push("login")}>
 					{t("has_code_sent")}
-				</label>
-				<label
-					className="text-sm text-primary"
+				</Overline>
+				<Overline
 					onClick={sendAgainAction}
+                    $color={theme.colors.orange}
+                    className="cel:block tablet:ml-2 tablet:inline"
 				>
 					{t("send_again_code")}
-				</label>
+				</Overline>
 			</div>
 		</form>
 	);

@@ -22,6 +22,7 @@ export default function CalendarComponent() {
             />
         </div>
         <Calendar
+            className="rounded-lg border-transparent"
             onChange={onChange}
             value={value}
             selectRange={true}

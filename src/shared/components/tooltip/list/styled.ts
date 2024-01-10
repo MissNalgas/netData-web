@@ -1,5 +1,16 @@
 import { Body, Overline } from "@shared/components/labels/styled";
 import styled from "styled-components";
+import Tooltip from "..";
+import { mq } from "@theme/media";
+
+const TooltipFirst = styled(Tooltip)`
+	top: 9ch;
+	right: 4ch;
+	${() =>
+		mq({
+			width: ["250px", "395px", "395px", "395px", "395px"],
+		})}
+`;
 
 const ContentInitialTooltipMain = styled.div`
 	display: flex;
@@ -12,10 +23,13 @@ const ContentInitialTooltipMain = styled.div`
 
 const ContentInitialTooltip = styled.div`
 	width: 100%;
-	display: flex;
-	flex-direction: row;
 	justify-content: space-between;
+	flex-direction: row;
 	gap: 2%;
+	${() =>
+		mq({
+			display: ["block", "block", "flex", "flex", "flex"],
+		})}
 `;
 
 const TitleOne = styled(Body)`
@@ -30,4 +44,5 @@ export {
 	ContentInitialTooltipMain,
 	TitleOne,
 	TitleSecond,
+	TooltipFirst,
 };

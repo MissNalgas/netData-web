@@ -20,7 +20,7 @@ import {
 	checkEmail,
 	recoverPassword,
 } from "@infrastructure/store/user/actions";
-
+import Icon from "@shared/components/icons";
 interface IRecoverPasswordComponentProps {
 	actionButton?: () => void;
 	changeStateAction?: 1 | 2 | 3 | 4;
@@ -110,9 +110,27 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 			}
 		}
 	};
+
+    const handleClickArrow = () => {
+        switch (changeStateAction) {
+            case 3:
+                setChangeAction(2)
+                break;
+            case 2:
+                setChangeAction(1)
+            case 1:
+                router.push("login");
+            default:
+                break;
+        }
+    };
+
 	const message = messages[changeStateAction ?? 1] || t("title_error");
 	return (
 		<ContentForm>
+            <div onClick={() => handleClickArrow()} className="bg-gray-200 rounded-full px-1 py-2 w-10 cursor-pointer">
+                <Icon icon="left-arrow" size="32"/>
+            </div>
 			<TitleCustom $center>{message}</TitleCustom>
 			<SecondTitleCustom $center>
 				{(changeStateAction === 1 && t("type_email_sentria")) ||

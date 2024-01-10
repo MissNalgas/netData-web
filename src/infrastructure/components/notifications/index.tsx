@@ -17,8 +17,6 @@ import { getNotifications } from "@infrastructure/store/notifications/actions";
 import { useEffect, useState } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
-import { format } from "date-fns";
-import { es, enUS } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { getFormattedDate, pagination } from "@shared/utils";
@@ -48,7 +46,6 @@ export default function NotificationsComponent() {
 			toast.error(t("token_expired"));
 		}
 	}, [dispatch, notificationsData.error, t]);
-	const date = new Date();
 
 	const listNotifications = [...notificationsData.data]
 		.sort(
@@ -74,7 +71,12 @@ export default function NotificationsComponent() {
 		if (currentPageData.length > 0) {
 			return currentPageData.map((date: any) => (
 				<div key={date}>
-					<h1>{date}</h1>
+					<CaptionTwo
+						$weight={theme.fontWeight.semiBold}
+						className="block mb-5 text-center"
+					>
+						{date}
+					</CaptionTwo>
 					{listNotifications[date].map(
 						(notification: NotificationItem) => (
 							<div
@@ -122,22 +124,14 @@ export default function NotificationsComponent() {
 
 	return (
 		<TwoColumnLayout>
-			<ContainerBackground className="grow justify-center mr-8">
+			<ContainerBackground className="grow">
 				<div className="flex flex-col items-center mb-5">
 					<Overline $weight={theme.fontWeight.bold} $center>
 						{t("your_notifications")}
 					</Overline>
 					<CaptionTwo>{t("from_last_week")}</CaptionTwo>
-					<CaptionTwo
-						$weight={theme.fontWeight.semiBold}
-						className="mt-3"
-					>
-						{format(date, "dd 'de' MMMM 'de' yyyy", {
-							locale: i18n.language === "en" ? enUS : es,
-						})}
-					</CaptionTwo>
 				</div>
-				<div className="flex flex-col justify-around h-[42rem]">
+				<div className="flex flex-col h-5/6 justify-between mb-10">
 					<div>{renderNotifications()}</div>
 					<div className="items-center flex justify-center">
 						<Pagination

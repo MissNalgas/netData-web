@@ -1,8 +1,15 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 
 module.exports = {
 	content: ["./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
+        screens: {
+            cel: "320px",
+            tablet: "600px",
+            laptop: "768px",
+            desktop: "1024px",
+            xlDesk: "1200px",
+        },
 		extend: {
 			width: {
 				90: "90%",
