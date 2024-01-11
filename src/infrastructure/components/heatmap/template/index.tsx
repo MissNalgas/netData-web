@@ -26,27 +26,27 @@ export default function HeatmapTemplate() {
 	const [tickets, page, setPage, maxPages] = useArrayPagination(
 		data?.tickets
 	);
+
 	const dataTicket = useTicketDetail(`${selectedTicket}`);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	useEffect(() => {
+		const firstTicket = data?.tickets[0];
 
-	const selectTicket = (ticket: ITicket) => {
-		setIsLoading(true);
+		firstTicket && setSelectedTicket(firstTicket.id.toString());
+	}, [data]);
 
-		setSelectedTicket(ticket?.id.toString());
-	};
 	useEffect(() => {
 		if (dataTicket?.id === undefined) {
 			setIsLoading(true);
 		} else {
 			setIsLoading(false);
 		}
-	}, [dataTicket?.id, selectedTicket]);
-	useEffect(() => {
-		const firstTicket = data?.tickets[0];
-
-		firstTicket && setSelectedTicket(firstTicket);
-	}, [data]);
+	}, [dataTicket?.id]);
+	const selectTicket = (ticket: ITicket) => {
+		setIsLoading(true);
+		setSelectedTicket(ticket.id.toString());
+	};
 
 	return (
 		<TwoColumnLayout>
