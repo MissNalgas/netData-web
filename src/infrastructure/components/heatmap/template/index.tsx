@@ -20,7 +20,9 @@ export default function HeatmapTemplate() {
 	const { t, i18n } = useTranslation();
 	const [filter, setFilter] = useState<IFilters>();
 	const data = useAllTickets(filter);
-	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+	const [selectedTicket, setSelectedTicket] = useState<
+		ITicket | null | string
+	>(null);
 	const [tickets, page, setPage, maxPages] = useArrayPagination(
 		data?.tickets
 	);
@@ -29,10 +31,9 @@ export default function HeatmapTemplate() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const selectTicket = (ticket: ITicket) => {
-		console.log("ticket", ticket);
 		setIsLoading(true);
 
-		setSelectedTicket(ticket?.id);
+		setSelectedTicket(ticket?.id.toString());
 	};
 	useEffect(() => {
 		if (dataTicket?.id === undefined) {
