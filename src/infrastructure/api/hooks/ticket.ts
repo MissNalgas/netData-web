@@ -32,7 +32,7 @@ export function useAllTickets(filters?: IFilters) {
 
 export function useTicketDetail(
 	ticketId: number | string,
-	notificationId: number
+	notificationId?: number
 ) {
 	const [data, setData] = useState<ITicket | null>();
 
