@@ -4,7 +4,11 @@ import { userRepository } from "@infrastructure/api/repositories/user/user.repos
 import { getDataChangePasswordDTO } from "@infrastructure/model";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import initialState from "infrastructure/store/user/initial-state";
-import { Contact, GetDataUserPayload } from "infrastructure/store/user/types";
+import {
+	Contact,
+	GetDataUserPayload,
+	ValidateOTPPayload,
+} from "infrastructure/store/user/types";
 
 const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
 	"user/getData",
@@ -13,6 +17,24 @@ const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
 			const { email, password } = payload;
 			const user = await userRepository.getUser(email, password);
 			return user;
+		} catch (err) {
+			return state.rejectWithValue(err);
+		}
+	}
+);
+
+const validateOTP = createAsyncThunk<string, ValidateOTPPayload>(
+	"user/validateOTP",
+	async (payload, state) => {
+		try {
+			const { email, password, code, secret } = payload;
+			const validateData = await userRepository.validateOtp(
+				email,
+				password,
+				code,
+				secret
+			);
+			return validateData.token;
 		} catch (err) {
 			return state.rejectWithValue(err);
 		}
@@ -75,4 +97,5 @@ export {
 	changePassword,
 	contact,
 	checkEmail,
+	validateOTP,
 };

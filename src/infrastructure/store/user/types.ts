@@ -10,6 +10,14 @@ export interface GetDataUserPayload {
 	email: string;
 	password: string;
 }
+
+export interface ValidateOTPPayload {
+	email: string;
+	password: string;
+	code: number | string;
+	secret?: string;
+}
+
 export interface Contact {
 	subject: string;
 	body: string;

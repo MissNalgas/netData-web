@@ -1,4 +1,4 @@
-import { IUser } from "@domain/models";
+import { IOTPValidation, IUser } from "@domain/models";
 import { IUserService } from "@domain/services/User.service";
 import { ContactAdapter } from "@infrastructure/adapters";
 import { LoginAdapter } from "@infrastructure/adapters/login";
@@ -23,7 +23,7 @@ class UserRepository implements IUserService {
 		const isMessagingSupported = await isSupported();
 
 		/* If the browser does not support push notifications we send a garbage token
-		 * This because the token is required in the current login implementation
+		 * This because the token field is required in the current login implementation
 		 */
 		let messagingToken = "placeholder";
 
@@ -48,6 +48,7 @@ class UserRepository implements IUserService {
 			token: xelcoToken,
 			mail: email,
 			password,
+			device: "web",
 		});
 
 		localStorage.setItem(
@@ -82,6 +83,29 @@ class UserRepository implements IUserService {
 		}
 
 		return LoginAdapter.userFromDTO(loginResponse.data as IXelcoLoginDTO);
+	}
+
+	async validateOtp(
+		email: string,
+		password: string,
+		code: string | number,
+		secret?: string | undefined
+	): Promise<IOTPValidation> {
+		const axios = await createAxios();
+		const response = await axios.post("/api/auth/code", {
+			email,
+			password,
+			secret,
+			code,
+		});
+
+		if (typeof window !== "undefined") {
+			window.localStorage.setItem("tokenApp", response.data.token);
+		}
+
+		return {
+			token: response.data.token,
+		};
 	}
 
 	async checkEmail(email: string): Promise<IResponseServiceDTO> {

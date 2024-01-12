@@ -7,6 +7,7 @@ const initialState: AppState = {
 		email: "",
 		lastname: "",
 		company: "",
+		authotp: null,
 	},
 	pending: false,
 	error: false,

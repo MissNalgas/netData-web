@@ -9,17 +9,20 @@ import React, {
 } from "react";
 import { IUserContext } from "./models";
 import { useAppDispatch } from "@hooks/use-dispatch";
-import { getDataUser, resetState } from "@infrastructure/store/user/actions";
+import { getDataUser, resetState, validateOTP } from "@infrastructure/store/user/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { PUBLIC_ROUTES } from "./consts";
 import { isValidToken } from "@shared/utils";
 import "shared/utils/firebase";
 import LoaderComponent from "@shared/components/loader";
+import { IUser } from "@domain/models";
+import { ValidateOTPPayload } from "@infrastructure/store/user/types";
 
 const AuthContext = createContext<IUserContext>({
 	user: undefined,
-	async login(_email: string, _password: string): Promise<void> {},
+	async login(_email: string, _password: string): Promise<IUser> {throw new Error("Unimplemented");},
 	logOut() {},
+	async validateOtp() {throw new Error("Unimplemented")},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -32,8 +35,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [isLoading, setIsLoading] = useState(true);
 
 	const login = useCallback(
-		async (email: string, password: string): Promise<void> => {
-			await dispatch(
+		async (email: string, password: string): Promise<IUser> => {
+			return await dispatch(
 				getDataUser({
 					email,
 					password,
@@ -42,6 +45,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		},
 		[dispatch]
 	);
+
+	const validateOtp = useCallback(async (payload : ValidateOTPPayload) => {
+		return await dispatch(validateOTP(payload)).unwrap();
+	}, [dispatch]);
 
 	const logOut = useCallback(() => {
 		dispatch(resetState());
@@ -52,8 +59,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			user,
 			login,
 			logOut,
+			validateOtp,
 		}),
-		[user, login, logOut]
+		[user, login, logOut, validateOtp]
 	);
 
 	useEffect(() => {

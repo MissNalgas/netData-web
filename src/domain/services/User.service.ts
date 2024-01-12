@@ -1,9 +1,15 @@
-import { IUser } from "@domain/models";
+import { IOTPValidation, IUser } from "@domain/models";
 import { IResponseServiceDTO } from "@infrastructure/model";
 import { Contact } from "@infrastructure/store/user/types";
 
 export interface IUserService {
 	getUser(_email: string, _password: string): Promise<IUser>;
+	validateOtp(
+		_email: string,
+		_password: string,
+		_code: string | number,
+		_secret?: string
+	): Promise<IOTPValidation>;
 	deleteAccout(): Promise<IUser>;
 	checkEmail(_email: string): Promise<IResponseServiceDTO>;
 	contact(_body: Contact): Promise<any>;

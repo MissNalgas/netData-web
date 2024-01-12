@@ -9,37 +9,56 @@ import type { ILogin } from "@infrastructure/containers/forms/login";
 import { useAuth } from "@infrastructure/containers/auth";
 import { useMerge } from "@shared/utils/hooks";
 import LoaderComponent from "@shared/components/loader";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const Login: NextPage = () => {
 
-	const [needsMFA, setNeedsMFA] = useState(false);
+	const [otpauth, setOtpAuth] = useState<null | string>();
 	const [loginData, setLoginData] = useMerge({email: "", password: "", code: ""});
 	const [isLoading, setIsLoading] = useState(false);
-	const {login} = useAuth();
+	const {login, validateOtp} = useAuth();
+	const { t } = useTranslation();
 
 	const handleSubmit = (data : ILogin) => {
-		setLoginData({
-			email: data.email,
-			password: data.password,
+		login(data.email, data.password).then((userData) => {
+			setLoginData({
+				email: data.email,
+				password: data.password,
+			});
+			setOtpAuth(userData.authotp);
+		}).finally(() => {
+			setIsLoading(false);
 		});
-		setNeedsMFA(true);
 	}
 
 	const submitCode = (data: IMFA) => {
+
+		setIsLoading(true);
 		setLoginData({
 			code: data.code,
 		});
 
-		setIsLoading(true);
-		login(loginData.email, loginData.password).finally(() => {
+		const otpSecret = otpauth && new URL(otpauth).searchParams.get("secret");
+
+		validateOtp({
+			email: loginData.email,
+			password: loginData.password,
+			code: data.code,
+			secret: otpSecret || undefined,
+		}).then(() => {
+
+		}).finally(() => {
 			setIsLoading(false);
+		}).catch(() => {
+			toast.error(t("login:invalid_code"));
 		});
 	}
 
 	return (
 		<LayoutComponent>
-			{needsMFA ? (
-				<MFAComponent onSubmit={submitCode}/>
+			{otpauth !== undefined ? (
+				<MFAComponent otpauth={otpauth} onSubmit={submitCode}/>
 			) : (
 				<LoginComponent onSubmit={handleSubmit}/>
 			)}
