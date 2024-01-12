@@ -11,6 +11,7 @@ import { useMerge } from "@shared/utils/hooks";
 import LoaderComponent from "@shared/components/loader";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { SentriaError } from "@shared/utils/error";
 
 const Login: NextPage = () => {
 
@@ -27,6 +28,12 @@ const Login: NextPage = () => {
 				password: data.password,
 			});
 			setOtpAuth(userData.authotp);
+		}).catch(err => {
+			if (err instanceof SentriaError) {
+				toast.error(err.message);
+			} else {
+				toast.error(t("login:there_was_an_error"));
+			}
 		}).finally(() => {
 			setIsLoading(false);
 		});

@@ -14,5 +14,6 @@
 	"clicking_here": "ingresando acá.",
 	"enter_six_digit_code": "Ingresa el código de seis dígitos generado.",
 	"enter_six_digit_code_generated": "Ingresa el código de seis dígitos generado en tu app de autenticación",
-	"next": "Siguiente"
+	"next": "Siguiente",
+	"there_was_an_error": "Hubo un error al iniciar sesión, por favor vuelve a intentar"
 }

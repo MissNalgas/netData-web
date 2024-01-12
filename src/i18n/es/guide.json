@@ -1,6 +1,6 @@
 {
 	"welcome_title": "¡Bienvenido a sentria!",
-	"description_guide": "En esta guia de ayuda entenderás cómo funciona el dashboard de Sentria y sus funcionalidades. Como primer paso, te invitamos a seguir la guía de ayuda para que logres aprovechar al máximo cada una de las funcionalidades. Si quieres abandonar la guía oprime",
+	"description_guide": "En esta guía de ayuda entenderás cómo funciona el dashboard de Sentria y sus funcionalidades. Como primer paso, te invitamos a seguir la guía de ayuda para que logres aprovechar al máximo cada una de las funcionalidades. Si quieres abandonar la guía oprime",
 	"continue_description_guide": "en la parte inferior de la pantalla.",
 	"has_init_guide": "¿Quieres iniciar la guía?",
 	"no_guide": "No, sigo por mi cuenta",
@@ -21,9 +21,9 @@
 	"continue_events": "accederás a tus eventos de ciberseguridad del día, podrás ver todos los  tickets que se han realizado las últimas 24 horas.",
 	"notifications": "Presionando el icono de la campana",
 	"continue_notifications": "accederás a tus notificaciones, función que te notificará cuando un ticket sea realizado.",
-	"icon_profile": "Presionando el icono de perfil accederás a tu información personal y configuraciones. Aquí también encontrarás una guia de ayuda por si te pierdes en el camino.",
+	"icon_profile": "Presionando el icono de perfil accederás a tu información personal y configuraciones. Aquí también encontrarás una guía de ayuda por si te pierdes en el camino.",
 	"congratulations": "¡Felicitaciones!",
 	"congratulations_description": "Has finalizado la guía de ayuda. Te recordamos que para volver a acceder a ella lo puedes hacer desde tu perfil",
 	"information_char_heatmap": "Esta gráfica es un Heatmap, con ella puedes identificar el día y hora que tu ticket se realizó. También te muestra la cantidad de tickets que se realizaron en la semana en la que ocurrió el respectivo ticket seleaccionado.",
-	"finished_guide": "Finalizar guia"
+	"finished_guide": "Finalizar guía"
 }

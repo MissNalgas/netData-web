@@ -12,8 +12,8 @@ interface props {
 const SecondTooltip = ({ visible }: props) => {
 	const styles = {
 		tooltip: {
-			width: "612px",
-			height: "201px",
+			width: "100%",
+			height: "auto",
 		},
 	};
 	const { t } = useTranslation("guide");

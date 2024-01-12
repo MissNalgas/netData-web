@@ -19,7 +19,7 @@ type position = {
 	bottom?: string;
 };
 
-export default function Modal(props: ModalProps) {
+export default function ModalTooltip(props: ModalProps) {
 	const {
 		children,
 		isOpen,
@@ -107,7 +107,6 @@ export default function Modal(props: ModalProps) {
 						}}
 					/>
 				)}
-
 				{children}
 			</div>
 		</div>

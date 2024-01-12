@@ -16,7 +16,7 @@ import {
 	SubtitleLink,
 } from "@shared/components/labels/styled";
 
-import Modal from "@shared/components/modal";
+import ModalTooltip from "@shared/components/modalTooltip";
 import Logo from "/public/img/logo-sentria.png";
 
 import {
@@ -85,8 +85,8 @@ export default function ProfileComponent(): JSX.Element {
 
 	const renderModal = () => {
 		return (
-			<Modal
-				typeModal="config"
+			<ModalTooltip
+                tooltipStyles={{}}
 				isOpen={isOpen}
 				onActionModal={() => setIsOpen(!isOpen)}
 			>
@@ -139,13 +139,13 @@ export default function ProfileComponent(): JSX.Element {
 						</SecondaryButton>
 					</div>
 				</ContentCardModalItem>
-			</Modal>
+			</ModalTooltip>
 		);
 	};
 	return (
 		<main className="flex space-between mx-5 py-8 h-screen mb-32">
-			<ContainerBackground className="grow justify-center p-10 h-min	">
-				<div className="p-10">
+			<ContainerBackground className="grow justify-center p-10 h-min">
+				<div className="desktop:p-10">
 					<ContentHeader>
 						<ContentLogo>
 							<ContentImage>
@@ -167,13 +167,13 @@ export default function ProfileComponent(): JSX.Element {
 							<SubtitleLink $weight={600}>
 								{t("greeting")}
 								{", "}
-								<span className="text-primary font-semibold">
+								<SubtitleLink $color={theme.colors.orange50} $weight={theme.fontWeight.semiBold}>
 									{auth.user?.firstname}
-								</span>
+								</SubtitleLink>
 							</SubtitleLink>
 						</div>
-						<div>
-							<span className="text-primary font-semibold">
+						<div className="flex justify-center">
+							<span className="text-primary font-semibold mr-2">
 								<Icon icon="office-building1" size={24} />
 							</span>
 							<CaptionOne className="text-primary" $weight={600}>
@@ -184,7 +184,7 @@ export default function ProfileComponent(): JSX.Element {
 
 					<ContentBody>
 						<PrimaryButton
-							width={21}
+							width={100}
 							onClick={() => {
 								router.push("/");
 								dispatch(showTooltipModal());
@@ -202,7 +202,7 @@ export default function ProfileComponent(): JSX.Element {
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
-							width={21}
+							width={100}
 							onClick={() => router.push("/notifications")}
 						>
 							<div className="flex flex-row gap-2 ">
@@ -214,10 +214,10 @@ export default function ProfileComponent(): JSX.Element {
 						</PrimaryButton>
 						<PrimaryButton
 							disabled={false}
-							width={21}
+							width={100}
 							onClick={show}
 						>
-							<div className="flex flex-row gap-2 ">
+							<div className="flex flex-row gap-2">
 								<Icon
 									icon="Paper-Plane"
 									size={24}
@@ -229,10 +229,10 @@ export default function ProfileComponent(): JSX.Element {
 							</div>
 						</PrimaryButton>
 					</ContentBody>
-					<div className="flex justify-center my-8">
+					<div className="flex justify-center my-8 tablet:w-4/12 m-auto">
 						<SecondaryButton
 							disabled={false}
-							width={21}
+							width={100}
 							onClick={handleDelete}
 						>
 							<div className="flex flex-row gap-2 ">
