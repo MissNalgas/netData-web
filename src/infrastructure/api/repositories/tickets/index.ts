@@ -111,6 +111,24 @@ class TicketRepository implements ITicketService {
 		}
 	}
 
+	async getTicketWeek(): Promise<ITicket> {
+		const axios = await createAxiosApp();
+		try {
+			const result = await axios.get(`/api/xelco/ticketsforWeek`);
+			return {
+				agent: result.data.agent,
+				category: result.data.category,
+				createdAt: result.data.created_at,
+				customFields: result.data.upset,
+				id: result.data.id,
+				status: result.data.status,
+				subject: result.data.subject,
+			};
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	}
+
 	async getTicketPerCategory(): Promise<ITicketPerCategory> {
 		//@todo - Remove mock data
 		return TicketAdapter.ticketPerCategoryFromDTO({

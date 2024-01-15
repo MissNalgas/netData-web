@@ -17,7 +17,6 @@ import { getNotifications } from "@infrastructure/store/notifications/actions";
 import { useEffect, useState } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
-import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { getFormattedDate, pagination } from "@shared/utils";
 import Pagination from "@shared/components/pagination";
@@ -43,10 +42,7 @@ export default function NotificationsComponent() {
 
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
-		if (notificationsData.error) {
-			toast.error(t("token_expired"));
-		}
-	}, [dispatch, notificationsData.error, t]);
+	}, [dispatch, t]);
 
 	useEffect(() => {
 		if (dataTicket?.id === undefined) {
