@@ -64,7 +64,7 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 
 		const image = images[index];
 		const title = t(titles[index]);
-		const data = ticket.customFields[keys[index]];
+		const data = ticket?.customFields && ticket.customFields[keys[index]];
 
 		toggle({
 			content: () => (
@@ -100,23 +100,42 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 					<Icon icon="Paper-Plane" size="24px" />
 				</button>
 			</div>
-			<div className="flex justify-between items-center text-sm">
+			<div
+				className="flex justify-between items-center text-sm"
+				style={{
+					gap: "28%",
+				}}
+			>
 				<div className="flex items-center gap-2">
-					{ticket.status === TicketStatus.Open ? (
+					{ticket.status <= TicketStatus.Open ? (
 						<>
-							<Icon icon="Magnifier" size="22px" color={colors.green50}/>
-							<span className="text-green50">{t("ticket_selected:on_revision")}</span>
+							<Icon
+								icon="Magnifier"
+								size="22px"
+								color={colors.green50}
+							/>
+							<span className="text-green50">
+								{t("ticket_selected:on_revision")}
+							</span>
 						</>
 					) : (
 						<>
-							<Icon icon="Approve" size="22px" color={colors.gray40}/>
-							<span className="text-gray40">{t("ticket_selected:closed")}</span>
+							<Icon
+								icon="Approve"
+								size="22px"
+								color={colors.gray40}
+							/>
+							<span className="text-gray40">
+								{t("ticket_selected:closed")}
+							</span>
 						</>
 					)}
 				</div>
 				<div className="flex items-center gap-2">
-					<Icon icon="headphone" size="22px" color={colors.gray50}/>
-					<span className="text-gray50">{t("ticket_selected:agent")}: {ticket.agent}</span>
+					<Icon icon="headphone" size="22px" color={colors.gray50} />
+					<span className="text-gray50">
+						{t("ticket_selected:agent")}: {ticket.agent}
+					</span>
 				</div>
 			</div>
 			<iframe
@@ -145,6 +164,6 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 	);
 }
 interface TicketDetailProps {
-	ticket: ITicket;
+	ticket: ITicket | any;
 	onClose: () => void;
 }

@@ -1,5 +1,5 @@
 import { IFilters, ITicket, TicketStatus } from "@domain/models";
-import { useAllTickets } from "@infrastructure/api/hooks";
+import { useAllTickets, useTicketDetail } from "@infrastructure/api/hooks";
 import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
 import FilterInput from "@shared/components/filterInput";
 import Image from "next/image";
@@ -14,31 +14,50 @@ import InformationCard from "@shared/components/informationCard";
 import magnet from "/public/img/magnet.png";
 import { format } from "date-fns";
 import { getFormattedDate } from "@shared/utils";
+import LoaderComponent from "@shared/components/loader";
 
 export default function HeatmapTemplate() {
-
 	const { t, i18n } = useTranslation();
 	const [filter, setFilter] = useState<IFilters>();
 	const data = useAllTickets(filter);
-	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const [tickets, page, setPage, maxPages] = useArrayPagination(data?.tickets);
+	const [selectedTicket, setSelectedTicket] = useState<
+		ITicket | null | string
+	>(null);
+	const [tickets, page, setPage, maxPages] = useArrayPagination(
+		data?.tickets
+	);
 
-	const selectTicket = (ticket: ITicket) => {
-		setSelectedTicket(ticket);
-	};
+	const dataTicket = useTicketDetail(`${selectedTicket}`);
 
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 	useEffect(() => {
 		const firstTicket = data?.tickets[0];
 
-		firstTicket && setSelectedTicket(firstTicket);
+		firstTicket && setSelectedTicket(firstTicket.id.toString());
 	}, [data]);
+
+	useEffect(() => {
+		if (dataTicket?.id === undefined) {
+			setIsLoading(true);
+		} else {
+			setIsLoading(false);
+		}
+	}, [dataTicket?.id]);
+	const selectTicket = (ticket: ITicket) => {
+		setIsLoading(true);
+		setSelectedTicket(ticket.id.toString());
+	};
 
 	return (
 		<TwoColumnLayout>
 			<div className="flex flex-col gap-4">
 				<div className="card p-4 h-[max-content] flex flex-col items-center">
-					<h2 className="text-2xl font-bold">{t("heatmap:heatmap")}</h2>
-					<h3 className="text-xl">{t("heatmap:your_ticket_history")}</h3>
+					<h2 className="text-2xl font-bold">
+						{t("heatmap:heatmap")}
+					</h2>
+					<h3 className="text-xl">
+						{t("heatmap:your_ticket_history")}
+					</h3>
 					<div className="w-full max-w-[400px]">
 						<FilterInput
 							filter={filter}
@@ -78,35 +97,46 @@ export default function HeatmapTemplate() {
 						</div>
 						<div className="card p-4 flex flex-col gap-4">
 							<div className="flex justify-center">
-								<ColorGuide className="w-full"/>
+								<ColorGuide className="w-full" />
 							</div>
 							{!!filter?.date && (
 								<h2 className="text-center font-bold text-lg">
-									{getFormattedDate(filter.date, i18n?.resolvedLanguage || "en")}
+									{getFormattedDate(
+										filter.date,
+										i18n?.resolvedLanguage || "en"
+									)}
 								</h2>
 							)}
 							<div className="flex flex-col">
-								{tickets.map(ticket => (
-									<button onClick={() => selectTicket(ticket)} key={ticket.id}>
+								{tickets.map((ticket) => (
+									<button
+										onClick={() => selectTicket(ticket)}
+										key={ticket.id}
+									>
 										<InformationCard
 											imageLeft={magnet}
 											textLeft={`ID ${ticket.id}`}
-											textRight={format(ticket.createdAt, "hh:mm aaa")}
+											textRight={format(
+												ticket.createdAt,
+												"hh:mm aaa"
+											)}
 											textCenter={ticket.category}
 											classContainer={
-												ticket.status === TicketStatus.Open ? (
-													"bg-red10"
-												) : (
-													"bg-green10"
-												)
+												ticket.status ===
+												TicketStatus.Open
+													? "bg-red10"
+													: "bg-green10"
 											}
 										/>
 									</button>
 								))}
-
 							</div>
 							<div className="grid place-content-center">
-								<Pagination selectedPage={page} setSelectedPage={setPage} totalPages={maxPages}/>
+								<Pagination
+									selectedPage={page}
+									setSelectedPage={setPage}
+									totalPages={maxPages}
+								/>
 							</div>
 						</div>
 					</>
@@ -128,15 +158,26 @@ export default function HeatmapTemplate() {
 					<h1 className="text-8xl font-bold text-primary">0</h1>
 				</div>
 				<div className="card p-4">
-						{selectedTicket ? (
-							<TicketDetail onClose={() => setSelectedTicket(null)} ticket={selectedTicket}/>
-						) : (
-							<div className="grid place-content-center min-h-[400px]">
-								<span className="text-center font-bold text-xl">
-									{t("heatmap:there_is_no_selected_ticket")}
-								</span>
-							</div>
-						)}
+					{selectedTicket ? (
+						<>
+							{isLoading ? (
+								<LoaderComponent />
+							) : (
+								<TicketDetail
+									onClose={() => setSelectedTicket(null)}
+									ticket={{
+										...dataTicket,
+									}}
+								/>
+							)}
+						</>
+					) : (
+						<div className="grid place-content-center min-h-[400px]">
+							<span className="text-center font-bold text-xl">
+								{t("heatmap:there_is_no_selected_ticket")}
+							</span>
+						</div>
+					)}
 				</div>
 				{!!tickets.length && (
 					<div className="card p-4">

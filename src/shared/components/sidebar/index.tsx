@@ -26,10 +26,10 @@ export default function Sidebar() {
 	const { t } = useTranslation("sidebar");
 	const dispatch = useAppDispatch();
 	const { logOut } = useAuth();
-    const date = new Date();
+	const date = new Date();
 	const { show } = ContactComponent();
 	const [saveCountNotifications, saveCountNotificationsSet] = useState(0);
-    const { user } = useSelector((state: RootState) => state.user);
+	const { user } = useSelector((state: RootState) => state.user);
 	const notificationsData = useTypedSelector((state) => state.notifications);
 
 	const countNotifications = useMemo(
@@ -47,27 +47,36 @@ export default function Sidebar() {
 				{
 					label: `${t("dashboard")}`,
 					icon: () => <Icon icon="Sentria" size={24} color="white" />,
-					onClick: () => {router.push("/"); dispatch(closeDrawer(false))},
+					onClick: () => {
+						router.push("/");
+						dispatch(closeDrawer(false));
+					},
 					isActive: matchesRegex(/^(\/|\/savings)$/),
-                    id: "step-8",
+					id: "step-8",
 				},
 				{
 					label: `${t("heatmap")}`,
 					icon: () => (
 						<Icon icon="temperature" size={24} color="white" />
 					),
-					onClick: () => {router.push("/heatmap"); dispatch(closeDrawer(false))},
+					onClick: () => {
+						router.push("/heatmap");
+						dispatch(closeDrawer(false));
+					},
 					isActive: matchesRegex(/^\/heatmap$/),
-                    id: "step-9",
+					id: "step-9",
 				},
 				{
 					label: `${t("events")}`,
 					icon: () => (
 						<Icon icon="bar-graph" size={24} color="white" />
 					),
-					onClick: () => {router.push("/events"); dispatch(closeDrawer(false))},
-                    isActive: matchesRegex(/^\/events$/),
-                    id: "step-10",
+					onClick: () => {
+						router.push("/events");
+						dispatch(closeDrawer(false));
+					},
+					isActive: matchesRegex(/^\/events$/),
+					id: "step-10",
 				},
 				{
 					label: `${t("notifications")}`,
@@ -84,9 +93,12 @@ export default function Sidebar() {
 							</div>
 						);
 					},
-					onClick: () => {router.push("notifications"); dispatch(closeDrawer(false))},
+					onClick: () => {
+						router.push("notifications");
+						dispatch(closeDrawer(false));
+					},
 					isActive: matchesRegex(/^\/notifications$/),
-                    id: "step-11",
+					id: "step-11",
 				},
 			] as ISideButton[],
 		[router, saveCountNotifications, t, dispatch]
@@ -100,13 +112,16 @@ export default function Sidebar() {
 				onClick: () => {
 					router.push("/");
 					dispatch(showTooltipModal());
-                    dispatch(closeDrawer(false))
+					dispatch(closeDrawer(false));
 				},
 			},
 			{
 				label: `${t("message_sentria")}`,
 				icon: () => <Icon icon="Paper-Plane" size={24} color="white" />,
-				onClick: () => {show(); dispatch(closeDrawer(false))},
+				onClick: () => {
+					show();
+					dispatch(closeDrawer(false));
+				},
 			},
 		],
 		[dispatch, router, show, t]
@@ -114,33 +129,36 @@ export default function Sidebar() {
 
 	return (
 		<div className="bg-shadow40 h-full max-h-full flex flex-col pb-6 cel:p-5 tablet:p-0">
-            <div className="flex justify-between items-center pr-4">
-                <Image
-                    className="mx-4 my-8 tablet:hidden desktop:block"
-                    alt="Sentria logo"
-                    src="/sentria.png"
-                    width={136}
-                    height={26}
-                />
-                <Icon
-                    className="tablet:w-0"
-                    icon="Cancel"
-                    size={32}
-                    color="white"
-                    onClick={() => dispatch(closeDrawer(false))}
-                />
-            </div>
-            <Image
-                className="mx-auto my-8 cel:hidden tablet:block desktop:hidden"
-                alt="Sentria logo"
-                src={LogoSentria}
-                width={30}
+			<div className="flex justify-between items-center pr-4">
+				<Image
+					className="mx-4 my-8 tablet:hidden desktop:block"
+					alt="Sentria logo"
+					src="/sentria.png"
+					width={136}
+					height={26}
+				/>
+				<Icon
+					className="tablet:w-0"
+					icon="Cancel"
+					size={32}
+					color="white"
+					onClick={() => dispatch(closeDrawer(false))}
+				/>
+			</div>
+			<Image
+				className="mx-auto my-8 cel:hidden tablet:block desktop:hidden"
+				alt="Sentria logo"
+				src={LogoSentria}
+				width={30}
 				height={26}
-            />
-            <div
+			/>
+			<div
 				className="cel:flex tablet:hidden items-center mb-5 border-b-white border-b cel:py-4 tablet:py-0"
-				onClick={() => {router.push("/profile"); dispatch(closeDrawer(false))}}
-                >
+				onClick={() => {
+					router.push("/profile");
+					dispatch(closeDrawer(false));
+				}}
+			>
 				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center mr-3">
 					<Image src={Logo} alt="logo" width={20} height={20} />
 				</div>
@@ -148,13 +166,24 @@ export default function Sidebar() {
 					<BodyTwo $color="white">
 						{t("greeting")}
 						{", "}
-						<BodyTwo $color={theme.colors.orange} className="text-primary font-semibold">
+						<BodyTwo
+							$color={theme.colors.orange}
+							className="text-primary font-semibold"
+						>
 							{user?.firstname}
 						</BodyTwo>
 					</BodyTwo>
-					<BodyTwo $color="white" className="flex flex-row items-center gap-1">
+					<BodyTwo
+						$color="white"
+						className="flex flex-row items-center gap-1"
+					>
 						{t("last_update")}, <b>{format(date, "p")}</b>
-						<Icon icon="Reload" size={22} color="white" className="ml-5"/>
+						<Icon
+							icon="Reload"
+							size={22}
+							color="white"
+							className="ml-5"
+						/>
 					</BodyTwo>
 				</div>
 			</div>

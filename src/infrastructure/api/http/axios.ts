@@ -31,14 +31,23 @@ export async function createAxiosApp() {
 		(error) => {
 			if (error.response) {
 				const validateToken = error.response.data.name;
+				localStorage.setItem("isExpired", validateToken);
 
 				if (
-					validateToken === "TokenExpiredError" ||
-					(validateToken === "JsonWebTokenError" && !errorToastShown)
+					(localStorage.getItem("isExpired") ===
+						"TokenExpiredError" &&
+						validateToken === "TokenExpiredError" &&
+						!errorToastShown) ||
+					(localStorage.getItem("isExpired") ===
+						"JsonWebTokenError" &&
+						validateToken === "JsonWebTokenError" &&
+						!errorToastShown)
 				) {
 					toast.error("Tu sesión ha expirado");
 					errorToastShown = true;
 					localStorage.removeItem("tokenApp");
+					localStorage.removeItem("isExpired");
+
 					store.dispatch(resetState());
 				}
 			}
