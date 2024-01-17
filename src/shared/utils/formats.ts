@@ -12,3 +12,7 @@ export const getFormattedDate = (date: Date, lang?: string) => {
 		return format(date, "LLLL dd 'of' yyyy", { locale: enUS });
 	}
 };
+
+export const getDateHour = (date: Date) => {
+	return format(new Date(date), "hh:mm a ");
+};
