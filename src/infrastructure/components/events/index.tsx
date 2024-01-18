@@ -18,11 +18,17 @@ import { useEffect, useState } from "react";
 import { ticketRepository } from "@infrastructure/api/repositories/tickets";
 import { ITicket } from "@domain/models";
 import LoaderComponent from "@shared/components/loader";
-import { getFormattedDate, pagination, getDateHour } from "@shared/utils";
+import {
+	getFormattedDate,
+	pagination,
+	getDateHour,
+	categoryNameToMachineName,
+} from "@shared/utils";
 import Pagination from "@shared/components/pagination";
 import { i18n } from "next-i18next";
 import TicketDetail from "../heatmap/ticketDetail";
 import { useTicketDetail } from "@infrastructure/api/hooks";
+import { categoriesIcon } from "@shared/utils/categories";
 
 export default function EventsTemplate() {
 	const router = useRouter();
@@ -37,18 +43,27 @@ export default function EventsTemplate() {
 		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
-	const currentDate = new Date().toISOString().split("T")[0];
+	const currentDate = new Date().toISOString();
+	const renderCategoryIcon = (category: string) => {
+		const machineName = categoryNameToMachineName(category);
+		const iconResult = categoriesIcon().find(
+			(value) => value.machineName === machineName
+		);
 
+		if (iconResult !== undefined) {
+			return iconResult.icon;
+		}
+
+		return magnet;
+	};
 	useEffect(() => {
 		ticketRepository
 			.getTicketWeek()
-			.then((dataTicket: ITicket[]) => {
+			.then((dataTicket: any) => {
 				console.log("dataTicket", dataTicket);
 				const filterDate = dataTicket.filter((item: ITicket) => {
 					const itemDate = new Date(item.createdAt);
-					const itemDateWithoutTime = itemDate
-						.toISOString()
-						.split("T")[0];
+					const itemDateWithoutTime = itemDate.toISOString();
 
 					return itemDateWithoutTime === currentDate;
 				});
@@ -69,7 +84,7 @@ export default function EventsTemplate() {
 	if (dataTickets?.length === 0) {
 		return <LoaderComponent />;
 	}
-
+	console.log("dataTickets", dataTickets);
 	const listTickets = [...dataTickets]
 		.sort(
 			(a, b) =>
@@ -111,17 +126,7 @@ export default function EventsTemplate() {
 							}}
 						>
 							<InformationCard
-								imageLeft={magnet}
-								// imageLeft={
-								// 	(notification.risk === "Low" && Tree) ||
-								// 	(notification.risk === "Urgent" &&
-								// 		Fire) ||
-								// 	(notification.risk === "High" &&
-								// 		Alarm) ||
-								// 	(notification.risk === "Medium" &&
-								// 		Clock) ||
-								// 	Fire
-								// }
+								imageLeft={renderCategoryIcon(ticket?.category)}
 								textCenter={`ID ${ticket?.id}`}
 								textLeft={ticket?.category}
 								textRight={getDateHour(ticket?.createdAt)}

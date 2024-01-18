@@ -8,6 +8,7 @@ import { useSideModal } from "@shared/components/sideModal";
 import TicketDetailModal from "./modal";
 import { useTranslation } from "react-i18next";
 import Chat from "@shared/components/chat";
+import { backgroundColor } from "@shared/utils";
 
 const grid = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0];
 
@@ -153,6 +154,7 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 								}
 								title={t(texts[Math.floor(index / 2)])}
 								icon={images[Math.floor(index / 2)]}
+								bgColor={backgroundColor(ticket?.category)}
 							/>
 						) : (
 							<div />

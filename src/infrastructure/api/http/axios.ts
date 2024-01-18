@@ -4,6 +4,8 @@ import { API_URL } from "@shared/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+let errorToastShown = false;
+
 export async function createAxios() {
 	const instance = axios.create({
 		baseURL: API_URL,
@@ -13,8 +15,6 @@ export async function createAxios() {
 }
 
 export async function createAxiosApp() {
-	let errorToastShown = false;
-
 	const instance = axios.create({
 		baseURL: API_URL,
 		headers: {
@@ -54,5 +54,6 @@ export async function createAxiosApp() {
 			return Promise.reject(error);
 		}
 	);
+
 	return instance;
 }
