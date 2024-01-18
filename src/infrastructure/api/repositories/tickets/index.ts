@@ -32,7 +32,7 @@ class TicketRepository implements ITicketService {
 
 	async getTicketDetail(
 		ticketId: number | string,
-		notificationId: number
+		notificationId?: number
 	): Promise<ITicket> {
 		const axios = await createAxiosApp();
 		try {
@@ -42,7 +42,15 @@ class TicketRepository implements ITicketService {
 					idNotification: notificationId,
 				}
 			);
-			return result.data;
+			return {
+				agent: result.data.agent,
+				category: result.data.category,
+				createdAt: result.data.created_at,
+				customFields: result.data.upset,
+				id: result.data.id,
+				status: result.data.status,
+				subject: result.data.subject,
+			};
 		} catch (error) {
 			return Promise.reject(error);
 		}

@@ -1,4 +1,5 @@
 import colors from "@theme/colors";
+import { mq } from "@theme/media";
 import styled from "styled-components";
 
 export const SliderContainer = styled.div`
@@ -30,14 +31,20 @@ export const Dot = styled.div<{ active: boolean }>`
 		active ? colors.orange50 : colors.orange30};
 	margin: 0 5px;
 	cursor: pointer;
+	${() =>
+		mq({
+			width: ["10px", "10px", "10px", "10px", "10px"],
+			height: ["10px", "10px", "10px", "10px", "10px"],
+		})}
 `;
 
 export const CardsContainer = styled.div`
 	display: flex;
-	flex-wrap: wrap;
 	gap: 16px;
+	justify-content: center;
+	height: 100%;
 `;
 
 export const Card = styled.div`
-	flex: 0 0 calc(25% - 16px);
+	flex: 0 0 calc(20% - 5px);
 `;

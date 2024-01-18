@@ -17,8 +17,6 @@ import { getNotifications } from "@infrastructure/store/notifications/actions";
 import { useEffect, useState } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
-import { format } from "date-fns";
-import { es, enUS } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { getFormattedDate, pagination } from "@shared/utils";
@@ -34,11 +32,12 @@ export default function NotificationsComponent() {
 	const { t, i18n } = useTranslation("notifications");
 	const [page, setPage] = useState<number>(1);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const data = useTicketDetail("INC-131490", 131490);
-	//delete
-	/* eslint-disable no-console */
-	console.log("data Ticket", data);
+	const dataTicket = useTicketDetail(`${selectedTicket}`);
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+
 	const selectTicket = (ticket: ITicket) => {
+		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
 
@@ -48,7 +47,14 @@ export default function NotificationsComponent() {
 			toast.error(t("token_expired"));
 		}
 	}, [dispatch, notificationsData.error, t]);
-	const date = new Date();
+
+	useEffect(() => {
+		if (dataTicket?.id === undefined) {
+			setIsLoading(true);
+		} else {
+			setIsLoading(false);
+		}
+	}, [dataTicket?.id]);
 
 	const listNotifications = [...notificationsData.data]
 		.sort(
@@ -68,13 +74,19 @@ export default function NotificationsComponent() {
 		}, {});
 
 	const paginationData = pagination(Object.keys(listNotifications), 5);
+
 	const renderNotifications = () => {
 		const currentPageData = paginationData[page - 1] || [];
 
 		if (currentPageData.length > 0) {
 			return currentPageData.map((date: any) => (
 				<div key={date}>
-					<h1>{date}</h1>
+					<CaptionTwo
+						$weight={theme.fontWeight.semiBold}
+						className="block mb-5 text-center"
+					>
+						{date}
+					</CaptionTwo>
 					{listNotifications[date].map(
 						(notification: NotificationItem) => (
 							<div
@@ -122,23 +134,22 @@ export default function NotificationsComponent() {
 
 	return (
 		<TwoColumnLayout>
-			<ContainerBackground className="grow justify-center mr-8">
+			<ContainerBackground className="grow">
 				<div className="flex flex-col items-center mb-5">
 					<Overline $weight={theme.fontWeight.bold} $center>
 						{t("your_notifications")}
 					</Overline>
 					<CaptionTwo>{t("from_last_week")}</CaptionTwo>
-					<CaptionTwo
-						$weight={theme.fontWeight.semiBold}
-						className="mt-3"
-					>
-						{format(date, "dd 'de' MMMM 'de' yyyy", {
-							locale: i18n.language === "en" ? enUS : es,
-						})}
-					</CaptionTwo>
 				</div>
-				<div className="flex flex-col justify-around h-[42rem]">
-					<div>{renderNotifications()}</div>
+				<div className="flex flex-col h-5/6 justify-between mb-10">
+					<div
+						style={{
+							height: "70vh",
+							overflowY: "scroll",
+						}}
+					>
+						{renderNotifications()}
+					</div>
 					<div className="items-center flex justify-center">
 						<Pagination
 							selectedPage={page}
@@ -151,10 +162,18 @@ export default function NotificationsComponent() {
 
 			<ContainerBackground className="flex items-center flex-col justify-center">
 				{selectedTicket ? (
-					<TicketDetail
-						onClose={() => setSelectedTicket(null)}
-						ticket={selectedTicket}
-					/>
+					<>
+						{isLoading ? (
+							<LoaderComponent />
+						) : (
+							<TicketDetail
+								onClose={() => setSelectedTicket(null)}
+								ticket={{
+									...dataTicket,
+								}}
+							/>
+						)}
+					</>
 				) : (
 					<TitleSecond $weight={theme.fontWeight.bold} $center>
 						{t("no_tickets_selected")}

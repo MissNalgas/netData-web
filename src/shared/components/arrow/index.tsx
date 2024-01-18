@@ -2,8 +2,15 @@ import { FloatingArrow, arrow, flip, offset, useFloating, useHover, useInteracti
 import Icon from "../icons";
 import { useRef, useState } from "react";
 
-export default function Arrow({ action, nameIcon }: { action: () => void, nameIcon: string }) {
+interface ArrowProps {
+    action: () => void,
+    nameIcon: string,
+    className?: string,
+    showMore?: boolean
+}
 
+export default function Arrow(props: ArrowProps) {
+    const { action, nameIcon, className, showMore = true } = props;
 	const [isOpen, setIsOpen] = useState(false);
 	const arrowRef = useRef(null);
 	const { refs, floatingStyles, context } = useFloating({
@@ -17,18 +24,18 @@ export default function Arrow({ action, nameIcon }: { action: () => void, nameIc
 
 	return (
 		<>
-			<div ref={refs.setReference} className="bg-shadow20 rounded-full ml-1 h-7" onClick={action} {...getReferenceProps()}>
+			<div ref={refs.setReference} className={`flex bg-shadow20 rounded-full ml-1 h-7 w-9 justify-center cursor-pointer ${className}`} onClick={action} {...getReferenceProps()}>
 				<Icon
 					icon={nameIcon}
 					size={25}
 				/>
 			</div>
-			<div className={`bg-gray-800 text-white p-1 rounded transition ${isOpen ? "opacty-100" : "opacity-0"}` }style={floatingStyles} ref={refs.setFloating} {...getFloatingProps()}>
+			{showMore && (<div className={`bg-gray-800 text-white p-1 rounded transition ${isOpen ? "opacty-100" : "opacity-0"}` }style={floatingStyles} ref={refs.setFloating} {...getFloatingProps()}>
 				<span>
 					Ver más
 				</span>
 				<FloatingArrow context={context} ref={arrowRef}/>
-			</div>
+			</div>)}
 		</>
 	);
 }

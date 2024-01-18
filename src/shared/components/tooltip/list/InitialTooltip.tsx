@@ -20,13 +20,14 @@ import { useTranslation } from "react-i18next";
 
 interface props {
 	visible: boolean;
+    handleStartTour: (_method: "open") => void;
 }
 
-const InitialTooltip = ({ visible }: props) => {
+const InitialTooltip = ({ visible, handleStartTour }: props) => {
 	const styles = {
 		tooltip: {
 			width: "100%",
-			height: "342px",
+			height: "auto",
 		},
 	};
 	const dispatch = useAppDispatch();
@@ -53,20 +54,18 @@ const InitialTooltip = ({ visible }: props) => {
 				<TitleSecond>{t("has_init_guide")}</TitleSecond>
 				<ContentInitialTooltip>
 					<SecondaryButton
-						width={260}
 						onClick={() => {
 							localStorage.setItem("guide", "false");
-
 							dispatch(hideTooltipModal());
 						}}
 					>
 						{t("no_guide")}
 					</SecondaryButton>
 					<PrimaryButton
-						onClick={() =>
-							dispatch(setCurrentTooltip(currentTooltip + 1))
-						}
-						width={260}
+						onClick={() =>{
+                            dispatch(setCurrentTooltip(currentTooltip + 1))
+                            handleStartTour("open");
+                        }}
 					>
 						{t("yes_guide")}
 					</PrimaryButton>

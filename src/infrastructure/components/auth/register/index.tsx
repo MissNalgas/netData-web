@@ -11,9 +11,10 @@ import { TitleOne } from "@shared/components/labels/styled";
 import { useTranslation } from "react-i18next";
 import LoaderComponent from "@shared/components/loader";
 import ValidationsRegister from "./validations";
+import Icon from "@shared/components/icons";
 interface IRegisterComponentProps {
-	changeStateAction?: 1 | 2 | 3 | 4 | 5;
-	setChangeAction?: (_value: 1 | 2 | 3 | 4 | 5) => void;
+	changeStateAction?: 1 | 2 | 3 | 4 ;
+	setChangeAction?: (_value: 1 | 2 | 3 | 4 ) => void;
 }
 
 const RegisterComponent: FC<IRegisterComponentProps> = ({
@@ -35,9 +36,23 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 		}
 	}, [changeStateAction, t]);
 
+    const handleClickArrow = () => {
+        switch (changeStateAction) {
+            case 2:
+                setChangeAction(1)
+            case 1:
+                router.push("login");
+            default:
+                break;
+        }
+    };
+
 	return (
-		<ContentForm className="flex overflow-y-auto px-16 h-screen pb-8 my-auto">
+        <ContentForm className="flex overflow-y-auto h-screen pb-8 my-auto">
 			<div className="m-auto">
+                <div onClick={() => handleClickArrow()} className="bg-gray-200 rounded-full px-1 py-2 w-10 cursor-pointer">
+                    <Icon icon="left-arrow" size="32"/>
+                </div>
 				<TitleOne $center>{title}</TitleOne>
 				{changeStateAction === 1 && (
 					<>

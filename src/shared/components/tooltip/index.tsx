@@ -2,13 +2,10 @@ import React, { JSX, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { hideTooltipModal, setCurrentTooltip, showTooltipModal } from "./slice";
+import { hideTooltipModal, showTooltipModal } from "./slice";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import { RootState } from "@infrastructure/store";
-import Modal from "@shared/components/modal";
-import Icon from "@shared/components/icons";
-import { Overline } from "@shared/components/labels/styled";
-import { ContentButtonMain } from "./styled";
+import ModalTooltip from "@shared/components/modalTooltip";
 import { useTranslation } from "react-i18next";
 
 interface props {
@@ -40,7 +37,6 @@ const Tooltip = ({
 		(state: RootState) => state.tooltips
 	);
 	const dispatch = useDispatch();
-	const isFirstTooltip = currentTooltip === 0;
 	const isLastTooltip = currentTooltip > totalTooltip;
 	const guide = localStorage.getItem("guide");
 	useEffect(() => {
@@ -53,73 +49,13 @@ const Tooltip = ({
 		localStorage.setItem("guide", "false");
 		closeModal();
 	};
-	const renderActions = (): JSX.Element => {
-		if (isLastTooltip) {
-			return (
-				<div className="flex flex-row justify-center items-center w-90">
-					<PrimaryButton onClick={() => closeAction()} width={50}>
-						{t("finished_guide")}
-					</PrimaryButton>
-				</div>
-			);
-		}
-
-		return (
-			<>
-				<ContentButtonMain>
-					{!isFirstTooltip && (
-						<>
-							{currentTooltip > 1 ? (
-								<button
-									className="w-9 h-9 bg-shadow20 rounded-full grid place-content-center"
-									onClick={() =>
-										dispatch(
-											setCurrentTooltip(
-												currentTooltip - 1
-											)
-										)
-									}
-								>
-									<Icon icon="left-arrow" size={30} />
-								</button>
-							) : (
-								<div style={{ width: 35 }} />
-							)}
-							<Overline $color="#F99E17" $weight={700}>
-								{currentTooltip}/{totalTooltip}
-							</Overline>
-						</>
-					)}
-					{currentTooltip !== 0 && (
-						<button
-							className="w-9 h-9 bg-shadow20 rounded-full grid place-content-center"
-							onClick={() =>
-								dispatch(setCurrentTooltip(currentTooltip + 1))
-							}
-						>
-							<Icon icon="right-arrow" size={30} />
-						</button>
-					)}
-				</ContentButtonMain>
-				{currentTooltip !== 0 && (
-					<div className="flex flex-row justify-center py-2 w-11/12">
-						<button onClick={() => closeAction()}>
-							<Overline $color="#F99E17" $weight={600}>
-								{t("close_guide")}
-							</Overline>
-						</button>
-					</div>
-				)}
-			</>
-		);
-	};
 
 	const closeModal = async () => {
 		dispatch(hideTooltipModal());
 	};
 
 	return (
-		<Modal
+		<ModalTooltip
 			isOpen={showTooltip && visible}
 			onActionModal={() => {}}
 			tooltipStyles={tooltipStyles}
@@ -129,10 +65,14 @@ const Tooltip = ({
 			<div style={styles.background}>
 				<div style={(styles.tooltip, tooltipStyles)}>
 					<div>{children}</div>
-					{currentTooltip !== 0 && renderActions()}
+					{isLastTooltip && (<div className="flex flex-row justify-center items-center w-90">
+                        <PrimaryButton onClick={() => closeAction()} width={50}>
+                            {t("finished_guide")}
+                        </PrimaryButton>
+                    </div>)}
 				</div>
 			</div>
-		</Modal>
+		</ModalTooltip>
 	);
 };
 

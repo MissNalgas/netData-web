@@ -1,12 +1,15 @@
 "use client"
 import { useAuth } from "@infrastructure/containers/auth";
+import { RootState } from "@infrastructure/store";
 import ModalQuestion from "@shared/components/modalQuestion";
 import Sidebar from "@shared/components/sidebar";
 import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function MainContainer({children} : MainContainerProps) {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { logOut } = useAuth();
+    const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
 
     const yesClose = useCallback(() => {
         logOut();
@@ -57,8 +60,8 @@ export default function MainContainer({children} : MainContainerProps) {
 
 	return (
 		<div className="w-full h-screen flex">
-			<div className="w-80 h-full hidden lg:block">
-                <ModalQuestion isOpen={isModalVisible} onClose={() => yesClose()} onPressYes={() => noCloseModal()}/>
+            <ModalQuestion isOpen={isModalVisible} onClose={() => yesClose()} onPressYes={() => noCloseModal()}/>
+			<div className={`${isOpenDrawer ? "cel:w-full" : "cel:hidden"} tablet:w-12 desktop:w-64 h-full laptop:block`}>
 				<Sidebar/>
 			</div>
 			<div className="flex-1 max-h-full overflow-auto">
