@@ -17,17 +17,18 @@ import { useTicketPerCategory } from "@infrastructure/api/hooks";
 
 
 type INITIAL_TYPE = {category: null | FilterOption, status: null | FilterOption, risk: null | FilterOption};
-const INITAL_STATE : INITIAL_TYPE = {category: null, status: null, risk: null};
+const INITIAL_STATE : INITIAL_TYPE = {category: null, status: null, risk: null};
 
 
 export default function FilterInput({filter, onChange, placeholder} : FilterInputProps) {
 
 	const { t, i18n } = useTranslation();
 	const [isFilterOpen, setIsFilterOpen] = useState(false);
-	const [filterData, setFilter] = useFilterState(INITAL_STATE);
+	const [filterData, setFilter] = useFilterState(INITIAL_STATE);
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [date, setDate] = useState<Date | null>(null);
 	const categoryData = useTicketPerCategory();
+	const [input, setInput] = useState("");
 
 	useEffect(() => {
 		if (!filter) return;
@@ -56,6 +57,7 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 		onChange?.({
 			...filterData,
 			date: date,
+			id: Number(input) || null,
 		});
 	}
 
@@ -118,6 +120,8 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 	return (
 		<>
 			<TextInput
+				value={input}
+				onChange={e => setInput(e.target.value)}
 				ref={refs.setReference}
 				name="filter"
 				icon="Magnifier"
@@ -136,7 +140,7 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 							icon={filter.icon}
 							key={filter.name}
 							placeholder={filter.placeholder}
-							options={filter.options as any as GroupBase<FilterOption>[]}
+							options={filter.options as unknown as GroupBase<FilterOption>[]}
 							onChange={item => setFilter({[filter.name]: item})}
 						/>
 					))}

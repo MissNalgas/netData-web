@@ -1,12 +1,15 @@
 "use client"
+import { IFilters } from "@domain/models";
 import { useAllTickets } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
 import LoaderComponent from "@shared/components/loader";
+import { parseQueryToFilters } from "@shared/utils";
 import { ScatterChart } from "echarts/charts";
 import { GridComponent } from "echarts/components";
 import { UniversalTransition } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import { useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function HeatmapChart() {
 
@@ -16,8 +19,16 @@ export default function HeatmapChart() {
 		CanvasRenderer,
 		UniversalTransition,
 	]);
-	const [filters] = useState({date: new Date()});
-	const ticketData = useAllTickets(filters as any);
+	const [filters, setFilters] = useState<IFilters>();
+	const ticketData = useAllTickets(filters);
+
+	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		setFilters(
+			parseQueryToFilters(searchParams)
+		);
+	}, [searchParams]);
 
 	const option = useMemo(() => {
 

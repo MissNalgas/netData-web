@@ -1,13 +1,16 @@
 "use client";
 
+import { IFilters } from "@domain/models";
 import { useTicketPerPriority } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
 import LoaderComponent from "@shared/components/loader";
+import { parseQueryToFilters } from "@shared/utils";
 import { PieChart } from "echarts/charts";
 import { LegendComponent, TooltipComponent } from "echarts/components";
 import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import { useMemo, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function PriorityDonut() {
 	const loadComponents = useRef([
@@ -17,7 +20,15 @@ export default function PriorityDonut() {
 		CanvasRenderer,
 		LabelLayout,
 	]);
-	const data = useTicketPerPriority();
+	const [filter, setFilter] = useState<IFilters>();
+	const data = useTicketPerPriority(filter);
+	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		setFilter(
+			parseQueryToFilters(searchParams)
+		);
+	}, [searchParams]);
 
 	const options = useMemo(() => {
 		if (!data) return {};

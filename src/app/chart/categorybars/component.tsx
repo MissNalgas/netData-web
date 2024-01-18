@@ -1,17 +1,28 @@
 "use client"
+import { IFilters } from "@domain/models";
 import { useTicketPerCategory } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
 import LoaderComponent from "@shared/components/loader";
+import { parseQueryToFilters } from "@shared/utils";
 import { BarChart } from "echarts/charts";
 import { GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
-import { useMemo, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function CategoryBars() {
 
-	const data = useTicketPerCategory();
+	const [filters, setFilters] = useState<IFilters>();
+	const data = useTicketPerCategory(filters);
 	const { i18n } = useTranslation();
+	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		setFilters(
+			parseQueryToFilters(searchParams)
+		);
+	}, [searchParams]);
 
 	const loadComponents = useRef([
 		GridComponent,

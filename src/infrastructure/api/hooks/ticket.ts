@@ -1,6 +1,6 @@
 import {
 	IFilters,
-	ITIcketPerSolution,
+	ITicketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -48,47 +48,53 @@ export function useTicketDetail(
 	return data;
 }
 
-export function useTicketPerCategory() {
+export function useTicketPerCategory(filters?: IFilters) {
 	const [data, setData] = useState<ITicketPerCategory | null>();
 
 	useEffect(() => {
+		if (filters === undefined) return;
+
 		ticketRepository
-			.getTicketPerCategory()
+			.getTicketPerCategory(filters)
 			.then(setData)
 			.catch(() => {
 				setData(null);
 			});
-	}, []);
+	}, [filters]);
 
 	return data;
 }
 
-export function useTicketPerPriority() {
+export function useTicketPerPriority(filter?: IFilters) {
 	const [data, setData] = useState<ITicketPerPriority | null>();
 
 	useEffect(() => {
+		if (filter === undefined) return;
+
 		ticketRepository
-			.getTicketsPerPriority()
+			.getTicketsPerPriority(filter)
 			.then(setData)
 			.catch(() => {
 				setData(null);
 			});
-	}, []);
+	}, [filter]);
 
 	return data;
 }
 
-export function useTicketPerSolution() {
-	const [data, setData] = useState<ITIcketPerSolution | null>();
+export function useTicketPerSolution(filters?: IFilters) {
+	const [data, setData] = useState<ITicketPerSolution | null>();
 
 	useEffect(() => {
+		if (!filters) return;
+
 		ticketRepository
-			.getTicketsPerSolution()
+			.getTicketsPerSolution(filters)
 			.then(setData)
 			.catch(() => {
 				setData(null);
 			});
-	}, []);
+	}, [filters]);
 
 	return data;
 }

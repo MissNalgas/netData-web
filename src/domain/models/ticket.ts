@@ -34,6 +34,7 @@ export interface IFilters {
 	status: null | FilterOption;
 	risk: null | FilterOption;
 	date: null | Date;
+	id: null | number;
 }
 
 export interface ITicketPerCategory {
@@ -42,7 +43,7 @@ export interface ITicketPerCategory {
 	count: number[];
 }
 
-export interface ITIcketPerSolution {
+export interface ITicketPerSolution {
 	solutionsEn: string[];
 	solutionsEs: string[];
 	counts: number[];
