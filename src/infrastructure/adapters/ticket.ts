@@ -1,7 +1,7 @@
 import {
 	ICustomFields,
 	IFilters,
-	ITIcketPerSolution,
+	ITicketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -26,10 +26,10 @@ export class TicketAdapter {
 		return {
 			priority: filter.risk
 				? (filter.risk.value as PriorityDTO)
-				: undefined,
+				: PriorityDTO.All,
 			status: filter.status
 				? (filter.status.value as StatusDTO)
-				: undefined,
+				: StatusDTO.Open,
 			category: filter.category ? filter.category.value : undefined,
 			date: filter.date ? formatDateDTO(filter.date) : undefined,
 		};
@@ -96,7 +96,7 @@ export class TicketAdapter {
 
 	static ticketPerSolutionFromDTO(
 		solutionDTO: ITicketPerSolutionDTO
-	): ITIcketPerSolution {
+	): ITicketPerSolution {
 		return {
 			solutionsEn: solutionDTO.solutions_en,
 			solutionsEs: solutionDTO.solutions_es,
