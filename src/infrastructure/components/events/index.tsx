@@ -30,6 +30,7 @@ import { useTicketDetail } from "@infrastructure/api/hooks";
 import { categoriesIcon } from "@shared/utils/categories";
 import { useTheme } from "styled-components";
 import EventsCibersecurity from "../dashboard/eventsCibersecurity";
+import FilterInput from "@shared/components/filterInput";
 
 export default function EventsTemplate() {
 	const router = useRouter();
@@ -68,7 +69,6 @@ export default function EventsTemplate() {
 		ticketRepository
 			.getTicketWeek()
 			.then((dataTicket: any) => {
-				console.log("showEventsDay", showEventsDay);
 				if (showEventsDay === "true") {
 					const filterDate = dataTicket.filter((item: ITicket) => {
 						const itemDate = new Date(item?.createdAt);
@@ -169,7 +169,7 @@ export default function EventsTemplate() {
 
 	return (
 		<>
-			{ changeSectionParam ? (
+			{changeSectionParam ? (
 				<div className="tablet:flex space-between mx-5 py-8 h-screen mb-32">
 					<ContainerBackground
 						className={`${
@@ -211,14 +211,15 @@ export default function EventsTemplate() {
 								</div>
 							</div>
 							<ColorGuide />
+							<FilterInput placeholder="# de ticket" />
 						</div>
 						<div
 							style={{
-								height: "70vh",
+								height: "65vh",
 								overflowY: "scroll",
 							}}
 						>
-							{renderTickets()}
+							{dataTickets.length > 0 && renderTickets()}
 						</div>
 
 						<div className="items-center flex justify-center">
