@@ -109,7 +109,7 @@ export interface IFilterParamDTO {
 	priority?: PriorityDTO;
 	status?: StatusDTO;
 	category?: string;
-	date?: `${number}-${number}-${number}`;
+	date?: `${number}-${string}-${string}`;
 }
 
 export interface ITicketsPerWeekDTO {

@@ -3,7 +3,7 @@ import { useAllTickets, useTicketDetail } from "@infrastructure/api/hooks";
 import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
 import FilterInput from "@shared/components/filterInput";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import TicketDetail from "../ticketDetail";
 import { useTranslation } from "react-i18next";
 import Pagination from "@shared/components/pagination";
@@ -13,19 +13,20 @@ import ColorGuide from "@shared/components/colorGuide";
 import InformationCard from "@shared/components/informationCard";
 import magnet from "/public/img/magnet.png";
 import { format } from "date-fns";
-import { getFormattedDate } from "@shared/utils";
+import { formatFiltersToQuery, getFormattedDate } from "@shared/utils";
 import LoaderComponent from "@shared/components/loader";
 
 export default function HeatmapTemplate() {
 	const { t, i18n } = useTranslation();
 	const [filter, setFilter] = useState<IFilters>();
 	const data = useAllTickets(filter);
-	const [selectedTicket, setSelectedTicket] = useState<
-		ITicket | null | string
-	>(null);
-	const [tickets, page, setPage, maxPages] = useArrayPagination(
-		data?.tickets
-	);
+	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
+	const [tickets, page, setPage, maxPages] = useArrayPagination(data?.tickets);
+	const todayDate = useMemo(() => {
+		const date = new Date();
+		date.setHours(0, 0, 0, 0);
+		return date;
+	}, []);
 
 	const dataTicket = useTicketDetail(`${selectedTicket}`);
 
@@ -33,7 +34,7 @@ export default function HeatmapTemplate() {
 	useEffect(() => {
 		const firstTicket = data?.tickets[0];
 
-		firstTicket && setSelectedTicket(firstTicket.id.toString());
+		firstTicket && setSelectedTicket(firstTicket);
 	}, [data]);
 
 	useEffect(() => {
@@ -45,7 +46,7 @@ export default function HeatmapTemplate() {
 	}, [dataTicket?.id]);
 	const selectTicket = (ticket: ITicket) => {
 		setIsLoading(true);
-		setSelectedTicket(ticket.id.toString());
+		setSelectedTicket(ticket);
 	};
 
 	return (
@@ -72,7 +73,13 @@ export default function HeatmapTemplate() {
 					/>
 					<iframe
 						className="w-full max-w-[500px] h-[500px] bg-gray-100 rounded-lg p-2"
-						src="/chart/heatmap?height=500"
+						src={`/chart/heatmap?height=500&${formatFiltersToQuery({
+							category: filter?.category || null,
+							risk: filter?.risk || null,
+							status: filter?.status || null,
+							date: filter?.date || todayDate,
+							id: filter?.id || null,
+						})}`}
 					/>
 				</div>
 				{!!tickets.length && (
@@ -82,7 +89,7 @@ export default function HeatmapTemplate() {
 								{t("heatmap:events_by_priority")}
 							</h2>
 							<iframe
-								src="/chart/prioritydonut"
+								src={`/chart/prioritydonut${filter ? `?${formatFiltersToQuery(filter)}` : ""}`}
 								className="w-full h-[300px]"
 							/>
 						</div>
@@ -91,7 +98,7 @@ export default function HeatmapTemplate() {
 								{t("heatmap:events_by_category")}
 							</h2>
 							<iframe
-								src="/chart/categorybars"
+								src={`/chart/categorybars${filter ? `?${formatFiltersToQuery(filter)}` : ""}`}
 								className="w-full h-[300px]"
 							/>
 						</div>
@@ -185,7 +192,7 @@ export default function HeatmapTemplate() {
 							{t("heatmap:events_by_solution")}
 						</h2>
 						<iframe
-							src="/chart/solutionbars?height=400"
+							src={`/chart/solutionbars?height=400${filter ? `&${formatFiltersToQuery(filter)}` : ""}`}
 							className="w-full h-[400px]"
 						/>
 					</div>

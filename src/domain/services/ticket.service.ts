@@ -1,6 +1,6 @@
 import {
 	IFilters,
-	ITIcketPerSolution,
+	ITicketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -13,8 +13,8 @@ export interface ITicketService {
 		_ticketId: number,
 		_notificationId: number
 	): Promise<ITicket>;
+	getTicketPerCategory(_filters: IFilters): Promise<ITicketPerCategory>;
+	getTicketsPerPriority(_filters: IFilters): Promise<ITicketPerPriority>;
+	getTicketsPerSolution(_filters: IFilters): Promise<ITicketPerSolution>;
 	getTicketWeek(): Promise<ITicket>;
-	getTicketPerCategory(): Promise<ITicketPerCategory>;
-	getTicketsPerPriority(): Promise<ITicketPerPriority>;
-	getTicketsPerSolution(): Promise<ITIcketPerSolution>;
 }
