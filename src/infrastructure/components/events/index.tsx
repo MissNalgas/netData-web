@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import ColorGuide from "@shared/components/colorGuide";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "@infrastructure/api/repositories/tickets";
-import { ITicket, TicketStatus } from "@domain/models";
+import { IFilters, ITicket, TicketStatus } from "@domain/models";
 import LoaderComponent from "@shared/components/loader";
 import {
 	getFormattedDate,
@@ -31,12 +31,14 @@ import { categoriesIcon } from "@shared/utils/categories";
 import { useTheme } from "styled-components";
 import EventsCibersecurity from "../dashboard/eventsCibersecurity";
 import FilterInput from "@shared/components/filterInput";
+import FilterDetail from "../heatmap/filterDetail";
 
 export default function EventsTemplate() {
 	const router = useRouter();
 	const params = useSearchParams();
 	const showEventsDay = params.get("showEventsDay");
 	const changeSectionParam = params.get("changeSection");
+	const [filter, setFilter] = useState<IFilters>();
 
 	const { t } = useTranslation("events_today");
 	const week = useTranslation("events_week");
@@ -86,12 +88,12 @@ export default function EventsTemplate() {
 			});
 	}, [currentDate, showEventsDay]);
 	useEffect(() => {
-		if (dataTicket?.id === undefined) {
+		if (dataTickets.length > 0 && dataTicket?.id === undefined) {
 			setIsLoading(true);
 		} else {
 			setIsLoading(false);
 		}
-	}, [dataTicket?.id]);
+	}, [dataTicket?.id, dataTickets.length]);
 	if (dataTickets?.length === 0) {
 		return <LoaderComponent />;
 	}
@@ -162,7 +164,7 @@ export default function EventsTemplate() {
 					{t("you_do_not_have_any_tickets")}
 				</Overline>
 			) : (
-				<LoaderComponent />
+				<></>
 			);
 		}
 	};
@@ -212,10 +214,15 @@ export default function EventsTemplate() {
 							</div>
 							<ColorGuide />
 							<FilterInput placeholder="# de ticket" />
+							<FilterDetail
+								filter={filter}
+								setFilter={setFilter}
+								className="mb-4"
+							/>
 						</div>
 						<div
 							style={{
-								height: "65vh",
+								height: "61vh",
 								overflowY: "scroll",
 							}}
 						>
