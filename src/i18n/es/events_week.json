@@ -5,5 +5,7 @@
 	"tickets_open_week": "Tus tickets abiertos de la semana",
 	"events_for_category": "Eventos de ciberseguridad por categoría",
 	"calendar": "Calendario",
-	"tickets_event": "Tus tickes de eventos de ciberseguridad"
+	"tickets_event": "Tus tickes de eventos de ciberseguridad",
+	"you_do_not_have_any_tickets": "No tienes tickes",
+	"of_day": "de los eventos de ciberseguridad del día"
 }

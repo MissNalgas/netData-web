@@ -60,7 +60,7 @@ export const backgroundColor = (category: string) => {
 		case "Restriction":
 			return theme.colors.blue10;
 		case "Discovery":
-			return theme.colors.blue10;
+			return theme.colors.purple20;
 		case "Credential Access":
 			return theme.colors.blue10;
 		case "Defense Evasion":
@@ -74,9 +74,9 @@ export const backgroundColor = (category: string) => {
 		case "Command and Control":
 			return theme.colors.blue10;
 		case "Lateral Movement":
-			return theme.colors.blue10;
+			return theme.colors.red20;
 		case "Malware":
-			return theme.colors.blue10;
+			return theme.colors.red40;
 	}
 	return "";
 };

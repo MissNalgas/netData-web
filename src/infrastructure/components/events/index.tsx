@@ -6,17 +6,16 @@ import {
 	SubtitleLink,
 	TitleSecond,
 } from "@shared/components/labels/styled";
-import theme from "@theme/index";
 import magnet from "/public/img/magnet.png";
 import Arrow from "@shared/components/arrow";
-import Image from "next/image";
-import alarm from "/public/img/alarm_icon.png";
-import { useRouter } from "next/navigation";
+// import Image from "next/image";
+// import alarm from "/public/img/alarm_icon.png";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import ColorGuide from "@shared/components/colorGuide";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "@infrastructure/api/repositories/tickets";
-import { ITicket } from "@domain/models";
+import { ITicket, TicketStatus } from "@domain/models";
 import LoaderComponent from "@shared/components/loader";
 import {
 	getFormattedDate,
@@ -29,21 +28,30 @@ import { i18n } from "next-i18next";
 import TicketDetail from "../heatmap/ticketDetail";
 import { useTicketDetail } from "@infrastructure/api/hooks";
 import { categoriesIcon } from "@shared/utils/categories";
+import { useTheme } from "styled-components";
+import EventsCibersecurity from "../dashboard/eventsCibersecurity";
 
 export default function EventsTemplate() {
 	const router = useRouter();
+	const params = useSearchParams();
+	const showEventsDay = params.get("showEventsDay");
+	const changeSectionParam = params.get("changeSection");
+
 	const { t } = useTranslation("events_today");
+	const week = useTranslation("events_week");
+
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | any>(null);
 	const [dataTickets, setDataTickets] = useState<ITicket[]>([]);
 	const [page, setPage] = useState<number>(1);
+
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const dataTicket = useTicketDetail(`${selectedTicket}`);
-
+	const theme = useTheme();
 	const selectTicket = (ticket: ITicket | any) => {
 		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
-	const currentDate = new Date().toISOString();
+	const currentDate = new Date().toDateString();
 	const renderCategoryIcon = (category: string) => {
 		const machineName = categoryNameToMachineName(category);
 		const iconResult = categoriesIcon().find(
@@ -60,20 +68,23 @@ export default function EventsTemplate() {
 		ticketRepository
 			.getTicketWeek()
 			.then((dataTicket: any) => {
-				console.log("dataTicket", dataTicket);
-				const filterDate = dataTicket.filter((item: ITicket) => {
-					const itemDate = new Date(item.createdAt);
-					const itemDateWithoutTime = itemDate.toISOString();
+				console.log("showEventsDay", showEventsDay);
+				if (showEventsDay === "true") {
+					const filterDate = dataTicket.filter((item: ITicket) => {
+						const itemDate = new Date(item?.createdAt);
+						const itemDateWithoutTime = itemDate.toDateString();
 
-					return itemDateWithoutTime === currentDate;
-				});
-				console.log("filterDate", filterDate);
-				setDataTickets(filterDate);
+						return itemDateWithoutTime === currentDate;
+					});
+					setDataTickets(filterDate);
+				} else {
+					setDataTickets(dataTicket);
+				}
 			})
 			.catch(() => {
 				setDataTickets([]);
 			});
-	}, []);
+	}, [currentDate, showEventsDay]);
 	useEffect(() => {
 		if (dataTicket?.id === undefined) {
 			setIsLoading(true);
@@ -84,16 +95,16 @@ export default function EventsTemplate() {
 	if (dataTickets?.length === 0) {
 		return <LoaderComponent />;
 	}
-	console.log("dataTickets", dataTickets);
 	const listTickets = [...dataTickets]
 		.sort(
 			(a, b) =>
-				new Date(b.createdAt).getTime() -
-				new Date(a.createdAt).getTime()
+				new Date(b?.createdAt).getTime() -
+				new Date(a?.createdAt).getTime()
 		)
 		.reduce((prev: any, curr: any) => {
+			console.log("curr?.createdA", curr?.createdA);
 			let index = getFormattedDate(
-				new Date(curr.createdAt),
+				new Date(curr?.createdAt),
 				i18n?.language
 			);
 			prev[index] !== undefined
@@ -102,7 +113,7 @@ export default function EventsTemplate() {
 			return prev;
 		}, {});
 
-	const paginationData = pagination(Object.keys(listTickets), 1);
+	const paginationData = pagination(Object.keys(listTickets), 3);
 	const renderTickets = () => {
 		const currentPageData = paginationData[page - 1] || [];
 
@@ -131,6 +142,15 @@ export default function EventsTemplate() {
 								textLeft={ticket?.category}
 								textRight={getDateHour(ticket?.createdAt)}
 								showIconLeft={true}
+								bgColor={
+									(ticket.status === TicketStatus?.Open &&
+										theme.colors.orange20) ||
+									((ticket.status === TicketStatus?.Closed ||
+										ticket.status ===
+											TicketStatus?.Pending) &&
+										theme.colors.green10) ||
+									theme.colors.gray10
+								}
 							/>
 						</div>
 					))}
@@ -139,7 +159,7 @@ export default function EventsTemplate() {
 		} else {
 			return currentPageData.length === 0 ? (
 				<Overline $weight={theme.fontWeight.bold}>
-					{t("you_do_not_have_any_notifications")}
+					{t("you_do_not_have_any_tickets")}
 				</Overline>
 			) : (
 				<LoaderComponent />
@@ -148,83 +168,102 @@ export default function EventsTemplate() {
 	};
 
 	return (
-		<div className="tablet:flex space-between mx-5 py-8 h-screen mb-32">
-			<ContainerBackground
-				className={`${
-					selectedTicket === 0 ? "cel:block" : "cel:hidden"
-				} tablet:block tablet:w-9/12 justify-center tablet:mr-8`}
-			>
-				<div className="flex flex-col items-center mb-5">
-					<div className="flex w-full justify-between">
-						<Arrow
-							action={() => router.push("/")}
-							nameIcon="left-arrow"
-							showMore={false}
-						/>
-						<div className="grid">
-							<SubtitleLink
-								$weight={theme.fontWeight.bold}
-								$center
-							>
-								{t("title_tickes")}
-							</SubtitleLink>
-							<CaptionOne className="text-center">
-								{t("subtitle")}
-							</CaptionOne>
-						</div>
-						<div className="w-12 h-12 bg-orange20 rounded-full grid place-content-center">
-							<Image
+		<>
+			{ changeSectionParam ? (
+				<div className="tablet:flex space-between mx-5 py-8 h-screen mb-32">
+					<ContainerBackground
+						className={`${
+							selectedTicket === 0 ? "cel:block" : "cel:hidden"
+						} tablet:block tablet:w-9/12 justify-center tablet:mr-8`}
+					>
+						<div className="flex flex-col items-center mb-5">
+							<div className="flex w-full justify-between">
+								<Arrow
+									action={() => router.push("/")}
+									nameIcon="left-arrow"
+									showMore={false}
+								/>
+								<div className="grid">
+									<SubtitleLink
+										$weight={theme.fontWeight.bold}
+										$center
+									>
+										{showEventsDay === "true"
+											? t("title_tickes")
+											: week.t("tickets_event")}
+									</SubtitleLink>
+									{showEventsDay === "true" && (
+										<CaptionOne className="text-center">
+											{t("subtitle")}
+										</CaptionOne>
+									)}
+								</div>
+
+								<div
+								// className="w-12 h-12 bg-orange20 rounded-full grid place-content-center"
+								>
+									{/* <Image
 								src={alarm}
 								alt="Alarm"
 								width={32}
 								height={0}
+							/> */}
+								</div>
+							</div>
+							<ColorGuide />
+						</div>
+						<div
+							style={{
+								height: "70vh",
+								overflowY: "scroll",
+							}}
+						>
+							{renderTickets()}
+						</div>
+
+						<div className="items-center flex justify-center">
+							<Pagination
+								selectedPage={page}
+								setSelectedPage={setPage}
+								totalPages={paginationData.length}
 							/>
 						</div>
-					</div>
-					<ColorGuide />
-				</div>
-				<div
-					style={{
-						height: "70vh",
-						overflowY: "scroll",
-					}}
-				>
-					{renderTickets()}
-				</div>
+					</ContainerBackground>
 
-				<div className="items-center flex justify-center">
-					<Pagination
-						selectedPage={page}
-						setSelectedPage={setPage}
-						totalPages={paginationData.length}
-					/>
-				</div>
-			</ContainerBackground>
-
-			<ContainerBackground
-				className={`${
-					selectedTicket > 0 ? "cel:block" : "cel:hidden"
-				} tablet:block flex items-center flex-col justify-center`}
-			>
-				{selectedTicket ? (
-					<>
-						{isLoading ? (
-							<LoaderComponent />
+					<ContainerBackground
+						className={`${
+							selectedTicket > 0 ? "cel:block" : "cel:hidden"
+						} tablet:block flex items-center flex-col justify-center`}
+					>
+						{selectedTicket ? (
+							<>
+								{isLoading ? (
+									<LoaderComponent />
+								) : (
+									<TicketDetail
+										onClose={() => setSelectedTicket(null)}
+										ticket={{
+											...dataTicket,
+										}}
+									/>
+								)}
+							</>
 						) : (
-							<TicketDetail
-								onClose={() => setSelectedTicket(null)}
-								ticket={{
-									...dataTicket,
-								}}
-							/>
+							<TitleSecond
+								$weight={theme.fontWeight.bold}
+								$center
+							>
+								{t("no_tickets_selected")}
+							</TitleSecond>
 						)}
-					</>
-				) : (
-					<TitleSecond $weight={theme.fontWeight.bold} $center>
-						{t("no_tickets_selected")}
-					</TitleSecond>
-				)}
-			</ContainerBackground>
-		</div>
+					</ContainerBackground>
+				</div>
+			) : (
+				<EventsCibersecurity
+					showCard={false}
+					showEventsDay={showEventsDay || false}
+				/>
+			)}
+		</>
 	);
 }

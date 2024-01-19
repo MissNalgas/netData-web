@@ -6,7 +6,6 @@ export default function CategoryCircle({
 	icon,
 	bgColor = "#FDE2B9",
 }: CategoryCircleProps) {
-	console.log("bgColor", bgColor);
 	return (
 		<button
 			onClick={onClick}

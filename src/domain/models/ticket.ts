@@ -10,7 +10,8 @@ export interface ICustomFields {
 
 /* eslint-disable no-unused-vars */
 export enum TicketStatus {
-	Open = 4,
+	Open = 2,
+	Pending = 3,
 	Closed = 5,
 }
 

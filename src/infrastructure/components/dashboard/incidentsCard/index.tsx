@@ -28,7 +28,9 @@ export default function IncidentsCard(props: IncidentsCardProps) {
 			</CaptionTwo>
 			<TitleOne $color={theme.colors.orange50}>{numIncidents}</TitleOne>
 			<Arrow
-				action={() => router.push("events")}
+				action={() =>
+					router.push("/events?showEventsDay=true&changeSection=true")
+				}
 				nameIcon="right-arrow"
 			/>
 		</ContainerBackground>

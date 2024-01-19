@@ -72,7 +72,7 @@ export default function Sidebar() {
 						<Icon icon="bar-graph" size={24} color="white" />
 					),
 					onClick: () => {
-						router.push("/events");
+						router.push("/events?showEventsDay=true");
 						dispatch(closeDrawer(false));
 					},
 					isActive: matchesRegex(/^\/events$/),
