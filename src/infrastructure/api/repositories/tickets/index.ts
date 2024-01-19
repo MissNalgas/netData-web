@@ -89,8 +89,8 @@ class TicketRepository implements ITicketService {
 	): Promise<ITicketPerPriority> {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerPriorityDTO>(
-			"/api/xelco/graphic/priority",
-			{ params: TicketAdapter.paramsFromFilter(filters) }
+			"/api/xelco/graphic/day",
+			{ params: {...TicketAdapter.paramsFromFilter(filters), type: "general", day: "today"} }
 		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
 	}

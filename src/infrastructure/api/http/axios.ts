@@ -19,7 +19,6 @@ export async function createAxiosApp() {
 		baseURL: API_URL,
 		headers: {
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
 			Authorization: "Bearer " + localStorage.getItem("tokenApp") || "",
 		},
 	});

@@ -31,12 +31,14 @@ export function useAllTickets(filters?: IFilters) {
 }
 
 export function useTicketDetail(
-	ticketId: number | string,
+	ticketId: number | string | undefined | null,
 	notificationId?: number
 ) {
 	const [data, setData] = useState<ITicket | null>();
 
 	useEffect(() => {
+		if (!ticketId) return;
+
 		ticketRepository
 			.getTicketDetail(ticketId, notificationId)
 			.then(setData)

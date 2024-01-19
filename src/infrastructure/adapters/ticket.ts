@@ -66,9 +66,9 @@ export class TicketAdapter {
 	static weekGraphFromDTO(weehGraphDTO: ITicketsPerWeekDTO): ITicketPerWeek {
 		return {
 			tickets: weehGraphDTO.tickets.map(TicketAdapter.ticketFromDTO),
-			data: weehGraphDTO.data,
-			hours: weehGraphDTO.hours,
-			days: weehGraphDTO.days,
+			data: weehGraphDTO.data[0],
+			hours: weehGraphDTO.hours[0],
+			days: weehGraphDTO.days[0],
 		};
 	}
 
