@@ -28,7 +28,8 @@ export default function HeatmapTemplate() {
 		return date;
 	}, []);
 
-	const dataTicket = useTicketDetail(`${selectedTicket}`);
+
+	const dataTicket = useTicketDetail(selectedTicket && `${selectedTicket?.id}`);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	useEffect(() => {
@@ -167,7 +168,7 @@ export default function HeatmapTemplate() {
 				<div className="card p-4">
 					{selectedTicket ? (
 						<>
-							{isLoading ? (
+							{(isLoading && false) ? (
 								<LoaderComponent />
 							) : (
 								<TicketDetail

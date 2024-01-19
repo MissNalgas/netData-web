@@ -24,7 +24,7 @@ class DashboardRepository implements IDashboardService {
 	async getGraphicWeek(data: TicketPriority): Promise<IGraphicWeek> {
 		const axios = await createAxiosApp();
 		const response = await axios.get<IGraphicWeek, responseGraphic>(
-			"api/xelco/graphic/week_oc",
+			"/api/xelco/graphic/week_oc",
 			{
 				params: {
 					priority: data,
@@ -37,8 +37,10 @@ class DashboardRepository implements IDashboardService {
 
 	async getGraphicDay(_filters: filtersGraphicDay): Promise<IGraphicDay> {
 		const axios = await createAxiosApp();
+		const token = localStorage.getItem("tokenApp");
+		console.log({ token });
 		const response = await axios.get<IGraphicDay, responseGraphicDay>(
-			"api/xelco/graphic/day",
+			"/api/xelco/graphic/day",
 			{
 				params: {
 					day: _filters.day,

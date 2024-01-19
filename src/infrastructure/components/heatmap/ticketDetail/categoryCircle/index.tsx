@@ -12,7 +12,7 @@ export default function CategoryCircle({
 			style={{
 				backgroundColor: bgColor,
 			}}
-			className="flex flex-col gap-2 justify-center items-center h-[100px] w-[100px] rounded-[50%]"
+			className="flex flex-col gap-2 justify-center items-center"
 		>
 			<h5 className="text-sm text-center">{title}</h5>
 			<Image src={icon} alt="key-icon" width={33} height={33} />
