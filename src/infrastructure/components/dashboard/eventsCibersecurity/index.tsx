@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 interface EventsProps {
 	showCard?: boolean;
-	showEventsDay: string | boolean | undefined;
+	showEventsDay?: string | boolean | undefined;
 }
 
 type Value = Date | null | undefined | any;
