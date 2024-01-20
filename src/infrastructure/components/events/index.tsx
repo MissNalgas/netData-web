@@ -136,7 +136,7 @@ export default function EventsTemplate() {
 		}
 	}, [dataTicket?.id, filteredData.length]);
 
-	let listTickets = [];
+	let listTickets: any = [];
 	if (filteredData.length) {
 		listTickets = [...filteredData]
 			.sort(
@@ -145,7 +145,6 @@ export default function EventsTemplate() {
 					new Date(a?.createdAt).getTime()
 			)
 			.reduce((prev: any, curr: any) => {
-				console.log("curr?.createdA", curr?.createdA);
 				let index = getFormattedDate(
 					new Date(curr?.createdAt),
 					i18n?.language
