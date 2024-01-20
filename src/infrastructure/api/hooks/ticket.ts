@@ -54,10 +54,8 @@ export function useTicketPerCategory(filters?: IFilters) {
 	const [data, setData] = useState<ITicketPerCategory | null>();
 
 	useEffect(() => {
-		if (filters === undefined) return;
-
 		ticketRepository
-			.getTicketPerCategory(filters)
+			.getTicketPerCategory()
 			.then(setData)
 			.catch(() => {
 				setData(null);

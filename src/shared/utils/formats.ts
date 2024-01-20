@@ -1,6 +1,6 @@
 import { enUS, es } from "date-fns/locale";
 import theme from "theme";
-import { format, parse } from "date-fns";
+import { format, isValid, parse } from "date-fns";
 import { IFilters } from "@domain/models";
 import { formatDateDTO } from ".";
 import { ReadonlyURLSearchParams } from "next/navigation";
@@ -10,6 +10,10 @@ export function currencyFormat(num: number) {
 }
 
 export const getFormattedDate = (date: Date, lang?: string) => {
+	if (!isValid(date)) {
+		return "";
+	}
+
 	if (lang === "es") {
 		return format(date, "dd 'de' LLLL 'de' yyyy", { locale: es });
 	} else {
@@ -18,6 +22,10 @@ export const getFormattedDate = (date: Date, lang?: string) => {
 };
 
 export const getDateHour = (date: Date) => {
+	if (!isValid(date)) {
+		return "";
+	}
+
 	return format(new Date(date), "hh:mm a ");
 };
 
@@ -115,7 +123,6 @@ export function parseQueryToFilters(params: ReadonlyURLSearchParams): IFilters {
 	} else {
 		filters.date = null;
 	}
-
 	const replaceKeys = ["category", "status", "risk"] as const;
 
 	for (const key of replaceKeys) {
@@ -132,3 +139,11 @@ export function parseQueryToFilters(params: ReadonlyURLSearchParams): IFilters {
 
 	return filters as IFilters;
 }
+export const formatDateToDdMmYyyy = (dateString?: any) => {
+	if (!isValid(dateString)) {
+		return "";
+	}
+
+	const date = new Date(dateString);
+	return format(date, "yyyy-dd-MM");
+};

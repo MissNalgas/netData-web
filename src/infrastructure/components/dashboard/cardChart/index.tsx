@@ -2,7 +2,6 @@ import ContainerBackground from "@shared/components/containerBackground";
 import { ContainerFlex } from "../styled";
 import { Overline, SubtitleLink } from "@shared/components/labels/styled";
 import Arrow from "@shared/components/arrow";
-import ExampleChart from "@app/chart/example/component";
 import CircleStatus from "@shared/components/circleStatus";
 import theme from "@theme/index";
 import colors from "@theme/colors";
@@ -62,7 +61,11 @@ export default function CardChart() {
 				className="flex-column tablet:flex justify-between items-center"
 				id="step-4"
 			>
-				<ExampleChart />
+				<iframe
+					src={"/chart/prioritydonut"}
+					title="example"
+					className="w-full h-[300px]"
+				/>
 				<div className="grid gap-1 grid-cols-2 tablet:flex tablet:flex-col">
 					{status.map((item, index) => (
 						<div

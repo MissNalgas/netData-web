@@ -21,15 +21,15 @@ export default function HeatmapTemplate() {
 	const [filter, setFilter] = useState<IFilters>();
 	const data = useAllTickets(filter);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const [tickets, page, setPage, maxPages] = useArrayPagination(data?.tickets);
+	const [tickets, page, setPage, maxPages] = useArrayPagination(
+		data?.tickets
+	);
 	const todayDate = useMemo(() => {
 		const date = new Date();
 		date.setHours(0, 0, 0, 0);
 		return date;
 	}, []);
-
-
-	const dataTicket = useTicketDetail(selectedTicket && `${selectedTicket?.id}`);
+	const dataTicket = useTicketDetail(`${selectedTicket?.id}`);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	useEffect(() => {
@@ -75,12 +75,13 @@ export default function HeatmapTemplate() {
 					<iframe
 						className="w-full max-w-[500px] h-[500px] bg-gray-100 rounded-lg p-2"
 						src={`/chart/heatmap?height=500&${formatFiltersToQuery({
-							category: filter?.category || null,
-							risk: filter?.risk || null,
-							status: filter?.status || null,
-							date: filter?.date || todayDate,
-							id: filter?.id || null,
+							category: filter?.category ?? null,
+							risk: filter?.risk ?? null,
+							status: filter?.status ?? null,
+							date: filter?.date ?? todayDate,
+							id: filter?.id ?? null,
 						})}`}
+						title="heatmap"
 					/>
 				</div>
 				{!!tickets.length && (
@@ -90,7 +91,12 @@ export default function HeatmapTemplate() {
 								{t("heatmap:events_by_priority")}
 							</h2>
 							<iframe
-								src={`/chart/prioritydonut${filter ? `?${formatFiltersToQuery(filter)}` : ""}`}
+								src={`/chart/prioritydonut${
+									filter
+										? `?${formatFiltersToQuery(filter)}`
+										: ""
+								}`}
+								title="prioritydonut"
 								className="w-full h-[300px]"
 							/>
 						</div>
@@ -99,7 +105,12 @@ export default function HeatmapTemplate() {
 								{t("heatmap:events_by_category")}
 							</h2>
 							<iframe
-								src={`/chart/categorybars${filter ? `?${formatFiltersToQuery(filter)}` : ""}`}
+								src={`/chart/categorybars${
+									filter
+										? `?${formatFiltersToQuery(filter)}`
+										: ""
+								}`}
+								title="categorybars"
 								className="w-full h-[300px]"
 							/>
 						</div>
@@ -168,7 +179,7 @@ export default function HeatmapTemplate() {
 				<div className="card p-4">
 					{selectedTicket ? (
 						<>
-							{(isLoading && false) ? (
+							{isLoading ? (
 								<LoaderComponent />
 							) : (
 								<TicketDetail
@@ -193,8 +204,11 @@ export default function HeatmapTemplate() {
 							{t("heatmap:events_by_solution")}
 						</h2>
 						<iframe
-							src={`/chart/solutionbars?height=400${filter ? `&${formatFiltersToQuery(filter)}` : ""}`}
+							src={`/chart/solutionbars?height=400${
+								filter ? `&${formatFiltersToQuery(filter)}` : ""
+							}`}
 							className="w-full h-[400px]"
+							title="solutionbars"
 						/>
 					</div>
 				)}

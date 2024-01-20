@@ -56,10 +56,18 @@ class TicketRepository implements ITicketService {
 		}
 	}
 
-	async getTicketWeek(): Promise<ITicket> {
+	async getTicketWeek(filters?: IFilters | undefined): Promise<ITicket> {
 		const axios = await createAxiosApp();
 		try {
-			const result = await axios.get("/api/xelco/ticketsforWeek");
+			let result;
+			const params = TicketAdapter.paramsFromFilter(filters);
+			if (filters) {
+				result = await axios.get("/api/xelco/ticketsforWeek", {
+					params,
+				});
+			} else {
+				result = await axios.get("/api/xelco/ticketsforWeek");
+			}
 
 			return result.data.map((ticket: ITicket) => ({
 				agent: ticket.agent,
@@ -75,7 +83,9 @@ class TicketRepository implements ITicketService {
 		}
 	}
 
-	async getTicketPerCategory(filters: IFilters): Promise<ITicketPerCategory> {
+	async getTicketPerCategory(
+		filters?: IFilters
+	): Promise<ITicketPerCategory> {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerCategoryDTO>(
 			"/api/xelco/graphic/category",
@@ -90,7 +100,13 @@ class TicketRepository implements ITicketService {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerPriorityDTO>(
 			"/api/xelco/graphic/day",
-			{ params: {...TicketAdapter.paramsFromFilter(filters), type: "general", day: "today"} }
+			{
+				params: {
+					...TicketAdapter.paramsFromFilter(filters),
+					type: "general",
+					day: "today",
+				},
+			}
 		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
 	}

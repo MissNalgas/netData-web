@@ -16,6 +16,7 @@ export enum TicketStatus {
 }
 
 export interface ITicket {
+	filter(arg0: (item: ITicket) => boolean): unknown;
 	subject: string;
 	id: number;
 	category: string;

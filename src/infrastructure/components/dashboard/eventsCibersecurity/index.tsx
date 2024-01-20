@@ -6,15 +6,18 @@ import {
 	CaptionOne,
 	SubtitleLink,
 } from "@shared/components/labels/styled";
+import { formatDateDTO } from "@shared/utils";
 import theme from "@theme/index";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface EventsProps {
 	showCard?: boolean;
-	setChangeSection?: any;
-	showEventsDay?: string | boolean | undefined;
+	showEventsDay: string | boolean | undefined;
 }
+
+type Value = Date | null | undefined | any;
 
 export default function EventsCibersecurity({
 	showCard = true,
@@ -22,7 +25,8 @@ export default function EventsCibersecurity({
 }: EventsProps) {
 	const { t } = useTranslation("events_week");
 	const router: any = useRouter();
-	console.log("showEventsDay", showEventsDay);
+	const [value, onChangeState] = useState<Value>(new Date());
+
 	return (
 		<div className="p-5">
 			<ContainerBackground className="flex items-center flex-col">
@@ -43,7 +47,10 @@ export default function EventsCibersecurity({
 						{t("events_for_priority")}
 					</SubtitleLink>
 					<iframe
-						src="/chart/prioritydonut"
+						src={`/chart/prioritydonut?date=${formatDateDTO(
+							value
+						)}`}
+						title="prioritydonut"
 						className="w-full h-[300px]"
 					/>
 				</ContainerBackground>
@@ -52,7 +59,10 @@ export default function EventsCibersecurity({
 						<Body $weight={theme.fontWeight.semiBold}>
 							{t("tickets_open_week")}
 						</Body>
-						<CalendarComponent />
+						<CalendarComponent
+							onChange={(e: any) => onChangeState(e)}
+							value={value}
+						/>
 					</ContainerBackground>
 				)}
 
@@ -79,8 +89,9 @@ export default function EventsCibersecurity({
 						/>
 					</div>
 					<iframe
-						src="/chart/categorybars"
+						src={`/chart/categorybars?date=${formatDateDTO(value)}`}
 						className="w-full h-[300px]"
+						title="categorybars"
 					/>
 				</ContainerBackground>
 
@@ -90,8 +101,11 @@ export default function EventsCibersecurity({
 							{t("heatmap:events_by_solution")}
 						</Body>
 						<iframe
-							src="/chart/solutionbars?height=400"
+							src={`/chart/solutionbars?height=400&date=${formatDateDTO(
+								value
+							)}`}
 							className="w-full h-[400px]"
+							title="solutionbars"
 						/>
 					</ContainerBackground>
 				)}

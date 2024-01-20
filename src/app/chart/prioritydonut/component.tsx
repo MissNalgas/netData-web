@@ -25,9 +25,7 @@ export default function PriorityDonut() {
 	const searchParams = useSearchParams();
 
 	useEffect(() => {
-		setFilter(
-			parseQueryToFilters(searchParams)
-		);
+		setFilter(parseQueryToFilters(searchParams));
 	}, [searchParams]);
 
 	const options = useMemo(() => {
@@ -35,16 +33,16 @@ export default function PriorityDonut() {
 
 		const mappedKeys = ["low", "medium", "urgent", "high"];
 		const colors = ["#75dad4", "#73259a", "#f99e17", "#b01212"];
-		const transformedData = Object.entries(data).filter(([key]) => mappedKeys.includes(key)).map(([key, value], index) => {
-
-			return {
-				value,
-				name: key,
-				color: colors[index],
-			}
-		});
-
-		return{
+		const transformedData = Object.entries(data)
+			.filter(([key]) => mappedKeys.includes(key))
+			.map(([key, value], index) => {
+				return {
+					value,
+					name: key,
+					color: colors[index],
+				};
+			});
+		return {
 			tooltip: {
 				trigger: "item",
 			},
@@ -73,7 +71,7 @@ export default function PriorityDonut() {
 						show: false,
 					},
 					itemStyle: {
-						color: (obj : any) => {
+						color: (obj: any) => {
 							return obj.data?.color || "red";
 						},
 					},
@@ -86,17 +84,11 @@ export default function PriorityDonut() {
 					],
 				},
 			],
-		}
+		};
 	}, [data]);
 
-	if (data === undefined) return <LoaderComponent/>
-	if (data === null) return <div>Error loading the data</div>
+	if (data === undefined) return <LoaderComponent />;
+	if (data === null) return <div>Error loading the data</div>;
 
-
-	return (
-		<Chart
-			options={options}
-			loadComponents={loadComponents.current}
-		/>
-	);
+	return <Chart options={options} loadComponents={loadComponents.current} />;
 }

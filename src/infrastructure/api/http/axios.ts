@@ -20,6 +20,7 @@ export async function createAxiosApp() {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: "Bearer " + localStorage.getItem("tokenApp") || "",
+			"ngrok-skip-browser-warning": 6920,
 		},
 	});
 

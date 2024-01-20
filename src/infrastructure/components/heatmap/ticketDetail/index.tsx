@@ -143,6 +143,7 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 				className="w-full rounded p-2 bg-gray-100"
 				height={300}
 				src="/chart/heatmap?height=300&date={}"
+				title="heatmap"
 			/>
 			<PentaContainerGrid>
 				{grid.map((item, index) => (

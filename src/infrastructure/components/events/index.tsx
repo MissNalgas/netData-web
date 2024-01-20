@@ -13,7 +13,7 @@ import Arrow from "@shared/components/arrow";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import ColorGuide from "@shared/components/colorGuide";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ticketRepository } from "@infrastructure/api/repositories/tickets";
 import { IFilters, ITicket, TicketStatus } from "@domain/models";
 import LoaderComponent from "@shared/components/loader";
@@ -38,13 +38,15 @@ export default function EventsTemplate() {
 	const params = useSearchParams();
 	const showEventsDay = params.get("showEventsDay");
 	const changeSectionParam = params.get("changeSection");
-	const [filter, setFilter] = useState<IFilters>();
+	const [filters, setFilter] = useState<IFilters>();
 
 	const { t } = useTranslation("events_today");
 	const week = useTranslation("events_week");
 
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | any>(null);
 	const [dataTickets, setDataTickets] = useState<ITicket[]>([]);
+	const [filteredData, setFilteredData] = useState<ITicket[]>([]);
+
 	const [page, setPage] = useState<number>(1);
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,53 +69,93 @@ export default function EventsTemplate() {
 
 		return magnet;
 	};
-	useEffect(() => {
-		ticketRepository
-			.getTicketWeek()
-			.then((dataTicket: any) => {
-				if (showEventsDay === "true") {
-					const filterDate = dataTicket.filter((item: ITicket) => {
-						const itemDate = new Date(item?.createdAt);
-						const itemDateWithoutTime = itemDate.toDateString();
+	const fetchData = useCallback(async () => {
+		try {
+			const dataTicket: any = await ticketRepository.getTicketWeek();
+			if (showEventsDay === "true") {
+				const filterDate: any = dataTicket?.filter((item: ITicket) => {
+					const itemDate = new Date(item?.createdAt);
+					const itemDateWithoutTime = itemDate.toDateString();
 
-						return itemDateWithoutTime === currentDate;
-					});
-					setDataTickets(filterDate);
-				} else {
-					setDataTickets(dataTicket);
-				}
-			})
-			.catch(() => {
-				setDataTickets([]);
-			});
+					return itemDateWithoutTime === currentDate;
+				});
+
+				setDataTickets(filterDate);
+			} else {
+				setDataTickets(dataTicket);
+			}
+		} catch (error) {
+			setDataTickets([]);
+		}
 	}, [currentDate, showEventsDay]);
+
 	useEffect(() => {
-		if (dataTickets.length > 0 && dataTicket?.id === undefined) {
+		fetchData();
+	}, [fetchData]);
+
+	useEffect(() => {
+		applyFilters();
+	}, [dataTickets, filters]);
+
+	const applyFilters = useCallback(() => {
+		const isFilterEmpty =
+			filters &&
+			Object.values(filters).every(
+				(filter) => filter === null || filter === undefined
+			);
+
+		if (isFilterEmpty) {
+			setFilteredData(dataTickets);
+			return;
+		}
+
+		const filterStatus = filters?.status?.value === "open" ? 2 : 3;
+
+		const filteredData = dataTickets.filter((item: ITicket) => {
+			const statusCondition =
+				!filters?.status || item.status === filterStatus;
+			const idCondition = !filters?.id || item.id === filters?.id;
+
+			const dateCondition =
+				!filters?.date ||
+				(filters?.date &&
+					new Date(item.createdAt).toISOString().split("T")[0] ===
+						new Date(filters?.date).toISOString().split("T")[0]);
+
+			return statusCondition && idCondition && dateCondition;
+		});
+
+		setFilteredData(filteredData);
+	}, [dataTickets, filters]);
+
+	useEffect(() => {
+		if (filteredData.length > 0 && dataTicket?.id === undefined) {
 			setIsLoading(true);
 		} else {
 			setIsLoading(false);
 		}
-	}, [dataTicket?.id, dataTickets.length]);
-	if (dataTickets?.length === 0) {
-		return <LoaderComponent />;
+	}, [dataTicket?.id, filteredData.length]);
+
+	let listTickets = [];
+	if (filteredData.length) {
+		listTickets = [...filteredData]
+			.sort(
+				(a, b) =>
+					new Date(b?.createdAt).getTime() -
+					new Date(a?.createdAt).getTime()
+			)
+			.reduce((prev: any, curr: any) => {
+				console.log("curr?.createdA", curr?.createdA);
+				let index = getFormattedDate(
+					new Date(curr?.createdAt),
+					i18n?.language
+				);
+				prev[index] !== undefined
+					? prev[index].push(curr)
+					: (prev[index] = [curr]);
+				return prev;
+			}, {});
 	}
-	const listTickets = [...dataTickets]
-		.sort(
-			(a, b) =>
-				new Date(b?.createdAt).getTime() -
-				new Date(a?.createdAt).getTime()
-		)
-		.reduce((prev: any, curr: any) => {
-			console.log("curr?.createdA", curr?.createdA);
-			let index = getFormattedDate(
-				new Date(curr?.createdAt),
-				i18n?.language
-			);
-			prev[index] !== undefined
-				? prev[index].push(curr)
-				: (prev[index] = [curr]);
-			return prev;
-		}, {});
 
 	const paginationData = pagination(Object.keys(listTickets), 3);
 	const renderTickets = () => {
@@ -159,12 +201,12 @@ export default function EventsTemplate() {
 				</div>
 			));
 		} else {
-			return currentPageData.length === 0 ? (
-				<Overline $weight={theme.fontWeight.bold}>
-					{t("you_do_not_have_any_tickets")}
-				</Overline>
-			) : (
-				<></>
+			return (
+				currentPageData.length === 0 && (
+					<Overline $weight={theme.fontWeight.bold}>
+						{week.t("you_do_not_have_any_tickets")}
+					</Overline>
+				)
 			);
 		}
 	};
@@ -213,12 +255,22 @@ export default function EventsTemplate() {
 								</div>
 							</div>
 							<ColorGuide />
-							<FilterInput placeholder="# de ticket" />
-							<FilterDetail
-								filter={filter}
-								setFilter={setFilter}
-								className="mb-4"
-							/>
+							{showEventsDay === "false" && (
+								<>
+									<FilterInput
+										filter={filters}
+										placeholder={t(
+											"heatmap:number_of_ticket"
+										)}
+										onChange={setFilter}
+									/>
+									<FilterDetail
+										filter={filters}
+										setFilter={setFilter}
+										className="mb-4"
+									/>
+								</>
+							)}
 						</div>
 						<div
 							style={{
@@ -226,7 +278,13 @@ export default function EventsTemplate() {
 								overflowY: "scroll",
 							}}
 						>
-							{dataTickets.length > 0 && renderTickets()}
+							{filteredData.length > 0 ? (
+								renderTickets()
+							) : (
+								<Overline $weight={theme.fontWeight.bold}>
+									{week.t("you_do_not_have_any_tickets")}
+								</Overline>
+							)}
 						</div>
 
 						<div className="items-center flex justify-center">
