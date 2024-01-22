@@ -93,10 +93,6 @@ export default function EventsTemplate() {
 		fetchData();
 	}, [fetchData]);
 
-	useEffect(() => {
-		applyFilters();
-	}, [dataTickets, filters]);
-
 	const applyFilters = useCallback(() => {
 		const isFilterEmpty =
 			filters &&
@@ -127,6 +123,9 @@ export default function EventsTemplate() {
 
 		setFilteredData(filteredData);
 	}, [dataTickets, filters]);
+	useEffect(() => {
+		applyFilters();
+	}, [applyFilters, dataTickets, filters]);
 
 	useEffect(() => {
 		if (filteredData.length > 0 && dataTicket?.id === undefined) {
