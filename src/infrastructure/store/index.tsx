@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import thunkMiddleware from "redux-thunk";
-import rootReducer from "infrastructure/store/reducers";
+import rootReducer from "./reducers";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import { AppStore } from "hooks";
 
