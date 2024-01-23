@@ -86,7 +86,7 @@ export default function ProfileComponent(): JSX.Element {
 	const renderModal = () => {
 		return (
 			<ModalTooltip
-                tooltipStyles={{}}
+				tooltipStyles={{}}
 				isOpen={isOpen}
 				onActionModal={() => setIsOpen(!isOpen)}
 			>
@@ -167,7 +167,10 @@ export default function ProfileComponent(): JSX.Element {
 							<SubtitleLink $weight={600}>
 								{t("greeting")}
 								{", "}
-								<SubtitleLink $color={theme.colors.orange50} $weight={theme.fontWeight.semiBold}>
+								<SubtitleLink
+									$color={theme.colors.orange50}
+									$weight={theme.fontWeight.semiBold}
+								>
 									{auth.user?.firstname}
 								</SubtitleLink>
 							</SubtitleLink>
@@ -184,7 +187,7 @@ export default function ProfileComponent(): JSX.Element {
 
 					<ContentBody>
 						<PrimaryButton
-							width={100}
+							width={24}
 							onClick={() => {
 								router.push("/");
 								dispatch(showTooltipModal());
@@ -202,7 +205,7 @@ export default function ProfileComponent(): JSX.Element {
 							</div>
 						</PrimaryButton>
 						<PrimaryButton
-							width={100}
+							width={24}
 							onClick={() => router.push("/notifications")}
 						>
 							<div className="flex flex-row gap-2 ">
@@ -214,7 +217,7 @@ export default function ProfileComponent(): JSX.Element {
 						</PrimaryButton>
 						<PrimaryButton
 							disabled={false}
-							width={100}
+							width={24}
 							onClick={show}
 						>
 							<div className="flex flex-row gap-2">
@@ -232,7 +235,7 @@ export default function ProfileComponent(): JSX.Element {
 					<div className="flex justify-center my-8 tablet:w-4/12 m-auto">
 						<SecondaryButton
 							disabled={false}
-							width={100}
+							width={64}
 							onClick={handleDelete}
 						>
 							<div className="flex flex-row gap-2 ">
