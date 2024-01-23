@@ -31,26 +31,15 @@ export default function NotificationsComponent() {
 	const { t, i18n } = useTranslation("notifications");
 	const [page, setPage] = useState<number>(1);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const dataTicket = useTicketDetail(`${selectedTicket}`);
-
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [dataTicket, isLoadingDetail] = useTicketDetail(`${selectedTicket}`);
 
 	const selectTicket = (ticket: ITicket) => {
-		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
 
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
 	}, [dispatch, t]);
-
-	useEffect(() => {
-		if (dataTicket?.id === undefined) {
-			setIsLoading(true);
-		} else {
-			setIsLoading(false);
-		}
-	}, [dataTicket?.id]);
 
 	const listNotifications = [...notificationsData.data]
 		.sort(
@@ -159,14 +148,12 @@ export default function NotificationsComponent() {
 			<ContainerBackground className="flex items-center flex-col justify-center">
 				{selectedTicket ? (
 					<>
-						{isLoading ? (
+						{(isLoadingDetail || !dataTicket) ? (
 							<LoaderComponent />
 						) : (
 							<TicketDetail
 								onClose={() => setSelectedTicket(null)}
-								ticket={{
-									...dataTicket,
-								}}
+								ticket={dataTicket}
 							/>
 						)}
 					</>

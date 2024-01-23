@@ -35,19 +35,25 @@ export function useTicketDetail(
 	notificationId?: number
 ) {
 	const [data, setData] = useState<ITicket | null>();
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (!ticketId) return;
+
+		setIsLoading(true);
 
 		ticketRepository
 			.getTicketDetail(ticketId, notificationId)
 			.then(setData)
 			.catch(() => {
 				setData(null);
+			})
+			.finally(() => {
+				setIsLoading(false);
 			});
 	}, [ticketId, notificationId]);
 
-	return data;
+	return [data, isLoading] as const;
 }
 
 export function useTicketPerCategory(filters?: IFilters) {

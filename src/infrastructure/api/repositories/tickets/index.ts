@@ -45,11 +45,19 @@ class TicketRepository implements ITicketService {
 			return {
 				agent: result.data.agent,
 				category: result.data.category,
-				createdAt: result.data.created_at,
-				customFields: result.data.upset,
+				createdAt: new Date(result.data.created_at),
 				id: result.data.id,
 				status: result.data.status,
 				subject: result.data.subject,
+				customFields: {
+					persistent: result.data.upset.persistent,
+					objectives: result.data.upset.objectives,
+					user: result.data.upset.user,
+					system: result.data.upset.system,
+					https: result.data.upset.ttps,
+					whatWeAreDoing: result.data.upset.whatWeAreDoing,
+					whatWeNeedYouToDo: result.data.upset.whatWeNeedYouToDo,
+				},
 			};
 		} catch (error) {
 			return Promise.reject(error);

@@ -37,8 +37,6 @@ class DashboardRepository implements IDashboardService {
 
 	async getGraphicDay(_filters: filtersGraphicDay): Promise<IGraphicDay> {
 		const axios = await createAxiosApp();
-		const token = localStorage.getItem("tokenApp");
-		console.log({ token });
 		const response = await axios.get<IGraphicDay, responseGraphicDay>(
 			"/api/xelco/graphic/day",
 			{
