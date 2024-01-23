@@ -3,8 +3,8 @@ import { userRecoverRepository } from "@infrastructure/api/repositories/recover-
 import { userRepository } from "@infrastructure/api/repositories/user/user.repository";
 import { getDataChangePasswordDTO } from "@infrastructure/model";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import initialState from "infrastructure/store/user/initial-state";
-import { Contact, GetDataUserPayload } from "infrastructure/store/user/types";
+import initialState from "./initial-state";
+import { Contact, GetDataUserPayload } from "./types";
 
 const getDataUser = createAsyncThunk<IUser, GetDataUserPayload>(
 	"user/getData",
