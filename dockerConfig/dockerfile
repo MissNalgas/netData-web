@@ -14,7 +14,7 @@ COPY  . /sentria-front/
 RUN apt-get -y update
 RUN apt-get -y install git
 RUN apt-get -y install npm
-ENV NODE_VERSION=16.19.0
+ENV NODE_VERSION=20.9.0
 
 # SET nodejs version and app port
 ENV SERVER_APP_PORT=$SERVER_APP_PORT
