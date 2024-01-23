@@ -25,7 +25,7 @@ export default function CalendarComponent({ value, onChange }: CalendarProps) {
 				onChange={onChange}
 				value={value}
 				selectRange={false}
-				locale={i18n.resolvedLanguage === "en" ? "en" : "es" }s
+				locale={i18n.resolvedLanguage === "en" ? "en" : "es" }
 			/>
 		</CalendarContainer>
 	);
