@@ -10,6 +10,7 @@ import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
 import {
+	ITicketDTO,
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
 	ITicketPerSolutionDTO,
@@ -45,18 +46,55 @@ class TicketRepository implements ITicketService {
 			return {
 				agent: result.data.agent,
 				category: result.data.category,
-				createdAt: result.data.created_at,
-				customFields: result.data.upset,
+				createdAt: new Date(result.data.created_at),
 				id: result.data.id,
 				status: result.data.status,
 				subject: result.data.subject,
+				customFields: {
+					persistent: result.data.upset.persistent,
+					objectives: result.data.upset.objectives,
+					user: result.data.upset.user,
+					system: result.data.upset.system,
+					https: result.data.upset.ttps,
+					whatWeAreDoing: result.data.upset.whatWeAreDoing,
+					whatWeNeedYouToDo: result.data.upset.whatWeNeedYouToDo,
+				},
 			};
 		} catch (error) {
 			return Promise.reject(error);
 		}
 	}
 
-	async getTicketPerCategory(filters: IFilters): Promise<ITicketPerCategory> {
+	async getTicketWeek(filters?: IFilters | undefined): Promise<ITicket[]> {
+		const axios = await createAxiosApp();
+		try {
+			let result;
+			const params = TicketAdapter.paramsFromFilter(filters);
+			if (filters) {
+				result = await axios.get("/api/xelco/ticketsforWeek", {
+					params,
+				});
+			} else {
+				result = await axios.get("/api/xelco/ticketsforWeek");
+			}
+
+			return result.data.map((ticket: ITicketDTO) => ({
+				agent: ticket.agent,
+				category: ticket.category,
+				createdAt: ticket.created_at,
+				customFields: ticket.upset,
+				id: ticket.id,
+				status: ticket.status,
+				subject: ticket.subject,
+			}));
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	}
+
+	async getTicketPerCategory(
+		filters?: IFilters
+	): Promise<ITicketPerCategory> {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerCategoryDTO>(
 			"/api/xelco/graphic/category",
@@ -70,8 +108,14 @@ class TicketRepository implements ITicketService {
 	): Promise<ITicketPerPriority> {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerPriorityDTO>(
-			"/api/xelco/graphic/priority",
-			{ params: TicketAdapter.paramsFromFilter(filters) }
+			"/api/xelco/graphic/day",
+			{
+				params: {
+					...TicketAdapter.paramsFromFilter(filters),
+					type: "general",
+					day: "today",
+				},
+			}
 		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
 	}

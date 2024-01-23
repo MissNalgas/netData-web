@@ -3,5 +3,6 @@
 	"subtitle": "High Risk",
 	"status_pending": "Pending",
 	"status_in_review": "In Review",
-	"status_close": "Closed"
+	"status_close": "Closed",
+	"no_tickets_selected": "There are no tickets selected!"
 }

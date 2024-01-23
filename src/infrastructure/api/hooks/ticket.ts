@@ -31,31 +31,37 @@ export function useAllTickets(filters?: IFilters) {
 }
 
 export function useTicketDetail(
-	ticketId: number | string,
+	ticketId: number | string | undefined | null,
 	notificationId?: number
 ) {
 	const [data, setData] = useState<ITicket | null>();
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
+		if (!ticketId) return;
+
+		setIsLoading(true);
+
 		ticketRepository
 			.getTicketDetail(ticketId, notificationId)
 			.then(setData)
 			.catch(() => {
 				setData(null);
+			})
+			.finally(() => {
+				setIsLoading(false);
 			});
 	}, [ticketId, notificationId]);
 
-	return data;
+	return [data, isLoading] as const;
 }
 
 export function useTicketPerCategory(filters?: IFilters) {
 	const [data, setData] = useState<ITicketPerCategory | null>();
 
 	useEffect(() => {
-		if (filters === undefined) return;
-
 		ticketRepository
-			.getTicketPerCategory(filters)
+			.getTicketPerCategory()
 			.then(setData)
 			.catch(() => {
 				setData(null);

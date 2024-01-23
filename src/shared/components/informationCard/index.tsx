@@ -11,7 +11,8 @@ interface InformationCardProps {
 	textRight?: string;
 	classContainer?: string | undefined;
 	showIconLeft?: boolean;
-    onClick?: () => void;
+	onClick?: () => void;
+	bgColor?: string;
 }
 
 export default function InformationCard(props: InformationCardProps) {
@@ -23,12 +24,16 @@ export default function InformationCard(props: InformationCardProps) {
 		textCenter,
 		classContainer,
 		showIconLeft = true,
-        onClick,
+		onClick,
+		bgColor,
 	} = props;
 
 	return (
 		<div
-            onClick={onClick}
+			onClick={onClick}
+			style={{
+				backgroundColor: bgColor,
+			}}
 			className={`flex justify-between border border-gray20 rounded-md items-center p-2 my-2 hover:border-orange ${classContainer}`}
 		>
 			<div className="flex items-center">

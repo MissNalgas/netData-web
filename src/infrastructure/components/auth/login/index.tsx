@@ -19,30 +19,34 @@ const LoginComponent: React.FC = () => {
 
 	const handleSubmit = (data: ILogin) => {
 		setIsLoading(true);
-		login(data.email, data.password).finally(() => {
-			setIsLoading(false);
-		}).catch((err) => {
-
-			if (err instanceof SentriaError) {
-				toast.error(err.message);
-			} else {
-				toast.error("Hubo un error al iniciar sesión, por favor, vuelve a intentar");
-			}
-
-		})
-	}
+		login(data.email, data.password)
+			.finally(() => {
+				setIsLoading(false);
+			})
+			.catch((err) => {
+				if (err instanceof SentriaError) {
+					toast.error(err.message);
+				} else {
+					toast.error(
+						"Hubo un error al iniciar sesión, por favor, vuelve a intentar"
+					);
+				}
+			});
+	};
 
 	return (
 		<ContentForm>
-            <Image
-                width={80}
-                height={80}
-                alt="Logo Sentria"
-                src={LogoSentria}
-                className="mx-auto tablet:hidden mb-8"
-            />
+			<Image
+				width={80}
+				height={80}
+				alt="Logo Sentria"
+				src={LogoSentria}
+				className="mx-auto tablet:hidden mb-8"
+			/>
 			<TitleCustom $center>{t("welcome_title")}</TitleCustom>
-            <SecondTitleCustom $center={true}>{t("subTitle")}</SecondTitleCustom>
+			<SecondTitleCustom $center={true}>
+				{t("subTitle")}
+			</SecondTitleCustom>
 			<LoginForm disableSubmit={isLoading} onSubmit={handleSubmit} />
 			{isLoading && (
 				<div className="fixed top-0 left-0 w-full bg-white">

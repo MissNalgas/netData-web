@@ -16,4 +16,5 @@ export interface ITicketService {
 	getTicketPerCategory(_filters: IFilters): Promise<ITicketPerCategory>;
 	getTicketsPerPriority(_filters: IFilters): Promise<ITicketPerPriority>;
 	getTicketsPerSolution(_filters: IFilters): Promise<ITicketPerSolution>;
+	getTicketWeek(_filters: IFilters): Promise<ITicket[]>;
 }

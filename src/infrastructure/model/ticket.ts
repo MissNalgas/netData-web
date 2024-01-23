@@ -68,6 +68,7 @@ export interface ITicketDTO {
 	workspace_id: number;
 	custom_fields: ITicketCustomFieldsDTO;
 	agent: string;
+	upset?: string;
 }
 
 export interface ITicketPerCategoryDTO {
@@ -113,8 +114,8 @@ export interface IFilterParamDTO {
 }
 
 export interface ITicketsPerWeekDTO {
-	data: number[][];
-	hours: number[];
-	days: string[];
+	data: number[][][];
+	hours: number[][];
+	days: string[][];
 	tickets: ITicketDTO[];
 }

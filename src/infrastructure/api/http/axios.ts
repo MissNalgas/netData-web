@@ -2,6 +2,8 @@ import { API_URL } from "@shared/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+let ERROR_TOAST_SHOWN = false;
+
 export async function createAxios() {
 	const instance = axios.create({
 		baseURL: API_URL,
@@ -11,13 +13,10 @@ export async function createAxios() {
 }
 
 export async function createAxiosApp() {
-	let errorToastShown = false;
-
 	const instance = axios.create({
 		baseURL: API_URL,
 		headers: {
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
 			Authorization: "Bearer " + localStorage.getItem("tokenApp") || "",
 		},
 	});
@@ -35,14 +34,16 @@ export async function createAxiosApp() {
 					(localStorage.getItem("isExpired") ===
 						"TokenExpiredError" &&
 						validateToken === "TokenExpiredError" &&
-						!errorToastShown) ||
+						!ERROR_TOAST_SHOWN) ||
 					(localStorage.getItem("isExpired") ===
 						"JsonWebTokenError" &&
 						validateToken === "JsonWebTokenError" &&
-						!errorToastShown)
+						!ERROR_TOAST_SHOWN)
 				) {
 					toast.error("Tu sesión ha expirado");
-					errorToastShown = true;
+					ERROR_TOAST_SHOWN = true;
+					localStorage.removeItem("tokenApp");
+					localStorage.removeItem("isExpired");
 
 					localStorage.clear();
 				}
@@ -50,5 +51,6 @@ export async function createAxiosApp() {
 			return Promise.reject(error);
 		}
 	);
+
 	return instance;
 }

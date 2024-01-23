@@ -68,8 +68,8 @@ export default function Chat({
 			<ContentChat>
 				<div className="flex justify-end  py-4 h-5/6">
 					<div className="flex flex-col gap-2 overflow-y-auto items-end">
-						{chatData.length ? (
-							chatData?.map((item: chatObject) => (
+						{Array.isArray(chatData) && chatData.length ? (
+							chatData.map((item: chatObject) => (
 								<div
 									className="w-2/3 h-auto flex justify-end p-2 bg-shadow20 rounded-2xl"
 									key={item.id}

@@ -17,7 +17,6 @@ import { getNotifications } from "@infrastructure/store/notifications/actions";
 import { useEffect, useState } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
-import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { getFormattedDate, pagination } from "@shared/utils";
 import Pagination from "@shared/components/pagination";
@@ -32,29 +31,15 @@ export default function NotificationsComponent() {
 	const { t, i18n } = useTranslation("notifications");
 	const [page, setPage] = useState<number>(1);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const dataTicket = useTicketDetail(`${selectedTicket}`);
-
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [dataTicket, isLoadingDetail] = useTicketDetail(`${selectedTicket}`);
 
 	const selectTicket = (ticket: ITicket) => {
-		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
 
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
-		if (notificationsData.error) {
-			toast.error(t("token_expired"));
-		}
-	}, [dispatch, notificationsData.error, t]);
-
-	useEffect(() => {
-		if (dataTicket?.id === undefined) {
-			setIsLoading(true);
-		} else {
-			setIsLoading(false);
-		}
-	}, [dataTicket?.id]);
+	}, [dispatch, t]);
 
 	const listNotifications = [...notificationsData.data]
 		.sort(
@@ -163,14 +148,12 @@ export default function NotificationsComponent() {
 			<ContainerBackground className="flex items-center flex-col justify-center">
 				{selectedTicket ? (
 					<>
-						{isLoading ? (
+						{(isLoadingDetail || !dataTicket) ? (
 							<LoaderComponent />
 						) : (
 							<TicketDetail
 								onClose={() => setSelectedTicket(null)}
-								ticket={{
-									...dataTicket,
-								}}
+								ticket={dataTicket}
 							/>
 						)}
 					</>

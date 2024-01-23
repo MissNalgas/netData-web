@@ -1,5 +1,6 @@
 import { enUS, es } from "date-fns/locale";
-import { format, parse } from "date-fns";
+import theme from "theme";
+import { format, isValid, parse } from "date-fns";
 import { IFilters } from "@domain/models";
 import { formatDateDTO } from "./maps";
 import { ReadonlyURLSearchParams } from "next/navigation";
@@ -9,11 +10,87 @@ export function currencyFormat(num: number) {
 }
 
 export const getFormattedDate = (date: Date, lang?: string) => {
+	if (!isValid(date)) {
+		return "";
+	}
+
 	if (lang === "es") {
 		return format(date, "dd 'de' LLLL 'de' yyyy", { locale: es });
 	} else {
 		return format(date, "LLLL dd 'of' yyyy", { locale: enUS });
 	}
+};
+
+export const getDateHour = (date: Date) => {
+	if (!isValid(date)) {
+		return "";
+	}
+
+	return format(new Date(date), "hh:mm a ");
+};
+
+export const categoryNameToMachineName = (categoryName: string): string => {
+	switch (categoryName) {
+		case "Execution":
+			return "Execute";
+		case "Initial Access":
+			return "Initial_Access";
+		case "Exploit":
+			return "Exploit";
+		case "Restriction":
+			return "Restriction";
+		case "Discovery":
+			return "Discovery";
+		case "Credential Access":
+			return "Credential_Access";
+		case "Defense Evasion":
+			return "Defense_Evasion";
+		case "Collection":
+			return "Collection";
+		case "Persistence":
+			return "Persistence";
+		case "Exfiltration":
+			return "Exfiltration";
+		case "Command and Control":
+			return "Command_And_Control";
+		case "Lateral Movement":
+			return "Lateral_Movement";
+		case "Malware":
+			return "Malware";
+	}
+	return "";
+};
+
+export const backgroundColor = (category: string) => {
+	switch (category) {
+		case "Execution":
+			return theme.colors.blue10;
+		case "Initial Access":
+			return theme.colors.blue30;
+		case "Exploit":
+			return theme.colors.blue10;
+		case "Restriction":
+			return theme.colors.blue10;
+		case "Discovery":
+			return theme.colors.purple20;
+		case "Credential Access":
+			return theme.colors.blue10;
+		case "Defense Evasion":
+			return theme.colors.blue10;
+		case "Collection":
+			return theme.colors.blue10;
+		case "Persistence":
+			return theme.colors.blue10;
+		case "Exfiltration":
+			return theme.colors.orange20;
+		case "Command and Control":
+			return theme.colors.blue10;
+		case "Lateral Movement":
+			return theme.colors.red20;
+		case "Malware":
+			return theme.colors.red40;
+	}
+	return "";
 };
 
 export function formatFiltersToQuery(filter: IFilters) {
@@ -46,7 +123,6 @@ export function parseQueryToFilters(params: ReadonlyURLSearchParams): IFilters {
 	} else {
 		filters.date = null;
 	}
-
 	const replaceKeys = ["category", "status", "risk"] as const;
 
 	for (const key of replaceKeys) {
@@ -63,3 +139,11 @@ export function parseQueryToFilters(params: ReadonlyURLSearchParams): IFilters {
 
 	return filters as IFilters;
 }
+export const formatDateToDdMmYyyy = (dateString?: any) => {
+	if (!isValid(dateString)) {
+		return "";
+	}
+
+	const date = new Date(dateString);
+	return format(date, "yyyy-dd-MM");
+};
