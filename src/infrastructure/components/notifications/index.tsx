@@ -51,7 +51,7 @@ export default function NotificationsComponent() {
 			setIsLoading(false);
 		}
 	}, [dataTicket?.id]);
-
+console.log("notificationsData.data", notificationsData.data)
 	const listNotifications = [...notificationsData.data]
 		.sort(
 			(a, b) =>

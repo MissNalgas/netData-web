@@ -10,6 +10,7 @@ import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
 import {
+	ITicketDTO,
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
 	ITicketPerSolutionDTO,
@@ -56,7 +57,7 @@ class TicketRepository implements ITicketService {
 		}
 	}
 
-	async getTicketWeek(filters?: IFilters | undefined): Promise<ITicket> {
+	async getTicketWeek(filters?: IFilters | undefined): Promise<ITicket[]> {
 		const axios = await createAxiosApp();
 		try {
 			let result;
@@ -69,7 +70,7 @@ class TicketRepository implements ITicketService {
 				result = await axios.get("/api/xelco/ticketsforWeek");
 			}
 
-			return result.data.map((ticket: ITicket) => ({
+			return result.data.map((ticket: ITicketDTO) => ({
 				agent: ticket.agent,
 				category: ticket.category,
 				createdAt: ticket.created_at,

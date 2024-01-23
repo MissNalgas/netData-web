@@ -24,7 +24,6 @@ export interface ITicket {
 	customFields: ICustomFields;
 	status: TicketStatus;
 	agent: string;
-	created_at?: Date;
 	upset?: string;
 }
 

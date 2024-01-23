@@ -4,7 +4,7 @@ import { API_URL } from "@shared/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-let errorToastShown = false;
+let ERROR_TOAST_SHOWN = false;
 
 export async function createAxios() {
 	const instance = axios.create({
@@ -20,7 +20,6 @@ export async function createAxiosApp() {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: "Bearer " + localStorage.getItem("tokenApp") || "",
-			// "ngrok-skip-browser-warning": 6920,
 		},
 	});
 
@@ -37,14 +36,14 @@ export async function createAxiosApp() {
 					(localStorage.getItem("isExpired") ===
 						"TokenExpiredError" &&
 						validateToken === "TokenExpiredError" &&
-						!errorToastShown) ||
+						!ERROR_TOAST_SHOWN) ||
 					(localStorage.getItem("isExpired") ===
 						"JsonWebTokenError" &&
 						validateToken === "JsonWebTokenError" &&
-						!errorToastShown)
+						!ERROR_TOAST_SHOWN)
 				) {
 					toast.error("Tu sesión ha expirado");
-					errorToastShown = true;
+					ERROR_TOAST_SHOWN = true;
 					localStorage.removeItem("tokenApp");
 					localStorage.removeItem("isExpired");
 
