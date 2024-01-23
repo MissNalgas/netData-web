@@ -49,11 +49,9 @@ export default function EventsTemplate() {
 
 	const [page, setPage] = useState<number>(1);
 
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const dataTicket = useTicketDetail(`${selectedTicket}`);
+	const [dataTicket, isLoadingTicketDetail] = useTicketDetail(`${selectedTicket}`);
 	const theme = useTheme();
 	const selectTicket = (ticket: ITicket | any) => {
-		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
 	const currentDate = new Date().toDateString();
@@ -126,14 +124,6 @@ export default function EventsTemplate() {
 	useEffect(() => {
 		applyFilters();
 	}, [applyFilters, dataTickets, filters]);
-
-	useEffect(() => {
-		if (filteredData.length > 0 && dataTicket?.id === undefined) {
-			setIsLoading(true);
-		} else {
-			setIsLoading(false);
-		}
-	}, [dataTicket?.id, filteredData.length]);
 
 	let listTickets: any = [];
 	if (filteredData.length) {
@@ -301,14 +291,12 @@ export default function EventsTemplate() {
 					>
 						{selectedTicket ? (
 							<>
-								{isLoading ? (
+								{(isLoadingTicketDetail || !dataTicket) ? (
 									<LoaderComponent />
 								) : (
 									<TicketDetail
 										onClose={() => setSelectedTicket(null)}
-										ticket={{
-											...dataTicket,
-										}}
+										ticket={dataTicket}
 									/>
 								)}
 							</>

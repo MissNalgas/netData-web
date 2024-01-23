@@ -8,7 +8,7 @@ import { useSideModal } from "@shared/components/sideModal";
 import TicketDetailModal from "./modal";
 import { useTranslation } from "react-i18next";
 import Chat from "@shared/components/chat";
-import { backgroundColor } from "@shared/utils";
+import { backgroundColor, formatDateDTO } from "@shared/utils";
 
 const grid = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0];
 
@@ -142,7 +142,7 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 			<iframe
 				className="w-full rounded p-2 bg-gray-100"
 				height={300}
-				src="/chart/heatmap?height=300&status=open"
+				src={`/chart/heatmap?height=300&status=open&date=${formatDateDTO(ticket.createdAt)}`}
 				title="heatmap"
 			/>
 			<PentaContainerGrid>
@@ -167,6 +167,6 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 	);
 }
 interface TicketDetailProps {
-	ticket: ITicket | any;
+	ticket: ITicket;
 	onClose: () => void;
 }

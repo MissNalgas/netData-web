@@ -29,24 +29,15 @@ export default function HeatmapTemplate() {
 		date.setHours(0, 0, 0, 0);
 		return date;
 	}, []);
-	const dataTicket = useTicketDetail(`${selectedTicket?.id}`);
+	const [dataTicket, isLoading] = useTicketDetail(`${selectedTicket?.id}`);
 
-	const [isLoading, setIsLoading] = useState<boolean>(false);
 	useEffect(() => {
 		const firstTicket = data?.tickets[0];
 
 		firstTicket && setSelectedTicket(firstTicket);
 	}, [data]);
 
-	useEffect(() => {
-		if (dataTicket?.id === undefined) {
-			setIsLoading(true);
-		} else {
-			setIsLoading(false);
-		}
-	}, [dataTicket?.id]);
 	const selectTicket = (ticket: ITicket) => {
-		setIsLoading(true);
 		setSelectedTicket(ticket);
 	};
 
@@ -179,14 +170,12 @@ export default function HeatmapTemplate() {
 				<div className="card p-4">
 					{selectedTicket ? (
 						<>
-							{isLoading ? (
+							{(isLoading || !dataTicket) ? (
 								<LoaderComponent />
 							) : (
 								<TicketDetail
 									onClose={() => setSelectedTicket(null)}
-									ticket={{
-										...dataTicket,
-									}}
+									ticket={dataTicket}
 								/>
 							)}
 						</>
