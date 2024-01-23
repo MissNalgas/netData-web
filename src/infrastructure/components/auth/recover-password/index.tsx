@@ -20,7 +20,6 @@ import {
 	checkEmail,
 	recoverPassword,
 } from "@infrastructure/store/user/actions";
-import Icon from "@shared/components/icons";
 interface IRecoverPasswordComponentProps {
 	actionButton?: () => void;
 	changeStateAction?: 1 | 2 | 3 | 4;
@@ -128,9 +127,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	const message = messages[changeStateAction ?? 1] || t("title_error");
 	return (
 		<ContentForm>
-            <div onClick={() => handleClickArrow()} className="bg-gray-200 rounded-full px-1 py-2 w-10 cursor-pointer">
-                <Icon icon="left-arrow" size="32"/>
-            </div>
+          
 			<TitleCustom $center>{message}</TitleCustom>
 			<SecondTitleCustom $center>
 				{(changeStateAction === 1 && t("type_email_sentria")) ||
@@ -138,7 +135,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					(changeStateAction === 3 && t("new_password"))}
 			</SecondTitleCustom>
 			{changeStateAction === 1 && (
-				<ForgotPasswordForm onSubmit={handleCheckEmail} />
+				<ForgotPasswordForm onSubmit={handleCheckEmail} handleClickArrow={()=>handleClickArrow()} />
 			)}
 
 			{changeStateAction === 2 && (
@@ -151,6 +148,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					onSubmit={() => {
 						setChangeAction(3);
 					}}
+					handleClickArrow={()=>handleClickArrow()}
 				/>
 			)}
 			{changeStateAction === 3 && (
@@ -168,6 +166,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					description={!isSuccess ? t("description_error") : ""}
 				/>
 			)}
+		
 		</ContentForm>
 	);
 };

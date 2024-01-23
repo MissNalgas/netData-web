@@ -7,11 +7,12 @@ import ErrorClose from "/public/img/error-closed.png";
 import Computer from "/public/img/computer.png";
 import Steps from "@shared/components/steps";
 import { useRouter } from "next/navigation";
-import { TitleOne } from "@shared/components/labels/styled";
+import { Overline, TitleOne } from "@shared/components/labels/styled";
 import { useTranslation } from "react-i18next";
 import LoaderComponent from "@shared/components/loader";
 import ValidationsRegister from "./validations";
 import Icon from "@shared/components/icons";
+import { useTheme } from "styled-components";
 interface IRegisterComponentProps {
 	changeStateAction?: 1 | 2 | 3 | 4 ;
 	setChangeAction?: (_value: 1 | 2 | 3 | 4 ) => void;
@@ -22,17 +23,17 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	setChangeAction = () => {},
 }: IRegisterComponentProps) => {
     const router = useRouter();
-    const { t } = useTranslation("register");
+    const { t } = useTranslation();
     const { isLoading, handleSubmitFormUser, handleSubmitValidateEmail } = ValidationsRegister({ changeStep: setChangeAction});
-
+	const theme = useTheme();
 	const title = useMemo(() => {
 		switch (changeStateAction) {
 			case 3:
-				return `${t("title_error")}`;
+				return `${t("register:title_error")}`;
 			case 4:
-				return `${t("title_success")}`;
+				return `${t("register:title_success")}`;
 			default:
-				return `${t("title_create")}`;
+				return `${t("register:title_create")}`;
 		}
 	}, [changeStateAction, t]);
 
@@ -50,9 +51,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	return (
         <ContentForm className="flex overflow-y-auto h-screen pb-8 my-auto">
 			<div className="m-auto">
-                <div onClick={() => handleClickArrow()} className="bg-gray-200 rounded-full px-1 py-2 w-10 cursor-pointer">
-                    <Icon icon="left-arrow" size="32"/>
-                </div>
+              
 				<TitleOne $center>{title}</TitleOne>
 				{changeStateAction === 1 && (
 					<>
@@ -75,16 +74,22 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 						image={ErrorClose}
 						textButton={`${("retry")}`}
 						onClickButton={() => setChangeAction(1)}
-						description={`${t("description_error_create_account")}`}
+						description={`${t("register:description_error_create_account")}`}
 					/>
 				)}
 				{changeStateAction === 4 && (
 					<ErrorImage
 						image={Computer}
-						textButton={`${t("sign_in")}`}
+						textButton={`${t("register:sign_in")}`}
 						onClickButton={() => router.push("login")}
 					/>
 				)}
+				<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5" onClick={() => handleClickArrow()}>
+			<Icon icon="left-arrow" size="32"/>
+				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
+					{t("recover_password:go_back")}
+				</Overline>
+			</div>
                 {isLoading && (
                     <div className="fixed top-0 left-0 w-full bg-white">
                         <LoaderComponent/>
