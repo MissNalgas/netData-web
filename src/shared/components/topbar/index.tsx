@@ -35,7 +35,7 @@ export default function Topbar(props: TopBarProps) {
 		(day === "day" && dashboard?.today?.riskState) ||
 		(day === "yesterday" && dashboard?.yesterday?.riskState);
 	return (
-		<div className="w-full h-20 flex justify-between items-center px-2 bg-white">
+		<div className="w-full h-20 flex justify-between items-center px-5 bg-white">
 			<div className="tablet:hidden flex gap-2 items-center " color="red">
 				<div
 					className="w-12 h-12 rounded-full items-center flex justify-center"

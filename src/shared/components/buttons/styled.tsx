@@ -1,5 +1,6 @@
 import colors from "@theme/colors";
 import styled from "styled-components";
+import { mq } from "@theme/media";
 
 type ButtonProps = {
 	background?: string;
@@ -8,7 +9,7 @@ type ButtonProps = {
 	borderWidth?: string;
 	borderColor?: string;
 	boxShadow?: string;
-	width?: number;
+	width?: number | string;
 	height?: number;
 };
 
@@ -37,6 +38,16 @@ export const PrimaryButton = styled.button<ButtonProps>`
 		background-color: ${colors.orange30};
 		color: ${colors.shadow10};
 	}
+	${({ width }) =>
+		mq({
+			width: [
+				"100%",
+				"100%",
+				`${width}%` || "100%",
+				`${width}%` || "100%",
+				`${width}%` || "100%",
+			],
+		})}
 `;
 
 export const SecondaryButton = styled.button<ButtonProps>`
@@ -62,4 +73,14 @@ export const SecondaryButton = styled.button<ButtonProps>`
 		border-color: ${colors.orange30};
 		color: ${colors.orange30};
 	}
+	${({ width }) =>
+		mq({
+			width: [
+				"100%",
+				"100%",
+				`${width}%` || "100%",
+				`${width}%` || "100%",
+				`${width}%` || "100%",
+			],
+		})}
 `;

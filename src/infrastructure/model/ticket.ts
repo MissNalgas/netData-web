@@ -68,6 +68,7 @@ export interface ITicketDTO {
 	workspace_id: number;
 	custom_fields: ITicketCustomFieldsDTO;
 	agent: string;
+	upset?: string;
 }
 
 export interface ITicketPerCategoryDTO {

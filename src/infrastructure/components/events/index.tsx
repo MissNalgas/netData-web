@@ -69,7 +69,7 @@ export default function EventsTemplate() {
 	};
 	const fetchData = useCallback(async () => {
 		try {
-			const dataTicket: any = await ticketRepository.getTicketWeek();
+			const dataTicket: ITicket[] = await ticketRepository.getTicketWeek();
 			if (showEventsDay === "true") {
 				const filterDate: any = dataTicket?.filter((item: ITicket) => {
 					const itemDate = new Date(item?.createdAt);
