@@ -51,7 +51,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 	return (
         <ContentForm className="flex overflow-y-auto h-screen pb-8 my-auto">
 			<div className="m-auto">
-              
+
 				<TitleOne $center>{title}</TitleOne>
 				{changeStateAction === 1 && (
 					<>

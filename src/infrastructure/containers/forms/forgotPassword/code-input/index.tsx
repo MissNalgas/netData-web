@@ -14,7 +14,7 @@ export default function CodeInputForm({
 	onSubmit,
 	getCode = () => "",
 	sendAgainAction,
-	handleClickArrow
+	handleClickArrow,
 }: CodeInputFormProps) {
 	const { handleSubmit } = useForm({});
 	const router = useRouter();

@@ -127,7 +127,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 	const message = messages[changeStateAction ?? 1] || t("title_error");
 	return (
 		<ContentForm>
-          
+
 			<TitleCustom $center>{message}</TitleCustom>
 			<SecondTitleCustom $center>
 				{(changeStateAction === 1 && t("type_email_sentria")) ||
@@ -166,7 +166,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					description={!isSuccess ? t("description_error") : ""}
 				/>
 			)}
-		
+
 		</ContentForm>
 	);
 };
