@@ -1,0 +1,104 @@
+pipeline {
+
+  agent any
+
+  tools { nodejs "node" }
+
+  environment {
+    APP_ECR_IMAGE_URI = "$ECR_URI_REPOSITORY:${env.BUILD_NUMBER}"
+  }
+
+  stages {
+    stage('Set .env file') {
+      steps {
+        sh "aws secretsmanager get-secret-value --secret-id $AWS_SECRET_MANAGER_ID --region $AWS_REGION --query SecretString --output text > ./secrets.json"
+        sh "cat ./secrets.json" // Agrega esta línea para imprimir la salida de AWS CLI
+        sh "jq -r 'to_entries|map(\"\\(.key)=\\(.value|@sh)\")|.[]' ./secrets.json > ./secrets.env"
+         sh "cat ./secrets.env"
+        sh "cat ./secrets.env | sed 's/^/env./' > ./secrets.groovy"
+        load "./secrets.groovy" 
+        sh "node deployment-config/environment_setter.js"
+      }
+    }
+
+    stage('Build') {
+
+      steps {
+        echo 'Building...'
+        echo 'Configuring AWS credentials...'
+        sh "aws configure set aws_access_key_id AKIA6I6LWVXUAOW7JNCN"
+        sh "aws configure set aws_secret_access_key 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"
+        sh "aws configure set default.region $AWS_REGION"
+        echo "imagen $BASE_IMAGE_URI"
+        sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $BASE_IMAGE_URI"
+        sh "(docker build -t local-service:latest --build-arg BASE_IMAGE_URI=$BASE_IMAGE_URI --build-arg SERVER_APP_PORT=$SERVER_APP_PORT -f dockerConfig/dockerfile .)"
+        sh "docker tag local-service:latest $APP_ECR_IMAGE_URI"
+        echo "public_subnet $PUBLIC_SUBNETS"
+      }
+    }
+
+/*     stage('Scan') {
+      steps {
+        prismaCloudScanImage ca: '',
+        cert: '',
+        dockerAddress: 'unix:///var/run/docker.sock',
+        image: 'local-service:latest',
+        key: '',
+        logLevel: 'info',
+        podmanPath: '',
+        project: '',
+        resultsFile: 'prisma-cloud-scan-results.json'
+      }
+      post{
+        always {
+          prismaCloudPublish resultsFilePattern: 'prisma-cloud-scan-results.json'
+        }
+      }
+    } */
+
+    stage('Push Image') {
+      steps {
+        sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_URI_REPOSITORY"
+        echo 'Pushing the Docker images...'
+        sh "docker push $APP_ECR_IMAGE_URI"
+      }
+    }
+
+    stage('Clear local docker images') {
+      steps {
+        echo 'Delete docker images...'
+        sh "docker rmi $APP_ECR_IMAGE_URI"
+        sh "docker rmi local-service:latest"
+        sh "docker image prune -a -f"
+      }
+    }
+
+    stage('Set env to Kubernetes manifest file') {
+      steps {
+        echo 'Set envs...'
+        sh 'envsubst < deployment-config/kubernetes-manifest.yml > deployment-config/kubernetes-manifest-with-envs.yml'
+        sh 'mv deployment-config/kubernetes-manifest-with-envs.yml deployment-config/kubernetes-manifest.yml'
+        sh 'cat deployment-config/kubernetes-manifest.yml'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        echo 'Deploying...'
+        sh '' 
+        sh '/var/lib/kubectl apply -f deployment-config/kubernetes-manifest.yml -n sentria-dev'
+        echo "pase"
+      }
+    }
+  }
+  post {
+    always {
+        sh "rm -rf .env"
+        sh "rm -rf ./secrets.env"
+        sh "rm -rf ./secrets.groovy"
+        sh "docker container prune -f"
+        sh "docker image prune -a -f"
+
+    }
+  }
+}
