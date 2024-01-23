@@ -1,4 +1,4 @@
-import { AppState } from "infrastructure/store/user/types";
+import { AppState } from "./types";
 
 const initialState: AppState = {
 	user: {

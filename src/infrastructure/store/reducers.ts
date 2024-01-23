@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 
-import { reducer as userReducer } from "infrastructure/store/user";
+import { reducer as userReducer } from "./user";
 import tooltipReducer from "@shared/components/tooltip/slice";
-import { reducer as dashboardReducer } from "@infrastructure/store/dashboard";
-import { reducer as chatReducer } from "infrastructure/store/chat";
-import { reducer as notificationsReducer } from "infrastructure/store/notifications";
-import { reducer as layoutReducerReducer } from "infrastructure/store/layout";
+import { reducer as dashboardReducer } from "./dashboard";
+import { reducer as chatReducer } from "./chat";
+import { reducer as notificationsReducer } from "./notifications";
+import { reducer as layoutReducerReducer } from "./layout";
 
 // add reducers here
 const rootReducer = combineReducers({

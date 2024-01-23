@@ -2,7 +2,7 @@ import { enUS, es } from "date-fns/locale";
 import theme from "theme";
 import { format, isValid, parse } from "date-fns";
 import { IFilters } from "@domain/models";
-import { formatDateDTO } from ".";
+import { formatDateDTO } from "./maps";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 export function currencyFormat(num: number) {

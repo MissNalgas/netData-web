@@ -1,4 +1,4 @@
-import { TicketPriority } from ".";
+import { TicketPriority } from "./ticket";
 
 export interface responseDashboard {
 	data: IDashboard;
