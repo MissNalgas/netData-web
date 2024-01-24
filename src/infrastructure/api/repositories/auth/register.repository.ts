@@ -44,7 +44,7 @@ class AuthRepository implements IAuthService {
 			name: info.data.name,
 			lastName: info.data.lastName,
 			company:
-				'{"id":13000702226,"name":"NETDATAAPPSENTRIA","idRequester":13002267148}',
+				"{\"id\":13000702226,\"name\":\"NETDATAAPPSENTRIA\",\"idRequester\":13002267148}",
 			password: info.data.password,
 			token: messagingToken,
 		});
