@@ -1,6 +1,8 @@
 import { API_URL } from "@shared/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { store } from "@infrastructure/store";
+import { resetState } from "@infrastructure/store/user/actions";
 
 let ERROR_TOAST_SHOWN = false;
 
@@ -44,6 +46,7 @@ export async function createAxiosApp() {
 					ERROR_TOAST_SHOWN = true;
 					localStorage.removeItem("tokenApp");
 					localStorage.removeItem("isExpired");
+					store.dispatch(resetState());
 
 					localStorage.clear();
 				}
