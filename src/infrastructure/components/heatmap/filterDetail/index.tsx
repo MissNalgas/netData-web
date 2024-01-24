@@ -2,9 +2,10 @@ import React from "react";
 import { IFilters } from "@domain/models";
 import { format } from "date-fns";
 import Chip from "./chip";
+import { useTranslation } from "react-i18next";
 
 export default function FilterDetail({filter, setFilter, className = ""}: FilterDetailProps) {
-
+	const { t } = useTranslation();
 	const removeFilter = (key: string) => {
 		setFilter?.(filters => {
 			if (!filters) return;
@@ -16,15 +17,15 @@ export default function FilterDetail({filter, setFilter, className = ""}: Filter
 	if (!filter || Object.values(filter).every(value => value === null))
 		return (
 			<span className={className}>
-				<b>Filtrado por: </b>
-				Sin filtros aplicados
+				<b>{t("tickets_week:filtered_by")} </b>
+				{t("tickets_week:without_filters")}
 			</span>
 		);
 
 	return (
 		<div className={"flex items-center gap-2 flex-col sm:flex-row " + className}>
 			<span>
-				<b>Filtrado por:</b>
+				<b>{t("tickets_week:filtered_by")}</b>
 			</span>
 			<div className="flex items-center gap-2 flex-wrap">
 				{Object.entries(filter).map(([key, value]) => (
