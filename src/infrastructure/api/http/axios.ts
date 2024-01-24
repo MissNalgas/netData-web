@@ -44,8 +44,7 @@ export async function createAxiosApp() {
 				) {
 					toast.error("Tu sesión ha expirado");
 					ERROR_TOAST_SHOWN = true;
-					localStorage.removeItem("tokenApp");
-					localStorage.removeItem("isExpired");
+
 					store.dispatch(resetState());
 
 					localStorage.clear();
