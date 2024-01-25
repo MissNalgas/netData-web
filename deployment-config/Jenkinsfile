@@ -29,9 +29,9 @@ pipeline {
         sh "aws configure set aws_access_key_id AKIA6I6LWVXUAOW7JNCN"
         sh "aws configure set aws_secret_access_key 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"
         sh "aws configure set default.region $AWS_REGION"
-        echo "imagen $BASE_IMAGE_URI"
-        sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $BASE_IMAGE_URI"
-        sh "(docker build -t local-service:latest --build-arg BASE_IMAGE_URI=$BASE_IMAGE_URI --build-arg SERVER_APP_PORT=$SERVER_APP_PORT -f dockerConfig/dockerfile .)"
+        echo "imagen $BASE_IMAGE_URI_WEB"
+        sh "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $BASE_IMAGE_URI_WEB"
+        sh "(docker build -t local-service:latest --build-arg BASE_IMAGE_URI=$BASE_IMAGE_URI_WEB --build-arg SERVER_APP_PORT=$SERVER_APP_PORT -f dockerConfig/dockerfile .)"
         sh "docker tag local-service:latest $APP_ECR_IMAGE_URI"
         echo "public_subnet $PUBLIC_SUBNETS"
       }
