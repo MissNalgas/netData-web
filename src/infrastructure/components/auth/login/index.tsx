@@ -10,7 +10,6 @@ import LogoSentria from "/public/img/logo-sentria.png";
 import Image from "next/image";
 
 const LoginComponent: React.FC<LoginComponentProps> = ({onSubmit, isLoading}) => {
-	// const { login } = useAuth();
 	const { t } = useTranslation("login");
 
 	return (
