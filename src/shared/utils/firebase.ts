@@ -1,7 +1,6 @@
 import { VAPID_KEY } from "@shared/constants";
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { isDeviceMobile } from "@shared/utils";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyAa5kv01Pt2OB8nYbzErFLOVv04uJw4VR8",
@@ -14,7 +13,11 @@ const firebaseConfig = {
 
 let app: FirebaseApp | undefined;
 
-if (!isDeviceMobile && typeof window !== "undefined") {
+if (
+	typeof window !== "undefined" &&
+	"Notification" in window &&
+	typeof window !== "undefined"
+) {
 	try {
 		app = initializeApp(firebaseConfig);
 

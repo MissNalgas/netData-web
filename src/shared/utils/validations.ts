@@ -1,10 +1,5 @@
 import * as yup from "yup";
 
-const isDeviceMobile =
-	/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-		navigator.userAgent
-	);
-
 const charactersOnlyEmail = /^[a-zA-ZÀ-ÿ-.-\u00f1\u00d1 @#$%^&.!¡*+=]+$/;
 const numbersOnly = /^[0-9]+$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$/%^&*.])/;
@@ -57,5 +52,4 @@ export {
 	affair,
 	message,
 	reply,
-	isDeviceMobile,
 };
