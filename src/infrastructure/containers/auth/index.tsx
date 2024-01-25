@@ -34,6 +34,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const dispatch = useAppDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 
+	const userToken = useMemo(() => {
+		if (typeof window === "undefined") return;
+
+		return localStorage.getItem("tokenApp") || undefined;
+	}, []);
+
 	const login = useCallback(
 		async (email: string, password: string): Promise<IUser> => {
 			return await dispatch(
@@ -66,11 +72,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 	useEffect(() => {
 		if (PUBLIC_ROUTES.some((route) => new RegExp(route).test(pathname))) {
-			if (isValidToken(user.token)) {
+			if (isValidToken(userToken)) {
 				router.replace("/");
 			}
 		} else {
-			if (isValidToken(user.token)) {
+			if (isValidToken(userToken)) {
 			} else {
 				router.replace("/login");
 			}
@@ -78,7 +84,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		setTimeout(() => {
 			setIsLoading(false);
 		}, 100);
-	}, [pathname, user, router]);
+	}, [pathname, userToken, router]);
 
 	if (isLoading)
 		return (
