@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import initialState from "infrastructure/store/user/initial-state";
+import initialState from "./initial-state";
 import {
 	contact,
 	deleteAccount,
 	getDataUser,
 	resetState,
 	checkEmail,
-    validateOTP,
-} from "infrastructure/store/user/actions";
+	validateOTP,
+} from "./actions";
 
 export const { actions, reducer } = createSlice({
 	name: "user",

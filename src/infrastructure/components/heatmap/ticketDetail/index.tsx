@@ -8,6 +8,7 @@ import { useSideModal } from "@shared/components/sideModal";
 import TicketDetailModal from "./modal";
 import { useTranslation } from "react-i18next";
 import Chat from "@shared/components/chat";
+import { backgroundColor, formatDateDTO } from "@shared/utils";
 
 const grid = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0];
 
@@ -64,7 +65,7 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 
 		const image = images[index];
 		const title = t(titles[index]);
-		const data = ticket.customFields[keys[index]];
+		const data = ticket?.customFields && ticket.customFields[keys[index]];
 
 		toggle({
 			content: () => (
@@ -100,29 +101,49 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 					<Icon icon="Paper-Plane" size="24px" />
 				</button>
 			</div>
-			<div className="flex justify-between items-center text-sm">
+			<div
+				className="flex justify-between items-center text-sm"
+				style={{
+					gap: "28%",
+				}}
+			>
 				<div className="flex items-center gap-2">
-					{ticket.status === TicketStatus.Open ? (
+					{ticket.status <= TicketStatus.Open ? (
 						<>
-							<Icon icon="Magnifier" size="22px" color={colors.green50}/>
-							<span className="text-green50">{t("ticket_selected:on_revision")}</span>
+							<Icon
+								icon="Magnifier"
+								size="22px"
+								color={colors.green50}
+							/>
+							<span className="text-green50">
+								{t("ticket_selected:on_revision")}
+							</span>
 						</>
 					) : (
 						<>
-							<Icon icon="Approve" size="22px" color={colors.gray40}/>
-							<span className="text-gray40">{t("ticket_selected:closed")}</span>
+							<Icon
+								icon="Approve"
+								size="22px"
+								color={colors.gray40}
+							/>
+							<span className="text-gray40">
+								{t("ticket_selected:closed")}
+							</span>
 						</>
 					)}
 				</div>
 				<div className="flex items-center gap-2">
-					<Icon icon="headphone" size="22px" color={colors.gray50}/>
-					<span className="text-gray50">{t("ticket_selected:agent")}: {ticket.agent}</span>
+					<Icon icon="headphone" size="22px" color={colors.gray50} />
+					<span className="text-gray50">
+						{t("ticket_selected:agent")}: {ticket.agent}
+					</span>
 				</div>
 			</div>
 			<iframe
 				className="w-full rounded p-2 bg-gray-100"
 				height={300}
-				src="/chart/heatmap?height=300"
+				src={`/chart/heatmap?height=300&status=open&date=${formatDateDTO(ticket.createdAt)}`}
+				title="heatmap"
 			/>
 			<PentaContainerGrid>
 				{grid.map((item, index) => (
@@ -134,6 +155,7 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 								}
 								title={t(texts[Math.floor(index / 2)])}
 								icon={images[Math.floor(index / 2)]}
+								bgColor={backgroundColor(ticket?.category)}
 							/>
 						) : (
 							<div />

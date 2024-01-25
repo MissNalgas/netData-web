@@ -1,13 +1,16 @@
 "use client";
 
+import { IFilters } from "@domain/models";
 import { useTicketPerPriority } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
 import LoaderComponent from "@shared/components/loader";
+import { parseQueryToFilters } from "@shared/utils";
 import { PieChart } from "echarts/charts";
 import { LegendComponent, TooltipComponent } from "echarts/components";
 import { LabelLayout } from "echarts/features";
 import { CanvasRenderer } from "echarts/renderers";
-import { useMemo, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function PriorityDonut() {
 	const loadComponents = useRef([
@@ -17,23 +20,29 @@ export default function PriorityDonut() {
 		CanvasRenderer,
 		LabelLayout,
 	]);
-	const data = useTicketPerPriority();
+	const [filter, setFilter] = useState<IFilters>();
+	const data = useTicketPerPriority(filter);
+	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		setFilter(parseQueryToFilters(searchParams));
+	}, [searchParams]);
 
 	const options = useMemo(() => {
 		if (!data) return {};
 
 		const mappedKeys = ["low", "medium", "urgent", "high"];
 		const colors = ["#75dad4", "#73259a", "#f99e17", "#b01212"];
-		const transformedData = Object.entries(data).filter(([key]) => mappedKeys.includes(key)).map(([key, value], index) => {
-
-			return {
-				value,
-				name: key,
-				color: colors[index],
-			}
-		});
-
-		return{
+		const transformedData = Object.entries(data)
+			.filter(([key]) => mappedKeys.includes(key))
+			.map(([key, value], index) => {
+				return {
+					value,
+					name: key,
+					color: colors[index],
+				};
+			});
+		return {
 			tooltip: {
 				trigger: "item",
 			},
@@ -62,7 +71,7 @@ export default function PriorityDonut() {
 						show: false,
 					},
 					itemStyle: {
-						color: (obj : any) => {
+						color: (obj: any) => {
 							return obj.data?.color || "red";
 						},
 					},
@@ -75,17 +84,11 @@ export default function PriorityDonut() {
 					],
 				},
 			],
-		}
+		};
 	}, [data]);
 
-	if (data === undefined) return <LoaderComponent/>
-	if (data === null) return <div>Error loading the data</div>
+	if (data === undefined) return <LoaderComponent />;
+	if (data === null) return <div>Error loading the data</div>;
 
-
-	return (
-		<Chart
-			options={options}
-			loadComponents={loadComponents.current}
-		/>
-	);
+	return <Chart options={options} loadComponents={loadComponents.current} />;
 }

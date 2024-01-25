@@ -10,11 +10,13 @@ export interface ICustomFields {
 
 /* eslint-disable no-unused-vars */
 export enum TicketStatus {
-	Open = 1,
-	Closed = 0,
+	Open = 2,
+	Pending = 3,
+	Closed = 5,
 }
 
 export interface ITicket {
+	filter?(arg0: (item?: ITicket) => boolean): unknown;
 	subject: string;
 	id: number;
 	category: string;
@@ -22,6 +24,7 @@ export interface ITicket {
 	customFields: ICustomFields;
 	status: TicketStatus;
 	agent: string;
+	upset?: string;
 }
 
 export type FilterOption = {
@@ -34,6 +37,7 @@ export interface IFilters {
 	status: null | FilterOption;
 	risk: null | FilterOption;
 	date: null | Date;
+	id: null | number;
 }
 
 export interface ITicketPerCategory {
@@ -42,7 +46,7 @@ export interface ITicketPerCategory {
 	count: number[];
 }
 
-export interface ITIcketPerSolution {
+export interface ITicketPerSolution {
 	solutionsEn: string[];
 	solutionsEs: string[];
 	counts: number[];

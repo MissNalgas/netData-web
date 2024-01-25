@@ -1,9 +1,9 @@
 import { IFilters, ITicket, TicketStatus } from "@domain/models";
-import { useAllTickets } from "@infrastructure/api/hooks";
+import { useAllTickets, useTicketDetail } from "@infrastructure/api/hooks";
 import TwoColumnLayout from "@shared/components/buttons/twoColumnLayout";
 import FilterInput from "@shared/components/filterInput";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import TicketDetail from "../ticketDetail";
 import { useTranslation } from "react-i18next";
 import Pagination from "@shared/components/pagination";
@@ -13,19 +13,23 @@ import ColorGuide from "@shared/components/colorGuide";
 import InformationCard from "@shared/components/informationCard";
 import magnet from "/public/img/magnet.png";
 import { format } from "date-fns";
-import { getFormattedDate } from "@shared/utils";
+import { formatFiltersToQuery, getFormattedDate } from "@shared/utils";
+import LoaderComponent from "@shared/components/loader";
 
 export default function HeatmapTemplate() {
-
 	const { t, i18n } = useTranslation();
 	const [filter, setFilter] = useState<IFilters>();
 	const data = useAllTickets(filter);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const [tickets, page, setPage, maxPages] = useArrayPagination(data?.tickets);
-
-	const selectTicket = (ticket: ITicket) => {
-		setSelectedTicket(ticket);
-	};
+	const [tickets, page, setPage, maxPages] = useArrayPagination(
+		data?.tickets
+	);
+	const todayDate = useMemo(() => {
+		const date = new Date();
+		date.setHours(0, 0, 0, 0);
+		return date;
+	}, []);
+	const [dataTicket, isLoading] = useTicketDetail(`${selectedTicket?.id}`);
 
 	useEffect(() => {
 		const firstTicket = data?.tickets[0];
@@ -33,12 +37,20 @@ export default function HeatmapTemplate() {
 		firstTicket && setSelectedTicket(firstTicket);
 	}, [data]);
 
+	const selectTicket = (ticket: ITicket) => {
+		setSelectedTicket(ticket);
+	};
+
 	return (
 		<TwoColumnLayout>
 			<div className="flex flex-col gap-4">
 				<div className="card p-4 h-[max-content] flex flex-col items-center">
-					<h2 className="text-2xl font-bold">{t("heatmap:heatmap")}</h2>
-					<h3 className="text-xl">{t("heatmap:your_ticket_history")}</h3>
+					<h2 className="text-2xl font-bold">
+						{t("heatmap:heatmap")}
+					</h2>
+					<h3 className="text-xl">
+						{t("heatmap:your_ticket_history")}
+					</h3>
 					<div className="w-full max-w-[400px]">
 						<FilterInput
 							filter={filter}
@@ -53,7 +65,14 @@ export default function HeatmapTemplate() {
 					/>
 					<iframe
 						className="w-full max-w-[500px] h-[500px] bg-gray-100 rounded-lg p-2"
-						src="/chart/heatmap?height=500"
+						src={`/chart/heatmap?height=500&${formatFiltersToQuery({
+							category: filter?.category ?? null,
+							risk: filter?.risk ?? null,
+							status: filter?.status ?? null,
+							date: filter?.date ?? todayDate,
+							id: filter?.id ?? null,
+						})}`}
+						title="heatmap"
 					/>
 				</div>
 				{!!tickets.length && (
@@ -63,7 +82,12 @@ export default function HeatmapTemplate() {
 								{t("heatmap:events_by_priority")}
 							</h2>
 							<iframe
-								src="/chart/prioritydonut"
+								src={`/chart/prioritydonut${
+									filter
+										? `?${formatFiltersToQuery(filter)}`
+										: ""
+								}`}
+								title="prioritydonut"
 								className="w-full h-[300px]"
 							/>
 						</div>
@@ -72,41 +96,57 @@ export default function HeatmapTemplate() {
 								{t("heatmap:events_by_category")}
 							</h2>
 							<iframe
-								src="/chart/categorybars"
+								src={`/chart/categorybars${
+									filter
+										? `?${formatFiltersToQuery(filter)}`
+										: ""
+								}`}
+								title="categorybars"
 								className="w-full h-[300px]"
 							/>
 						</div>
 						<div className="card p-4 flex flex-col gap-4">
 							<div className="flex justify-center">
-								<ColorGuide className="w-full"/>
+								<ColorGuide className="w-full" />
 							</div>
 							{!!filter?.date && (
 								<h2 className="text-center font-bold text-lg">
-									{getFormattedDate(filter.date, i18n?.resolvedLanguage || "en")}
+									{getFormattedDate(
+										filter.date,
+										i18n?.resolvedLanguage || "en"
+									)}
 								</h2>
 							)}
 							<div className="flex flex-col">
-								{tickets.map(ticket => (
-									<button onClick={() => selectTicket(ticket)} key={ticket.id}>
+								{tickets.map((ticket) => (
+									<button
+										onClick={() => selectTicket(ticket)}
+										key={ticket.id}
+									>
 										<InformationCard
 											imageLeft={magnet}
 											textLeft={`ID ${ticket.id}`}
-											textRight={format(ticket.createdAt, "hh:mm aaa")}
+											textRight={format(
+												ticket.createdAt,
+												"hh:mm aaa"
+											)}
 											textCenter={ticket.category}
 											classContainer={
-												ticket.status === TicketStatus.Open ? (
-													"bg-red10"
-												) : (
-													"bg-green10"
-												)
+												ticket.status ===
+												TicketStatus.Open
+													? "bg-red10"
+													: "bg-green10"
 											}
 										/>
 									</button>
 								))}
-
 							</div>
 							<div className="grid place-content-center">
-								<Pagination selectedPage={page} setSelectedPage={setPage} totalPages={maxPages}/>
+								<Pagination
+									selectedPage={page}
+									setSelectedPage={setPage}
+									totalPages={maxPages}
+								/>
 							</div>
 						</div>
 					</>
@@ -128,15 +168,24 @@ export default function HeatmapTemplate() {
 					<h1 className="text-8xl font-bold text-primary">0</h1>
 				</div>
 				<div className="card p-4">
-						{selectedTicket ? (
-							<TicketDetail onClose={() => setSelectedTicket(null)} ticket={selectedTicket}/>
-						) : (
-							<div className="grid place-content-center min-h-[400px]">
-								<span className="text-center font-bold text-xl">
-									{t("heatmap:there_is_no_selected_ticket")}
-								</span>
-							</div>
-						)}
+					{selectedTicket ? (
+						<>
+							{(isLoading || !dataTicket) ? (
+								<LoaderComponent />
+							) : (
+								<TicketDetail
+									onClose={() => setSelectedTicket(null)}
+									ticket={dataTicket}
+								/>
+							)}
+						</>
+					) : (
+						<div className="grid place-content-center min-h-[400px]">
+							<span className="text-center font-bold text-xl">
+								{t("heatmap:there_is_no_selected_ticket")}
+							</span>
+						</div>
+					)}
 				</div>
 				{!!tickets.length && (
 					<div className="card p-4">
@@ -144,8 +193,11 @@ export default function HeatmapTemplate() {
 							{t("heatmap:events_by_solution")}
 						</h2>
 						<iframe
-							src="/chart/solutionbars?height=400"
+							src={`/chart/solutionbars?height=400${
+								filter ? `&${formatFiltersToQuery(filter)}` : ""
+							}`}
 							className="w-full h-[400px]"
+							title="solutionbars"
 						/>
 					</div>
 				)}

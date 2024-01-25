@@ -1,11 +1,14 @@
 "use client"
+import { IFilters } from "@domain/models";
 import { useTicketPerSolution } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
 import LoaderComponent from "@shared/components/loader";
+import { parseQueryToFilters } from "@shared/utils";
 import { BarChart } from "echarts/charts";
 import { GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
-import { useMemo, useRef } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function SolutionBars() {
@@ -15,8 +18,16 @@ export default function SolutionBars() {
 		CanvasRenderer,
 		GridComponent,
 	]);
-	const data = useTicketPerSolution();
+	const [filters, setFilters] = useState<IFilters>();
+	const data = useTicketPerSolution(filters);
 	const {i18n} = useTranslation();
+	const searchParams = useSearchParams();
+
+	useEffect(() => {
+		setFilters(
+			parseQueryToFilters(searchParams)
+		);
+	}, [searchParams]);
 
 	const options = useMemo(() => {
 		if (!data) return {};

@@ -7,60 +7,63 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function MainContainer({children} : MainContainerProps) {
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const { logOut } = useAuth();
-    const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const { logOut } = useAuth();
+	const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
 
-    const yesClose = useCallback(() => {
-        logOut();
-        localStorage.removeItem("tokenApp");
-    }, [logOut]);
+	const yesClose = useCallback(() => {
+		logOut();
+		localStorage.removeItem("tokenApp");
+	}, [logOut]);
 
-    useEffect(() => {
-        let inactivityTimer: any;
-        let closeSesion: any;
+	useEffect(() => {
 
-        const resetTimer = () => {
-            clearTimeout(inactivityTimer);
-            clearTimeout(closeSesion);
+		if (typeof window === "undefined") return;
 
-            inactivityTimer = setTimeout(() => {
-                setIsModalVisible(true);
+		let inactivityTimer: any;
+		let closeSesion: any;
 
-                closeSesion = setTimeout(() => {
-                    yesClose()
-                }, 600000)
+		const resetTimer = () => {
+			clearTimeout(inactivityTimer);
+			clearTimeout(closeSesion);
 
-            }, 900000);
-        };
+			inactivityTimer = setTimeout(() => {
+				setIsModalVisible(true);
 
-        const addEventListeners = () => {
-            window.addEventListener("mousemove", resetTimer);
-            window.addEventListener("keydown", resetTimer);
-        };
+				closeSesion = setTimeout(() => {
+					yesClose()
+				}, 600000)
 
-        const removeEventListeners = () => {
-            window.removeEventListener("mousemove", resetTimer);
-            window.removeEventListener("keydown", resetTimer);
-        };
+			}, 900000);
+		};
 
-        resetTimer();
-        addEventListeners();
+		const addEventListeners = () => {
+			window.addEventListener("mousemove", resetTimer);
+			window.addEventListener("keydown", resetTimer);
+		};
 
-        return () => {
-            clearTimeout(inactivityTimer);
-            removeEventListeners();
-        };
-    }, [yesClose]);
+		const removeEventListeners = () => {
+			window.removeEventListener("mousemove", resetTimer);
+			window.removeEventListener("keydown", resetTimer);
+		};
 
-    const noCloseModal = () => {
-        setIsModalVisible(false);
-    };
+		resetTimer();
+		addEventListeners();
+
+		return () => {
+			clearTimeout(inactivityTimer);
+			removeEventListeners();
+		};
+	}, [yesClose]);
+
+	const noCloseModal = () => {
+		setIsModalVisible(false);
+	};
 
 
 	return (
 		<div className="w-full h-screen flex">
-            <ModalQuestion isOpen={isModalVisible} onClose={() => yesClose()} onPressYes={() => noCloseModal()}/>
+			<ModalQuestion isOpen={isModalVisible} onClose={() => yesClose()} onPressYes={() => noCloseModal()}/>
 			<div className={`${isOpenDrawer ? "cel:w-full" : "cel:hidden"} tablet:w-12 desktop:w-64 h-full laptop:block`}>
 				<Sidebar/>
 			</div>

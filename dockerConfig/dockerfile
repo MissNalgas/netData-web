@@ -13,8 +13,8 @@ COPY  . /sentria-front/
 # SET SSH CONFIG
 RUN apt-get -y update
 RUN apt-get -y install git
-RUN apt-get -y install yarn
-ENV NODE_VERSION=16.19.0
+RUN apt-get -y install npm
+ENV NODE_VERSION=20.9.0
 
 # SET nodejs version and app port
 ENV SERVER_APP_PORT=$SERVER_APP_PORT
@@ -26,9 +26,9 @@ RUN . "$HOME/.nvm/nvm.sh" && nvm install ${NODE_VERSION}
 RUN rm -rf dockerConfig
 
 # INSTALL AND BUILD PACKAGES
-RUN . "$HOME/.nvm/nvm.sh" && npm install -g yarn
-RUN . "$HOME/.nvm/nvm.sh" && yarn install
-RUN . "$HOME/.nvm/nvm.sh" && yarn run build
+RUN . "$HOME/.nvm/nvm.sh" && npm install -g npm
+RUN . "$HOME/.nvm/nvm.sh" && npm install
+RUN . "$HOME/.nvm/nvm.sh" && npm run build
 
 # INSTALL AND BUILD PACKAGES
 #RUN . "$HOME/.nvm/nvm.sh" && npm install npm@9.8.0
@@ -38,4 +38,4 @@ RUN envsubst '$SERVER_APP_PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx_updat
 RUN rm -rf /etc/nginx/nginx.conf && mv /etc/nginx/nginx_updated.conf /etc/nginx/nginx.conf
 
 #  START APP
-CMD . "$HOME/.nvm/nvm.sh" && service nginx start && yarn start
+CMD . "$HOME/.nvm/nvm.sh" && service nginx start && npm start

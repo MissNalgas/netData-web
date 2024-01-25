@@ -12,22 +12,6 @@ import Image from "next/image";
 const LoginComponent: React.FC<LoginComponentProps> = ({onSubmit, isLoading}) => {
 	// const { login } = useAuth();
 	const { t } = useTranslation("login");
-	// const [isLoading, setIsLoading] = useState(false);
-
-	// const handleSubmit = (data: ILogin) => {
-	// 	setIsLoading(true);
-	// 	login(data.email, data.password).finally(() => {
-	// 		setIsLoading(false);
-	// 	}).catch((err) => {
-	//
-	// 		if (err instanceof SentriaError) {
-	// 			toast.error(err.message);
-	// 		} else {
-	// 			toast.error("Hubo un error al iniciar sesión, por favor, vuelve a intentar");
-	// 		}
-	//
-	// 	})
-	// }
 
 	return (
 		<ContentForm>

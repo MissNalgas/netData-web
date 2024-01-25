@@ -1,6 +1,6 @@
 import {
 	IFilters,
-	ITIcketPerSolution,
+	ITicketPerSolution,
 	ITicket,
 	ITicketPerCategory,
 	ITicketPerPriority,
@@ -10,6 +10,7 @@ import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
 import {
+	ITicketDTO,
 	ITicketPerCategoryDTO,
 	ITicketPerPriorityDTO,
 	ITicketPerSolutionDTO,
@@ -17,69 +18,14 @@ import {
 } from "@infrastructure/model";
 class TicketRepository implements ITicketService {
 	async getAllTickets(filters: IFilters): Promise<ITicketPerWeek> {
-		//@todo - remove this after the endpoint is working
-
-		const mockData = TicketAdapter.weekGraphFromDTO({
-			data: [
-				[2, 3, 1],
-				[1, 2, 3],
-			],
-			hours: [1, 2, 3],
-			days: ["monday"],
-			tickets: Array(100)
-				.fill(null)
-				.map((_, i) => ({
-					agent: "Francis Parra",
-					subject: "Subject",
-					group_id: 23,
-					department_id: 23,
-					category: "Category",
-					sub_category: "my category",
-					item_category: "Item category",
-					requester_id: 2,
-					responder_id: 12,
-					due_by: new Date().toString(),
-					fr_escalated: false,
-					deleted: false,
-					spam: false,
-					email_config_id: "asda@email.com",
-					fwd_emails: ["example@example.com"],
-					reply_cc_emails: ["example@example.com"],
-					cc_emails: ["dsadas"],
-					is_escalated: false,
-					fr_due_by: new Date().toString(),
-					priority: 2,
-					source: 3,
-					status: 1,
-					created_at: new Date().toString(),
-					updated_at: new Date().toString(),
-					requested_for_id: 2,
-					to_emails: null,
-					id: i + 10,
-					type: "id",
-					description: "descripotion",
-					description_text: "description text",
-					workspace_id: 3,
-					custom_fields: {
-						persistencia: "lorem",
-						objetivos: "Mejorar 1, 2, 3",
-						usuarios: "paco1, paco2, paco3",
-						sistema: "Sistema 1",
-						ttps: "SSL",
-						que_necesitamos_hacer: "Mejorar A",
-						que_estamos_haciendo: "Mejorando B",
-					} as any,
-				})),
-		});
-		return mockData;
-
-		/* eslint-disable no-unreachable */
 		const axios = await createAxiosApp();
 
 		const params = TicketAdapter.paramsFromFilter(filters);
-		const result = await axios.post<ITicketsPerWeekDTO>(
+		const result = await axios.get<ITicketsPerWeekDTO>(
 			"/api/xelco/graphic/week",
-			params
+			{
+				params,
+			}
 		);
 
 		return TicketAdapter.weekGraphFromDTO(result.data);
@@ -87,7 +33,7 @@ class TicketRepository implements ITicketService {
 
 	async getTicketDetail(
 		ticketId: number | string,
-		notificationId: number
+		notificationId?: number
 	): Promise<ITicket> {
 		const axios = await createAxiosApp();
 		try {
@@ -97,55 +43,90 @@ class TicketRepository implements ITicketService {
 					idNotification: notificationId,
 				}
 			);
-			return result.data;
+			return {
+				agent: result.data.agent,
+				category: result.data.category,
+				createdAt: new Date(result.data.created_at),
+				id: result.data.id,
+				status: result.data.status,
+				subject: result.data.subject,
+				customFields: {
+					persistent: result.data.upset.persistent,
+					objectives: result.data.upset.objectives,
+					user: result.data.upset.user,
+					system: result.data.upset.system,
+					https: result.data.upset.ttps,
+					whatWeAreDoing: result.data.upset.whatWeAreDoing,
+					whatWeNeedYouToDo: result.data.upset.whatWeNeedYouToDo,
+				},
+			};
 		} catch (error) {
 			return Promise.reject(error);
 		}
 	}
 
-	async getTicketPerCategory(): Promise<ITicketPerCategory> {
-		//@todo - Remove mock data
-		return TicketAdapter.ticketPerCategoryFromDTO({
-			categories_es: ["Categoría 1", "Categoría 2"],
-			categories_en: ["Category 1", "Category 2"],
-			count: [4, 3],
-		});
+	async getTicketWeek(filters?: IFilters | undefined): Promise<ITicket[]> {
+		const axios = await createAxiosApp();
+		try {
+			let result;
+			const params = TicketAdapter.paramsFromFilter(filters);
+			if (filters) {
+				result = await axios.get("/api/xelco/ticketsforWeek", {
+					params,
+				});
+			} else {
+				result = await axios.get("/api/xelco/ticketsforWeek");
+			}
 
+			return result.data.map((ticket: ITicketDTO) => ({
+				agent: ticket.agent,
+				category: ticket.category,
+				createdAt: ticket.created_at,
+				customFields: ticket.upset,
+				id: ticket.id,
+				status: ticket.status,
+				subject: ticket.subject,
+			}));
+		} catch (error) {
+			return Promise.reject(error);
+		}
+	}
+
+	async getTicketPerCategory(
+		filters?: IFilters
+	): Promise<ITicketPerCategory> {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerCategoryDTO>(
-			"/api/xelco/graphic/category"
+			"/api/xelco/graphic/category",
+			{ params: TicketAdapter.paramsFromFilter(filters) }
 		);
 		return TicketAdapter.ticketPerCategoryFromDTO(result.data);
 	}
 
-	async getTicketsPerPriority(): Promise<ITicketPerPriority> {
-		//@todo - Remove mock data
-		return TicketAdapter.ticketPerPriorityFromDTO({
-			Low: 2,
-			Medium: 3,
-			High: 2,
-			Urgent: 3,
-			total: 10,
-			tickets: 123,
-		});
-
+	async getTicketsPerPriority(
+		filters: IFilters
+	): Promise<ITicketPerPriority> {
 		const axios = await createAxiosApp();
 		const result = await axios.get<ITicketPerPriorityDTO>(
-			"/api/xelco/graphic/solutions"
+			"/api/xelco/graphic/day",
+			{
+				params: {
+					...TicketAdapter.paramsFromFilter(filters),
+					type: "general",
+					day: "today",
+				},
+			}
 		);
 		return TicketAdapter.ticketPerPriorityFromDTO(result.data);
 	}
 
-	async getTicketsPerSolution(): Promise<ITIcketPerSolution> {
-		return TicketAdapter.ticketPerSolutionFromDTO({
-			solutions_es: ["Solucion A", "Solucion B", "Solucion C"],
-			solutions_en: ["Solution A", "Solution B", "Solution C"],
-			count: [6, 12, 18],
-		});
-
+	async getTicketsPerSolution(
+		filters: IFilters
+	): Promise<ITicketPerSolution> {
 		const axios = await createAxiosApp();
 		const response = await axios.get<ITicketPerSolutionDTO>(
-			"/api/xelco/graphic/solutions"
+			"/api/xelco/graphic/solutions",
+			{ params: TicketAdapter.paramsFromFilter(filters) }
 		);
 		return TicketAdapter.ticketPerSolutionFromDTO(response.data);
 	}

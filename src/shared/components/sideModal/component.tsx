@@ -6,7 +6,7 @@ export function SideModalComponent({
 }: SideModalComponentProps) {
 	return (
 		<div
-			className={`w-96 bg-white h-full absolute top-0 right-0 border-l-2 ${
+			className={`w-[563px] bg-white h-full absolute top-0 right-0 border-l-2 ${
 				show ? "" : "translate-x-full"
 			} transition`}
 		>

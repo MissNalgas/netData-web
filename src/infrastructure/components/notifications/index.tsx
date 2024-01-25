@@ -17,7 +17,6 @@ import { getNotifications } from "@infrastructure/store/notifications/actions";
 import { useEffect, useState } from "react";
 import LoaderComponent from "@shared/components/loader";
 import { NotificationItem } from "@infrastructure/store/notifications/types";
-import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { getFormattedDate, pagination } from "@shared/utils";
 import Pagination from "@shared/components/pagination";
@@ -32,20 +31,15 @@ export default function NotificationsComponent() {
 	const { t, i18n } = useTranslation("notifications");
 	const [page, setPage] = useState<number>(1);
 	const [selectedTicket, setSelectedTicket] = useState<ITicket | null>(null);
-	const data = useTicketDetail("INC-131490", 131490);
-	//delete
-	/* eslint-disable no-console */
-	console.log("data Ticket", data);
+	const [dataTicket, isLoadingDetail] = useTicketDetail(`${selectedTicket}`);
+
 	const selectTicket = (ticket: ITicket) => {
 		setSelectedTicket(ticket);
 	};
 
 	useEffect(() => {
 		dispatch(getNotifications()).unwrap();
-		if (notificationsData.error) {
-			toast.error(t("token_expired"));
-		}
-	}, [dispatch, notificationsData.error, t]);
+	}, [dispatch, t]);
 
 	const listNotifications = [...notificationsData.data]
 		.sort(
@@ -65,6 +59,7 @@ export default function NotificationsComponent() {
 		}, {});
 
 	const paginationData = pagination(Object.keys(listNotifications), 5);
+
 	const renderNotifications = () => {
 		const currentPageData = paginationData[page - 1] || [];
 
@@ -132,7 +127,14 @@ export default function NotificationsComponent() {
 					<CaptionTwo>{t("from_last_week")}</CaptionTwo>
 				</div>
 				<div className="flex flex-col h-5/6 justify-between mb-10">
-					<div>{renderNotifications()}</div>
+					<div
+						style={{
+							height: "70vh",
+							overflowY: "scroll",
+						}}
+					>
+						{renderNotifications()}
+					</div>
 					<div className="items-center flex justify-center">
 						<Pagination
 							selectedPage={page}
@@ -145,10 +147,16 @@ export default function NotificationsComponent() {
 
 			<ContainerBackground className="flex items-center flex-col justify-center">
 				{selectedTicket ? (
-					<TicketDetail
-						onClose={() => setSelectedTicket(null)}
-						ticket={selectedTicket}
-					/>
+					<>
+						{(isLoadingDetail || !dataTicket) ? (
+							<LoaderComponent />
+						) : (
+							<TicketDetail
+								onClose={() => setSelectedTicket(null)}
+								ticket={dataTicket}
+							/>
+						)}
+					</>
 				) : (
 					<TitleSecond $weight={theme.fontWeight.bold} $center>
 						{t("no_tickets_selected")}

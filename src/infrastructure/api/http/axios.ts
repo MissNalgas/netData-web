@@ -1,8 +1,10 @@
-import { store } from "@infrastructure/store";
-import { resetState } from "@infrastructure/store/user/actions";
 import { API_URL } from "@shared/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { store } from "@infrastructure/store";
+import { resetState } from "@infrastructure/store/user/actions";
+
+let ERROR_TOAST_SHOWN = false;
 
 export async function createAxios() {
 	const instance = axios.create({
@@ -13,13 +15,10 @@ export async function createAxios() {
 }
 
 export async function createAxiosApp() {
-	let errorToastShown = false;
-
 	const instance = axios.create({
 		baseURL: API_URL,
 		headers: {
 			"Content-Type": "application/json",
-			"Access-Control-Allow-Origin": "*",
 			Authorization: "Bearer " + localStorage.getItem("tokenApp") || "",
 		},
 	});
@@ -31,19 +30,29 @@ export async function createAxiosApp() {
 		(error) => {
 			if (error.response) {
 				const validateToken = error.response.data.name;
+				localStorage.setItem("isExpired", validateToken);
 
 				if (
-					validateToken === "TokenExpiredError" ||
-					(validateToken === "JsonWebTokenError" && !errorToastShown)
+					(localStorage.getItem("isExpired") ===
+						"TokenExpiredError" &&
+						validateToken === "TokenExpiredError" &&
+						!ERROR_TOAST_SHOWN) ||
+					(localStorage.getItem("isExpired") ===
+						"JsonWebTokenError" &&
+						validateToken === "JsonWebTokenError" &&
+						!ERROR_TOAST_SHOWN)
 				) {
 					toast.error("Tu sesión ha expirado");
-					errorToastShown = true;
-					localStorage.removeItem("tokenApp");
+					ERROR_TOAST_SHOWN = true;
+
 					store.dispatch(resetState());
+
+					localStorage.clear();
 				}
 			}
 			return Promise.reject(error);
 		}
 	);
+
 	return instance;
 }
