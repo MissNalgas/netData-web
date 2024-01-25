@@ -22,6 +22,7 @@ const Login: NextPage = () => {
 	const { t } = useTranslation();
 
 	const handleSubmit = (data : ILogin) => {
+		setIsLoading(true);
 		login(data.email, data.password).then((userData) => {
 			setLoginData({
 				email: data.email,
