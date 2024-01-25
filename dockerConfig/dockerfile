@@ -20,8 +20,8 @@ ENV NODE_VERSION=20.9.0
 ENV SERVER_APP_PORT=$SERVER_APP_PORT
 
 #  INSTALL NODEJS VERSION
-RUN . "$HOME/.nvm/nvm.sh" && nvm install ${NODE_VERSION}
-
+RUN . "$HOME/.nvm/nvm.sh" && nvm install 20.9.0
+RUN . "$HOME/.nvm/nvm.sh" && nvm use 20.9.0
 # Remove docker config folder
 RUN rm -rf dockerConfig
 
