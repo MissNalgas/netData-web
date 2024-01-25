@@ -10,7 +10,7 @@ import {
 	IXelcoLoginDTO,
 } from "@infrastructure/model";
 import { Contact } from "@infrastructure/store/user/types";
-import { VAPID_KEY } from "@shared/constants";
+import { VAPID_KEY, XELCO_TOKEN } from "@shared/constants";
 import { SentriaError } from "@shared/utils/error";
 import { AuthError } from "@shared/utils/error/auth";
 import firebaseApp from "@shared/utils/firebase";
@@ -41,6 +41,9 @@ class UserRepository implements IUserService {
 		const xelcoToken = registerTokenResponse.data.response;
 		if (!xelcoToken)
 			throw new Error("Xelco inscription did not return a valid token");
+
+		typeof window !== "undefined" &&
+			window.localStorage.setItem(XELCO_TOKEN, xelcoToken);
 
 		const loginResponse = await axios.post<
 			IXelcoLoginDTO | IXelcoErrorDTO | any
@@ -91,13 +94,25 @@ class UserRepository implements IUserService {
 		code: string | number,
 		secret?: string | undefined
 	): Promise<IOTPValidation> {
+		const xelcoToken =
+			typeof window !== "undefined" &&
+			window.localStorage.getItem(XELCO_TOKEN);
 		const axios = await createAxios();
-		const response = await axios.post("/api/auth/code", {
-			email,
+		const response = await axios.post("/api/auth/otp", {
+			mail: email,
 			password,
 			secret,
-			code,
+			otp: code,
+			token: xelcoToken,
 		});
+
+		const token = response.data.token;
+
+		if (!token)
+			throw new SentriaError(
+				AuthError.InvalidToken,
+				"The OTP token is invalid"
+			);
 
 		if (typeof window !== "undefined") {
 			window.localStorage.setItem("tokenApp", response.data.token);
