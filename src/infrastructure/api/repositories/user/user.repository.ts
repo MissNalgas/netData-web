@@ -1,4 +1,4 @@
-import { IUser } from "@domain/models";
+import { IOTPValidation, IUser } from "@domain/models";
 import { IUserService } from "@domain/services/User.service";
 import { ContactAdapter } from "@infrastructure/adapters";
 import { LoginAdapter } from "@infrastructure/adapters/login";
@@ -10,7 +10,7 @@ import {
 	IXelcoLoginDTO,
 } from "@infrastructure/model";
 import { Contact } from "@infrastructure/store/user/types";
-import { VAPID_KEY } from "@shared/constants";
+import { VAPID_KEY, XELCO_TOKEN } from "@shared/constants";
 import { SentriaError } from "@shared/utils/error";
 import { AuthError } from "@shared/utils/error/auth";
 import firebaseApp from "@shared/utils/firebase";
@@ -23,7 +23,7 @@ class UserRepository implements IUserService {
 		const isMessagingSupported = await isSupported();
 
 		/* If the browser does not support push notifications we send a garbage token
-		 * This because the token is required in the current login implementation
+		 * This because the token field is required in the current login implementation
 		 */
 		let messagingToken = "placeholder";
 
@@ -42,12 +42,16 @@ class UserRepository implements IUserService {
 		if (!xelcoToken)
 			throw new Error("Xelco inscription did not return a valid token");
 
+		typeof window !== "undefined" &&
+			window.localStorage.setItem(XELCO_TOKEN, xelcoToken);
+
 		const loginResponse = await axios.post<
 			IXelcoLoginDTO | IXelcoErrorDTO | any
 		>("/api/auth/login", {
 			token: xelcoToken,
 			mail: email,
 			password,
+			device: "web",
 		});
 
 		localStorage.setItem(
@@ -82,6 +86,41 @@ class UserRepository implements IUserService {
 		}
 
 		return LoginAdapter.userFromDTO(loginResponse.data as IXelcoLoginDTO);
+	}
+
+	async validateOtp(
+		email: string,
+		password: string,
+		code: string | number,
+		secret?: string | undefined
+	): Promise<IOTPValidation> {
+		const xelcoToken =
+			typeof window !== "undefined" &&
+			window.localStorage.getItem(XELCO_TOKEN);
+		const axios = await createAxios();
+		const response = await axios.post("/api/auth/otp", {
+			mail: email,
+			password,
+			secret,
+			otp: code,
+			token: xelcoToken,
+		});
+
+		const token = response.data.token;
+
+		if (!token)
+			throw new SentriaError(
+				AuthError.InvalidToken,
+				"The OTP token is invalid"
+			);
+
+		if (typeof window !== "undefined") {
+			window.localStorage.setItem("tokenApp", response.data.token);
+		}
+
+		return {
+			token: response.data.token,
+		};
 	}
 
 	async checkEmail(email: string): Promise<IResponseServiceDTO> {

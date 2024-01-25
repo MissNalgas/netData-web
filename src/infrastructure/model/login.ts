@@ -51,4 +51,5 @@ export interface IXelcoLoginDTO {
 		};
 	};
 	clockDrift?: number;
+	otpauth: string | null;
 }
