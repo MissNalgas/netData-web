@@ -6,6 +6,7 @@ import {
 	getDataUser,
 	resetState,
 	checkEmail,
+	validateOTP,
 } from "./actions";
 
 export const { actions, reducer } = createSlice({
@@ -16,7 +17,9 @@ export const { actions, reducer } = createSlice({
 		builder.addCase(getDataUser.fulfilled, (state, action) => {
 			state.user = action.payload;
 		});
-
+		builder.addCase(validateOTP.fulfilled, (state, action) => {
+			state.user.token = action.payload;
+		});
 		builder.addCase(contact.fulfilled, (state, action) => {
 			action.payload;
 		});

@@ -4,4 +4,9 @@ export type IUser = {
 	lastname: string;
 	token: string;
 	company: any;
+	authotp: string | null;
 };
+
+export interface IOTPValidation {
+	token: string;
+}
