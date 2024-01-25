@@ -14,12 +14,13 @@ import { SideModalProvider } from "@shared/components/sideModal";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@i18n/index";
 import { ToastContainer } from "react-toastify";
+import { isDeviceMobile } from "@shared/utils";
 
 const inter = Open_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	useEffect(() => {
-		if (Notification.permission !== "granted") {
+		if (!isDeviceMobile && Notification.permission !== "granted") {
 			Notification.requestPermission().then((permission) => {
 				if (permission === "granted") {
 					localStorage.setItem("notifications", "true");
