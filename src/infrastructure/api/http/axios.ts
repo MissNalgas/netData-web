@@ -42,7 +42,7 @@ export async function createAxiosApp() {
 				) {
 					toast.error("Tu sesión ha expirado");
 					ERROR_TOAST_SHOWN = true;
-
+					localStorage.removeItem("isExpired");
 					localStorage.removeItem("tokenApp");
 				}
 			}

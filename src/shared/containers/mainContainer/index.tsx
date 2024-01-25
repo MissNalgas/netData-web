@@ -14,6 +14,7 @@ export default function MainContainer({ children }: MainContainerProps) {
 	const { isOpenDrawer } = useSelector((state: RootState) => state.layout);
 	const isExpiredToken = localStorage.getItem("isExpired");
 	const dispatch = useAppDispatch();
+
 	const yesClose = useCallback(() => {
 		logOut();
 		localStorage.removeItem("tokenApp");
