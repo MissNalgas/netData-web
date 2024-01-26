@@ -153,7 +153,6 @@ export default function CodeInputForm({
 					$color={theme.colors.gray50}
 					$weight={600}
 					className="cel:block tablet:ml-2 tablet:inline"
-					onClick={() => {}}
 				>
 					{t("recover_password:go_back")}
 				</Overline>
