@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-// import TextInput from "@shared/components/textInput";
 import { PrimaryButton } from "@shared/components/buttons/styled";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -131,20 +130,30 @@ export default function CodeInputForm({
 				{t("register:next")}
 			</PrimaryButton>
 			<div className="cel:text-center my-2 cel:text-wrap gap-1">
-				<Overline className="text-sm" onClick={() => router.push("login")}>
+				<Overline
+					className="text-sm"
+					onClick={() => router.push("login")}
+				>
 					{t("register:has_code_sent")}
 				</Overline>
 				<Overline
 					onClick={sendAgainAction}
-                    $color={theme.colors.orange}
-                    className="cel:block tablet:ml-2 tablet:inline"
+					$color={theme.colors.orange}
+					className="cel:block tablet:ml-2 tablet:inline"
 				>
 					{t("register:send_again_code")}
 				</Overline>
 			</div>
-			<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5" onClick={handleClickArrow}>
-			<Icon icon="left-arrow" size="32"/>
-				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
+			<div
+				className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5"
+				onClick={handleClickArrow}
+			>
+				<Icon icon="left-arrow" size="32" />
+				<Overline
+					$color={theme.colors.gray50}
+					$weight={600}
+					className="cel:block tablet:ml-2 tablet:inline"
+				>
 					{t("recover_password:go_back")}
 				</Overline>
 			</div>

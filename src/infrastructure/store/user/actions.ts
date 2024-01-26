@@ -43,6 +43,7 @@ const validateOTP = createAsyncThunk<string, ValidateOTPPayload>(
 
 const resetState = createAsyncThunk("user/cleanData", async (_, {}) => {
 	localStorage.removeItem("tokenApp");
+	localStorage.removeItem("isExpired");
 	return initialState.user;
 });
 
