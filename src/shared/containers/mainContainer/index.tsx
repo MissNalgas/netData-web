@@ -1,10 +1,12 @@
 "use client"
 import { useAuth } from "@infrastructure/containers/auth";
+import { RefetchProvider } from "@infrastructure/containers/refetch";
 import { RootState } from "@infrastructure/store";
 import ModalQuestion from "@shared/components/modalQuestion";
 import Sidebar from "@shared/components/sidebar";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 
 export default function MainContainer({children} : MainContainerProps) {
 	const [isModalVisible, setIsModalVisible] = useState(false);
@@ -68,7 +70,9 @@ export default function MainContainer({children} : MainContainerProps) {
 				<Sidebar/>
 			</div>
 			<div className="flex-1 max-h-full overflow-auto">
-				{children}
+				<RefetchProvider>
+					{children}
+				</RefetchProvider>
 			</div>
 		</div>
 	);
