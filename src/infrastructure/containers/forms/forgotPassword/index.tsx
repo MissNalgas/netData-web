@@ -52,13 +52,13 @@ export default function ForgotPasswordForm({
 				<Overline onClick={() => router.push("login")}>
 					{t("has_code_sent")}
 				</Overline>
-				<Overline $color={theme.colors.orange} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
+				<Overline $color={theme.colors.orange} className="cel:block tablet:ml-2 tablet:inline cursor-pointer" onClick={() => {}}>
 					{t("send_again_code")}
 				</Overline>
 			</div>
-			<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5" onClick={handleClickArrow}>
-			<Icon icon="left-arrow" size="32"/>
-				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
+			<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer" onClick={handleClickArrow}>
+			    <Icon icon="left-arrow" size="32"/>
+				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline">
 					{t("go_back")}
 				</Overline>
 			</div>

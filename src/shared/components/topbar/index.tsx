@@ -78,13 +78,13 @@ export default function Topbar(props: TopBarProps) {
 					<SwitchButton
 						textButtonLeft={
 							screen === "dashboard"
-								? "Eventos de hoy"
-								: "Eventos abiertos"
+								? t("events_today")
+								: t("events_open")
 						}
 						textButtonRight={
 							screen === "dashboard"
-								? "Eventos de ayer"
-								: "Eventos cerrados"
+								? t("events_yesterday")
+								: t("events_closed")
 						}
 						bgColor={
 							screen === "dashboard"

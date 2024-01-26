@@ -1,6 +1,7 @@
 import { FloatingArrow, arrow, flip, offset, useFloating, useHover, useInteractions } from "@floating-ui/react";
 import Icon from "../icons";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ArrowProps {
     action: () => void,
@@ -21,6 +22,7 @@ export default function Arrow(props: ArrowProps) {
 	});
 	const hover = useHover(context);
 	const {getReferenceProps, getFloatingProps } = useInteractions([hover]);
+    const { t } = useTranslation("information");
 
 	return (
 		<>
@@ -32,7 +34,7 @@ export default function Arrow(props: ArrowProps) {
 			</div>
 			{showMore && (<div className={`bg-gray-800 text-white p-1 rounded transition ${isOpen ? "opacty-100" : "opacity-0"}` }style={floatingStyles} ref={refs.setFloating} {...getFloatingProps()}>
 				<span>
-					Ver más
+                    {t("show_more")}
 				</span>
 				<FloatingArrow context={context} ref={arrowRef}/>
 			</div>)}
