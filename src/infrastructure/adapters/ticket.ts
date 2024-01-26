@@ -32,6 +32,7 @@ export class TicketAdapter {
 				: StatusDTO.Open,
 			category: filter?.category ? filter.category.value : undefined,
 			date: filter?.date ? formatDateDTO(filter.date) : undefined,
+			id: filter?.id || undefined,
 		};
 	}
 
