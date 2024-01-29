@@ -15,7 +15,7 @@ import { SentriaError } from "@shared/utils/error";
 
 const Login: NextPage = () => {
 
-	const [otpauth, setOtpAuth] = useState<null | string>();
+	const [otpauth, setOtpauth] = useState<null | string>();
 	const [loginData, setLoginData] = useMerge({email: "", password: "", code: ""});
 	const [isLoading, setIsLoading] = useState(false);
 	const {login, validateOtp} = useAuth();
@@ -28,7 +28,7 @@ const Login: NextPage = () => {
 				email: data.email,
 				password: data.password,
 			});
-			setOtpAuth(userData.authotp);
+			setOtpauth(userData.authotp);
 		}).catch(err => {
 			if (err instanceof SentriaError) {
 				toast.error(err.message);
@@ -53,7 +53,7 @@ const Login: NextPage = () => {
 			email: loginData.email,
 			password: loginData.password,
 			code: data.code,
-			secret: otpSecret || undefined,
+			secret: otpSecret ?? undefined,
 		}).then(() => {
 
 		}).finally(() => {

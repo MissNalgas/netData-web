@@ -1,6 +1,6 @@
 import { TicketPriority } from "./ticket";
 
-export interface responseDashboard {
+export interface IResponseDashboard {
 	data: IDashboard;
 	status: number;
 }
