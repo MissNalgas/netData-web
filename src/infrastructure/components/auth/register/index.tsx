@@ -84,12 +84,12 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 						onClickButton={() => router.push("login")}
 					/>
 				)}
-				<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5" onClick={() => handleClickArrow()}>
-			<Icon icon="left-arrow" size="32"/>
-				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
-					{t("recover_password:go_back")}
-				</Overline>
-			</div>
+				<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer" onClick={() => handleClickArrow()}>
+                    <Icon icon="left-arrow" size="32"/>
+                    <Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline">
+                        {t("recover_password:go_back")}
+                    </Overline>
+			    </div>
                 {isLoading && (
                     <div className="fixed top-0 left-0 w-full bg-white">
                         <LoaderComponent/>
