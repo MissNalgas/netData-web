@@ -26,7 +26,7 @@ export default function Arrow(props: ArrowProps) {
 
 	return (
 		<>
-			<div ref={refs.setReference} className={`flex bg-shadow20 rounded-full ml-1 h-7 w-9 justify-center cursor-pointer ${className}`} onClick={action} {...getReferenceProps()}>
+			<div ref={refs.setReference} className={`flex bg-shadow20 rounded-full ml-1 h-7 w-7 justify-center items-center cursor-pointer ${className}`} onClick={action} {...getReferenceProps()}>
 				<Icon
 					icon={nameIcon}
 					size={25}

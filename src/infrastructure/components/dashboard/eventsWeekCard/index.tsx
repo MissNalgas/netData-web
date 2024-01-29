@@ -17,7 +17,7 @@ export default function EventsWeekCard(props: IGraphicWeek) {
 
     return (
         <ContainerBackground className="my-4" id="step-6">
-            <ContainerFlex>
+            <ContainerFlex $justify="space-between">
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
                 <Arrow action={() => router.push("/events-cibersecurity")} nameIcon="right-arrow"/>
             </ContainerFlex>
