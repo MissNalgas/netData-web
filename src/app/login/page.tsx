@@ -12,6 +12,7 @@ import LoaderComponent from "@shared/components/loader";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { SentriaError } from "@shared/utils/error";
+import { useRouter } from "next/navigation";
 
 const Login: NextPage = () => {
 
@@ -20,6 +21,7 @@ const Login: NextPage = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const {login, validateOtp} = useAuth();
 	const { t } = useTranslation();
+	const router = useRouter();
 
 	const handleSubmit = (data : ILogin) => {
 		setIsLoading(true);
@@ -55,7 +57,7 @@ const Login: NextPage = () => {
 			code: data.code,
 			secret: otpSecret || undefined,
 		}).then(() => {
-
+			router.replace("/");
 		}).finally(() => {
 			setIsLoading(false);
 		}).catch(() => {

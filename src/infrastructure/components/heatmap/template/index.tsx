@@ -29,7 +29,7 @@ export default function HeatmapTemplate() {
 		date.setHours(0, 0, 0, 0);
 		return date;
 	}, []);
-	const [dataTicket, isLoading] = useTicketDetail(`${selectedTicket?.id}`);
+	const [dataTicket, isLoading] = useTicketDetail(selectedTicket?.id);
 
 	useEffect(() => {
 		const firstTicket = data?.tickets[0];
