@@ -14,7 +14,7 @@ export default function FilterDetail({filter, setFilter, className = ""}: Filter
 		});
 	}
 
-	if (!filter || Object.values(filter).every(value => value === null))
+	if (!filter || Object.values(filter).every(value => value === null || typeof value === "number"))
 		return (
 			<span className={className}>
 				<b>{t("tickets_week:filtered_by")} </b>
@@ -36,7 +36,7 @@ export default function FilterDetail({filter, setFilter, className = ""}: Filter
 						>
 							{format(value, "M/dd/yyyy")}
 						</Chip>
-					) : !!value && (
+					) : (!!value && typeof value === "object" && "label" in value) && (
 						<Chip
 							onClose={() => removeFilter(key)}
 							key={key}

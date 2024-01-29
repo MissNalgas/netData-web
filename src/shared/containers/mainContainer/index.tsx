@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@infrastructure/containers/auth";
+import { RefetchProvider } from "@infrastructure/containers/refetch";
 import { RootState } from "@infrastructure/store";
 import ModalQuestion from "@shared/components/modalQuestion";
 import Sidebar from "@shared/components/sidebar";
@@ -83,7 +84,9 @@ export default function MainContainer({ children }: MainContainerProps) {
 			>
 				<Sidebar />
 			</div>
-			<div className="flex-1 max-h-full overflow-auto">{children}</div>
+			<RefetchProvider>
+				<div className="flex-1 max-h-full overflow-auto">{children}</div>
+			</RefetchProvider>
 		</div>
 	);
 }

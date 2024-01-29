@@ -34,11 +34,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const dispatch = useAppDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 
-	const userToken = useMemo(() => {
+	const userToken =(() => {
 		if (typeof window === "undefined") return;
 
 		return localStorage.getItem("tokenApp") || undefined;
-	}, []);
+	})();
 
 	const login = useCallback(
 		async (email: string, password: string): Promise<IUser> => {
@@ -57,8 +57,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}, [dispatch]);
 
 	const logOut = useCallback(() => {
+		localStorage.clear();
 		dispatch(resetState());
-	}, [dispatch]);
+		router.replace("/login");
+	}, [dispatch, router]);
 
 	const contextValue = useMemo(
 		() => ({

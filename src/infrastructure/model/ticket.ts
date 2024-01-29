@@ -111,6 +111,7 @@ export interface IFilterParamDTO {
 	status?: StatusDTO;
 	category?: string;
 	date?: `${number}-${string}-${string}`;
+	id?: number;
 }
 
 export interface ITicketsPerWeekDTO {
