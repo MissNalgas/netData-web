@@ -133,7 +133,7 @@ class UserRepository implements IUserService {
 				"/api/auth/checkMail",
 				body
 			);
-			return LoginAdapter.checkEmailDTO({
+			return LoginAdapter.responseService({
 				status: checkEmailResponse.status,
 				message: checkEmailResponse.data.message,
 				data: checkEmailResponse.data,
