@@ -49,7 +49,9 @@ export default function EventsTemplate() {
 
 	const [page, setPage] = useState<number>(1);
 
-	const [dataTicket, isLoadingTicketDetail] = useTicketDetail(`${selectedTicket}`);
+	const [dataTicket, isLoadingTicketDetail] = useTicketDetail(
+		`${selectedTicket}`
+	);
 	const theme = useTheme();
 	const selectTicket = (ticket: ITicket | any) => {
 		setSelectedTicket(ticket);
@@ -69,7 +71,8 @@ export default function EventsTemplate() {
 	};
 	const fetchData = useCallback(async () => {
 		try {
-			const dataTicket: ITicket[] = await ticketRepository.getTicketWeek();
+			const dataTicket: ITicket[] =
+				await ticketRepository.getTicketWeek();
 			if (showEventsDay === "true") {
 				const filterDate: any = dataTicket?.filter((item: ITicket) => {
 					const itemDate = new Date(item?.createdAt);
@@ -162,6 +165,7 @@ export default function EventsTemplate() {
 					{listTickets[date].map((ticket: ITicket) => (
 						<div
 							key={ticket.id}
+							aria-hidden="true"
 							onClick={() => {
 								if (ticket.id) {
 									return selectTicket(ticket.id);
@@ -291,7 +295,7 @@ export default function EventsTemplate() {
 					>
 						{selectedTicket ? (
 							<>
-								{(isLoadingTicketDetail || !dataTicket) ? (
+								{isLoadingTicketDetail || !dataTicket ? (
 									<LoaderComponent />
 								) : (
 									<TicketDetail

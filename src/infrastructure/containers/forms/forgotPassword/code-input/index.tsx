@@ -146,6 +146,7 @@ export default function CodeInputForm({
 			</div>
 			<div
 				className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5"
+				aria-hidden="true"
 				onClick={handleClickArrow}
 			>
 				<Icon icon="left-arrow" size="32" />

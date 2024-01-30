@@ -36,14 +36,14 @@ export default function ForgotPasswordForm({
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="py-5">
-			<TextInput
-				label={`${t("email")}`}
-				placeholder={`${t("email")}`}
-				icon="message"
-				require
-				error={errors.email?.message}
-				{...register("email")}
-			/>
+				<TextInput
+					label={`${t("email")}`}
+					placeholder={`${t("email")}`}
+					icon="message"
+					require
+					error={errors.email?.message}
+					{...register("email")}
+				/>
 			</div>
 			<PrimaryButton type="submit" className="w-full" disabled={!isValid}>
 				{t("next")}
@@ -52,13 +52,26 @@ export default function ForgotPasswordForm({
 				<Overline onClick={() => router.push("login")}>
 					{t("has_code_sent")}
 				</Overline>
-				<Overline $color={theme.colors.orange} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
+				<Overline
+					$color={theme.colors.orange}
+					className="cel:block tablet:ml-2 tablet:inline"
+					onClick={() => {}}
+				>
 					{t("send_again_code")}
 				</Overline>
 			</div>
-			<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5" onClick={handleClickArrow}>
-			<Icon icon="left-arrow" size="32"/>
-				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline" onClick={() => {}}>
+			<div
+				className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5"
+				aria-hidden="true"
+				onClick={handleClickArrow}
+			>
+				<Icon icon="left-arrow" size="32" />
+				<Overline
+					$color={theme.colors.gray50}
+					$weight={600}
+					className="cel:block tablet:ml-2 tablet:inline"
+					onClick={() => {}}
+				>
 					{t("go_back")}
 				</Overline>
 			</div>
@@ -68,5 +81,5 @@ export default function ForgotPasswordForm({
 
 interface ForgotPasswordFormProps {
 	onSubmit: (_data: IForgotPassword) => void;
-	handleClickArrow?:() => void;
+	handleClickArrow?: () => void;
 }

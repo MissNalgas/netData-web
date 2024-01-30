@@ -5,8 +5,8 @@ export class ChatAdapter {
 		dataResponse: IResponseServiceChatDTO
 	): IResponseServiceChatDTO {
 		return {
-			statusText: dataResponse.statusText || "",
-			status: dataResponse.status || 400,
+			statusText: dataResponse.statusText ?? "",
+			status: dataResponse.status ?? 400,
 			data: dataResponse.data,
 		};
 	}

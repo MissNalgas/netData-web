@@ -94,7 +94,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					changePassword({
 						mail: saveEmailTemporary,
 						code: saveCode,
-						newPassword: (newPassword && newPassword) || "",
+						newPassword: newPassword ?? "",
 					})
 				);
 				if (res.payload.message === "FAILED") {
@@ -110,24 +110,23 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 		}
 	};
 
-    const handleClickArrow = () => {
-        switch (changeStateAction) {
-            case 3:
-                setChangeAction(2)
-                break;
-            case 2:
-                setChangeAction(1)
-            case 1:
-                router.push("login");
-            default:
-                break;
-        }
-    };
+	const handleClickArrow = () => {
+		switch (changeStateAction) {
+			case 3:
+				setChangeAction(2);
+				break;
+			case 2:
+				setChangeAction(1);
+			case 1:
+				router.push("login");
+			default:
+				break;
+		}
+	};
 
 	const message = messages[changeStateAction ?? 1] || t("title_error");
 	return (
 		<ContentForm>
-
 			<TitleCustom $center>{message}</TitleCustom>
 			<SecondTitleCustom $center>
 				{(changeStateAction === 1 && t("type_email_sentria")) ||
@@ -135,7 +134,10 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					(changeStateAction === 3 && t("new_password"))}
 			</SecondTitleCustom>
 			{changeStateAction === 1 && (
-				<ForgotPasswordForm onSubmit={handleCheckEmail} handleClickArrow={()=>handleClickArrow()} />
+				<ForgotPasswordForm
+					onSubmit={handleCheckEmail}
+					handleClickArrow={() => handleClickArrow()}
+				/>
 			)}
 
 			{changeStateAction === 2 && (
@@ -148,7 +150,7 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					onSubmit={() => {
 						setChangeAction(3);
 					}}
-					handleClickArrow={()=>handleClickArrow()}
+					handleClickArrow={() => handleClickArrow()}
 				/>
 			)}
 			{changeStateAction === 3 && (
@@ -166,7 +168,6 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 					description={!isSuccess ? t("description_error") : ""}
 				/>
 			)}
-
 		</ContentForm>
 	);
 };

@@ -56,11 +56,11 @@ export default function ProfileComponent(): JSX.Element {
 
 	const toggleNotifications = (isCheked: boolean) => {
 		if (isCheked) {
-			Notification.permission === "denied";
+			Notification?.permission === "denied";
 			localStorage.setItem("notifications", "false");
 		} else {
-			if (Notification.permission !== "granted") {
-				Notification.requestPermission().then((permission) => {
+			if (Notification?.permission !== "granted") {
+				Notification?.requestPermission().then((permission) => {
 					if (permission === "granted") {
 						localStorage.setItem("notifications", "true");
 					} else if (permission === "denied") {

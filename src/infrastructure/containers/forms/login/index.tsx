@@ -20,7 +20,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 		resolver: yupResolver(schema),
 	});
 	const router = useRouter();
-    const { t } = useTranslation("login");
+	const { t } = useTranslation("login");
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
@@ -33,6 +33,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 			<div className="flex justify-between my-2">
 				<label className="text-sm">{t("password")}</label>
 				<label
+					aria-hidden="true"
 					className="text-sm text-primary"
 					onClick={() => router.push("recover-password")}
 				>
@@ -46,10 +47,18 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 				type="password"
 				{...register("password")}
 			/>
-			<PrimaryButton disabled={disableSubmit} type="submit" className="w-full">
+			<PrimaryButton
+				disabled={disableSubmit}
+				type="submit"
+				className="w-full"
+			>
 				{t("sign_in")}
 			</PrimaryButton>
-			<SecondaryButton onClick={() => router.push("register")} type="button" className="w-full">
+			<SecondaryButton
+				onClick={() => router.push("register")}
+				type="button"
+				className="w-full"
+			>
 				{t("register")}
 			</SecondaryButton>
 		</form>

@@ -24,7 +24,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 		} = props;
 		const theme = useTheme();
 		const [inputType, setInputType] = useState(type);
-        const { t } = useTranslation("register");
+		const { t } = useTranslation("register");
 
 		const toggleShowPassword = () => {
 			setInputType((prevType) =>
@@ -109,7 +109,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 								${iconright ? "pr-12" : ""}
 								${
 									error
-									 ? "outline outline-1 outline-red30 focus:outline-red30"
+										? "outline outline-1 outline-red30 focus:outline-red30"
 										: success
 										? "outline outline-1 outline-green-500 focus:outline-green-500"
 										: ""
@@ -124,11 +124,11 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							<Icon
 								icon={icon}
 								size={20}
-								color={iconColor || theme.colors.orange50}
+								color={iconColor ?? theme.colors.orange50}
 							/>
 						</div>
 					)}
-					{(iconright || error) && (
+					{(iconright ?? error) && (
 						<>
 							{error && (
 								<div className="h-full absolute right-6 top-0 w-10 grid place-content-center">
@@ -141,8 +141,9 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 							)}
 							{iconright && (
 								<div
+									aria-hidden="true"
 									onClick={
-										onRightIconClick || toggleShowPassword
+										onRightIconClick ?? toggleShowPassword
 									}
 									className="h-full absolute right-0 top-0 w-10 grid place-content-center cursor-pointer"
 								>
@@ -150,7 +151,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 										icon={iconright}
 										size={20}
 										color={
-											iconColorRight ||
+											iconColorRight ??
 											theme.colors.gray30
 										}
 									/>
@@ -159,9 +160,13 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 						</>
 					)}
 				</div>
-                <span className={`text-sm mt-2 block ${error ? "text-red30" : success ? "text-green-600" : ""}`}>
-                    {t(error)}
-                </span>
+				<span
+					className={`text-sm mt-2 block ${
+						error ? "text-red30" : success ? "text-green-600" : ""
+					}`}
+				>
+					{t(error)}
+				</span>
 			</div>
 		);
 	}

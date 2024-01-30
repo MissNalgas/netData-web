@@ -6,7 +6,13 @@ import { formatDateDTO } from "./maps";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 export function currencyFormat(num: number) {
-	return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+	const formattedNumber = new Intl.NumberFormat("en-US", {
+		style: "currency",
+		currency: "USD",
+		minimumFractionDigits: 2,
+	}).format(num);
+
+	return formattedNumber;
 }
 
 export const getFormattedDate = (date: Date, lang?: string) => {
@@ -119,7 +125,7 @@ export function parseQueryToFilters(params: ReadonlyURLSearchParams): IFilters {
 
 	const date = params.get("date");
 	if (date) {
-		filters.date = parse(date, "yyyy-MM-dd", new Date()) || null;
+		filters.date = parse(date, "yyyy-MM-dd", new Date()) ?? null;
 	} else {
 		filters.date = null;
 	}

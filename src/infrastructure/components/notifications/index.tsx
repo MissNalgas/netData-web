@@ -76,6 +76,7 @@ export default function NotificationsComponent() {
 						(notification: NotificationItem) => (
 							<div
 								key={notification.id}
+								aria-hidden="true"
 								onClick={() => {
 									if (notification.ticket_id) {
 										return selectTicket(
@@ -148,7 +149,7 @@ export default function NotificationsComponent() {
 			<ContainerBackground className="flex items-center flex-col justify-center">
 				{selectedTicket ? (
 					<>
-						{(isLoadingDetail || !dataTicket) ? (
+						{isLoadingDetail || !dataTicket ? (
 							<LoaderComponent />
 						) : (
 							<TicketDetail
