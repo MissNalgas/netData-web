@@ -4,7 +4,7 @@ import {
 	IGraphicWeek,
 	TicketPriority,
 	filtersGraphicDay,
-	responseDashboard,
+	IResponseDashboard,
 	responseGraphic,
 	responseGraphicDay,
 } from "@domain/models";
@@ -14,7 +14,7 @@ import { createAxiosApp } from "@infrastructure/api/http/axios";
 class DashboardRepository implements IDashboardService {
 	async getDashboardData(): Promise<IDashboard> {
 		const axios = await createAxiosApp();
-		const data = await axios.get<IDashboard, responseDashboard>(
+		const data = await axios.get<IDashboard, IResponseDashboard>(
 			"/api/xelco/dashboard"
 		);
 

@@ -1,8 +1,6 @@
 import { API_URL } from "@shared/constants";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { store } from "@infrastructure/store";
-import { resetState } from "@infrastructure/store/user/actions";
 
 let ERROR_TOAST_SHOWN = false;
 
@@ -44,10 +42,8 @@ export async function createAxiosApp() {
 				) {
 					toast.error("Tu sesión ha expirado");
 					ERROR_TOAST_SHOWN = true;
-
-					store.dispatch(resetState());
-
-					localStorage.clear();
+					localStorage.removeItem("isExpired");
+					localStorage.removeItem("tokenApp");
 				}
 			}
 			return Promise.reject(error);

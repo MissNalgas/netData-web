@@ -1,6 +1,6 @@
 import colors from "@theme/colors";
 import TextInput from "../textInput";
-import { FormEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEventHandler, MouseEventHandler, useEffect, useMemo, useRef, useState } from "react";
 import { autoUpdate, offset, useFloating } from "@floating-ui/react";
 import Select from "../select";
 import { useFilterState } from "./hooks";
@@ -19,6 +19,8 @@ import { useTicketPerCategory } from "@infrastructure/api/hooks";
 type INITIAL_TYPE = {category: null | FilterOption, status: null | FilterOption, risk: null | FilterOption};
 const INITIAL_STATE : INITIAL_TYPE = {category: null, status: null, risk: null};
 
+const DEBOUNCE_TIME = 500;
+
 
 export default function FilterInput({filter, onChange, placeholder} : FilterInputProps) {
 
@@ -29,6 +31,7 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 	const [date, setDate] = useState<Date | null>(null);
 	const categoryData = useTicketPerCategory();
 	const [input, setInput] = useState("");
+	const debounceRef = useRef<any>(null);
 
 	useEffect(() => {
 		if (!filter) return;
@@ -54,11 +57,23 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 	const handleSubmit : FormEventHandler = (e) => {
 		e.preventDefault();
 		setIsFilterOpen(false);
+		submitForm();
+	}
+
+	const submitForm = (inputValue?: string) => {
 		onChange?.({
 			...filterData,
 			date: date,
-			id: Number(input) || null,
+			id: Number(inputValue) || Number(input) || null,
 		});
+	}
+
+	const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+		setInput(e.target.value);
+		clearTimeout(debounceRef.current);
+		debounceRef.current = setTimeout(() => {
+			submitForm(e.target.value);
+		}, DEBOUNCE_TIME);
 	}
 
 	const clearDate : MouseEventHandler = (e) => {
@@ -121,7 +136,7 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 		<>
 			<TextInput
 				value={input}
-				onChange={e => setInput(e.target.value)}
+				onChange={handleChangeInput}
 				ref={refs.setReference}
 				name="filter"
 				icon="Magnifier"
@@ -160,9 +175,9 @@ export default function FilterInput({filter, onChange, placeholder} : FilterInpu
 						)}
 					</CalendarInput>
 					{showCalendar && (
-					<CalendarContainer>
-						<Calendar value={date} onChange={value => updateDate(value as Date)}/>
-					</CalendarContainer>
+						<CalendarContainer>
+							<Calendar value={date} onChange={value => updateDate(value as Date)}/>
+						</CalendarContainer>
 					)}
 					<PrimaryButton type="submit">{t("filter:apply_filters")}</PrimaryButton>
 				</form>

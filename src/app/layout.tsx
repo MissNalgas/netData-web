@@ -19,7 +19,11 @@ const inter = Open_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
 	useEffect(() => {
-		if (Notification.permission !== "granted") {
+		if (
+			typeof window !== "undefined" &&
+			"Notification" in window &&
+			Notification.permission !== "granted"
+		) {
 			Notification.requestPermission().then((permission) => {
 				if (permission === "granted") {
 					localStorage.setItem("notifications", "true");

@@ -133,8 +133,8 @@ export default function CodeInputForm({
 				</Overline>
 				<Overline
 					onClick={sendAgainAction}
-                    $color={theme.colors.orange}
-                    className="cel:block tablet:ml-2 tablet:inline cursor-pointer"
+          $color={theme.colors.orange}
+          className="cel:block tablet:ml-2 tablet:inline cursor-pointer"
 				>
 					{t("register:send_again_code")}
 				</Overline>
