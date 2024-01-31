@@ -26,6 +26,7 @@ ENV SERVER_APP_PORT=$SERVER_APP_PORT
 RUN rm -rf dockerConfig
 
 # INSTALL AND BUILD PACKAGES
+RUN . "$HOME/.nvm/nvm.sh" && npm cache clean --force
 RUN . "$HOME/.nvm/nvm.sh" && npm install
 RUN . "$HOME/.nvm/nvm.sh" && npm run build
 
