@@ -1,8 +1,4 @@
-export interface confirmPasswordDTO {
-	code?: string;
-}
-
-export interface getDataChangePasswordDTO {
+export interface GetDataChangePasswordDTO {
 	mail: string;
 	code: string;
 	newPassword: string;

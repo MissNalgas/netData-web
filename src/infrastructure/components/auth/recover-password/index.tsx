@@ -21,7 +21,6 @@ import {
 	recoverPassword,
 } from "@infrastructure/store/user/actions";
 interface IRecoverPasswordComponentProps {
-	actionButton?: () => void;
 	changeStateAction?: 1 | 2 | 3 | 4;
 	setChangeAction?: (_value: 1 | 2 | 3 | 4) => void;
 }

@@ -7,7 +7,7 @@ export default function HeatmapPage() {
 	return (
 		<div className="bg-shadow20 h-fit pb-24">
 			<Topbar />
-			<EventsCibersecurity />
+			<EventsCibersecurity showEventsDay="" />
 		</div>
 	);
 }

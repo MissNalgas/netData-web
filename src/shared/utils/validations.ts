@@ -1,8 +1,8 @@
 import * as yup from "yup";
 
-const charactersOnlyEmail = /^[a-zA-ZÀ-ÿ-.-\u00f1\u00d1 @#$%^&.!¡*+=]+$/;
-const numbersOnly = /^[0-9]+$/;
-const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$/%^&*.])/;
+const charactersOnlyEmail = /^[a-zA-ZÀ-ÿ.\u00f1\u00d1@#$%^&.!¡*+=-]+$/;
+const numbersOnly = /^\D+$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$/%^&*.])/;
 
 type TextValidationResult<T extends boolean> = T extends true
 	? yup.StringSchema<string>
@@ -30,14 +30,14 @@ const validationPassword = yup.object().shape({
 		.matches(/[A-Z]/, "min_uppercase")
 		.matches(/[a-z]/, "min_lowercase")
 		.matches(/[!?"@#]/, "min_especial_character")
-		.matches(/[0-9]/, "min_number"),
+		.matches(/\D/, "min_number"),
 	repeatPassword: yup
 		.string()
 		.min(8, "min_8_charcters")
 		.matches(/[A-Z]/, "min_uppercase")
 		.matches(/[a-z]/, "min_lowercase")
 		.matches(/[!?"@#]/, "min_especial_character")
-		.matches(/[0-9]/, "min_number")
+		.matches(/\D/, "min_number")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma"),
 });
 
