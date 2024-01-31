@@ -58,16 +58,14 @@ export default function ProfileComponent(): JSX.Element {
 		if (isCheked) {
 			Notification?.permission === "denied";
 			localStorage.setItem("notifications", "false");
-		} else {
-			if (Notification?.permission !== "granted") {
-				Notification?.requestPermission().then((permission) => {
-					if (permission === "granted") {
-						localStorage.setItem("notifications", "true");
-					} else if (permission === "denied") {
-						localStorage.setItem("notifications", "false");
-					}
-				});
-			}
+		} else if (Notification?.permission !== "granted") {
+			Notification?.requestPermission().then((permission) => {
+				if (permission === "granted") {
+					localStorage.setItem("notifications", "true");
+				} else if (permission === "denied") {
+					localStorage.setItem("notifications", "false");
+				}
+			});
 		}
 
 		setIsOpen(false);

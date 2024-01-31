@@ -9,7 +9,11 @@ import React, {
 } from "react";
 import { IUserContext } from "./models";
 import { useAppDispatch } from "@hooks/use-dispatch";
-import { getDataUser, resetState, validateOTP } from "@infrastructure/store/user/actions";
+import {
+	getDataUser,
+	resetState,
+	validateOTP,
+} from "@infrastructure/store/user/actions";
 import { usePathname, useRouter } from "next/navigation";
 import { PUBLIC_ROUTES } from "./consts";
 import { isValidToken } from "@shared/utils";
@@ -20,9 +24,13 @@ import { ValidateOTPPayload } from "@infrastructure/store/user/types";
 
 const AuthContext = createContext<IUserContext>({
 	user: undefined,
-	async login(_email: string, _password: string): Promise<IUser> {throw new Error("Unimplemented");},
+	async login(_email: string, _password: string): Promise<IUser> {
+		throw new Error("Unimplemented");
+	},
 	logOut() {},
-	async validateOtp() {throw new Error("Unimplemented")},
+	async validateOtp() {
+		throw new Error("Unimplemented");
+	},
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -34,10 +42,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const dispatch = useAppDispatch();
 	const [isLoading, setIsLoading] = useState(true);
 
-	const userToken =(() => {
+	const userToken = (() => {
 		if (typeof window === "undefined") return;
 
-		return localStorage.getItem("tokenApp") || undefined;
+		return localStorage.getItem("tokenApp") ?? undefined;
 	})();
 
 	const login = useCallback(
@@ -52,9 +60,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		[dispatch]
 	);
 
-	const validateOtp = useCallback(async (payload : ValidateOTPPayload) => {
-		return await dispatch(validateOTP(payload)).unwrap();
-	}, [dispatch]);
+	const validateOtp = useCallback(
+		async (payload: ValidateOTPPayload) => {
+			return await dispatch(validateOTP(payload)).unwrap();
+		},
+		[dispatch]
+	);
 
 	const logOut = useCallback(() => {
 		localStorage.clear();

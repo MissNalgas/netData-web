@@ -17,10 +17,8 @@ import { useTheme } from "styled-components";
 
 interface EventsProps {
 	showCard?: boolean;
-	showEventsDay?: string | boolean | undefined;
+	showEventsDay: string | boolean | undefined;
 }
-
-type Value = Date | null | undefined | any;
 
 export default function EventsCibersecurity({
 	showCard = true,
@@ -28,7 +26,7 @@ export default function EventsCibersecurity({
 }: EventsProps) {
 	const { t } = useTranslation("events_week");
 	const router: any = useRouter();
-	const [value, onChangeState] = useState<Value>(new Date());
+	const [value, setValue] = useState<any>(new Date());
 	const theme = useTheme();
 	const status = useConstCard();
 
@@ -60,9 +58,9 @@ export default function EventsCibersecurity({
 							className="w-full h-[300px]"
 						/>
 						<div className="grid gap-1 grid-cols-2 tablet:flex tablet:flex-col">
-							{status.map((item, index) => (
+							{status.map((item) => (
 								<div
-									key={index}
+									key={item.state}
 									className={`flex border items-center my-5 mr-5 p-1 rounded-lg ${item.border}`}
 								>
 									<CircleStatus
@@ -86,7 +84,7 @@ export default function EventsCibersecurity({
 							{t("tickets_open_week")}
 						</Body>
 						<CalendarComponent
-							onChange={(e: any) => onChangeState(e)}
+							onChange={(e: any) => setValue(e)}
 							value={value}
 						/>
 					</ContainerBackground>

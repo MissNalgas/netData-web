@@ -138,7 +138,7 @@ class UserRepository implements IUserService {
 				message: checkEmailResponse.data.message,
 				data: checkEmailResponse.data,
 			});
-		} catch (error) {
+		} catch (error: any) {
 			throw error;
 		}
 	}

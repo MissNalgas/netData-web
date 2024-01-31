@@ -113,7 +113,7 @@ export default function HeatmapTemplate() {
 								<h2 className="text-center font-bold text-lg">
 									{getFormattedDate(
 										filter.date,
-										i18n?.resolvedLanguage || "en"
+										i18n?.resolvedLanguage ?? "en"
 									)}
 								</h2>
 							)}
@@ -170,7 +170,7 @@ export default function HeatmapTemplate() {
 				<div className="card p-4">
 					{selectedTicket ? (
 						<>
-							{(isLoading || !dataTicket) ? (
+							{isLoading || !dataTicket ? (
 								<LoaderComponent />
 							) : (
 								<TicketDetail

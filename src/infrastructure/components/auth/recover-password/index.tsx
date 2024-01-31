@@ -117,8 +117,10 @@ const RecoverPasswordComponent: FC<IRecoverPasswordComponentProps> = ({
 				break;
 			case 2:
 				setChangeAction(1);
+				break;
 			case 1:
 				router.push("login");
+				break;
 			default:
 				break;
 		}

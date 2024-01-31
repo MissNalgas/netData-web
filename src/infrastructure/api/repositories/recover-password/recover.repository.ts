@@ -3,7 +3,7 @@ import { LoginAdapter } from "@infrastructure/adapters/login";
 import { createAxios } from "@infrastructure/api/http/axios";
 import { IResponseServiceDTO } from "@infrastructure/model";
 
-class recoverPasswordRepository implements IRecoverPasswordService {
+class RecoverPasswordRepository implements IRecoverPasswordService {
 	async recoverPassword(email: string): Promise<IResponseServiceDTO> {
 		const axios = await createAxios();
 
@@ -38,10 +38,7 @@ class recoverPasswordRepository implements IRecoverPasswordService {
 		);
 		let message = confirmPasswordResponse.data.message;
 
-		if (
-			confirmPasswordResponse &&
-			confirmPasswordResponse.data.code !== undefined
-		) {
+		if (confirmPasswordResponse?.data?.code !== undefined) {
 			if (confirmPasswordResponse.data.code === "CodeMismatchException") {
 				message = "CodeMismatchException";
 			} else if (
@@ -62,4 +59,4 @@ class recoverPasswordRepository implements IRecoverPasswordService {
 	}
 }
 
-export const userRecoverRepository = new recoverPasswordRepository();
+export const userRecoverRepository = new RecoverPasswordRepository();

@@ -52,9 +52,11 @@ export default function NotificationsComponent() {
 				new Date(curr.created_at),
 				i18n.language
 			);
-			prev[index] !== undefined
-				? prev[index].push(curr)
-				: (prev[index] = [curr]);
+			if (prev[index] !== undefined) {
+				prev[index].push(curr);
+			} else {
+				prev[index] = [curr];
+			}
 			return prev;
 		}, {});
 

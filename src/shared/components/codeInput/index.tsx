@@ -31,7 +31,7 @@ export default function CodeInput({
 				{Array(maxLength)
 					.fill(emptyFill)
 					.map((char, index) => (
-						<Fragment key={index}>
+						<Fragment key={char}>
 							<div
 								className={`${
 									isFocus && index !== value.length

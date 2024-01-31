@@ -56,22 +56,20 @@ export default function Dashboard() {
 	}, [fetchData]);
 
 	useEffect(() => {
-
 		const cb = () => {
 			fetchData();
-		}
+		};
 
 		refetchEvent.addListener(cb);
 
 		return () => {
 			refetchEvent.removeListener(cb);
-		}
-
+		};
 	}, [refetchEvent, fetchData]);
 
-	const SlideInfo = allEvents.map((event, index) => (
+	const SlideInfo = allEvents.map((event) => (
 		<EventCard
-			key={index}
+			key={event.id}
 			title={t(event.event)}
 			description={t(event.description)}
 			image={event.image}

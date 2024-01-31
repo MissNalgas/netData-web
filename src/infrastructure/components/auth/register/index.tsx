@@ -42,8 +42,10 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 		switch (changeStateAction) {
 			case 2:
 				setChangeAction(1);
+				break;
 			case 1:
 				router.push("login");
+				break;
 			default:
 				break;
 		}

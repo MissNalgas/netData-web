@@ -39,9 +39,9 @@ export default function CardChart() {
 					className="w-full h-[300px]"
 				/>
 				<div className="grid gap-1 grid-cols-2 tablet:flex tablet:flex-col">
-					{status.map((item, index) => (
+					{status.map((item) => (
 						<div
-							key={index}
+							key={item.state}
 							className={`flex border items-center my-5 mr-5 p-1 rounded-lg ${item.border}`}
 						>
 							<CircleStatus
