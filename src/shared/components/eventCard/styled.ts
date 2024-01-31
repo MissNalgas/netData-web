@@ -22,6 +22,8 @@ export const Container = styled.div.attrs({
 export const ImageContainer = styled.div`
 	position: relative;
 	overflow: hidden;
+	align-items: center;
+	display: flex;
 `;
 
 export const BadgeContainer = styled.div.attrs({})`
