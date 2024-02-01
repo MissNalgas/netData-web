@@ -14,6 +14,7 @@ import { hideTooltipModal, setCurrentTooltip } from "../slice";
 import { RootState } from "@infrastructure/store";
 import InitialTooltip from "./InitialTooltip";
 import FinalTooltip from "@shared/components/tooltip/list/FinshTooltip";
+import { openDrawer } from "@infrastructure/store/layout/actions";
 
 interface JoyrideProps {
     joyrideRef?: any;
@@ -50,6 +51,17 @@ export const JoyrideToast = (props: JoyrideProps) => {
     };
 
     const joyrideSteps = [
+        {
+            target: "#step-0",
+            content:
+                <FirstTooltip
+                    handleClickHelper={handleClickHelper}
+                    description={guide("urgent_events_risk")}
+                    step={step}
+                />,
+            hideCloseButton: true,
+            hideFooter: true,
+        },
         {
             target: "#step-1",
             content: <FirstTooltip
@@ -94,24 +106,10 @@ export const JoyrideToast = (props: JoyrideProps) => {
                 step={step}
                 />,
             hideFooter: true,
+            hideCloseButton: true,
         },
         {
             target: "#step-2",
-            content:
-                <FirstTooltip
-                    handleClickHelper={handleClickHelper}
-                    description={<Overline>
-                        {guide("icon_refresh_left")}{" "}
-                        <Icon icon="Reload" size={20} color="#F99E17" />{" "}
-                        {guide("complement_icon_refresh_left")}
-                    </Overline>}
-                    step={step}
-                />,
-            hideCloseButton: true,
-            hideFooter: true,
-        },
-        {
-            target: "#step-3",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -122,7 +120,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-4",
+            target: "#step-3",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -133,7 +131,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-5",
+            target: "#step-4",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -144,7 +142,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-6",
+            target: "#step-5",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -155,7 +153,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-7",
+            target: "#step-6",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -166,7 +164,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-8",
+            target: "#step-7",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -177,7 +175,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-9",
+            target: "#step-8",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -192,7 +190,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-10",
+            target: "#step-9",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -207,7 +205,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-11",
+            target: "#step-10",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -222,7 +220,7 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideFooter: true,
         },
         {
-            target: "#step-12",
+            target: ".step-11",
             content:
                 <FirstTooltip
                     handleClickHelper={handleClickHelper}
@@ -232,15 +230,34 @@ export const JoyrideToast = (props: JoyrideProps) => {
             hideCloseButton: true,
             hideFooter: true,
         },
+        {
+            target: ".step-12",
+            content:
+                <FirstTooltip
+                    handleClickHelper={handleClickHelper}
+                    description={<Overline>
+                        {guide("icon_refresh_left")}{" "}
+                        <Icon icon="Reload" size={20} color="#F99E17" />{" "}
+                        {guide("complement_icon_refresh_left")}
+                    </Overline>}
+                    step={step}
+                />,
+            hideCloseButton: true,
+            hideFooter: true,
+        },
     ];
 
     const handleJoyrideCallback = (data:CallBackProps) => {
         const { index, action } = data;
-        const step = index + 1;
+        const step = index;
         setStep(step);
 
         if(action === "reset"){
             dispatch(setCurrentTooltip(13))
+        }
+
+        if (index === 7) {
+            dispatch(openDrawer(true))
         }
     };
 

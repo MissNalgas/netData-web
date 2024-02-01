@@ -17,7 +17,7 @@ export default function SavingMonthCard(props: SavingCardProps){
     const router = useRouter();
 
     return(
-        <ContainerBackground className="mt-4" id="step-7">
+        <ContainerBackground className="mt-4" id="step-6">
             <ContainerFlex $justify="space-between">
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("saving_our_services")}</CaptionTwo>
                 <Arrow action={() => router.push("/savings")}  nameIcon="right-arrow"/>

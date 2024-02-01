@@ -144,7 +144,7 @@ export default function Dashboard() {
 				</div>
 			</div>
 			{/* Category events */}
-			<ContainerBackground className="mx-8" id="step-5">
+			<ContainerBackground className="mx-8" id="step-4">
 				<SubtitleLink
 					$weight={theme.fontWeight.bold}
 					className="my-5 block"

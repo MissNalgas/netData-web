@@ -16,7 +16,7 @@ export default function EventsWeekCard(props: IGraphicWeek) {
     const maxIncidents = 500;
 
     return (
-        <ContainerBackground className="my-4" id="step-6">
+        <ContainerBackground className="my-4" id="step-5">
             <ContainerFlex $justify="space-between">
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
                 <Arrow action={() => router.push("/events-cibersecurity")} nameIcon="right-arrow"/>
