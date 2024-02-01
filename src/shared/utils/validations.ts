@@ -1,3 +1,4 @@
+import { IXelcoErrorDTO, IXelcoLoginDTO } from "@infrastructure/model";
 import * as yup from "yup";
 
 const charactersOnlyEmail = /^[a-zA-ZÀ-ÿ-.-\u00f1\u00d1 @#$%^&.!¡*+=]+$/;
@@ -44,6 +45,12 @@ const validationPassword = yup.object().shape({
 const affair = yup.string().max(100).required();
 const message = yup.string().max(500).required();
 const reply = yup.string().max(500).required();
+
+export function isXelcoError(
+	response: IXelcoErrorDTO | IXelcoLoginDTO
+): response is IXelcoErrorDTO {
+	return "code" in response && !!response.code;
+}
 
 export {
 	charactersOnlyEmail,
