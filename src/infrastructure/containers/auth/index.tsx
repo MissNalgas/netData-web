@@ -88,11 +88,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			if (isValidToken(userToken)) {
 				router.replace("/");
 			}
-		} else {
-			if (isValidToken(userToken)) {
-			} else {
-				router.replace("/login");
-			}
+		} else if (!isValidToken(userToken)) {
+			router.replace("/login");
 		}
 		setTimeout(() => {
 			setIsLoading(false);

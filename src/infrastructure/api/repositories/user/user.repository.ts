@@ -11,6 +11,7 @@ import {
 } from "@infrastructure/model";
 import { Contact } from "@infrastructure/store/user/types";
 import { VAPID_KEY, XELCO_TOKEN } from "@shared/constants";
+import { isXelcoError } from "@shared/utils";
 import { SentriaError } from "@shared/utils/error";
 import { AuthError } from "@shared/utils/error/auth";
 import firebaseApp from "@shared/utils/firebase";
@@ -45,47 +46,48 @@ class UserRepository implements IUserService {
 		typeof window !== "undefined" &&
 			window.localStorage.setItem(XELCO_TOKEN, xelcoToken);
 
-		const loginResponse = await axios.post<
-			IXelcoLoginDTO | IXelcoErrorDTO | any
-		>("/api/auth/login", {
-			token: xelcoToken,
-			mail: email,
-			password,
-			device: "web",
-		});
-
-		localStorage.setItem(
-			"tokenApp",
-			loginResponse?.data?.idToken?.jwtToken ?? ""
+		const { data } = await axios.post<IXelcoLoginDTO | IXelcoErrorDTO>(
+			"/api/auth/login",
+			{
+				token: xelcoToken,
+				mail: email,
+				password,
+				device: "web",
+			}
 		);
 
-		if (localStorage.getItem("guide") === null)
-			localStorage.setItem("guide", "true");
+		if (isXelcoError(data)) {
+			const code = data.code;
+			if (code === "NotAuthorizedException") {
+				throw new SentriaError(
+					AuthError.NotAuthorized,
+					"Correo o contraseña no válido"
+				);
+			}
 
-		const code = "code" in loginResponse.data && loginResponse.data.code;
+			if (code === "UserNotConfirmedException") {
+				throw new SentriaError(
+					AuthError.NotConfirmed,
+					"¡Tu usuario se encuentra inactivo! Valida tu cuenta a través del enlace enviado a tu bandeja de entrada o al spam del correo registrado, ten en cuenta que este enlace tiene una vigencia de 24 horas, de lo contrario deberás solicitar un correo nuevo."
+				);
+			}
 
-		if (code === "NotAuthorizedException") {
-			throw new SentriaError(
-				AuthError.NotAuthorized,
-				"Correo o contraseña no válido"
-			);
-		}
-
-		if (code === "UserNotConfirmedException") {
-			throw new SentriaError(
-				AuthError.NotConfirmed,
-				"¡Tu usuario se encuentra inactivo! Valida tu cuenta a través del enlace enviado a tu bandeja de entrada o al spam del correo registrado, ten en cuenta que este enlace tiene una vigencia de 24 horas, de lo contrario deberás solicitar un correo nuevo."
-			);
-		}
-
-		if (code) {
 			throw new SentriaError(
 				AuthError.NotRegistered,
 				"Usuario no registrado"
 			);
 		}
 
-		return LoginAdapter.userFromDTO(loginResponse.data as IXelcoLoginDTO);
+		const token = data.idToken?.jwtToken;
+
+		if (token && typeof window !== "undefined") {
+			localStorage.setItem("tokenApp", token);
+		}
+
+		if (localStorage.getItem("guide") === null)
+			localStorage.setItem("guide", "true");
+
+		return LoginAdapter.userFromDTO(data);
 	}
 
 	async validateOtp(
