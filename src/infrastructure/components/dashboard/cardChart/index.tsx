@@ -17,7 +17,7 @@ export default function CardChart() {
 
 	return (
 		<ContainerBackground className="grow">
-			<ContainerFlex className="items-center">
+			<ContainerFlex className="items-center" $justify="space-between">
 				<SubtitleLink
 					$weight={theme.fontWeight.bold}
 					className="my-5 block"

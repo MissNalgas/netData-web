@@ -87,7 +87,7 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 					/>
 				)}
 				<div
-					className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5"
+					className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer"
 					onClick={() => handleClickArrow()}
 					aria-hidden="true"
 				>
@@ -96,7 +96,6 @@ const RegisterComponent: FC<IRegisterComponentProps> = ({
 						$color={theme.colors.gray50}
 						$weight={600}
 						className="cel:block tablet:ml-2 tablet:inline"
-						onClick={() => {}}
 					>
 						{t("recover_password:go_back")}
 					</Overline>

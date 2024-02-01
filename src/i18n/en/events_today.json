@@ -1,8 +1,8 @@
 {
-	"title_tickes": "Your Day's Tickets",
-	"subtitle": "High Risk",
+	"title_tickes": "Your day's tickets",
+	"subtitle": "High risk",
 	"status_pending": "Pending",
-	"status_in_review": "In Review",
+	"status_in_review": "In review",
 	"status_close": "Closed",
 	"no_tickets_selected": "There are no tickets selected!"
 }

@@ -162,7 +162,7 @@ export default function Dashboard() {
 				</div>
 			</div>
 			{/* Category events */}
-			<ContainerBackground className="mx-5" id="step-5">
+			<ContainerBackground className="mx-8" id="step-5">
 				<SubtitleLink
 					$weight={theme.fontWeight.bold}
 					className="my-5 block"

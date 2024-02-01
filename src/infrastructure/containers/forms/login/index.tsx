@@ -34,7 +34,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 				<label className="text-sm">{t("password")}</label>
 				<label
 					aria-hidden="true"
-					className="text-sm text-primary"
+					className="text-sm text-primary cursor-pointer"
 					onClick={() => router.push("recover-password")}
 				>
 					{t("forgot")}
@@ -55,6 +55,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 				{t("sign_in")}
 			</PrimaryButton>
 			<SecondaryButton
+				aria-hidden="true"
 				onClick={() => router.push("register")}
 				type="button"
 				className="w-full"

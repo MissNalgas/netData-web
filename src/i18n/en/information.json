@@ -17,5 +17,6 @@
 	"write_your_message": "Write your message",
 	"message_sent": "Message sent",
 	"message_error": "Oops... an error occurred",
-	"loading": "Loading..."
+	"loading": "Loading...",
+	"show_more": "Show more"
 }

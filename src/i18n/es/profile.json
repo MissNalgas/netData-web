@@ -17,5 +17,9 @@
 		"yourMessage": "Tu Mensaje",
 		"send": "Enviar"
 	},
-	"message_deleted": "Cuenta eliminada"
+	"message_deleted": "Cuenta eliminada",
+	"events_today": "Eventos de hoy",
+	"events_yesterday": "Eventos de ayer",
+	"events_open": "Eventos abiertos",
+	"events_closed": "Eventos cerrados"
 }

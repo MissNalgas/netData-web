@@ -9,6 +9,7 @@ import {
 } from "@floating-ui/react";
 import Icon from "../icons";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ArrowProps {
 	action: () => void;
@@ -29,12 +30,13 @@ export default function Arrow(props: ArrowProps) {
 	});
 	const hover = useHover(context);
 	const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
+	const { t } = useTranslation("information");
 
 	return (
 		<>
 			<div
 				ref={refs.setReference}
-				className={`flex bg-shadow20 rounded-full ml-1 h-7 w-9 justify-center cursor-pointer ${className}`}
+				className={`flex bg-shadow20 rounded-full ml-1 h-7 w-7 justify-center items-center cursor-pointer ${className}`}
 				onClick={action}
 				{...getReferenceProps()}
 				aria-hidden="true"
@@ -50,7 +52,7 @@ export default function Arrow(props: ArrowProps) {
 					ref={refs.setFloating}
 					{...getFloatingProps()}
 				>
-					<span>Ver más</span>
+					<span>{t("show_more")}</span>
 					<FloatingArrow context={context} ref={arrowRef} />
 				</div>
 			)}
