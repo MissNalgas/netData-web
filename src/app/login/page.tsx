@@ -55,7 +55,7 @@ const Login: NextPage = () => {
 			email: loginData.email,
 			password: loginData.password,
 			code: data.code,
-			secret: otpSecret ?? undefined,
+			secret: otpSecret || undefined,
 		}).then(() => {
 			router.replace("/");
 		}).finally(() => {
