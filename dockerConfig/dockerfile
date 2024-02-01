@@ -25,7 +25,7 @@ RUN . "$HOME/.nvm/nvm.sh" && nvm install 20.9.0
 RUN . "$HOME/.nvm/nvm.sh" && nvm use 20.9.0
 # Remove docker config folder
 RUN rm -rf dockerConfig
-
+RUN . "$HOME/.nvm/nvm.sh" && npm install -g yarn
 # INSTALL AND BUILD PACKAGES
 RUN . "$HOME/.nvm/nvm.sh" && yarn install
 RUN . "$HOME/.nvm/nvm.sh" && yarn build
