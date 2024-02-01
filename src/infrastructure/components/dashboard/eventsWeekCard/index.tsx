@@ -7,21 +7,23 @@ import CircleStatus from "@shared/components/circleStatus";
 import { useTranslation } from "react-i18next";
 import { IGraphicWeek } from "@domain/models";
 import { useRouter } from "next/navigation";
+import ProgressBar from "@shared/components/progressBar";
 
 export default function EventsWeekCard(props: IGraphicWeek) {
     const { open, closed } = props;
     const { t } = useTranslation("dashboard");
     const router = useRouter();
+    const maxIncidents = 500;
 
     return (
         <ContainerBackground className="my-4" id="step-6">
-            <ContainerFlex>
+            <ContainerFlex $justify="space-between">
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
                 <Arrow action={() => router.push("/events-cibersecurity")} nameIcon="right-arrow"/>
             </ContainerFlex>
             <ContainerFlex>
                 <ContainerFlex>
-                    <div className="w-12 bg-red40 rounded-2xl mr-2"/>
+                    <ProgressBar incidents={open ?? 0} maxIncidents={maxIncidents} bgColor={theme.colors.red40}/>
                     <Overline $weight={theme.fontWeight.bold}>{open ?? 0}</Overline>
                 </ContainerFlex>
                 <ContainerFlex className="items-center">
@@ -31,7 +33,7 @@ export default function EventsWeekCard(props: IGraphicWeek) {
             </ContainerFlex>
             <ContainerFlex className="mt-2">
                 <ContainerFlex>
-                    <div className="w-20 bg-green40 rounded-2xl mr-2"/>
+                    <ProgressBar incidents={closed ?? 0} maxIncidents={maxIncidents} bgColor={theme.colors.green40}/>
                     <Overline $weight={theme.fontWeight.bold}>{closed ?? 0}</Overline>
                 </ContainerFlex>
                 <ContainerFlex className="items-center">

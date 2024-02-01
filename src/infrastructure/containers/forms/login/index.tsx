@@ -33,7 +33,7 @@ export default function LoginForm({ onSubmit, disableSubmit }: LoginFormProps) {
 			<div className="flex justify-between my-2">
 				<label className="text-sm">{t("password")}</label>
 				<label
-					className="text-sm text-primary"
+					className="text-sm text-primary cursor-pointer"
 					onClick={() => router.push("recover-password")}
 				>
 					{t("forgot")}

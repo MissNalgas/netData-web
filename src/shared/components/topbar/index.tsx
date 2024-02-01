@@ -48,7 +48,7 @@ export default function Topbar(props: TopBarProps) {
 				className="cel:hidden tablet:flex gap-2 items-center"
 			>
 				<div
-					className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center"
+					className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center cursor-pointer"
 					id="step-12"
 					onClick={() => router.push("/profile")}
 
@@ -64,7 +64,7 @@ export default function Topbar(props: TopBarProps) {
 						</span>
 					</span>
 					<span
-						className="flex flex-row items-center gap-1"
+						className="flex flex-row items-center gap-1 cursor-pointer"
 						id="step-2"
 						onClick={() => window.location.reload()}
 					>
@@ -78,13 +78,13 @@ export default function Topbar(props: TopBarProps) {
 					<SwitchButton
 						textButtonLeft={
 							screen === "dashboard"
-								? "Eventos de hoy"
-								: "Eventos abiertos"
+								? t("events_today")
+								: t("events_open")
 						}
 						textButtonRight={
 							screen === "dashboard"
-								? "Eventos de ayer"
-								: "Eventos cerrados"
+								? t("events_yesterday")
+								: t("events_closed")
 						}
 						bgColor={
 							screen === "dashboard"
