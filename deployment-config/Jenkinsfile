@@ -11,7 +11,6 @@ pipeline {
   stages {
     stage('Set .env file') {
       steps {
-        sh "node -v"
         sh "aws secretsmanager get-secret-value --secret-id $AWS_SECRET_MANAGER_ID --region $AWS_REGION --query SecretString --output text > ./secrets.json"
         sh "cat ./secrets.json" // Agrega esta línea para imprimir la salida de AWS CLI
         sh "jq -r 'to_entries|map(\"\\(.key)=\\(.value|@sh)\")|.[]' ./secrets.json > ./secrets.env"
