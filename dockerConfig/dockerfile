@@ -11,22 +11,24 @@ WORKDIR /sentria-front
 COPY  . /sentria-front/
 
 # SET SSH CONFIG
-RUN apt-get -y update
+
 RUN apt-get -y install git
-#RUN apt-get -y install npm
+RUN apt-get -y install npm
 #ENV NODE_VERSION=20.9.0
 
 # SET nodejs version and app port
 ENV SERVER_APP_PORT=$SERVER_APP_PORT
 
 #  INSTALL NODEJS VERSION
-#RUN . "$HOME/.nvm/nvm.sh" && nvm install 20.9.0
-#RUN . "$HOME/.nvm/nvm.sh" && nvm use 20.9.0
+RUN . "$HOME/.nvm/nvm.sh" && nvm install 20.9.0
+RUN . "$HOME/.nvm/nvm.sh" && nvm use 20.9.0
 # Remove docker config folder
 RUN rm -rf dockerConfig
 
 # INSTALL AND BUILD PACKAGES
 RUN . "$HOME/.nvm/nvm.sh" && npm cache clean --force
+RUN . "$HOME/.nvm/nvm.sh" && npm -v
+RUN . "$HOME/.nvm/nvm.sh" && node -v
 RUN . "$HOME/.nvm/nvm.sh" && npm install
 #RUN . "$HOME/.nvm/nvm.sh" && npm run build
 
