@@ -103,7 +103,9 @@ class UserRepository implements IUserService {
 		const response = await axios.post("/api/auth/otp", {
 			mail: email,
 			password,
-			secret,
+			...(secret &&
+				typeof secret === "string" &&
+				secret.trim() !== "" && { secret }),
 			otp: code,
 			token: xelcoToken,
 		});
