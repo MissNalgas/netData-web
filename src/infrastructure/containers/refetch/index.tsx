@@ -3,7 +3,6 @@ const REFETCH_INTERVAL = 120000 // 2 minutes;
 
 class MyEvent {
 	private _listeners: any[] = [];
-	constructor() { }
 
 	addListener(listener: any) {
 		this._listeners.push(listener);
@@ -24,7 +23,7 @@ export function useRefetch() {
 	return useContext(RefetchContext);
 }
 
-export function RefetchProvider({children} : {children: React.ReactNode}) {
+export function RefetchProvider({children} : Readonly<{children: React.ReactNode}>) {
 
 	const refetchEvent = useRef(new MyEvent());
 

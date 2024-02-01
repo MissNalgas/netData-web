@@ -21,7 +21,7 @@ export default function CalendarComponent({ value, onChange }: CalendarProps) {
 				<Icon icon="calendar" color={theme.colors.white} size={32} />
 			</div>
 			<Calendar
-				className="rounded-lg border-transparent"
+				className="rounded-lg border-transparent mx-auto"
 				onChange={onChange}
 				value={value}
 				selectRange={false}
