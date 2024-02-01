@@ -27,7 +27,8 @@ RUN . "$HOME/.nvm/nvm.sh" && nvm use 20.9.0
 RUN rm -rf dockerConfig
 
 # INSTALL AND BUILD PACKAGES
-RUN . "$HOME/.nvm/nvm.sh" && npm install
+RUN . "$HOME/.nvm/nvm.sh" && npm cache clean --force
+RUN . "$HOME/.nvm/nvm.sh" && npm i
 RUN . "$HOME/.nvm/nvm.sh" && npm run build
 
 # UPDATE NGINX PORT CONFIG with envsubst
