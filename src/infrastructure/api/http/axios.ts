@@ -46,6 +46,7 @@ export async function createAxiosApp() {
 					ERROR_TOAST_SHOWN = true;
 					localStorage.removeItem("isExpired");
 					localStorage.removeItem("tokenApp");
+					window.location.replace("/login");
 				}
 			}
 			return Promise.reject(error);
