@@ -9,23 +9,28 @@ import {
 import { formatDateDTO } from "@shared/utils";
 import theme from "@theme/index";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface EventsProps {
 	showCard?: boolean;
-	showEventsDay?: string | boolean | undefined;
+	showEventsDay?: string | boolean;
+	isFilteringByOpen: boolean;
 }
-
-type Value = Date | null | undefined | any;
 
 export default function EventsCibersecurity({
 	showCard = true,
 	showEventsDay,
-}: EventsProps) {
+	isFilteringByOpen,
+}: Readonly<EventsProps>) {
 	const { t } = useTranslation("events_week");
 	const router: any = useRouter();
-	const [value, onChangeState] = useState<Value>(new Date());
+	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+
+	const openClosedFilter = useMemo(() =>
+		`status=${isFilteringByOpen ? "open" : "closed"}`
+	, [isFilteringByOpen]);
 
 	return (
 		<div className="p-5">
@@ -48,8 +53,8 @@ export default function EventsCibersecurity({
 					</SubtitleLink>
 					<iframe
 						src={`/chart/prioritydonut?date=${formatDateDTO(
-							value
-						)}`}
+							selectedDate
+						)}&${openClosedFilter}`}
 						title="prioritydonut"
 						className="w-full h-[300px]"
 					/>
@@ -60,8 +65,8 @@ export default function EventsCibersecurity({
 							{t("tickets_open_week")}
 						</Body>
 						<CalendarComponent
-							onChange={(e: any) => onChangeState(e)}
-							value={value}
+							onChange={(e: any) => e && e instanceof Date && setSelectedDate(e)}
+							value={selectedDate}
 						/>
 					</ContainerBackground>
 				)}
@@ -89,7 +94,7 @@ export default function EventsCibersecurity({
 						/>
 					</div>
 					<iframe
-						src={`/chart/categorybars?date=${formatDateDTO(value)}`}
+						src={`/chart/categorybars?date=${formatDateDTO(selectedDate)}&${openClosedFilter}`}
 						className="w-full h-[300px]"
 						title="categorybars"
 					/>
@@ -102,8 +107,8 @@ export default function EventsCibersecurity({
 						</Body>
 						<iframe
 							src={`/chart/solutionbars?height=400&date=${formatDateDTO(
-								value
-							)}`}
+								selectedDate
+							)}&${openClosedFilter}`}
 							className="w-full h-[400px]"
 							title="solutionbars"
 						/>

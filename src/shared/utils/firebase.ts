@@ -13,7 +13,7 @@ const firebaseConfig = {
 
 let app: FirebaseApp | undefined;
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && "Notification" in window) {
 	try {
 		app = initializeApp(firebaseConfig);
 

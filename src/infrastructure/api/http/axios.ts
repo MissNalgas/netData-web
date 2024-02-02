@@ -1,10 +1,10 @@
 import { API_URL } from "@shared/constants";
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { store } from "@infrastructure/store";
-import { resetState } from "@infrastructure/store/user/actions";
 
 let ERROR_TOAST_SHOWN = false;
+const MAX_RETRY = 3;
+const RETRY_DELAY = 5000;
 
 export async function createAxios() {
 	const instance = axios.create({
@@ -44,15 +44,66 @@ export async function createAxiosApp() {
 				) {
 					toast.error("Tu sesión ha expirado");
 					ERROR_TOAST_SHOWN = true;
-
-					store.dispatch(resetState());
-
-					localStorage.clear();
+					localStorage.removeItem("isExpired");
+					localStorage.removeItem("tokenApp");
+					window.location.replace("/login");
 				}
 			}
 			return Promise.reject(error);
 		}
 	);
+
+	const instancePost = instance.post;
+
+	instance.post = <T = any, R = AxiosResponse<T, any>, D = any>(
+		url: string,
+		data?: D,
+		config?: AxiosRequestConfig<D>
+	) => {
+		return new Promise<R>((resolve, reject) => {
+			function retry(retryCount = 0) {
+				instancePost<T, R, D>(url, data, config)
+					.then(resolve)
+					.catch((err: any) => {
+						const status = err?.response?.status;
+						if (retryCount > MAX_RETRY && status !== 401) {
+							reject(err);
+						} else {
+							setTimeout(() => {
+								retry(retryCount + 1);
+							}, RETRY_DELAY);
+						}
+					});
+			}
+			retry(0);
+		});
+	};
+
+	const instanceGet = instance.get;
+
+	instance.get = <T = any, R = AxiosResponse<T, any>, D = any>(
+		url: string,
+		config?: AxiosRequestConfig<D>
+	) => {
+		return new Promise<R>((resolve, reject) => {
+			function retry(retryCount = 0) {
+				instanceGet<T, R, D>(url, config)
+					.then(resolve)
+					.catch((err: any) => {
+						const status = err?.response?.status;
+						if (retryCount > MAX_RETRY && status !== 401) {
+							//If status is 401, it means that the token has expired and we don't want to retry
+							reject(err);
+						} else {
+							setTimeout(() => {
+								retry(retryCount + 1);
+							}, RETRY_DELAY);
+						}
+					});
+			}
+			retry(0);
+		});
+	};
 
 	return instance;
 }

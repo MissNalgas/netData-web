@@ -7,7 +7,7 @@ import CardChart from "./cardChart";
 import EventsWeekCard from "./eventsWeekCard";
 import IncidentsCard from "./incidentsCard";
 import SavingMonthCard from "./savingMonthCard";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@infrastructure/store";
 import { useTranslation } from "react-i18next";
@@ -23,6 +23,7 @@ import { Day, TicketPriority } from "@domain/models";
 import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
 import LoaderComponent from "@shared/components/loader";
 import { JoyrideToast } from "@shared/components/tooltip/list/JoyrideToast";
+import { useRefetch } from "@infrastructure/containers/refetch";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
@@ -33,8 +34,9 @@ export default function Dashboard() {
 	const [day, setDay] = useState<"today" | "yesterday">("today");
 	const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
 	const joyrideRef = useRef();
+	const refetchEvent = useRefetch();
 
-	useEffect(() => {
+	const fetchData = useCallback(() => {
 		dispatch(getDataDashboard()).unwrap();
 		dispatch(getDataGraphicWeek(TicketPriority.All)).unwrap();
 		dispatch(
@@ -46,6 +48,24 @@ export default function Dashboard() {
 			})
 		).unwrap();
 	}, [dispatch, day]);
+
+	useEffect(() => {
+		fetchData();
+	}, [fetchData]);
+
+	useEffect(() => {
+
+		const cb = () => {
+			fetchData();
+		}
+
+		refetchEvent.addListener(cb);
+
+		return () => {
+			refetchEvent.removeListener(cb);
+		}
+
+	}, [refetchEvent, fetchData]);
 
 	const SlideInfo = allEvents.map((event, index) => (
 		<EventCard

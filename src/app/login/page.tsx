@@ -12,14 +12,16 @@ import LoaderComponent from "@shared/components/loader";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { SentriaError } from "@shared/utils/error";
+import { useRouter } from "next/navigation";
 
 const Login: NextPage = () => {
 
-	const [otpauth, setOtpAuth] = useState<null | string>();
+	const [otpauth, setOtpauth] = useState<null | string>();
 	const [loginData, setLoginData] = useMerge({email: "", password: "", code: ""});
 	const [isLoading, setIsLoading] = useState(false);
 	const {login, validateOtp} = useAuth();
 	const { t } = useTranslation();
+	const router = useRouter();
 
 	const handleSubmit = (data : ILogin) => {
 		setIsLoading(true);
@@ -28,7 +30,7 @@ const Login: NextPage = () => {
 				email: data.email,
 				password: data.password,
 			});
-			setOtpAuth(userData.authotp);
+			setOtpauth(userData.authotp);
 		}).catch(err => {
 			if (err instanceof SentriaError) {
 				toast.error(err.message);
@@ -55,7 +57,7 @@ const Login: NextPage = () => {
 			code: data.code,
 			secret: otpSecret || undefined,
 		}).then(() => {
-
+			router.replace("/");
 		}).finally(() => {
 			setIsLoading(false);
 		}).catch(() => {
