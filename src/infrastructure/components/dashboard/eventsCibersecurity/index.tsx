@@ -9,21 +9,28 @@ import {
 import { formatDateDTO } from "@shared/utils";
 import theme from "@theme/index";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface EventsProps {
 	showCard?: boolean;
 	showEventsDay?: string | boolean;
+	isFilteringByOpen: boolean;
 }
 
 export default function EventsCibersecurity({
 	showCard = true,
 	showEventsDay,
+	isFilteringByOpen,
 }: Readonly<EventsProps>) {
 	const { t } = useTranslation("events_week");
 	const router: any = useRouter();
 	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+
+
+	const openClosedFilter = useMemo(() =>
+		`status=${isFilteringByOpen ? "open" : "closed"}`
+	, [isFilteringByOpen]);
 
 	return (
 		<div className="p-5">
@@ -47,7 +54,7 @@ export default function EventsCibersecurity({
 					<iframe
 						src={`/chart/prioritydonut?date=${formatDateDTO(
 							selectedDate
-						)}`}
+						)}&${openClosedFilter}`}
 						title="prioritydonut"
 						className="w-full h-[300px]"
 					/>
@@ -87,7 +94,7 @@ export default function EventsCibersecurity({
 						/>
 					</div>
 					<iframe
-						src={`/chart/categorybars?date=${formatDateDTO(selectedDate)}`}
+						src={`/chart/categorybars?date=${formatDateDTO(selectedDate)}&${openClosedFilter}`}
 						className="w-full h-[300px]"
 						title="categorybars"
 					/>
@@ -101,7 +108,7 @@ export default function EventsCibersecurity({
 						<iframe
 							src={`/chart/solutionbars?height=400&date=${formatDateDTO(
 								selectedDate
-							)}`}
+							)}&${openClosedFilter}`}
 							className="w-full h-[400px]"
 							title="solutionbars"
 						/>
