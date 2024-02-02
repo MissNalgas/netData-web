@@ -37,7 +37,7 @@ export default function InformationCard(props: InformationCardProps) {
 			}}
 			className={`flex justify-between border border-gray20 rounded-md items-center p-2 my-2 hover:border-orange ${classContainer}`}
 		>
-			<div className="flex items-center">
+			<div className="flex items-center flex-1">
 				{imageLeft && (
 					<Image
 						src={imageLeft}
@@ -48,7 +48,7 @@ export default function InformationCard(props: InformationCardProps) {
 				)}
 				<Overline>{textLeft}</Overline>
 			</div>
-			<div className="flex items-center">
+			<div className="flex items-center flex-1">
 				{imageCenter && (
 					<Image
 						src={imageCenter}

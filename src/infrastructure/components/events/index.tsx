@@ -47,9 +47,7 @@ export default function EventsTemplate() {
 
 	const [page, setPage] = useState<number>(1);
 
-	const [dataTicket, isLoadingTicketDetail] = useTicketDetail(
-		`${selectedTicket}`
-	);
+	const [dataTicket, isLoadingTicketDetail] = useTicketDetail(selectedTicket);
 	const theme = useTheme();
 	const selectTicket = (ticket: ITicket | any) => {
 		setSelectedTicket(ticket);
@@ -173,6 +171,7 @@ export default function EventsTemplate() {
 									return selectTicket(ticket.id);
 								}
 							}}
+							className="px-2"
 						>
 							<InformationCard
 								imageLeft={renderCategoryIcon(ticket?.category)}
@@ -281,7 +280,7 @@ export default function EventsTemplate() {
 							)}
 						</div>
 
-						<div className="items-center flex justify-center">
+						<div className="items-center flex justify-center mt-4">
 							<Pagination
 								selectedPage={page}
 								setSelectedPage={setPage}
