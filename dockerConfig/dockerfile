@@ -29,7 +29,7 @@ RUN rm -rf dockerConfig
 # INSTALL AND BUILD PACKAGES
 RUN . "$HOME/.nvm/nvm.sh" && npm cache clean --force
 RUN . "$HOME/.nvm/nvm.sh" && npm i
-RUN . "$HOME/.nvm/nvm.sh" && npm run build
+# RUN . "$HOME/.nvm/nvm.sh" && npm run build
 
 # UPDATE NGINX PORT CONFIG with envsubst
 RUN envsubst '$SERVER_APP_PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx_updated.conf
