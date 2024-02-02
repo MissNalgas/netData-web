@@ -44,7 +44,7 @@ export default function CardChart() {
 	const router: any = useRouter();
 
 	return (
-		<ContainerBackground className="grow">
+		<ContainerBackground className="grow h-full">
 			<ContainerFlex className="items-center" $justify="space-between">
 				<SubtitleLink
 					$weight={theme.fontWeight.bold}
