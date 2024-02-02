@@ -1,5 +1,8 @@
 "use client"
+import { ContainerFlex } from "@infrastructure/components/dashboard/styled";
 import Chart from "@shared/components/chart";
+import CircleStatus from "@shared/components/circleStatus";
+import { BodyTwo } from "@shared/components/labels/styled";
 import LoaderComponent from "@shared/components/loader";
 import theme from "@theme/index";
 import { BarChart } from "echarts/charts";
@@ -7,9 +10,10 @@ import { GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ProgressBarChart() {
-
+    const { t } = useTranslation("dashboard");
 	const loadComponents = useRef([
 		BarChart,
 		CanvasRenderer,
@@ -82,9 +86,21 @@ export default function ProgressBarChart() {
 	if (data === null) return <div>Error loading data</div>
 
 	return (
-		<Chart
-			loadComponents={loadComponents.current}
-			options={options}
-		/>
+        <div className="flex space-between bg-red w-full">
+            <Chart
+                loadComponents={loadComponents.current}
+                options={options}
+            />
+            <div className="flex flex-col justify-between mb-3">
+                <ContainerFlex className="items-center">
+                    <CircleStatus internalColor="red40" externalColor="red20"/>
+                    <BodyTwo $color={theme.colors.red40} $weight={theme.fontWeight.bold}>{t("open")}</BodyTwo>
+                </ContainerFlex>
+                <ContainerFlex className="items-center">
+                    <CircleStatus internalColor="green40" externalColor="green20"/>
+                    <BodyTwo $color={theme.colors.green40} $weight={theme.fontWeight.bold}>{t("closed")}</BodyTwo>
+                </ContainerFlex>
+            </div>
+        </div>
 	);
 }
