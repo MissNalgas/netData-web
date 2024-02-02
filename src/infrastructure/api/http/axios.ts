@@ -64,8 +64,9 @@ export async function createAxiosApp() {
 			function retry(retryCount = 0) {
 				instancePost<T, R, D>(url, data, config)
 					.then(resolve)
-					.catch((err: unknown) => {
-						if (retryCount > MAX_RETRY) {
+					.catch((err: any) => {
+						const status = err?.response?.status;
+						if (retryCount > MAX_RETRY && status !== 401) {
 							reject(err);
 						} else {
 							setTimeout(() => {
