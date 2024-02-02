@@ -86,7 +86,7 @@ export default function ProgressBarChart() {
 	if (data === null) return <div>Error loading data</div>
 
 	return (
-        <div className="flex space-between bg-red w-full">
+        <div className="flex space-between w-full">
             <Chart
                 loadComponents={loadComponents.current}
                 options={options}
