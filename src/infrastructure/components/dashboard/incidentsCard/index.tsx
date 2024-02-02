@@ -16,7 +16,7 @@ export default function IncidentsCard(props: IncidentsCardProps) {
 	const { textDescription, numIncidents } = props;
 	const router = useRouter();
 	return (
-		<ContainerBackground className="flex mb-4 items-center" id="step-3">
+		<ContainerBackground className="flex mb-4 items-center" id="step-2">
 			<div className="bg-shadow20 rounded-xl p-2" id="step-2">
 				<Image src={Risk} alt="risk" width={82} />
 			</div>

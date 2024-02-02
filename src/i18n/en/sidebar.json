@@ -5,5 +5,7 @@
 	"notifications": "Notifications",
 	"close_sesion": "Log out",
 	"guide": "Help guide",
-	"message_sentria": "Sentria message"
+	"message_sentria": "Sentria message",
+	"greeting": "Hi",
+	"last_update": "Last update"
 }

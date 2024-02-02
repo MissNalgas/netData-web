@@ -59,7 +59,7 @@ export default function CardChart() {
 			</ContainerFlex>
 			<div
 				className="flex-column tablet:flex justify-between items-center"
-				id="step-4"
+				id="step-3"
 			>
 				<iframe
 					src={"/chart/prioritydonut"}

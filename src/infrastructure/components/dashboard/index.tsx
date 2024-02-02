@@ -19,8 +19,7 @@ import {
 } from "@infrastructure/store/dashboard/actions";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import Topbar from "@shared/components/topbar";
-import { Day, Ticket, TicketPriority } from "@domain/models";
-import { TicketStatus } from "@shared/constants/statusList";
+import { Day, TicketPriority } from "@domain/models";
 import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
 import LoaderComponent from "@shared/components/loader";
 import { JoyrideToast } from "@shared/components/tooltip/list/JoyrideToast";
@@ -34,7 +33,6 @@ export default function Dashboard() {
 	);
 	const [day, setDay] = useState<"today" | "yesterday">("today");
 	const [dashboardDay, setDashboardDay] = useState<Day>(dashboardDataInitial);
-	const [_priorityTickets, setPriorityTickets] = useState<number[]>([]);
 	const joyrideRef = useRef();
 	const refetchEvent = useRefetch();
 
@@ -105,31 +103,11 @@ export default function Dashboard() {
 
 	useEffect(() => {
 		if (dashboard) {
-			let ticketsPriority;
 			if (day === "yesterday") {
 				setDashboardDay(dashboard?.yesterday);
-				ticketsPriority =
-					dashboard?.yesterday?.ticketsForPriorityByDepartment
-						?.filter((ticket: Ticket) =>
-							[
-								TicketStatus?._open,
-								TicketStatus?._pending,
-							].includes(ticket?.status)
-						)
-						.map((ticket: Ticket) => ticket?.priority);
 			} else {
 				setDashboardDay(dashboard.today);
-				ticketsPriority =
-					dashboard.today?.ticketsForPriorityByDepartment
-						?.filter((ticket: Ticket) =>
-							[
-								TicketStatus?._open,
-								TicketStatus?._pending,
-							].includes(ticket?.status)
-						)
-						.map((ticket: Ticket) => ticket?.priority);
 			}
-			setPriorityTickets(ticketsPriority ?? []);
 		}
 	}, [dashboard, day]);
 
@@ -164,7 +142,7 @@ export default function Dashboard() {
 				</div>
 			</div>
 			{/* Category events */}
-			<ContainerBackground className="mx-8" id="step-5">
+			<ContainerBackground className="mx-8" id="step-4">
 				<SubtitleLink
 					$weight={theme.fontWeight.bold}
 					className="my-5 block"
