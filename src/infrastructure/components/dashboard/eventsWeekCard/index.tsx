@@ -19,10 +19,10 @@ export default function EventsWeekCard(props: IGraphicWeek) {
                 <CaptionTwo $weight={theme.fontWeight.bold}>{t("events_of_the_week")}</CaptionTwo>
                 <Arrow action={() => router.push("/events-cibersecurity")} nameIcon="right-arrow"/>
             </ContainerFlex>
-            <div className="flex space-between bg-blue-200">
+            <div className="flex space-between">
                 <iframe
                     src={`/chart/progressbars?height=500&events-open=${open}&events-closed=${closed}`}
-                    className="h-[80px] flex bg-red-200 pt-2"
+                    className="h-[80px] flex pt-2"
                     title="solutionbars"
                 />
                 <div className="flex flex-col justify-between my-3">
