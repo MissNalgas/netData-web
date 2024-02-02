@@ -16,6 +16,7 @@ import { useSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "@infrastructure/store";
 import { openDrawer } from "@infrastructure/store/layout/actions";
 import { useDispatch } from "react-redux";
+import useWindowDimensions from "@shared/hooks/calculateDimension";
 
 interface TopBarProps {
 	screen?: "dashboard" | "other";
@@ -34,6 +35,8 @@ export default function Topbar(props: TopBarProps) {
 	const riskState =
 		(day === "day" && dashboard?.today?.riskState) ||
 		(day === "yesterday" && dashboard?.yesterday?.riskState);
+	const windowSize = useWindowDimensions();
+
 	return (
 		<div className="w-full h-20 flex justify-between items-center px-5 bg-white">
 			<div className="tablet:hidden flex gap-2 items-center " color="red">
@@ -47,9 +50,9 @@ export default function Topbar(props: TopBarProps) {
 			</div>
 			<div className="cel:hidden tablet:flex gap-2 items-center">
 				<div
-					className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center cursor-pointer"
-					id="step-12"
-					aria-hidden="true"
+					className={`w-12 h-12 rounded-full bg-gray50 items-center flex justify-center cursor-pointer tablet:step-11 ${
+						windowSize.width >= 600 && "step-11"
+					}`}
 					onClick={() => router.push("/profile")}
 				>
 					<Image src={Logo} alt="logo" width={20} height={20} />
@@ -63,9 +66,9 @@ export default function Topbar(props: TopBarProps) {
 						</span>
 					</span>
 					<span
-						className="flex flex-row items-center gap-1 cursor-pointer"
-						id="step-2"
-						aria-hidden="true"
+						className={`flex flex-row items-center gap-1 cursor-pointer ${
+							windowSize.width >= 600 && "step-12"
+						}`}
 						onClick={() => window.location.reload()}
 					>
 						{t("last_update")}, <b>{format(date, "p")}</b>

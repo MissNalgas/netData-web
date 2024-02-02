@@ -20,6 +20,7 @@ import Logo from "/public/img/logo-sentria.png";
 import { format } from "date-fns";
 import { BodyTwo } from "../labels/styled";
 import theme from "@theme/index";
+import useWindowDimensions from "@shared/hooks/calculateDimension";
 
 export default function Sidebar() {
 	const router = useRouter();
@@ -31,6 +32,7 @@ export default function Sidebar() {
 	const [saveCountNotifications, saveCountNotificationsSet] = useState(0);
 	const { user } = useSelector((state: RootState) => state.user);
 	const notificationsData = useTypedSelector((state) => state.notifications);
+    const windowSize = useWindowDimensions();
 
 	const countNotifications = useMemo(
 		() => notificationsData.data?.length,
@@ -52,7 +54,7 @@ export default function Sidebar() {
 						dispatch(closeDrawer(false));
 					},
 					isActive: matchesRegex(/^(\/|\/savings)$/),
-					id: "step-8",
+					id: "step-7",
 				},
 				{
 					label: `${t("heatmap")}`,
@@ -64,7 +66,7 @@ export default function Sidebar() {
 						dispatch(closeDrawer(false));
 					},
 					isActive: matchesRegex(/^\/heatmap$/),
-					id: "step-9",
+					id: "step-8",
 				},
 				{
 					label: `${t("events")}`,
@@ -76,7 +78,7 @@ export default function Sidebar() {
 						dispatch(closeDrawer(false));
 					},
 					isActive: matchesRegex(/^\/events$/),
-					id: "step-10",
+					id: "step-9",
 				},
 				{
 					label: `${t("notifications")}`,
@@ -98,7 +100,7 @@ export default function Sidebar() {
 						dispatch(closeDrawer(false));
 					},
 					isActive: matchesRegex(/^\/notifications$/),
-					id: "step-11",
+					id: "step-10",
 				},
 			] as ISideButton[],
 		[router, saveCountNotifications, t, dispatch]
@@ -160,7 +162,7 @@ export default function Sidebar() {
 					dispatch(closeDrawer(false));
 				}}
 			>
-				<div className="w-12 h-12 rounded-full bg-gray50 items-center flex justify-center mr-3">
+				<div className={`w-12 h-12 rounded-full bg-gray50 items-center flex justify-center mr-3 tablet:hidden ${windowSize.width <= 600 && "step-12"}`}>
 					<Image src={Logo} alt="logo" width={20} height={20} />
 				</div>
 				<div className="flex flex-col">
@@ -176,7 +178,7 @@ export default function Sidebar() {
 					</BodyTwo>
 					<BodyTwo
 						$color="white"
-						className="flex flex-row items-center gap-1"
+						className={`flex flex-row items-center gap-1 ${windowSize.width <= 600 && "step-11"}`}
 					>
 						{t("last_update")}, <b>{format(date, "p")}</b>
 						<Icon
