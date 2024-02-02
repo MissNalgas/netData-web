@@ -21,19 +21,18 @@ RUN apt install dnsutils nano -y
 
 
 #  INSTALL NODEJS VERSION
-RUN . "$HOME/.nvm/nvm.sh" && nvm install 20.9.0
-RUN . "$HOME/.nvm/nvm.sh" && nvm use 20.9.0
+RUN . "$HOME/.nvm/nvm.sh" && nvm install ${NODE_VERSION}
+
 # Remove docker config folder
 RUN rm -rf dockerConfig
 
 # INSTALL AND BUILD PACKAGES
-RUN . "$HOME/.nvm/nvm.sh" && npm cache clean --force
-RUN . "$HOME/.nvm/nvm.sh" && npm i
-# RUN . "$HOME/.nvm/nvm.sh" && npm run build
+RUN . "$HOME/.nvm/nvm.sh" && npm install
+RUN . "$HOME/.nvm/nvm.sh" && npm run build
 
 # UPDATE NGINX PORT CONFIG with envsubst
 RUN envsubst '$SERVER_APP_PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx_updated.conf
 RUN rm -rf /etc/nginx/nginx.conf && mv /etc/nginx/nginx_updated.conf /etc/nginx/nginx.conf
 
 #  START APP
-CMD . "$HOME/.nvm/nvm.sh" && service nginx start && npm run dev
+CMD . "$HOME/.nvm/nvm.sh" && service nginx start && npm run start
