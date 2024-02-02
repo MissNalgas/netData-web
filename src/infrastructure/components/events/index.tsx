@@ -318,6 +318,7 @@ export default function EventsTemplate() {
 				</div>
 			) : (
 				<EventsCibersecurity
+					isFilteringByOpen
 					showCard={false}
 					showEventsDay={showEventsDay ?? false}
 				/>
