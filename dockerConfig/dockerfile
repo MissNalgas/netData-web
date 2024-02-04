@@ -36,4 +36,4 @@ RUN envsubst '$SERVER_APP_PORT' < /etc/nginx/nginx.conf > /etc/nginx/nginx_updat
 RUN rm -rf /etc/nginx/nginx.conf && mv /etc/nginx/nginx_updated.conf /etc/nginx/nginx.conf
 
 #  START APP
-CMD . "$HOME/.nvm/nvm.sh" && service nginx start && yarn start
+CMD . "$HOME/.nvm/nvm.sh" && service nginx start && yarn start dev
