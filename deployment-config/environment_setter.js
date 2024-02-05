@@ -12,4 +12,6 @@ for (const varName of ENV_VARS) {
 
 (async () => {
 	await fs.writeFile("./.env", contentVariables, "utf8");
+	await fs.writeFile("./env.development", contentVariables, "utf8")
+	await fs.writeFile("./env.production", contentVariables, "utf8");
 })();
