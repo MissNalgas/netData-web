@@ -142,12 +142,14 @@ export default function TicketDetail({ ticket, onClose }: TicketDetailProps) {
 			<iframe
 				className="w-full rounded p-2 bg-gray-100"
 				height={300}
-				src={`/chart/heatmap?height=300&status=open&date=${formatDateDTO(ticket.createdAt)}`}
+				src={`/chart/heatmap?height=300&status=open&date=${formatDateDTO(
+					ticket.createdAt
+				)}`}
 				title="heatmap"
 			/>
 			<PentaContainerGrid>
 				{grid.map((item, index) => (
-					<Fragment key={index}>
+					<Fragment key={item}>
 						{item === 1 ? (
 							<CategoryCircle
 								onClick={() =>

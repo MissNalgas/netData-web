@@ -3,13 +3,13 @@ export interface GetIdTicketPayload {
 }
 
 export type ChatState = {
-	data: chatObject[];
+	data: ChatObject[];
 	success: boolean;
 	pending: boolean;
 	error: boolean;
 };
 
-export interface chatObject {
+export interface ChatObject {
 	attachments: any[];
 	bcc_emails: any[];
 	body: string;

@@ -23,12 +23,7 @@ export interface SendMessage {
 }
 
 export interface IResponseServiceChatDTO {
-	statusText:
-		| string
-		| "SUCCESS"
-		| "FAILED"
-		| "CodeMismatchException"
-		| "ExpiredCodeException";
+	statusText: string;
 	status: number | string;
 	data: any;
 	code?: string;

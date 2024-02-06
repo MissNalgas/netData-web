@@ -76,7 +76,7 @@ export interface Saving {
 	f: number;
 }
 
-export interface responseGraphic {
+export interface ResponseGraphic {
 	data: IGraphicWeek;
 }
 export interface IGraphicWeek {
@@ -85,14 +85,14 @@ export interface IGraphicWeek {
 	tickets?: Ticket[];
 }
 
-export interface filtersGraphicDay {
+export interface FiltersGraphicDay {
 	priority: TicketPriority;
 	type: "general" | "cybersecurity";
 	day: "today" | "yesterday";
 	status: "open" | "closed";
 }
 
-export interface responseGraphicDay {
+export interface ResponseGraphicDay {
 	data: IGraphicDay;
 }
 

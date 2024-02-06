@@ -155,6 +155,7 @@ export default function Sidebar() {
 				height={26}
 			/>
 			<div
+				aria-hidden="true"
 				className="cel:flex tablet:hidden items-center mb-5 border-b-white border-b cel:py-4 tablet:py-0"
 				onClick={() => {
 					router.push("/profile");
@@ -203,6 +204,7 @@ export default function Sidebar() {
 			<SideButton
 				label={t("close_sesion")}
 				icon={() => <Icon icon="Logout" size={24} color="white" />}
+				aria-hidden="true"
 				onClick={() => {
 					logOut();
 					localStorage.removeItem("tokenApp");

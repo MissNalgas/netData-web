@@ -1,7 +1,7 @@
 import { IUser } from "@domain/models";
 import { userRecoverRepository } from "@infrastructure/api/repositories/recover-password/recover.repository";
 import { userRepository } from "@infrastructure/api/repositories/user/user.repository";
-import { getDataChangePasswordDTO } from "@infrastructure/model";
+import { GetDataChangePasswordDTO } from "@infrastructure/model";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import initialState from "infrastructure/store/user/initial-state";
 import {
@@ -41,7 +41,7 @@ const validateOTP = createAsyncThunk<string, ValidateOTPPayload>(
 	}
 );
 
-const resetState = createAsyncThunk("user/cleanData", async (_, {}) => {
+const resetState = createAsyncThunk("user/cleanData", async (_) => {
 	localStorage.removeItem("tokenApp");
 	localStorage.removeItem("isExpired");
 	return initialState.user;
@@ -69,7 +69,7 @@ const recoverPassword = createAsyncThunk(
 
 const changePassword = createAsyncThunk(
 	"user/changePassword",
-	async ({ mail, code, newPassword }: getDataChangePasswordDTO) => {
+	async ({ mail, code, newPassword }: GetDataChangePasswordDTO) => {
 		const response = await userRecoverRepository.changePassword(
 			mail,
 			code,

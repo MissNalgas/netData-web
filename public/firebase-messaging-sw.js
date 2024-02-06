@@ -104,7 +104,7 @@ function isVersionServiceProvider(provider) {
   return (component === null || component === void 0 ? void 0 : component.type) === "VERSION" /* ComponentType.VERSION */;
 }
 var name$o = "@firebase/app";
-var version$1 = "0.9.26";
+var version$1 = "0.9.25";
 
 /**
  * @license
@@ -147,7 +147,7 @@ var name$3 = "@firebase/storage-compat";
 var name$2 = "@firebase/firestore";
 var name$1 = "@firebase/firestore-compat";
 var name = "firebase";
-var version = "10.7.2";
+var version = "10.7.1";
 
 /**
  * @license
@@ -657,14 +657,7 @@ function getDbPromise() {
         // eslint-disable-next-line default-case
         switch (oldVersion) {
           case 0:
-            try {
-              db.createObjectStore(STORE_NAME);
-            } catch (e) {
-              // Safari/iOS browsers throw occasional exceptions on
-              // db.createObjectStore() that may be a bug. Avoid blocking
-              // the rest of the app functionality.
-              console.warn(e);
-            }
+            db.createObjectStore(STORE_NAME);
         }
       }
     })["catch"](function (e) {
@@ -7771,7 +7764,7 @@ Object.keys(_app).forEach(function (key) {
   });
 });
 var name = "firebase";
-var version = "10.7.2";
+var version = "10.7.1";
 
 /**
  * @license
@@ -8143,7 +8136,7 @@ process.umask = function () {
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-/*! *****************************************************************************
+/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -8157,12 +8150,16 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-/* global global, define, System, Reflect, Promise */
+/* global global, define, Symbol, Reflect, Promise, SuppressedError */
 var __extends;
 var __assign;
 var __rest;
 var __decorate;
 var __param;
+var __esDecorate;
+var __runInitializers;
+var __propKey;
+var __setFunctionName;
 var __metadata;
 var __awaiter;
 var __generator;
@@ -8181,7 +8178,10 @@ var __importStar;
 var __importDefault;
 var __classPrivateFieldGet;
 var __classPrivateFieldSet;
+var __classPrivateFieldIn;
 var __createBinding;
+var __addDisposableResource;
+var __disposeResources;
 (function (factory) {
   var root = (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" ? global : (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" ? self : _typeof(this) === "object" ? this : {};
   if (typeof define === "function" && define.amd) {
@@ -8250,6 +8250,59 @@ var __createBinding;
       decorator(target, key, paramIndex);
     };
   };
+  __esDecorate = function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) {
+      if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected");
+      return f;
+    }
+    var kind = contextIn.kind,
+      key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _,
+      done = false;
+    for (var i = decorators.length - 1; i >= 0; i--) {
+      var context = {};
+      for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+      for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+      context.addInitializer = function (f) {
+        if (done) throw new TypeError("Cannot add initializers after decoration has completed");
+        extraInitializers.push(accept(f || null));
+      };
+      var result = (0, decorators[i])(kind === "accessor" ? {
+        get: descriptor.get,
+        set: descriptor.set
+      } : descriptor[key], context);
+      if (kind === "accessor") {
+        if (result === void 0) continue;
+        if (result === null || _typeof(result) !== "object") throw new TypeError("Object expected");
+        if (_ = accept(result.get)) descriptor.get = _;
+        if (_ = accept(result.set)) descriptor.set = _;
+        if (_ = accept(result.init)) initializers.unshift(_);
+      } else if (_ = accept(result)) {
+        if (kind === "field") initializers.unshift(_);else descriptor[key] = _;
+      }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+  };
+  __runInitializers = function __runInitializers(thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+      value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+  };
+  __propKey = function __propKey(x) {
+    return _typeof(x) === "symbol" ? x : "".concat(x);
+  };
+  __setFunctionName = function __setFunctionName(f, name, prefix) {
+    if (_typeof(name) === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+    return Object.defineProperty(f, "name", {
+      configurable: true,
+      value: prefix ? "".concat(prefix, " ", name) : name
+    });
+  };
   __metadata = function __metadata(metadataKey, metadataValue) {
     if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
   };
@@ -8308,7 +8361,7 @@ var __createBinding;
     }
     function step(op) {
       if (f) throw new TypeError("Generator is already executing.");
-      while (_) try {
+      while (g && (g = 0, op[0] && (_ = 0)), _) try {
         if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
         if (y = 0, t) op = [op[0] & 2, t.value];
         switch (op[0]) {
@@ -8373,12 +8426,16 @@ var __createBinding;
   };
   __createBinding = Object.create ? function (o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, {
-      enumerable: true,
-      get: function get() {
-        return m[k];
-      }
-    });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = {
+        enumerable: true,
+        get: function get() {
+          return m[k];
+        }
+      };
+    }
+    Object.defineProperty(o, k2, desc);
   } : function (o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -8441,7 +8498,7 @@ var __createBinding;
         ar[i] = from[i];
       }
     }
-    return to.concat(ar || from);
+    return to.concat(ar || Array.prototype.slice.call(from));
   };
   _await = function __await(v) {
     return this instanceof _await ? (this.v = v, this) : new _await(v);
@@ -8492,7 +8549,7 @@ var __createBinding;
       i[n] = o[n] ? function (v) {
         return (p = !p) ? {
           value: _await(o[n](v)),
-          done: n === "return"
+          done: false
         } : f ? f(v) : v;
       } : f;
     }
@@ -8561,11 +8618,70 @@ var __createBinding;
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value), value;
   };
+  __classPrivateFieldIn = function __classPrivateFieldIn(state, receiver) {
+    if (receiver === null || _typeof(receiver) !== "object" && typeof receiver !== "function") throw new TypeError("Cannot use 'in' operator on non-object");
+    return typeof state === "function" ? receiver === state : state.has(receiver);
+  };
+  __addDisposableResource = function __addDisposableResource(env, value, async) {
+    if (value !== null && value !== void 0) {
+      if (_typeof(value) !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+      var dispose;
+      if (async) {
+        if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+        dispose = value[Symbol.asyncDispose];
+      }
+      if (dispose === void 0) {
+        if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+        dispose = value[Symbol.dispose];
+      }
+      if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+      env.stack.push({
+        value: value,
+        dispose: dispose,
+        async: async
+      });
+    } else if (async) {
+      env.stack.push({
+        async: true
+      });
+    }
+    return value;
+  };
+  var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+  };
+  __disposeResources = function __disposeResources(env) {
+    function fail(e) {
+      env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+      env.hasError = true;
+    }
+    function next() {
+      while (env.stack.length) {
+        var rec = env.stack.pop();
+        try {
+          var result = rec.dispose && rec.dispose.call(rec.value);
+          if (rec.async) return Promise.resolve(result).then(next, function (e) {
+            fail(e);
+            return next();
+          });
+        } catch (e) {
+          fail(e);
+        }
+      }
+      if (env.hasError) throw env.error;
+    }
+    return next();
+  };
   exporter("__extends", __extends);
   exporter("__assign", __assign);
   exporter("__rest", __rest);
   exporter("__decorate", __decorate);
   exporter("__param", __param);
+  exporter("__esDecorate", __esDecorate);
+  exporter("__runInitializers", __runInitializers);
+  exporter("__propKey", __propKey);
+  exporter("__setFunctionName", __setFunctionName);
   exporter("__metadata", __metadata);
   exporter("__awaiter", __awaiter);
   exporter("__generator", __generator);
@@ -8585,6 +8701,9 @@ var __createBinding;
   exporter("__importDefault", __importDefault);
   exporter("__classPrivateFieldGet", __classPrivateFieldGet);
   exporter("__classPrivateFieldSet", __classPrivateFieldSet);
+  exporter("__classPrivateFieldIn", __classPrivateFieldIn);
+  exporter("__addDisposableResource", __addDisposableResource);
+  exporter("__disposeResources", __disposeResources);
 });
 
 }).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})

@@ -4,13 +4,16 @@ import ContainerBackground from "@shared/components/containerBackground";
 import {
 	Body,
 	CaptionOne,
+	Overline,
 	SubtitleLink,
 } from "@shared/components/labels/styled";
 import { formatDateDTO } from "@shared/utils";
-import theme from "@theme/index";
+import { useConstCard } from "@shared/utils/hooks";
+import { useTheme } from "styled-components";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import CircleStatus from "@shared/components/circleStatus";
 
 interface EventsProps {
 	showCard?: boolean;
@@ -27,10 +30,12 @@ export default function EventsCibersecurity({
 	const router: any = useRouter();
 	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-
-	const openClosedFilter = useMemo(() =>
-		`status=${isFilteringByOpen ? "open" : "closed"}`
-	, [isFilteringByOpen]);
+	const theme = useTheme();
+	const status = useConstCard();
+	const openClosedFilter = useMemo(
+		() => `status=${isFilteringByOpen ? "open" : "closed"}`,
+		[isFilteringByOpen]
+	);
 
 	return (
 		<div className="p-5">
@@ -51,13 +56,34 @@ export default function EventsCibersecurity({
 					<SubtitleLink $weight={theme.fontWeight.semiBold}>
 						{t("events_for_priority")}
 					</SubtitleLink>
-					<iframe
-						src={`/chart/prioritydonut?date=${formatDateDTO(
-							selectedDate
-						)}&${openClosedFilter}`}
-						title="prioritydonut"
-						className="w-full h-[300px]"
-					/>
+					<div className="flex-column tablet:flex justify-between items-center">
+						<iframe
+							src={`/chart/prioritydonut?date=${formatDateDTO(
+								selectedDate
+							)}&${openClosedFilter}`}
+							title="prioritydonut"
+							className="w-full h-[300px]"
+						/>
+						<div className="grid gap-1 grid-cols-2 tablet:flex tablet:flex-col">
+							{status.map((item) => (
+								<div
+									key={item.state}
+									className={`flex border items-center my-5 mr-5 p-1 rounded-lg ${item.border}`}
+								>
+									<CircleStatus
+										internalColor={item.internalColor}
+										externalColor={item.externalColor}
+									/>
+									<Overline
+										$weight={theme.fontWeight.semiBold}
+										$color={item.color}
+									>
+										{item.state}
+									</Overline>
+								</div>
+							))}
+						</div>
+					</div>
 				</ContainerBackground>
 				{showCard && (
 					<ContainerBackground className="flex-1 w-full tablet:w-3/12 mb-5 p-8">
@@ -65,7 +91,9 @@ export default function EventsCibersecurity({
 							{t("tickets_open_week")}
 						</Body>
 						<CalendarComponent
-							onChange={(e: any) => e && e instanceof Date && setSelectedDate(e)}
+							onChange={(e: any) =>
+								e && e instanceof Date && setSelectedDate(e)
+							}
 							value={selectedDate}
 						/>
 					</ContainerBackground>
@@ -94,7 +122,9 @@ export default function EventsCibersecurity({
 						/>
 					</div>
 					<iframe
-						src={`/chart/categorybars?date=${formatDateDTO(selectedDate)}&${openClosedFilter}`}
+						src={`/chart/categorybars?date=${formatDateDTO(
+							selectedDate
+						)}&${openClosedFilter}`}
 						className="w-full h-[300px]"
 						title="categorybars"
 					/>

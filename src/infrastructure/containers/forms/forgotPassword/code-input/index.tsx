@@ -133,15 +133,23 @@ export default function CodeInputForm({
 				</Overline>
 				<Overline
 					onClick={sendAgainAction}
-          $color={theme.colors.orange}
-          className="cel:block tablet:ml-2 tablet:inline cursor-pointer"
+					$color={theme.colors.orange}
+					className="cel:block tablet:ml-2 tablet:inline cursor-pointer"
 				>
 					{t("register:send_again_code")}
 				</Overline>
 			</div>
-			<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer" onClick={handleClickArrow}>
-			    <Icon icon="left-arrow" size="32"/>
-				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline">
+			<div
+				className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer"
+				onClick={handleClickArrow}
+				aria-hidden="true"
+			>
+				<Icon icon="left-arrow" size="32" />
+				<Overline
+					$color={theme.colors.gray50}
+					$weight={600}
+					className="cel:block tablet:ml-2 tablet:inline"
+				>
 					{t("recover_password:go_back")}
 				</Overline>
 			</div>

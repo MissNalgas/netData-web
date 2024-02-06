@@ -66,6 +66,7 @@ export default function ModalTooltip(props: ModalProps) {
 	return (
 		<div
 			onClick={onActionModal}
+			aria-hidden="true"
 			className={modalStyles}
 			style={{
 				zIndex: 99999,
@@ -80,7 +81,7 @@ export default function ModalTooltip(props: ModalProps) {
 						borderRadius: "38px",
 						translate: "transform(50%, 50%)",
 						...tooltipStyles,
-					}) || {
+					}) ?? {
 						zIndex: 99999,
 						width: "fit-content",
 						top: modalPosition.top,

@@ -31,6 +31,7 @@ export default function InformationCard(props: InformationCardProps) {
 	return (
 		<div
 			onClick={onClick}
+			aria-hidden="true"
 			style={{
 				backgroundColor: bgColor,
 			}}

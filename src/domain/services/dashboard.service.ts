@@ -3,11 +3,11 @@ import {
 	IGraphicDay,
 	IGraphicWeek,
 	TicketPriority,
-	filtersGraphicDay,
+	FiltersGraphicDay,
 } from "@domain/models";
 
 export interface IDashboardService {
 	getDashboardData(): Promise<IDashboard>;
 	getGraphicWeek(_priority: TicketPriority): Promise<IGraphicWeek>;
-	getGraphicDay(_filters: filtersGraphicDay): Promise<IGraphicDay>;
+	getGraphicDay(_filters: FiltersGraphicDay): Promise<IGraphicDay>;
 }

@@ -43,9 +43,9 @@ export const PrimaryButton = styled.button<ButtonProps>`
 			width: [
 				"100%",
 				"100%",
-				`${width}%` || "100%",
-				`${width}%` || "100%",
-				`${width}%` || "100%",
+				width ? `${width}%` : "100%",
+				width ? `${width}%` : "100%",
+				width ? `${width}%` : "100%",
 			],
 		})}
 `;
@@ -78,9 +78,9 @@ export const SecondaryButton = styled.button<ButtonProps>`
 			width: [
 				"100%",
 				"100%",
-				`${width}%` || "100%",
-				`${width}%` || "100%",
-				`${width}%` || "100%",
+				width ? `${width}%` : "100%",
+				width ? `${width}%` : "100%",
+				width ? `${width}%` : "100%",
 			],
 		})}
 `;

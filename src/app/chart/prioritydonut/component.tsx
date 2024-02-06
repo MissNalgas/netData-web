@@ -35,10 +35,10 @@ export default function PriorityDonut() {
 		const colors = ["#75dad4", "#73259a", "#f99e17", "#b01212"];
 		const transformedData = Object.entries(data)
 			.filter(([key]) => mappedKeys.includes(key))
-			.map(([key, value], index) => {
+			.map(([_, value], index) => {
 				return {
 					value,
-					name: key,
+					name: value,
 					color: colors[index],
 				};
 			});
@@ -49,32 +49,22 @@ export default function PriorityDonut() {
 			legend: {
 				top: "5%",
 				left: "center",
+				show: false,
 			},
 			series: [
 				{
-					name: "Access From",
+					name: "Nightingale Chart",
 					type: "pie",
 					radius: ["40%", "70%"],
+					roseType: "area",
+
 					avoidLabelOverlap: false,
-					label: {
-						show: false,
-						position: "center",
-					},
-					emphasis: {
-						label: {
-							show: true,
-							fontSize: 40,
-							fontWeight: "bold",
-						},
-					},
-					labelLine: {
-						show: false,
-					},
 					itemStyle: {
 						color: (obj: any) => {
 							return obj.data?.color || "red";
 						},
 					},
+
 					data: transformedData,
 					mockdata: [
 						{ value: 1048, name: "Bajo", color: "#75DAD4" },

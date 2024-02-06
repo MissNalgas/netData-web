@@ -31,7 +31,7 @@ class ChatRepository implements IChatService {
 			}
 		);
 		return ChatAdapter.responseService({
-			statusText: dataResponse.statusText,
+			statusText: dataResponse.statusText ?? "",
 			status: dataResponse.status,
 			data: dataResponse.data,
 		});

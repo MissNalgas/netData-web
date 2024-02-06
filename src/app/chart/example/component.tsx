@@ -1,6 +1,7 @@
 "use client";
 import { useTicketPerCategory } from "@infrastructure/api/hooks";
 import Chart from "@shared/components/chart";
+import LoaderComponent from "@shared/components/loader";
 import { PieChart } from "echarts/charts";
 import { LegendComponent } from "echarts/components";
 import { LabelLayout } from "echarts/features";
@@ -45,6 +46,9 @@ export default function ExampleChart() {
 			],
 		};
 	}, [data, i18n]);
+
+	if (data === null) return <div>Error loading the data</div>;
+	if (data === undefined) return <LoaderComponent />;
 
 	return <Chart options={option} loadComponents={loadComponentes.current} />;
 }
