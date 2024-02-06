@@ -70,13 +70,13 @@ spec:
   rules:
     - http:
         paths:
-          - path: $API_PREFIX
-            pathType: Prefix
-            backend:
-              service:
-                name: ssl-redirect
-                port:
-                  name: use-annotation
+ #         - path: $API_PREFIX
+ #           pathType: Prefix
+ #           backend:
+ #             service:
+ #               name: ssl-redirect
+ #               port:
+ #                 name: use-annotation
           - path: $API_PREFIX
             pathType: Prefix
             backend:
