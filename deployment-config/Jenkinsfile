@@ -86,7 +86,7 @@ pipeline {
       steps {
         echo 'Deploying...'
         sh '' 
-        sh '/var/lib/kubectl apply -f deployment-config/kubernetes-manifest.yml -n sentria-qa'
+        sh '/var/lib/kubectl apply -f deployment-config/kubernetes-manifest.yml -n sentria-dev'
         echo "pase"
       }
     }
