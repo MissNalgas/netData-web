@@ -56,7 +56,7 @@ metadata:
     alb.ingress.kubernetes.io/group.name: $ALB_GROUP_NAME
     alb.ingress.kubernetes.io/load-balancer-name: $ALB_NAME
     alb.ingress.kubernetes.io/security-groups: $ALB_SECURITY_GROUP
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
     alb.ingress.kubernetes.io/healthcheck-port: 'traffic-port'
     alb.ingress.kubernetes.io/healthcheck-protocol: 'HTTP'
     alb.ingress.kubernetes.io/healthcheck-path: '/landing'
