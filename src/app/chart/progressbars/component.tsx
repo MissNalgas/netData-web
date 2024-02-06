@@ -1,4 +1,6 @@
 "use client"
+import { TicketPriority } from "@domain/models";
+import { useGetEventsWeek } from "@infrastructure/api/hooks";
 import { ContainerFlex } from "@infrastructure/components/dashboard/styled";
 import Chart from "@shared/components/chart";
 import CircleStatus from "@shared/components/circleStatus";
@@ -9,7 +11,7 @@ import { BarChart } from "echarts/charts";
 import { GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function ProgressBarChart() {
@@ -19,14 +21,8 @@ export default function ProgressBarChart() {
 		CanvasRenderer,
 		GridComponent,
 	]);
-	const [data, setData] = useState({ open: 0, closed: 0 });
-	const searchParams = useSearchParams();
-
-	useEffect(() => {
-        const open = Number(searchParams.get("events-open") || 0);
-        const closed = Number(searchParams.get("events-closed") || 0);
-        setData({open, closed})
-	}, [searchParams]);
+    const dateGraphic = useSearchParams().get("date");
+    const data = useGetEventsWeek(TicketPriority.All, dateGraphic);
 
 	const options = useMemo(() => {
 		if (!data) return {};

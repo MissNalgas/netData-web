@@ -5,6 +5,8 @@ import {
 	ITicketPerCategory,
 	ITicketPerPriority,
 	ITicketPerWeek,
+	TicketPriority,
+	IGraphicWeek,
 } from "@domain/models";
 import { useEffect, useState } from "react";
 import { ticketRepository } from "../repositories/tickets";
@@ -103,6 +105,26 @@ export function useTicketPerSolution(filters?: IFilters) {
 				setData(null);
 			});
 	}, [filters]);
+
+	return data;
+}
+
+export function useGetEventsWeek(
+	priority: TicketPriority,
+	date?: string | null
+) {
+	const [data, setData] = useState<IGraphicWeek | null>();
+
+	useEffect(() => {
+		if (!priority) return;
+
+		ticketRepository
+			.getEventsWeek(priority, date)
+			.then(setData)
+			.catch(() => {
+				setData(null);
+			});
+	}, [priority, date]);
 
 	return data;
 }
