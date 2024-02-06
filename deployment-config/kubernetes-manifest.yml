@@ -21,15 +21,16 @@ spec:
         - image: $APP_ECR_IMAGE_URI
           name: $APP_NAME-container
           imagePullPolicy: Always
-          resources:
-            limits:
-              cpu: $CPU_LIMIT
-              memory: $MEMORY_LIMIT
+          resources: {}
+          #   limits:
+          #     cpu: $CPU_LIMIT
+          #     memory: $MEMORY_LIMIT
           ports:
             - containerPort: 80
 status: {}
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -42,6 +43,7 @@ spec:
     app: $APP_NAME
 
 ---
+
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -54,19 +56,27 @@ metadata:
     alb.ingress.kubernetes.io/group.name: $ALB_GROUP_NAME
     alb.ingress.kubernetes.io/load-balancer-name: $ALB_NAME
     alb.ingress.kubernetes.io/security-groups: $ALB_SECURITY_GROUP
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}'
     alb.ingress.kubernetes.io/healthcheck-port: 'traffic-port'
     alb.ingress.kubernetes.io/healthcheck-protocol: 'HTTP'
-    alb.ingress.kubernetes.io/healthcheck-path: $API_PREFIX/healthcheck
+    alb.ingress.kubernetes.io/healthcheck-path: '/landing'
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'
     alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '10'
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '10'
     alb.ingress.kubernetes.io/success-codes: '200-299'
+    alb.ingress.kubernetes.io/force-sync: true
 spec:
   rules:
     - http:
         paths:
+ #         - path: $API_PREFIX
+ #           pathType: Prefix
+ #           backend:
+ #             service:
+ #               name: ssl-redirect
+ #               port:
+ #                 name: use-annotation
           - path: $API_PREFIX
             pathType: Prefix
             backend:
@@ -76,24 +86,22 @@ spec:
                   number: 80
 
 ---
-# HorizontalPodAutoscaler
-apiVersion: autoscaling/v2beta1
+
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: $APP_NAME-hpa
 spec:
-  maxReplicas: 3 # define max replica count
-  minReplicas: 1 # define min replica count
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: $APP_NAME
+  minReplicas: 1
+  maxReplicas: 3
   metrics:
     - type: Resource
       resource:
         name: cpu
-        targetAverageUtilization: 90
-    - type: Resource
-      resource:
-        name: memory
-        targetAverageUtilization: 90
+        target:
+          type: Utilization
+          averageUtilization: 50

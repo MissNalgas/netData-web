@@ -15,7 +15,6 @@ import { allEvents } from "@shared/utils/eventsList";
 import {
 	getDataDashboard,
 	getDataGraphicDay,
-	getDataGraphicWeek,
 } from "@infrastructure/store/dashboard/actions";
 import { useAppDispatch } from "@hooks/use-dispatch";
 import Topbar from "@shared/components/topbar";
@@ -28,7 +27,7 @@ import { useRefetch } from "@infrastructure/containers/refetch";
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
 	const dispatch = useAppDispatch();
-	const { dashboard, loading, graphicWeek, graphicDay } = useSelector(
+	const { dashboard, loading, graphicDay } = useSelector(
 		(state: RootState) => state.dashboard
 	);
 	const [day, setDay] = useState<"today" | "yesterday">("today");
@@ -38,7 +37,6 @@ export default function Dashboard() {
 
 	const fetchData = useCallback(() => {
 		dispatch(getDataDashboard()).unwrap();
-		dispatch(getDataGraphicWeek(TicketPriority.All)).unwrap();
 		dispatch(
 			getDataGraphicDay({
 				day: day,
@@ -131,10 +129,7 @@ export default function Dashboard() {
 						numIncidents={graphicDay?.High ?? 0}
 					/>
 					{/* Events week card*/}
-					<EventsWeekCard
-						open={graphicWeek?.open}
-						closed={graphicWeek?.closed}
-					/>
+					<EventsWeekCard isToday={day === "today"}/>
 					{/* Saving month card*/}
 					<SavingMonthCard saving={dashboard?.today?.saving?.f} />
 				</div>

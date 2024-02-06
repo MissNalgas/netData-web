@@ -5,12 +5,21 @@ import { ContainerFlex } from "../styled";
 import theme from "@theme/index";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/navigation";
-import { IGraphicWeek } from "@domain/models";
+import { formatDateDTO } from "@shared/utils";
+import { useEffect, useState } from "react";
 
-export default function EventsWeekCard(props: IGraphicWeek) {
-    const { open, closed } = props;
+export default function EventsWeekCard({ isToday }: { isToday: boolean }) {
     const { t } = useTranslation("dashboard");
     const router = useRouter();
+    const [date, setDate] = useState(new Date);
+
+    useEffect(() => {
+        let dateGraphic = new Date();
+        if(!isToday) {
+            dateGraphic.setDate(dateGraphic.getDate() -1);
+        }
+        setDate(dateGraphic);
+    }, [isToday]);
 
     return (
         <ContainerBackground className="my-4" id="step-5">
@@ -19,7 +28,7 @@ export default function EventsWeekCard(props: IGraphicWeek) {
                 <Arrow action={() => router.push("/events-cibersecurity")} nameIcon="right-arrow"/>
             </ContainerFlex>
             <iframe
-                src={`/chart/progressbars?height=500&events-open=${open}&events-closed=${closed}`}
+                src={`/chart/progressbars?height=500&date=${formatDateDTO(date)}`}
                 className="h-[80px] w-full flex pt-2"
                 title="solutionbars"
             />

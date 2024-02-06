@@ -5,6 +5,8 @@ import {
 	ITicketPerCategory,
 	ITicketPerPriority,
 	ITicketPerWeek,
+	TicketPriority,
+	IGraphicWeek,
 } from "@domain/models";
 import { ITicketService } from "@domain/services/ticket.service";
 import { TicketAdapter } from "@infrastructure/adapters";
@@ -129,6 +131,23 @@ class TicketRepository implements ITicketService {
 			{ params: TicketAdapter.paramsFromFilter(filters) }
 		);
 		return TicketAdapter.ticketPerSolutionFromDTO(response.data);
+	}
+
+	async getEventsWeek(
+		priority: TicketPriority,
+		date?: string | null
+	): Promise<IGraphicWeek> {
+		const axios = await createAxiosApp();
+		const response = await axios.get<IGraphicWeek>(
+			"/api/xelco/graphic/week_oc",
+			{
+				params: {
+					priority,
+					date,
+				},
+			}
+		);
+		return response.data;
 	}
 }
 
