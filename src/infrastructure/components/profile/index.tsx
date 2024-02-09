@@ -178,7 +178,7 @@ export default function ProfileComponent(): JSX.Element {
 								<Icon icon="office-building1" size={24} />
 							</span>
 							<CaptionOne className="text-primary" $weight={600}>
-								{JSON.parse(auth?.user?.company).name}
+								{JSON.parse(auth?.user?.company)}
 							</CaptionOne>
 						</div>
 					</div>
