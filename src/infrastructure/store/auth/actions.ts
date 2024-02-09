@@ -4,17 +4,19 @@ import {
 	GetEmailUserPayload,
 	IRegisterAccount,
 	RegisterResponseError,
+	ResponseCheckMailFailed,
+	ResponseCheckMailSuccessful,
 } from "./types";
 import { IFormResponse } from "@domain/models";
 
-const validateEmail = createAsyncThunk<string, GetEmailUserPayload>(
-	"auth/getData",
-	async (payload: GetEmailUserPayload) => {
-		const { email } = payload;
-		const validation = await authRepository.validateIfEmailExists(email);
-		return validation;
-	}
-);
+const validateEmail = createAsyncThunk<
+	ResponseCheckMailSuccessful | ResponseCheckMailFailed,
+	GetEmailUserPayload
+>("auth/getData", async (payload: GetEmailUserPayload) => {
+	const { email } = payload;
+	const validation = await authRepository.validateIfEmailExists(email);
+	return validation;
+});
 
 const registerDataForm = createAsyncThunk<
 	RegisterResponseError | IFormResponse,

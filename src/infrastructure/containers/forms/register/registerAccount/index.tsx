@@ -64,6 +64,8 @@ export default function RegisterAccountForm({ onSubmit }: RegisterAccountFormPro
                 name="company"
                 render={({ field }) => (
                     <TextInput
+                        disabled
+                        value="Netdata - SENTRIA"
                         name={field.name}
                         label={t("company_name")}
                         placeholder={t("company_name")}

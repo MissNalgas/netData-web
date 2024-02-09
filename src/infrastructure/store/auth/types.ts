@@ -8,6 +8,17 @@ export interface GetEmailUserPayload {
 	email: string;
 }
 
+export interface ResponseCheckMailSuccessful {
+	id: number;
+	idRequester: number;
+	name: string;
+}
+
+export interface ResponseCheckMailFailed {
+	message: string;
+	id?: number;
+}
+
 export interface IRegisterAccount {
 	data: {
 		name: string;
@@ -17,6 +28,7 @@ export interface IRegisterAccount {
 		repeatPassword: string;
 	};
 	email: string;
+	company: string;
 }
 
 export interface IFormRegister {

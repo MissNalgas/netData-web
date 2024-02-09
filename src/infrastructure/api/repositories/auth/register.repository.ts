@@ -1,4 +1,4 @@
-import { IFormResponse, IRegister } from "@domain/models/register";
+import { IFormResponse } from "@domain/models/register";
 import { IAuthService } from "@domain/services/auth.service";
 import { createAxios } from "@infrastructure/api/http/axios";
 import { VAPID_KEY } from "@shared/constants";
@@ -7,19 +7,22 @@ import firebaseApp from "@shared/utils/firebase";
 import {
 	IRegisterAccount,
 	RegisterResponseError,
+	ResponseCheckMailFailed,
+	ResponseCheckMailSuccessful,
 } from "@infrastructure/store/auth/types";
 class AuthRepository implements IAuthService {
-	async validateIfEmailExists(email: string): Promise<string> {
+	async validateIfEmailExists(
+		email: string
+	): Promise<ResponseCheckMailSuccessful | ResponseCheckMailFailed> {
 		const axios = await createAxios();
 
-		const emailResponse = await axios.post<IRegister>(
-			"/api/auth/checkMail",
-			{
-				mail: email,
-			}
-		);
+		const emailResponse = await axios.post<
+			ResponseCheckMailSuccessful | ResponseCheckMailFailed
+		>("/api/auth/checkMail", {
+			mail: email,
+		});
 
-		return emailResponse.data.message;
+		return emailResponse.data;
 	}
 
 	async registerUser(
@@ -43,8 +46,7 @@ class AuthRepository implements IAuthService {
 			mail: info.email,
 			name: info.data.name,
 			lastName: info.data.lastName,
-			company:
-				'{"id":13000702226,"name":"NETDATAAPPSENTRIA","idRequester":13002267148}',
+			company: info.company,
 			password: info.data.password,
 			token: messagingToken,
 		});
