@@ -51,7 +51,7 @@ export default function EventsCibersecurity({
 				<ContainerBackground
 					className={`flex-initial w-full ${
 						!!showCard && "tablet:w-8/12"
-					} mr-5 p-8 mb-5`}
+					}  p-8 mb-5`}
 				>
 					<SubtitleLink $weight={theme.fontWeight.semiBold}>
 						{t("events_for_priority")}
@@ -102,7 +102,7 @@ export default function EventsCibersecurity({
 				<ContainerBackground
 					className={`flex-initial w-full ${
 						!!showCard && "tablet:w-8/12"
-					} mr-5 p-8 mb-5`}
+					} p-8 mb-5`}
 				>
 					<div className="flex justify-between">
 						<SubtitleLink $weight={theme.fontWeight.semiBold}>

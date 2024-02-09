@@ -5,7 +5,7 @@ import {
 import { useCallback, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@hooks/index";
-import { IFormRegister } from "@infrastructure/store/auth/types";
+import { IFormRegister, ResponseCheckMailFailed, ResponseCheckMailSuccessful } from "@infrastructure/store/auth/types";
 import { useTranslation } from "react-i18next";
 
 interface IRegisterEmail {
@@ -23,6 +23,7 @@ export default function ValidationsRegister(props: TProps) {
 	const { t } = useTranslation("register");
 
 	const [email, setEmail] = useState("");
+    const [company, setCompany] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
 	const validateIfExistEmail = useCallback(
@@ -36,9 +37,10 @@ export default function ValidationsRegister(props: TProps) {
 		const { email } = data;
 		setIsLoading(true);
 		try {
-			const message = await validateIfExistEmail(email);
-			if (message === "Mail already exist") {
+			const response: ResponseCheckMailSuccessful | ResponseCheckMailFailed = await validateIfExistEmail(email);
+			if (response && response?.id) {
 				setEmail(email);
+                setCompany(JSON.stringify(response));
 				changeStep(2);
 			} else {
 				toast.error(t("email_already_registered"));
@@ -53,7 +55,7 @@ export default function ValidationsRegister(props: TProps) {
 	const handleSubmitFormUser = async (data: IFormRegister) => {
 		try {
 			const response = await dispatch(
-				registerDataForm({ data, email })
+				registerDataForm({ data, email, company })
 			).unwrap();
 			if (response.data.status === "error") {
 				changeStep(3);

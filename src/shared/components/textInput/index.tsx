@@ -96,6 +96,7 @@ export default forwardRef<HTMLInputElement, TextInputProps>(
 						id={name}
 						className={`
 								disabled:text-gray-400
+                                disabled:bg-shadow20
 								border borde-gray-100
 								rounded-lg
 								${istextarea && height ? ` ${height}` : "h-10"}

@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 interface IRegisterAccount {
 	name: string;
     lastName: string;
-    company: string;
+    company?: string;
     password: string;
     repeatPassword: string;
 }
@@ -59,19 +59,15 @@ export default function RegisterAccountForm({ onSubmit }: RegisterAccountFormPro
                         onChange={(e) => field.onChange(e)}
                     />
                 )}/>
-            <Controller
-                control={control}
-                name="company"
-                render={({ field }) => (
-                    <TextInput
-                        name={field.name}
-                        label={t("company_name")}
-                        placeholder={t("company_name")}
-                        icon="office-building"
-                        error={errors.company?.message}
-                        onChange={(e) => field.onChange(e)}
-                    />
-                )}/>
+                <TextInput
+                    disabled
+                    value="Netdata - SENTRIA"
+                    name="company"
+                    label={t("company_name")}
+                    placeholder={t("company_name")}
+                    icon="office-building"
+                    error={errors.company?.message}
+                />
                 <TextInput
                     placeholder={`${t("new_password")}`}
                     icon="lock-key"
