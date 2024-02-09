@@ -23,7 +23,7 @@ export interface IRegisterAccount {
 	data: {
 		name: string;
 		lastName: string;
-		company: string;
+		company?: string;
 		password: string;
 		repeatPassword: string;
 	};
@@ -34,7 +34,7 @@ export interface IRegisterAccount {
 export interface IFormRegister {
 	name: string;
 	lastName: string;
-	company: string;
+	company?: string;
 	password: string;
 	repeatPassword: string;
 }

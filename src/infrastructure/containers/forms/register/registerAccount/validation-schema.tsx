@@ -3,7 +3,6 @@ import * as yup from "yup";
 export const schemaRegisterAccount = yup.object().shape({
 	name: yup.string().required("field_required"),
 	lastName: yup.string().required("field_required"),
-	company: yup.string().required("field_required"),
 	password: yup
 		.string()
 		.min(8, "min_8_charcters")
