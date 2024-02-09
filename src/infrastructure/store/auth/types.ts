@@ -1,5 +1,5 @@
 export type AppState = {
-	validationEmail: boolean | string;
+	validationEmail: ResponseCheckMailFailed | ResponseCheckMailFailed;
 	pending: boolean;
 	error: boolean;
 };
@@ -12,6 +12,7 @@ export interface ResponseCheckMailSuccessful {
 	id: number;
 	idRequester: number;
 	name: string;
+	message: string;
 }
 
 export interface ResponseCheckMailFailed {
