@@ -3,7 +3,7 @@ import {
 	IGraphicDay,
 	IGraphicWeek,
 	TicketPriority,
-	filtersGraphicDay,
+	FiltersGraphicDay,
 } from "@domain/models";
 import { dashboardRepository } from "@infrastructure/api/repositories/dashboard/dashboard.repository";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -34,7 +34,7 @@ const getDataGraphicWeek = createAsyncThunk<IGraphicWeek, TicketPriority>(
 	}
 );
 
-const getDataGraphicDay = createAsyncThunk<IGraphicDay, filtersGraphicDay>(
+const getDataGraphicDay = createAsyncThunk<IGraphicDay, FiltersGraphicDay>(
 	"dashboard/getDataGraphicDay",
 	async (payload, state) => {
 		try {

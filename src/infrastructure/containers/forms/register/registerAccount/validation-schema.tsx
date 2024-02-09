@@ -1,6 +1,5 @@
 import * as yup from "yup";
 
-
 export const schemaRegisterAccount = yup.object().shape({
 	name: yup.string().required("field_required"),
 	lastName: yup.string().required("field_required"),
@@ -11,15 +10,15 @@ export const schemaRegisterAccount = yup.object().shape({
 		.matches(/[A-Z]/, "min_uppercase")
 		.matches(/[a-z]/, "min_lowercase")
 		.matches(/[!?"@#]/, "min_especial_character")
-		.matches(/[0-9]/, "min_number")
-        .required("field_required"),
-    repeatPassword: yup
+		.matches(/\D/, "min_number")
+		.required("field_required"),
+	repeatPassword: yup
 		.string()
 		.min(8, "min_8_charcters")
 		.matches(/[A-Z]/, "min_uppercase")
 		.matches(/[a-z]/, "min_lowercase")
 		.matches(/[!?"@#]/, "min_especial_character")
-		.matches(/[0-9]/, "min_number")
+		.matches(/\D/, "min_number")
 		.oneOf([yup.ref("password")], "Contraseña no es la misma")
-        .required("field_required"),
+		.required("field_required"),
 });

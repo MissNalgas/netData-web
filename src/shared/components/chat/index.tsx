@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useSideModal } from "../sideModal";
 import { getComments, sendComment } from "@infrastructure/store/chat/actions";
 import { toast } from "react-toastify";
-import { chatObject } from "@infrastructure/store/chat/types";
+import { ChatObject } from "@infrastructure/store/chat/types";
 
 interface ChatProps {
 	tikectId: string | number;
@@ -69,7 +69,7 @@ export default function Chat({
 				<div className="flex justify-end  py-4 h-5/6">
 					<div className="flex flex-col gap-2 overflow-y-auto items-end">
 						{Array.isArray(chatData) && chatData.length ? (
-							chatData.map((item: chatObject) => (
+							chatData.map((item: ChatObject) => (
 								<div
 									className="w-2/3 h-auto flex justify-end p-2 bg-shadow20 rounded-2xl"
 									key={item.id}

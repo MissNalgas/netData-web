@@ -8,8 +8,6 @@ import {
 } from "@shared/components/labels/styled";
 import magnet from "/public/img/magnet.png";
 import Arrow from "@shared/components/arrow";
-// import Image from "next/image";
-// import alarm from "/public/img/alarm_icon.png";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import ColorGuide from "@shared/components/colorGuide";
@@ -38,7 +36,7 @@ export default function EventsTemplate() {
 	const params = useSearchParams();
 	const showEventsDay = params.get("showEventsDay");
 	const changeSectionParam = params.get("changeSection");
-	const [filters, setFilter] = useState<IFilters>();
+	const [filters, setFilters] = useState<IFilters>();
 
 	const { t } = useTranslation("events_today");
 	const week = useTranslation("events_week");
@@ -69,7 +67,8 @@ export default function EventsTemplate() {
 	};
 	const fetchData = useCallback(async () => {
 		try {
-			const dataTicket: ITicket[] = await ticketRepository.getTicketWeek();
+			const dataTicket: ITicket[] =
+				await ticketRepository.getTicketWeek();
 			if (showEventsDay === "true") {
 				const filterDate: any = dataTicket?.filter((item: ITicket) => {
 					const itemDate = new Date(item?.createdAt);
@@ -138,9 +137,13 @@ export default function EventsTemplate() {
 					new Date(curr?.createdAt),
 					i18n?.language
 				);
-				prev[index] !== undefined
-					? prev[index].push(curr)
-					: (prev[index] = [curr]);
+
+				if (prev[index] !== undefined) {
+					prev[index].push(curr);
+				} else {
+					prev[index] = [curr];
+				}
+
 				return prev;
 			}, {});
 	}
@@ -162,6 +165,7 @@ export default function EventsTemplate() {
 					{listTickets[date].map((ticket: ITicket) => (
 						<div
 							key={ticket.id}
+							aria-hidden="true"
 							onClick={() => {
 								if (ticket.id) {
 									return selectTicket(ticket.id);
@@ -251,11 +255,11 @@ export default function EventsTemplate() {
 										placeholder={t(
 											"heatmap:number_of_ticket"
 										)}
-										onChange={setFilter}
+										onChange={setFilters}
 									/>
 									<FilterDetail
 										filter={filters}
-										setFilter={setFilter}
+										setFilter={setFilters}
 										className="mb-4"
 									/>
 								</>
@@ -292,7 +296,7 @@ export default function EventsTemplate() {
 					>
 						{selectedTicket ? (
 							<>
-								{(isLoadingTicketDetail || !dataTicket) ? (
+								{isLoadingTicketDetail || !dataTicket ? (
 									<LoaderComponent />
 								) : (
 									<TicketDetail
@@ -315,7 +319,7 @@ export default function EventsTemplate() {
 				<EventsCibersecurity
 					isFilteringByOpen
 					showCard={false}
-					showEventsDay={showEventsDay || false}
+					showEventsDay={showEventsDay ?? false}
 				/>
 			)}
 		</>

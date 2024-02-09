@@ -38,10 +38,7 @@ class RecoverPasswordRepository implements IRecoverPasswordService {
 		);
 		let message = confirmPasswordResponse.data.message;
 
-		if (
-			confirmPasswordResponse &&
-			confirmPasswordResponse.data.code !== undefined
-		) {
+		if (confirmPasswordResponse?.data?.code !== undefined) {
 			if (confirmPasswordResponse.data.code === "CodeMismatchException") {
 				message = "CodeMismatchException";
 			} else if (

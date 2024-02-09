@@ -3,44 +3,16 @@ import { ContainerFlex } from "../styled";
 import { Overline, SubtitleLink } from "@shared/components/labels/styled";
 import Arrow from "@shared/components/arrow";
 import CircleStatus from "@shared/components/circleStatus";
-import theme from "@theme/index";
-import colors from "@theme/colors";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/navigation";
+import { useTheme } from "styled-components";
+import { useConstCard } from "@shared/utils/hooks";
 
 export default function CardChart() {
 	const { t } = useTranslation("dashboard");
+	const theme = useTheme();
 
-	const status = [
-		{
-			state: `${t("low")}`,
-			internalColor: "bg-green40",
-			externalColor: "bg-green20",
-			border: "border-green40",
-			color: colors.green40,
-		},
-		{
-			state: `${t("medium")}`,
-			internalColor: "bg-purple50",
-			externalColor: "bg-purple20",
-			border: "border-purple50",
-			color: colors.purple50,
-		},
-		{
-			state: `${t("high")}`,
-			internalColor: "bg-orange50",
-			externalColor: "bg-orange20",
-			border: "border-orange50",
-			color: colors.orange50,
-		},
-		{
-			state: `${t("urgent")}`,
-			internalColor: "bg-red40",
-			externalColor: "bg-red20",
-			border: "border-red40",
-			color: colors.red40,
-		},
-	];
+	const status = useConstCard();
 	const router: any = useRouter();
 
 	return (
@@ -67,9 +39,9 @@ export default function CardChart() {
 					className="w-full h-[300px]"
 				/>
 				<div className="grid gap-1 grid-cols-2 tablet:flex tablet:flex-col">
-					{status.map((item, index) => (
+					{status.map((item) => (
 						<div
-							key={index}
+							key={item.state}
 							className={`flex border items-center my-5 mr-5 p-1 rounded-lg ${item.border}`}
 						>
 							<CircleStatus

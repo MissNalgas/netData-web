@@ -34,21 +34,29 @@ export default function ForgotPasswordForm({
 	return (
 		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="py-5">
-			<TextInput
-				label={`${t("email")}`}
-				placeholder={`${t("email")}`}
-				icon="message"
-				require
-				error={errors.email?.message}
-				{...register("email")}
-			/>
+				<TextInput
+					label={`${t("email")}`}
+					placeholder={`${t("email")}`}
+					icon="message"
+					require
+					error={errors.email?.message}
+					{...register("email")}
+				/>
 			</div>
 			<PrimaryButton type="submit" className="w-full" disabled={!isValid}>
 				{t("next")}
 			</PrimaryButton>
-			<div className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer" onClick={handleClickArrow}>
-			    <Icon icon="left-arrow" size="32"/>
-				<Overline $color={theme.colors.gray50} $weight={600} className="cel:block tablet:ml-2 tablet:inline">
+			<div
+				className="flex items-center justify-center cel:text-center my-2 cel:text-wrap gap-1 py-5 cursor-pointer"
+				onClick={handleClickArrow}
+				aria-hidden="true"
+			>
+				<Icon icon="left-arrow" size="32" />
+				<Overline
+					$color={theme.colors.gray50}
+					$weight={600}
+					className="cel:block tablet:ml-2 tablet:inline"
+				>
 					{t("go_back")}
 				</Overline>
 			</div>
@@ -58,5 +66,5 @@ export default function ForgotPasswordForm({
 
 interface ForgotPasswordFormProps {
 	onSubmit: (_data: IForgotPassword) => void;
-	handleClickArrow?:() => void;
+	handleClickArrow?: () => void;
 }

@@ -3,10 +3,10 @@ import {
 	IGraphicDay,
 	IGraphicWeek,
 	TicketPriority,
-	filtersGraphicDay,
+	FiltersGraphicDay,
 	IResponseDashboard,
-	responseGraphic,
-	responseGraphicDay,
+	ResponseGraphic,
+	ResponseGraphicDay,
 } from "@domain/models";
 import { IDashboardService } from "@domain/services/dashboard.service";
 import { createAxiosApp } from "@infrastructure/api/http/axios";
@@ -23,7 +23,7 @@ class DashboardRepository implements IDashboardService {
 
 	async getGraphicWeek(data: TicketPriority): Promise<IGraphicWeek> {
 		const axios = await createAxiosApp();
-		const response = await axios.get<IGraphicWeek, responseGraphic>(
+		const response = await axios.get<IGraphicWeek, ResponseGraphic>(
 			"/api/xelco/graphic/week_oc",
 			{
 				params: {
@@ -35,9 +35,9 @@ class DashboardRepository implements IDashboardService {
 		return response.data;
 	}
 
-	async getGraphicDay(_filters: filtersGraphicDay): Promise<IGraphicDay> {
+	async getGraphicDay(_filters: FiltersGraphicDay): Promise<IGraphicDay> {
 		const axios = await createAxiosApp();
-		const response = await axios.get<IGraphicDay, responseGraphicDay>(
+		const response = await axios.get<IGraphicDay, ResponseGraphicDay>(
 			"/api/xelco/graphic/day",
 			{
 				params: {

@@ -56,6 +56,7 @@ const SimpleSlider: React.FC<SimpleSliderProps> = ({ slides }) => {
 		<div className="flex items-center">
 			<div
 				className="bg-yellow rounded-full mr-5 cursor-pointer"
+				aria-hidden="true"
 				onClick={() => prevSlide()}
 			>
 				<Icon icon="left-arrow-1" size={32} color="white" />
@@ -100,6 +101,7 @@ const SimpleSlider: React.FC<SimpleSliderProps> = ({ slides }) => {
 			</SliderContainer>
 			<div
 				className="bg-yellow rounded-full cursor-pointer ml-5"
+				aria-hidden="true"
 				onClick={() => nextSlide()}
 			>
 				<Icon icon="right-arrow-1" size={32} color="white" />
