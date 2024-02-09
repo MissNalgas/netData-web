@@ -14,7 +14,6 @@ import { SideModalProvider } from "@shared/components/sideModal";
 import { I18nextProvider } from "react-i18next";
 import i18n from "@i18n/index";
 import { ToastContainer } from "react-toastify";
-
 const inter = Open_Sans({ subsets: ["latin"] });
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -36,6 +35,35 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
 	return (
 		<html lang="en">
+			<head>
+				<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+				<link rel="manifest" href="/manifest.json"/>
+				<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#f58236"/>
+				<meta name="msapplication-TileColor" content="#f58236"/>
+				<meta name="theme-color" content="#f58236"/>
+
+				<title>Sentria</title>
+				<meta name="description" content="Netdata | Sentria"/>
+
+				{/* @ts-ignore */}
+				<meta itemprop="name" content="Sentria"/>
+				{/* @ts-ignore */}
+				<meta itemprop="description" content="Discover and fix cybersecurity risks"/>
+
+				<meta property="og:url" content="https://netdatanetworks.com"/>
+				<meta property="og:type" content="website"/>
+				<meta property="og:title" content="Sentria"/>
+				<meta property="og:description" content="Discover and fix cybersecurity risks"/>
+				<meta property="og:image" content=""/>
+
+				<meta name="twitter:card" content="summary_large_image"/>
+				<meta name="twitter:title" content="Sentria"/>
+				<meta name="twitter:description" content="Discover and fix cybersecurity risks"/>
+				<meta name="twitter:image" content=""/>
+
+			</head>
 			<body className={inter.className}>
 				<Provider store={store}>
 					<PersistGate loading={null} persistor={persisted}>
