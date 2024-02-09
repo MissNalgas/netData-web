@@ -20,14 +20,13 @@ import { useAppDispatch } from "@hooks/use-dispatch";
 import Topbar from "@shared/components/topbar";
 import { Day, TicketPriority } from "@domain/models";
 import { dashboardDataInitial } from "@infrastructure/store/dashboard/types";
-import LoaderComponent from "@shared/components/loader";
 import { JoyrideToast } from "@shared/components/tooltip/list/JoyrideToast";
 import { useRefetch } from "@infrastructure/containers/refetch";
 
 export default function Dashboard() {
 	const { t } = useTranslation("dashboard");
 	const dispatch = useAppDispatch();
-	const { dashboard, loading, graphicDay } = useSelector(
+	const { dashboard, graphicDay } = useSelector(
 		(state: RootState) => state.dashboard
 	);
 	const [day, setDay] = useState<"today" | "yesterday">("today");
@@ -106,8 +105,6 @@ export default function Dashboard() {
 			}
 		}
 	}, [dashboard, day]);
-
-	if (loading) return <LoaderComponent />;
 
 	return (
 		<>
