@@ -3,12 +3,13 @@ import { FirebaseApp, initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyAa5kv01Pt2OB8nYbzErFLOVv04uJw4VR8",
-	authDomain: "sentria-3af49.firebaseapp.com",
-	projectId: "sentria-3af49",
-	storageBucket: "sentria-3af49.appspot.com",
-	messagingSenderId: "975597926589",
-	appId: "1:975597926589:web:4850079f55371b375adfd4",
+	apiKey: "AIzaSyBe7k4JPugn30yOs0ijfdZUvsM0XqnWJO0",
+	authDomain: "sentria-app-notifications.firebaseapp.com",
+	projectId: "sentria-app-notifications",
+	storageBucket: "sentria-app-notifications.appspot.com",
+	messagingSenderId: "63485376171",
+	appId: "1:63485376171:web:52aa62152eb5dad7a1e9ee",
+	measurementId: "G-NEKVPCJJTE",
 };
 
 let app: FirebaseApp | undefined;
